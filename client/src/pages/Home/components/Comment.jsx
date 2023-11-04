@@ -6,7 +6,7 @@ const Comment = (props) => {
     const { _id, content } = props;
 
     const [isEditing, setIsEditing] = useState(false);
-    const [newComment, setNewComment] = useState('');
+    const [newComment, setNewComment] = useState(content);
 
     const handleComment = (event) => {
         event.preventDefault();
