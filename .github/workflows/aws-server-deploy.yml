@@ -27,6 +27,7 @@ jobs:
         envkey_DB_CONNECT: ${{ secrets.DB_CONNECT }}
         envkey_CLIENT_URL: ${{ vars.CLIENT_URL }}
         envkey_ENVIRONMENT: ${{ vars.ENVIRONMENT }}
-        # directory: server/
+        directory: server/
+        file_name: .env
         fail_on_empty: false
         sort_keys: false
