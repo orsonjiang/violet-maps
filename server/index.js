@@ -29,5 +29,17 @@ app.use('/api', apiRouter)
 const db = require('./db')
 db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 
-// PUT THE SERVER IN LISTENING MODE
-app.listen(PORT, "0.0.0.0", () => console.log(`Server running on port ${PORT}`))
+if (process.env.ENVIRONMENT === "PRODUCTION") {
+    const options = {
+        key: fs.readFileSync('../ssl/privkey.pem'),
+        cert: fs.readFileSync('../ssl/fullchain.pem'),
+    };
+
+    http.createServer(app);
+    https.createServer(options, app).listen(PORT, () => {
+        console.log("Express server listening on port " + PORT);
+    });
+} else if (process.env.ENVIRONMENT === "DEVELOPMENT") {
+    // PUT THE SERVER IN LISTENING MODE
+    app.listen(PORT, "0.0.0.0", () => console.log(`Server running on port ${PORT}`))
+}
