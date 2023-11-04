@@ -1,0 +1,6 @@
+{
+  "name": "backend-tests",
+  "devDependencies": {
+    "supertest": "^6.3.3"
+  }
+}
