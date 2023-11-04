@@ -2,10 +2,6 @@ const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 
-const http = require('node:http');
-const https = require('node:https');
-const fs = require('node:fs');
-
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -38,9 +34,13 @@ if (process.env.ENVIRONMENT === "PRODUCTION") {
         key: fs.readFileSync('../ssl/privkey.pem'),
         cert: fs.readFileSync('../ssl/fullchain.pem'),
     };
+    
+    const http = require('node:http');
+    const https = require('node:https');
+    const fs = require('node:fs');
 
-    const httpApp = http.createServer(app);
-    const httpsApp = https.createServer(options, app).listen(PORT, () => {
+    http.createServer(app);
+    https.createServer(options, app).listen(PORT, () => {
         console.log("Express server listening on port " + PORT);
     });
 } else if (process.env.ENVIRONMENT === "DEVELOPMENT") {
