@@ -6,16 +6,16 @@ jobs:
   cypress-run:
     runs-on: ubuntu-22.04
     steps:
-      - name: Checkout
+      - name: checkout
         uses: actions/checkout@v3
 
-      - name: Make client envfile
+      - name: make client envfile
         uses: SpicyPizza/create-envfile@v2.0
         with:
           directory: client
           envkey_VITE_SERVER_URL: ${{ vars.DEV_SERVER_URL }}
 
-      - name: Make server envfile
+      - name: make server envfile
         uses: SpicyPizza/create-envfile@v2.0
         with:
           directory: server
@@ -23,7 +23,7 @@ jobs:
           envkey_CLIENT_URL: ${{ vars.DEV_CLIENT_URL }}
           envkey_ENVIRONMENT: ${{ vars.DEV_ENVIRONMENT }}
 
-      - name: Cypress run
+      - name: cypress run
         uses: cypress-io/github-action@v5
         with:
           start: npm run client, npm run server
