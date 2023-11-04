@@ -20,3 +20,12 @@ jobs:
         source: "server/*"
         target: /home/ubuntu
         overwrite: true
+    - name: make envfile
+      uses: SpicyPizza/create-envfile@v2.0
+      with:
+        envkey_DB_CONNECT: ${{ secrets.DB_CONNECT }}
+        envkey_CLIENT_URL: ${{ vars.CLIENT_URL }}
+        envkey_ENVIRONMENT: ${{ vars.ENVIRONMENT }}
+        directory: server
+        fail_on_empty: false
+        sort_keys: false
