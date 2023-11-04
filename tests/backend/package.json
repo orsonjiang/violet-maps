@@ -1,6 +1,11 @@
 {
   "name": "backend-tests",
+  "scripts": {
+    "test": "jest",
+    "test detect": "jest --detectOpenHandles"
+  },
   "devDependencies": {
+    "jest": "^29.7.0",
     "supertest": "^6.3.3"
   }
 }
