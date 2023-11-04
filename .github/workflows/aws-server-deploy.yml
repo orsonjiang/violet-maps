@@ -1,32 +1,33 @@
 name: AWS Server Deploy
 
 on:
-    push:
-        branches: [ 'main' ]
+  push:
+    branches: ['main']
 
 jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: make envfile
-      uses: SpicyPizza/create-envfile@v2.0
-      with:
-        envkey_PORT: ${{ secrets.SERVER_PORT }} 
-        envkey_DB_CONNECT: ${{ secrets.DB_CONNECT }}
-        envkey_CLIENT_URL: ${{ vars.CLIENT_URL }}
-        envkey_ENVIRONMENT: ${{ vars.ENVIRONMENT }}
-        directory: server
-        fail_on_empty: false
-        sort_keys: false
-    - name: copy file via ssh password
-      uses: appleboy/scp-action@v0.1.4
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.key }}
-        port: ${{ secrets.SSH_PORT }}
-        source: "server/*"
-        target: /home/ubuntu
-        overwrite: true
+      - uses: actions/checkout@v3
+      - name: make envfile
+        uses: SpicyPizza/create-envfile@v2.0
+        with:
+          envkey_PORT: ${{ secrets.SERVER_PORT }}
+          envkey_DB_CONNECT: ${{ secrets.DB_CONNECT }}
+          envkey_CLIENT_URL: ${{ vars.CLIENT_URL }}
+          envkey_ENVIRONMENT: ${{ vars.ENVIRONMENT }}
+          directory: server
+          fail_on_empty: false
+          sort_keys: false
+
+      - name: copy file via ssh password
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.key }}
+          port: ${{ secrets.SSH_PORT }}
+          source: 'server/*'
+          target: /home/ubuntu
+          overwrite: true
