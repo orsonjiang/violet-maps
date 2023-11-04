@@ -18,7 +18,6 @@ const Comment = (props) => {
         await api.editComment(_id, newComment);
         fetchComments();
         setIsEditing(false);
-        setNewComment('');
     };
 
     const handleEditOn = async () => {
