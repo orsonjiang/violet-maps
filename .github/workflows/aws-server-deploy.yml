@@ -1,0 +1,21 @@
+name: AWS Server Deploy
+
+on:
+    push:
+        branches: [ 'main' ]
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: copy file via ssh password
+      uses: appleboy/scp-action@v0.1.4
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.key }}
+        port: ${{ secrets.PORT }}
+        source: "server/*"
+        target: /home/ubuntu/server
