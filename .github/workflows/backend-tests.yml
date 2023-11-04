@@ -1,0 +1,21 @@
+name: Backend Tests
+
+on: push
+
+jobs:
+  jest-run:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: make tests envfile
+        uses: SpicyPizza/create-envfile@v2.0
+        with:
+          directory: tests/backend
+          envkey_DB_CONNECT: ${{ secrets.DB_CONNECT }}
+          envkey_CLIENT_URL: ${{ vars.DEV_CLIENT_URL }}
+          envkey_ENVIRONMENT: ${{ vars.TEST_ENVIRONMENT }}
+
+      - name: jest run
+        run: 'cd server && npm ci && cd ../tests/backend && npm ci && npm test'
