@@ -2,6 +2,11 @@ const express = require("express");
 const router = express.Router();
 const ApiController = require("../controllers/api-controller");
 
+router.get("/", () => {
+	res.status(200).json({
+		message: "test success!"
+	})
+});
 router.get("/comments", ApiController.getComment);
 router.post("/comments/add", ApiController.addComment);
 router.put("/comments/edit/:_id", ApiController.editComment);
