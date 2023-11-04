@@ -30,15 +30,15 @@ const db = require('./db')
 db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 
 if (process.env.ENVIRONMENT === "PRODUCTION") {
+    const http = require('node:http');
+    const https = require('node:https');
+    const fs = require('node:fs');
+
     const options = {
         key: fs.readFileSync('../ssl/privkey.pem'),
         cert: fs.readFileSync('../ssl/fullchain.pem'),
     };
     
-    const http = require('node:http');
-    const https = require('node:https');
-    const fs = require('node:fs');
-
     http.createServer(app);
     https.createServer(options, app).listen(PORT, () => {
         console.log("Express server listening on port " + PORT);
