@@ -1,10 +1,9 @@
 const request = require('supertest');
 
-const { app, db, server } = require('../../server');
+const { app, db } = require('../../server');
 
 afterAll(() => {
 	db.close();
-	// server.close();
 })
 
 describe("get comment", () => {

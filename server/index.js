@@ -46,10 +46,6 @@ if (process.env.ENVIRONMENT === "PRODUCTION") {
         console.log("Express server listening on port " + PORT);
     });
 } 
-// else if (process.env.ENVIRONMENT === "DEVELOPMENT" || process.env.ENVIRONMENT === "TESTING") {
-//     // PUT THE SERVER IN LISTENING MODE
-//     server = app.listen(PORT, "0.0.0.0", () => console.log(`Server running on port ${PORT}`))
-// }
 else if (process.env.ENVIRONMENT === "DEVELOPMENT") {
     // PUT THE SERVER IN LISTENING MODE
     server = app.listen(PORT, "0.0.0.0", () => console.log(`Server running on port ${PORT}`))
@@ -57,6 +53,5 @@ else if (process.env.ENVIRONMENT === "DEVELOPMENT") {
 
 module.exports = {
     app,
-    db,
-    server
+    db
 };
