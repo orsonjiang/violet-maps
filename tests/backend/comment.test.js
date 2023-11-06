@@ -20,7 +20,7 @@ describe("get comment", () => {
 
 
 describe('add comment', () => {
-    it('should add a comment in db', async () => {
+    test('POST /api/comments/add', async () => {
         // get current comment amount
         const getComment = await request(app).get('/api/comments')
             .expect(200)
