@@ -21,7 +21,6 @@ describe("create, read, update, and delete comment", () => {
     let commentId;
 
     test("POST /api/comments/add", async () => {
-        console.log("1")
         // add comment
         const comment = await request(app)
             .post("/api/comments/add")
@@ -32,7 +31,6 @@ describe("create, read, update, and delete comment", () => {
     });
 
     test("PUT /api/comments/edit/:_id", async () => {
-        console.log("2")
         // edit created comment
         await request(app)
             .put(`/api/comments/edit/${commentId}`)
@@ -41,7 +39,6 @@ describe("create, read, update, and delete comment", () => {
     });
 
     test("GET /api/comments", async () => {
-        console.log("3")
         // check whether the comment is updated
         await request(app)
             .get("/api/comments")
@@ -57,7 +54,6 @@ describe("create, read, update, and delete comment", () => {
     });
 
     test("PUT api/comments/edit/:_id", async () => {
-        console.log("4")
         // delete the test comment
         return request(app)
             .delete(`/api/comments/delete/${commentId}`)
