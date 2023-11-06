@@ -4,7 +4,7 @@ const { app, db, server } = require('../../server');
 
 afterEach(() => {
 	db.close();
-	server.close();
+	// server.close();
 })
 
 describe('load backend', () => {
