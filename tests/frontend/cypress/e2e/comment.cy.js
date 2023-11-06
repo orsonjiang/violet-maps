@@ -30,4 +30,10 @@ describe('create, read, update, and delete comment', () => {
       cy.get('div:contains(This is a test comment written by Cypress. Added test editing.)').should('not.exist');
     })
   })
+
+  describe('failed test case', () => {
+    it('can fail a test case', () => {
+      cy.contains("missing content");
+    })
+  })
 })
