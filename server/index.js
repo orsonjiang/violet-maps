@@ -29,8 +29,6 @@ app.use('/api', apiRouter)
 const db = require('./db')
 db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 
-let server;
-
 if (process.env.ENVIRONMENT === "PRODUCTION") {
     const http = require('node:http');
     const https = require('node:https');
@@ -48,7 +46,7 @@ if (process.env.ENVIRONMENT === "PRODUCTION") {
 } 
 else if (process.env.ENVIRONMENT === "DEVELOPMENT") {
     // PUT THE SERVER IN LISTENING MODE
-    server = app.listen(PORT, "0.0.0.0", () => console.log(`Server running on port ${PORT}`))
+    app.listen(PORT, "0.0.0.0", () => console.log(`Server running on port ${PORT}`))
 }
 
 module.exports = {
