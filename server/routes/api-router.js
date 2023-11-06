@@ -4,7 +4,7 @@ const ApiController = require("../controllers/api-controller");
 
 router.get("/", (req, res) => {
 	res.status(200).json({
-		message: "test 2 success!"
+		message: "Test for Build One shovon0203"
 	})
 });
 router.get("/comments", ApiController.getComment);
