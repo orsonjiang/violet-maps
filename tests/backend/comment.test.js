@@ -7,7 +7,7 @@ afterAll(() => {
 	// server.close();
 })
 
-describe("get comment", () => {
+describe("get comments", () => {
     test("GET /api/comments", async () => {
         return request(app)
             .get("/api/comments")
