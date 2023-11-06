@@ -4,11 +4,11 @@ Connect with other map enthusiasts around you on Violet Maps.
 ## How to Run
 
 ### Client
-1. Navigate to the client directory by entering the command `cd tests/client` and run `npm i` or `npm install`
+1. Navigate to the client directory by entering the command `cd client` and run `npm i` or `npm install`
 2. Then, run `npm run dev`
 
 ### Server
-1. Navigate to the server directory by entering the command `cd tests/server` and run `npm i` or `npm install`
+1. Navigate to the server directory by entering the command `cd server` and run `npm i` or `npm install`
 2. Then, run `npm start`
 
 ## Tests
