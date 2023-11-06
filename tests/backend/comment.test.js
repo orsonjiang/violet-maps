@@ -1,13 +1,12 @@
 const request = require('supertest');
 
-const { app, db, server } = require('../../server');
+const { app, db } = require('../../server');
 
 afterAll(() => {
 	db.close();
-	// server.close();
 })
 
-describe("get comment", () => {
+describe("get comments", () => {
     test("GET /api/comments", async () => {
         return request(app)
             .get("/api/comments")
@@ -20,52 +19,78 @@ describe("get comment", () => {
 
 
 describe('add comment', () => {
-    test('POST /api/comments/add', async () => {
-        // get current comment amount
+    let numComments;
+    let commentId;
+    
+    test('GET /api/comments', async() => {
+        console.log("1")
+
         const getComment = await request(app).get('/api/comments')
             .expect(200)
 
-        const numComments = getComment.body.comments.length;
+        numComments = getComment.body.comments.length;
+ 
+    })
 
+    test('POST /api/comments/add', async () => {
+        console.log('2');
         // add a comment
-        await request(app).post('/api/comments/add')
+        const comment = await request(app).post('/api/comments/add')
             .send({ content: "Jest test to add comments" })
             .expect(200)
+        
+        commentId = comment.body._id;
+    })
 
-        // get comments after add
-        const getNewComment = await request(app).get('/api/comments')
+    test('GET /api/comments', async () => {
+        console.log("3")
 
-        expect(getNewComment.statusCode).toBe(200);
-        expect(getNewComment.body.comments.length).toEqual(numComments + 1);
-        expect(getNewComment.body.comments[numComments].content).toEqual("Jest test to add comments");
-
-        const commentID = getNewComment.body.comments[numComments]._id;
-
-        // delete test comment
-        return request(app)
-            .delete('/api/comments/delete/' + commentID)
+        await request(app)
+            .get('/api/comments')
             .expect(200)
-
+            .then(res => {
+                expect(res.body.comments.length).toEqual(numComments + 1); 
+                expect(res.body.comments[numComments].content).toEqual("Jest test to add comments"); 
+            })
 
     })
+    
+    test("PUT api/comments/edit/:_id", async () => {
+        console.log("4")
+        // delete the test comment
+        return request(app)
+            .delete(`/api/comments/delete/${commentId}`)
+            .expect(200)
+    });
+    
 })
 
-describe("edit comment", () => {
-    test("PUT /comments/edit/:_id", async () => {
+describe("create, read, update, and delete comment", () => {
+    let commentId;
+
+    test("POST /api/comments/add", async () => {
+        console.log("1")
+
         // add comment
         const comment = await request(app)
             .post("/api/comments/add")
             .send({content: "This is a test comment"})
             .expect(200)
 
-        const commentId = comment.body._id;
+        commentId = comment.body._id;
+    });
 
+    test("PUT /api/comments/edit/:_id", async () => {
+        console.log("2")
         // edit created comment
         await request(app)
             .put(`/api/comments/edit/${commentId}`)
             .send({content: "This is a great test comment"})
             .expect(200)
+    });
 
+    test("GET /api/comments", async () => {
+        console.log("3")
         // check whether the comment is updated
         await request(app)
             .get("/api/comments")
@@ -78,7 +103,10 @@ describe("edit comment", () => {
                     }
                 }
             })
-        
+    });
+
+    test("PUT api/comments/edit/:_id", async () => {
+        console.log("4")
         // delete the test comment
         return request(app)
             .delete(`/api/comments/delete/${commentId}`)
