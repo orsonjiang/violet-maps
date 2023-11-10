@@ -5,9 +5,9 @@ const AppBanner = () => {
     const [searchBy, setSearchBy] = useState("Map Name")
 	return (
         <div className="flex gap-3 p-4 bg-gradient-to-r from-violet-300 to-indigo-300">
-            <Typography className="font-semibold text-xl text-white p-2 text-center shrink-0">Violet Maps</Typography>
-            <IconButton ripple={false} variant="text" className="hover:bg-transparent"><i className="fa fa-home text-2xl text-white" /></IconButton>
-            <IconButton ripple={false} variant="text" className="hover:bg-transparent"><i className="fas fa-globe-americas text-2xl text-violet-100" /></IconButton>
+            <Typography className="font-semibold text-l text-white p-2 text-center shrink-0">Violet Maps</Typography>
+            <IconButton ripple={false} variant="text" className="hover:bg-transparent"><i className="fa fa-home text-xl text-white" /></IconButton>
+            <IconButton ripple={false} variant="text" className="hover:bg-transparent"><i className="fas fa-globe-americas text-xl text-violet-100" /></IconButton>
             {/* search bar */}
             <Input
                 placeholder={"select search by criteria on the right"}

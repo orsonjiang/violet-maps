@@ -31,16 +31,37 @@ const Home = () => {
             owner: "Orson Jiang",
             publishedDate: new Date(),
             tags: ["Korea", "Population"]
+        },
+        {
+            id: 0,
+            name: "Map of Korea",
+            owner: "Orson Jiang",
+            publishedDate: new Date(),
+            tags: ["Korea", "Population"]
+        },
+        {
+            id: 0,
+            name: "Map of Japan",
+            owner: "Rachel Cong",
+            publishedDate: new Date(),
+            tags: ["Korea", "Population"]
+        },
+        {
+            id: 0,
+            name: "Map of France",
+            owner: "Katlyn Ye",
+            publishedDate: new Date(),
+            tags: ["Korea", "Population"]
         }
     ]
     return (
         <div>
             <AppBanner/>
-            <div className="my-10 mx-16">
+            <div className="my-10 mx-20">
                 <div>
                     <Typography variant="h5" className="mb-4">Your Library</Typography>
                 </div>
-                <div className="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-3">
+                <div className="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
                     {exampleListOfMaps.map((mapInfo, index) => {
                         return (<MapCard 
                             key={index}
