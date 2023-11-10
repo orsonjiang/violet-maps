@@ -1,8 +1,8 @@
 {
   "name": "backend-tests",
   "scripts": {
-    "test": "jest",
-    "test detect": "jest --detectOpenHandles"
+    "test": "jest --forceExit",
+    "test-detect": "jest --detectOpenHandles"
   },
   "devDependencies": {
     "jest": "^29.7.0",
