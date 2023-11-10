@@ -4,6 +4,8 @@ import SiteWrapper from './pages/components/SiteWrapper';
 import Splash from './pages/Splash'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import RequestReset from './pages/RequestReset'
+import Reset from './pages/Reset'
 
 function App() {
     return (
@@ -13,6 +15,8 @@ function App() {
                     <Route path="/" element={<Splash/>} />
                     <Route path="/login" element={<Login/>} />
                     <Route path="/register" element={<Register/>} />
+                    <Route path="/requestReset" element={<RequestReset/>} />
+                    <Route path="/reset" element={<Reset/>} />
                 </Routes>
             </SiteWrapper>
         </BrowserRouter>
