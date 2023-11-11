@@ -7,6 +7,7 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import RequestReset from './pages/RequestReset'
 import Reset from './pages/Reset'
+import AppWrapper from './pages/components/AppWrapper';
 
 function App() {
     return (
@@ -19,6 +20,7 @@ function App() {
                     <Route path="/register" element={<Register/>} />
                     <Route path="/requestReset" element={<RequestReset/>} />
                     <Route path="/reset" element={<Reset/>} />
+                    <Route path="/app/:view" element={<AppWrapper/>} />
                 </Routes>
             </SiteWrapper>
         </BrowserRouter>
