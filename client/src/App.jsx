@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import SiteWrapper from './pages/components/SiteWrapper';
-import SelectedScreen from './pages/Selected/SelectedScreen';
 import Splash from './pages/Splash'
 import Login from './pages/Login'
 import Register from './pages/Register'
@@ -14,7 +13,6 @@ function App() {
         <BrowserRouter>
             <SiteWrapper>
                 <Routes>
-                    <Route path="/selected" element={<SelectedScreen/>} />
                     <Route path="/" element={<Splash/>} />
                     <Route path="/login" element={<Login/>} />
                     <Route path="/register" element={<Register/>} />
