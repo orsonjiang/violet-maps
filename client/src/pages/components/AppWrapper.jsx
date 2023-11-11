@@ -28,7 +28,7 @@ const AppWrapper = () => {
     return (
         <div>
             <Navbar />
-			{/* <Modal /> */}
+			<Modal />
             {renderView()}
         </div>
     );
