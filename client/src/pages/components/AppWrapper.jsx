@@ -28,7 +28,7 @@ const AppWrapper = () => {
     return (
         <div>
             <Navbar />
-			<Modal />
+			<Modal title={"Rename Map?"} description={"Confirm by typing a name for the Map of Europe"} containsInput={true} />
             {renderView()}
         </div>
     );

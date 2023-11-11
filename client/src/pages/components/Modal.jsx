@@ -1,4 +1,4 @@
-const Modal = () => {
+const Modal = ({title, description, containsInput}) => {
     return (
         <div
             id="popup-modal"
@@ -47,11 +47,22 @@ const Modal = () => {
                         </svg> */}
                         <div className="flex flex-col px-6 lg:py-0 space-y-5 my-3">
                             <h3 className="text-lg font-semibold  text-black text-left">
-                                Delete Map?
+                                {title}
                             </h3>
                             <div className="bg-[#F3E7FF] rounded-lg p-4 justify-center">
-                                Please confirm the deletion of the map.
+                                {description}
+                                {containsInput ?
+                                    <div className="my-2">
+                                        <input
+                                            type="search"
+                                            id="search-dropdown"
+                                            className="block p-3 w-full text-sm rounded-lg drop-shadow-sm focus:outline-none focus:ring-2"
+                                            placeholder="Enter Map Name"
+                                            required=""
+                                        />
+                                    </div> : ""}
                             </div>
+                            
                             <div className='grid grid-cols-4 grid-row-1 my-4'>
                                 <div className='col-span-2 flex space-x-2 justify-end text-sm'>
                                     <button
