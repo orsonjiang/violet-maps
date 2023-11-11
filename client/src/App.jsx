@@ -18,7 +18,7 @@ function App() {
                     <Route path="/register" element={<Register/>} />
                     <Route path="/requestReset" element={<RequestReset/>} />
                     <Route path="/reset" element={<Reset/>} />
-                    <Route path="/app" element={<AppWrapper/>} />
+                    <Route path="/app/:view" element={<AppWrapper/>} />
                 </Routes>
             </SiteWrapper>
         </BrowserRouter>
