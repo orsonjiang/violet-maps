@@ -5,7 +5,7 @@ const Modal = () => {
             tabIndex={-1}
             className="flex fixed z-50 justify-center items-center w-full h-full inset-0 max-h-full"
         >
-            <div className="relative p-4 w-full max-w-md max-h-full">
+            <div className="relative p-3 w-full max-w-md max-h-full">
                 <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
                     <button
                         type="button"
@@ -29,7 +29,7 @@ const Modal = () => {
                         </svg>
                         <span className="sr-only">Close modal</span>
                     </button>
-                    <div className="p-4 md:p-5 text-center">
+                    <div className="p-4 md:mt-0 flex flex-col">
                         {/* <svg
                             className="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200"
                             aria-hidden="true"
@@ -45,39 +45,32 @@ const Modal = () => {
                                 d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                             />
                         </svg> */}
-                        <h3 className="mb-5 text-lg font-normal text-white">
-                            Are you sure you want to delete this map?
-                        </h3>
-                        <div>
-                            <label
-                                htmlFor="password"
-                                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                            >
-                                Map name
-                            </label>
-                            <input
-                                type="password"
-                                name="password"
-                                id="password"
-                                placeholder=""
-                                className="my-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                                required=""
-                            />
+                        <div className="flex flex-col px-6 py-4 lg:py-0">
+                            <h3 className="mb-5 text-lg font-semibold font-normal text-black text-left">
+                                Delete Map?
+                            </h3>
+                            <div className="bg-[#F3E7FF] rounded-lg p-6 justify-center">
+                                Please confirm the deletion of the map.
+                            </div>
+                            <div className='grid grid-cols-4 grid-row-1 my-4'>
+                                <div className='col-span-2 flex space-x-2 justify-end text-sm'>
+                                    <button
+                                        data-modal-hide="popup-modal"
+                                        type="button"
+                                        className="w-1/2 text-white bg-[#8187DC] rounded-full py-1.5 px-4 shadow-lg text-center focus:outline-none focus:ring-2 focus:ring-purple-300 font-medium"
+                                    >
+                                        Confirm
+                                    </button>
+                                    <button
+                                        data-modal-hide="popup-modal"
+                                        type="button"
+                                        className="w-1/2 text-white bg-[#475569] rounded-full py-1.5 px-4 shadow-lg text-center focus:outline-none focus:ring-2 focus:ring-purple-300 font-medium"
+                                    >
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-                        <button
-                            data-modal-hide="popup-modal"
-                            type="button"
-                            className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center me-2"
-                        >
-                            Yes, I'm sure
-                        </button>
-                        <button
-                            data-modal-hide="popup-modal"
-                            type="button"
-                            className="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
-                        >
-                            No, cancel
-                        </button>
                     </div>
                 </div>
             </div>
