@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from "react";
-import Modal from "../components/Modal";
+import Modal from "../components/Modals/Modal";
 import MapProps from "../components/Modals/MapProps";
 import { ChromePicker } from "react-color"
+import Legend from "../components/Modals/Legend";
 
 const EditMap = () => {
     const [menu, setMenu] = useState("none");
@@ -15,12 +16,12 @@ const EditMap = () => {
     const openModal = () => {
         if (modal == "text"){
             return (
-                <Modal title={"Add/Edit Label for Region"} description={"Enter in value for the label."} inputText={"Enter Value"}containsInput={true} />  
+                <Modal title={"Add/Edit Label for Region"} description={"Adding value to data property: gdp_value"} inputText={"Enter Value"} containsInput={true} /> 
             )
         }
         else if (modal == "dataProp"){
             return (
-                <Modal title={"Add New Data Property"} description={"Enter a name for your property."} containsInput={true} />   
+                <Modal title={"Add New Data Property"} description={"Enter a name for your property"} inputText={"Enter Name"} containsInput={true} />
             )
         }
         else if (modal == "deleteMap"){
@@ -30,6 +31,16 @@ const EditMap = () => {
         }
         else if (modal == "mapProps"){
             return ( <MapProps /> );
+        }
+        else if (modal == "rename"){
+            return (<Modal title={"Rename Map?"} description={"Write a new name for the Map of Europe"} inputText={"Enter Map Name"} containsInput={true} />);
+
+        }
+        else if (modal == "publish"){
+            return (<Modal title={"Publish Map?"} description={"Please confirm that you want to publish this map."} containsInput={false} />);
+        }
+        else if (modal == "legend"){
+            return (<Legend/>)
         }
     }
 
@@ -225,7 +236,7 @@ const EditMap = () => {
             {modal ? openModal() : ""}
             <div className="flex gap-4 my-5 text-2xl font-bold justify-center items-center">
                 Map of Europe
-                <button>
+                <button onClick={() => { setModalType("rename")}}>
                     <i className="fa fa-edit mr-2 text-xl text-indigo-500" />
                 </button>
             </div>
@@ -297,7 +308,7 @@ const EditMap = () => {
                     {menu == "borderColor" ? <div ref={ref} className="absolute left-[-5px] z-50 my-9"><ChromePicker /></div> : null}
                 </div>
                 {border}
-                <button className="px-1 hover:bg-violet-100">Legend</button>
+                <button className="px-1 hover:bg-violet-100" onClick={() => {setModalType("legend")}}>Legend</button>
                 {border}
                 <div className="flex px-1 relative">
                     <button 
@@ -320,7 +331,7 @@ const EditMap = () => {
                     Heat Map
                 </button>
                 {border}
-                <button className="px-1 hover:bg-violet-100">Publish</button>
+                <button className="px-1 hover:bg-violet-100" onClick={() => {setModalType("publish")}}>Publish</button>
                 {border}
                 <div className="flex px-1 relative">
                     <button 
@@ -354,10 +365,12 @@ const EditMap = () => {
                 </button>
             </div>
             {/* Modals */}
-            {/* <Modal title={"Rename Map?"} description={"Confirm by typing a name for the Map of Europe"} inputText={"Enter Map Name"} containsInput={true} /> */}
+            {/* <Modal title={"Rename Map?"} description={"Write a new name for the Map of Europe"} inputText={"Enter Map Name"} containsInput={true} /> */}
             {/* <Modal title={"Add/Edit Label for Region"} description={"Adding value to data property: gdp_value"} inputText={"Enter Value"} containsInput={true} /> */}
             {/* <Modal title={"Add New Data Property"} description={"Enter a name for your property"} inputText={"Enter Name"} containsInput={true} /> */}
-            {/* <Modal title={"Delete Map?"} description={"Please confirm that you want to delete the map."} containsInput={false} /> */}
+            {/* <Modal title={"Delete Map?"} description={"Please confirm that you want to delete this map."} containsInput={false} /> */}
+            {/* <Modal title={"Publish Map?"} description={"Please confirm that you want to publish this map."} containsInput={false} /> */}
+            {/* <Legend /> */}
         </div>
     );
 };

@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 const ResetPassword = () => {
     return (
         <div className="flex flex-col bg-violet-200 min-h-screen justify-center">
@@ -46,30 +48,30 @@ const ResetPassword = () => {
                             </div>
                             <p className="text-sm font-semibold text-black dark:text-gray-400 pt-5">
                                 New to Violet Maps?{' '}
-                                <a
-                                    href="#"
+                                <Link to={"/register"}
                                     className="font-semibold text-violet-400 hover:underline dark:text-primary-500"
                                 >
                                     Sign up
-                                </a>
+                                </Link>
                             </p>
                             <p className="text-sm font-semibold text-black dark:text-gray-400">
                                 Already have an account?{' '}
-                                <a
-                                    href="#"
+                                <Link to={"/login"}
                                     className="font-semibold text-violet-400 hover:underline dark:text-primary-500"
                                 >
                                     Sign In
-                                </a>
+                                </Link>
                             </p>
                             <div className='grid grid-cols-2 grid-row-1 my-4'>
                                 <div className='col-span-2 flex space-x-2 justify-end text-sm'>
-                                    <button
-                                        type="submit"
-                                        className=" text-white bg-[#8187DC] py-1.5 px-6 shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-300 font-medium rounded-full text-md  text-center"
-                                    >
-                                        Confirm
-                                    </button>
+                                    <Link to={"/reset"}>
+                                        <button
+                                            type="submit"
+                                            className=" text-white bg-[#8187DC] py-1.5 px-6 shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-300 font-medium rounded-full text-md  text-center"
+                                        >
+                                            Confirm
+                                        </button>
+                                    </Link>
                                 </div>
                             </div>
                         </form>
