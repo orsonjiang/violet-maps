@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import Modal from "../../components/Modal";
+import Modal from "../../components/Modals/Modal";
 
 const MapCard = ({ mapInfo }) => {
     const [menu, setMenu] = useState("none");

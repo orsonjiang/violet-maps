@@ -12,21 +12,6 @@ const Modal = ({title, description, inputText, containsInput}) => {
             <div className="relative w-full max-w-md max-h-full">
                 <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
                     <div className="p-2 md:mt-0 flex flex-col">
-                        {/* <svg
-                            className="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200"
-                            aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 20 20"
-                        >
-                            <path
-                                stroke="currentColor"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                            />
-                        </svg> */}
                         <div className="flex flex-col px-6 space-y-4 my-3">
                             <h3 className="text-lg font-semibold text-black">
                                 {title}

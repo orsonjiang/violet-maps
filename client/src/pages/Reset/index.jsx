@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 const ResetPassword = () => {
     return (
         <div className="flex flex-col bg-violet-200 min-h-screen justify-center">
@@ -36,12 +38,14 @@ const ResetPassword = () => {
                             </div>
                             <div className='grid grid-cols-2 grid-row-1 my-4'>
                                 <div className='col-span-2 flex space-x-2 justify-end text-sm'>
-                                    <button
-                                        type="submit"
-                                        className=" text-white bg-[#8187DC] mt-2 py-1.5 px-6 shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-300 font-medium rounded-full text-md  text-center"
-                                    >
-                                        Confirm
-                                    </button>
+                                    <Link to={"/login"}>
+                                        <button
+                                            type="submit"
+                                            className=" text-white bg-[#8187DC] mt-2 py-1.5 px-6 shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-300 font-medium rounded-full text-md  text-center"
+                                        >
+                                            Confirm
+                                        </button>
+                                    </Link>
                                 </div>
                             </div>
                         </form>

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { ChromePicker } from "react-color"
-import Modal from "../components/Modal";
+import Modal from "../components/Modals/Modal";
 import Legend from "../components/Modals/Legend";
 
 const EditMap = () => {
@@ -326,7 +326,7 @@ const EditMap = () => {
             {/* <Modal title={"Add New Data Property"} description={"Enter a name for your property"} inputText={"Enter Name"} containsInput={true} /> */}
             {/* <Modal title={"Delete Map?"} description={"Please confirm that you want to delete this map."} containsInput={false} /> */}
             {/* <Modal title={"Publish Map?"} description={"Please confirm that you want to publish this map."} containsInput={false} /> */}
-            <Legend />
+            {/* <Legend /> */}
         </div>
     );
 };

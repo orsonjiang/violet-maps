@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 const Login = () => {
     return (
         <div className="flex flex-col min-h-screen bg-violet-200 justify-center">
@@ -36,30 +38,30 @@ const Login = () => {
                             </div>
                             <div className="pt-5 text-sm text-black font-semibold dark:text-gray-400">
                                 Forgot your{' '}
-                                <a
-                                    href="#"
+                                <Link to={"/requestReset"}
                                     className="font-semibold text-violet-400 hover:underline dark:text-primary-500"
                                 >
                                     password?
-                                </a>
+                                </Link>
                             </div>
                             <div className="text-sm font-semibold text-black dark:text-gray-400">
                                 New to Violet Maps?{' '}
-                                <a
-                                    href="#"
+                                <Link to={"/register"}
                                     className="font-semibold text-violet-400 hover:underline dark:text-primary-500"
                                 >
                                     Sign up
-                                </a>
+                                </Link>
                             </div>
                             <div className='grid grid-cols-2 grid-row-1 my-4'>
                                 <div className='col-span-2 flex space-x-2 justify-end text-sm'>
-                                    <button
-                                        type="submit"
-                                        className="rounded-full text-white bg-[#8187DC] py-1.5 px-6 shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-300 font-medium text-md text-center"
-                                    >
-                                        Log in
-                                    </button>
+                                    <Link to={"/app/home"}>
+                                        <button
+                                            type="submit"
+                                            className="rounded-full text-white bg-[#8187DC] py-1.5 px-6 shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-300 font-medium text-md text-center"
+                                        >
+                                            Log in
+                                        </button>
+                                    </Link>
                                 </div>
                             </div>
                         </form>

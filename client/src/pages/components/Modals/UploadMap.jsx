@@ -15,7 +15,7 @@ const UploadMap = () => {
         <div
             id="popup-modal"
             tabIndex={-1}
-            className="flex fixed z-50 justify-center items-center w-full h-full inset-0 max-h-full"
+            className="flex fixed z-50 bg-gray-800/[0.6] justify-center items-center w-full h-full inset-0 max-h-full"
         >
             <div className="relative w-full max-w-md max-h-full">
                 <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
@@ -48,7 +48,7 @@ const UploadMap = () => {
                                 {content == "upload" ? "Upload Map" : (content == "template" ? "Choose Template" : "")}
                             </h3>
                             {content == "upload" ? 
-                                <div className="bg-[#F3E7FF] rounded-lg p-6 flex justify-center text-center text-[#938F99] border-dotted border-2 border-[#560BAD]">
+                                <div className="bg-purple-100 rounded-lg p-6 flex justify-center text-center text-[#938F99] border-dotted border-2 border-[#560BAD]">
                                     <div>
                                         <i class="fa-solid fa-cloud-arrow-up text-[2rem] mb-4"></i>
                                         <div className="flex space-x-1">

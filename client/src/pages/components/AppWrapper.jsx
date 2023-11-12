@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 
 import Navbar from './Navbar';
-import Modal from './Modal';
+import Modal from './Modals/Modal';
 import Home from '../Home';
 import Map from '../Map';
 import EditMap from '../EditMap';
