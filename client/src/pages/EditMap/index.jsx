@@ -1,7 +1,37 @@
 import { useState, useEffect, useRef } from "react";
+import Modal from "../components/Modal";
+import MapProps from "../components/Modals/MapProps";
 
 const EditMap = () => {
     const [menu, setMenu] = useState("none");
+    const [modal, setModal] = useState("");
+
+    const setModalType = (type) => {
+        
+        setModal(type);
+    }
+
+    const openModal = () => {
+        if (modal == "text"){
+            return (
+                <Modal title={"Add/Edit Label for Region"} description={"Enter in value for the label."} containsInput={true} />  
+            )
+        }
+        else if (modal == "dataProp"){
+            return (
+                <Modal title={"Add New Data Property"} description={"Enter a name for your property."} containsInput={true} />   
+            )
+        }
+        else if (modal == "deleteMap"){
+            return (
+                <Modal title={"Delete Map?"} description={"Please confirm that you want to delete the map."} containsInput={false} />    
+            )
+        }
+        else if (modal == "mapProps"){
+            return ( <MapProps /> );
+        }
+    }
+
 
     const closeMenus = (ref) => {
         useEffect(() => {
@@ -146,7 +176,7 @@ const EditMap = () => {
                 </li>
             </ul>
             <div className="px-4 py-3 hover:bg-gray-100 rounded-lg ">
-                <button className="block text-violet-500 text-xs text-gray-900 dark:text-white">
+                <button className="block text-violet-500 text-xs  dark:text-white" onClick={() => setModalType("dataProp")}>
                     + New Data Property
                 </button>
             </div>
@@ -155,6 +185,11 @@ const EditMap = () => {
 
     return (
         <div className="m-4 text-[13px]">
+            {/* {modal == "text" ? 
+                <Modal title={"Add/Edit Label for Region"} description={"Enter in value for the label"} containsInput={true} /> 
+                ? (modal == "dataProp" ? <Modal title={"Add New Data Property"} description={"Enter a name for your property"} containsInput={true}/> :
+             : ""} */}
+            {modal ? openModal() : ""}
             <div className="flex gap-4 my-5 text-2xl font-bold justify-center items-center">
                 Map of Europe
                 <button>
@@ -171,7 +206,7 @@ const EditMap = () => {
                 {border}
                 <button className="px-1 hover:bg-violet-100">Show Labels</button>
                 {border}
-                <button className="px-1 hover:bg-violet-100">Add Text</button>
+                <button className="px-1 hover:bg-violet-100" onClick={() => {setModalType("text")}}>Add Text</button>
                 {border}
                 <div className="flex px-1 relative">
                     <button 
@@ -241,7 +276,7 @@ const EditMap = () => {
                 <button className="px-1">
                     <i className="fa-solid fa-download"></i>
                 </button>
-                <button className="px-1">
+                <button className="px-1" onClick={() => {setModalType("deleteMap")}}>
                     <i className="fa-solid fa-trash"></i>
                 </button>
             </div>
@@ -257,7 +292,7 @@ const EditMap = () => {
                 <div className="text-white bg-violet-400 hover:bg-violet-500 focus:outline-none rounded-full px-5 py-2 text-center mb-2 dark:bg-violet-600 dark:hover:bg-violet-700">
                     Population
                 </div>
-                <button>
+                <button onClick={() => setModal("mapProps")}>
                     <i className="fa-solid fa-plus"></i>
                 </button>
             </div>

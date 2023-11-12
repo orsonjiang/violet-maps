@@ -21,7 +21,7 @@ const MapCard = ({ mapInfo }) => {
 
     const openModal = (type) => {
         if (modal){
-            setModal(null);
+            setModal("");
         }
         if (type === "rename"){
             setModal("rename");

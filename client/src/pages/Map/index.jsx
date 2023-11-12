@@ -1,8 +1,22 @@
 import CommentCard from "./components/commentcard";
+import Modal from "../components/Modal";
+import { useState } from 'react';
 
 const Map = () => {
+    const [modal, setModal] = useState("");
+
+    const openModal = (type) => {
+        if (modal){
+            setModal("");
+        }
+        else if (type == "fork"){
+            setModal("fork");
+        }
+    }
+
     return (
         <div className="md:grid grid-cols-3 gap-5 m-10 pb-10 max-md:block">
+            {modal == "fork" ? <Modal title={"Fork Map?"} description={"Confirm by typing a name for the Map of Europe"} containsInput={true} /> : ""}
                 <div className='col-span-2'>
                     <img
                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/A_large_blank_world_map_with_oceans_marked_in_blue.PNG/1024px-A_large_blank_world_map_with_oceans_marked_in_blue.PNG"
@@ -22,7 +36,7 @@ const Map = () => {
                             <button className='rounded-full bg-[#8187DC] py-1.5 px-4 shadow-lg text-white'><i className="fa-solid fa-thumbs-up pr-2"></i>98</button>
                             <button className='rounded-full bg-[#8187DC] py-1.5 px-4 shadow-lg text-white'><i className="fa-solid fa-thumbs-down pr-2"></i>15</button>
                             <button className='rounded-full bg-[#8187DC] py-1.5 px-4 shadow-lg text-white'><i class="fa-solid fa-file-export pr-2"></i>Export</button>
-                        <button className='rounded-full bg-[#8187DC] py-1.5 px-4 shadow-lg text-white'><i class="fa-solid fa-copy pr-2"></i>Fork</button>
+                        <button className='rounded-full bg-[#8187DC] py-1.5 px-4 shadow-lg text-white' onClick={() => {openModal("fork")}}><i class="fa-solid fa-copy pr-2"></i>Fork</button>
                         </div>
                     </div>
                 

@@ -54,14 +54,14 @@ const Modal = ({title, description, containsInput}) => {
                                 {title}
                             </h3>
                             <div className="bg-[#F3E7FF] rounded-lg p-4 justify-center">
-                                {description}
+                                <h4 className="text-sm">{description}</h4>
                                 {containsInput ?
                                     <div className="my-2">
                                         <input
                                             type="search"
                                             id="search-dropdown"
                                             className="block p-3 w-full text-sm rounded-lg drop-shadow-sm focus:outline-none focus:ring-2"
-                                            placeholder="Enter Map Name"
+                                            placeholder="Enter value"
                                             required=""
                                         />
                                     </div> : ""}
