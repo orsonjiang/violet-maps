@@ -4,7 +4,7 @@ const Splash = () => {
     return (
         <div className="flex min-h-screen">
             <div className="flex bg-[url('../../../src/images/purpleMap.jpeg')] bg-cover bg-center w-2/3 justify-center">
-                <div className="w-full  p-10 bg-violet-500/[0.55] flex flex-col items-center justify-center">
+                <div className="w-full  p-10 bg-violet-400/[0.6] flex flex-col items-center justify-center">
                     <div className="font-bold text-5xl my-8 text-white">Violet Maps</div>
                     <div className="text-xl min-w-xl text-violet-50">
                         Connect with other map enthusiasts around you on Violet
