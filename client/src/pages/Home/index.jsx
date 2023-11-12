@@ -180,14 +180,15 @@ const Home = () => {
             </div>
             <div className="grid xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
                 {exampleListOfMaps.map((mapInfo, index) => {
-                    return <div>{mapInfo.publishedDate == null ? 
-                        (<Link to={"/app/editmap"}>
-                            <MapCard key={index} mapInfo={mapInfo} />
-                        </Link> ) :
-                        <Link to={"/app/map"}>
-                            <MapCard key={index} mapInfo={mapInfo} />
-                        </Link>
-                    };
+                    return <div className={`p-1 pt-1 rounded-md h-full drop-shadow-sm ${mapInfo.publishedDate == null ? "border-2 border-violet-200 bg-white" : "border-2 border-indigo-300 bg-indigo-300/[0.9]"}`}>
+                        {mapInfo.publishedDate == null ? 
+                            (<Link to={"/app/editmap"}>
+                                <MapCard key={index} mapInfo={mapInfo} />
+                            </Link> ) :
+                            <Link to={"/app/map"}>
+                                <MapCard key={index} mapInfo={mapInfo} />
+                            </Link>
+                        }
                     </div>
                 })}
             </div>

@@ -41,7 +41,7 @@ const MapCard = ({ mapInfo }) => {
                 (modal === "fork" ? <Modal title={"Fork Map?"} description={"Confirm by typing a name for the Map of Europe"} inputText={"Enter Map Name"} containsInput={true} /> : "")
             }
 
-            <div className={`p-1 pt-1 rounded-md h-full drop-shadow-sm ${mapInfo.publishedDate == null ? "border-2 border-violet-200 bg-white" : "border-2 border-indigo-300 bg-indigo-300/[0.9]"}`}>
+            {/* <div className={`p-1 pt-1 rounded-md h-full drop-shadow-sm ${mapInfo.publishedDate == null ? "border-2 border-violet-200 bg-white" : "border-2 border-indigo-300 bg-indigo-300/[0.9]"}`}> */}
                 <div className="relative">
                     <button 
                         onClick={() => {setMenu("mapCard")}}
@@ -99,7 +99,7 @@ const MapCard = ({ mapInfo }) => {
                         }) : <div className={`text-xs ${mapInfo.publishedDate == null ? "text-gray-300" : "text-white/[0.6]"}`}>No tags</div>}
                     </div>
                 </div>
-            </div>
+            {/* </div> */}
         </div>
     );
 };

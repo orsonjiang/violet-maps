@@ -13,7 +13,7 @@ const ChooseTemplate = () => {
 
 
     return (
-        <div className="relative w-full max-w-lg max-h-md" >
+        <div className="relative w-full max-w-3xl max-h-md" >
             {content == "template" ? 
             <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
                 <button
@@ -97,8 +97,8 @@ const ChooseTemplate = () => {
                     <div className="text-sm font-semibold mt-2">Bubble Map</div>
                 </div>
             </div>
-            <div className='grid grid-cols-4 grid-row-1 m-4 pb-4'>
-                <div className='col-span-2 flex space-x-2 justify-end text-sm'>
+            <div className='flex m-4 pb-4'>
+                <div className='flex space-x-2 justify-end text-sm'>
                     <button
                         data-modal-hide="popup-modal"
                         type="button"
