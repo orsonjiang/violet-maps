@@ -15,7 +15,7 @@ const EditMap = () => {
     const openModal = () => {
         if (modal == "text"){
             return (
-                <Modal title={"Add/Edit Label for Region"} description={"Enter in value for the label."} containsInput={true} />  
+                <Modal title={"Add/Edit Label for Region"} description={"Enter in value for the label."} inputText={"Enter Value"}containsInput={true} />  
             )
         }
         else if (modal == "dataProp"){

@@ -37,8 +37,8 @@ const MapCard = ({ mapInfo }) => {
     return (
         <div>
             {modal === "rename" ? 
-                <Modal title={"Rename Map?"} description={"Confirm by typing a name for the Map of Europe"} containsInput={true} /> : 
-                (modal === "fork" ? <Modal title={"Fork Map?"} description={"Confirm by typing a name for the Map of Europe"} containsInput={true} /> : "")
+                <Modal title={"Rename Map?"} description={"Confirm by typing a name for the Map of Europe"} inputText={"Enter Map Name"} containsInput={true} /> : 
+                (modal === "fork" ? <Modal title={"Fork Map?"} description={"Confirm by typing a name for the Map of Europe"} inputText={"Enter Map Name"} containsInput={true} /> : "")
             }
 
             <div className="p-1 pt-1 rounded-md bg-white h-full border-2 border-violet-200 drop-shadow-sm">
@@ -90,7 +90,7 @@ const MapCard = ({ mapInfo }) => {
                     <div>
                         {mapInfo.name}
                     </div>
-                    <div className="text-sm font-medium text-violet-400">
+                    <div className="text-sm text-violet-400">
                         {mapInfo.owner}
                     </div>
                     <div className="flex mt-3 pb-4 gap-2 overflow-x-auto">

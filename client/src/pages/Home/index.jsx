@@ -83,7 +83,7 @@ const Home = () => {
         <div className="my-6 mx-20">
             {modal ? <UploadMap /> : ""}
             <div className='flex justify-between items-center'>
-                <div className="my-6 text-2xl font-bold">
+                <div className="my-6 text-2xl font-semibold">
                     Your Library
                 </div>
                 <div className='flex gap-3 items-center'>

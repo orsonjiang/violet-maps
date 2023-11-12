@@ -1,6 +1,6 @@
 import CommentCard from "./components/commentcard";
 import Modal from "../components/Modal";
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 const Map = () => {
     const [modal, setModal] = useState("");
@@ -35,7 +35,7 @@ const Map = () => {
     const exportMenu = (
         <div
             ref={ref}
-            className="absolute w-28 left-[-3px] z-50 my-9 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
+            className="absolute w-28 left-[-3px] z-50 my-9 text-xs list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
             id="user-dropdown"
         >
             <ul className="py-2" aria-labelledby="user-menu-button">
@@ -66,7 +66,7 @@ const Map = () => {
 
     return (
         <div className="md:grid grid-cols-3 gap-5 m-10 pb-10 max-md:block">
-            {modal == "fork" ? <Modal title={"Fork Map?"} description={"Confirm by typing a name for the Map of Europe"} containsInput={true} /> : ""}
+            {modal == "fork" ? <Modal title={"Fork Map?"} description={"Confirm by typing a name for the Map of Europe"} inputText={"Enter Map Name"} containsInput={true} /> : ""}
                 <div className='col-span-2'>
                     <img
                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/A_large_blank_world_map_with_oceans_marked_in_blue.PNG/1024px-A_large_blank_world_map_with_oceans_marked_in_blue.PNG"
@@ -74,16 +74,16 @@ const Map = () => {
                     className="rounded-lg shadow-md"/>
                     <div className='grid grid-cols-3 grid-row-2 my-4'>
                         <div className='col-span-1 row-span-2'>
-                            <h3 className='font-bold text-lg'>Map of Europe</h3>
-                            <h4 className="font-medium">Jane Kim</h4>
+                            <h3 className='font-semibold text-lg'>Map of Europe</h3>
+                            <h4 className="">Jane Kim</h4>
                             <div className="flex gap-3 items-center mt-3 text-xs whitespace-nowrap">
-                                <div className="bg-violet-200 hover:bg-violet-500 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 dark:bg-violet-600 dark:hover:bg-violet-700">
+                                <div className=" bg-violet-200 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 dark:bg-violet-600 dark:hover:bg-violet-700">
                                     Heat Map
                                 </div>
-                                <div className="bg-violet-200 hover:bg-violet-500 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 dark:bg-violet-600 dark:hover:bg-violet-700">
+                                <div className=" bg-violet-200 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 dark:bg-violet-600 dark:hover:bg-violet-700">
                                     Europe
                                 </div>
-                                <div className="bg-violet-200 hover:bg-violet-500 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 dark:bg-violet-600 dark:hover:bg-violet-700">
+                                <div className="bg-violet-200 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 dark:bg-violet-600 dark:hover:bg-violet-700">
                                     Labels
                                 </div>
                             </div>
@@ -105,7 +105,7 @@ const Map = () => {
                 </div>
                 <div className='col-span-1 bg-[#8187dc18] rounded-lg self-start'>   
                     <div className="m-5 mb-1">
-                        <h3 className="font-semibold pt-5 md:pt-0">25 Comments</h3>
+                        <h3 className="font-medium pt-5 md:pt-0">25 Comments</h3>
                         <div className="mt-3 flex space-x-4">
                             <button className="font-semibold bg-indigo-300 text-xs p-3 rounded-full shrink-0">
                                 {'KF'}
