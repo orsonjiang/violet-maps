@@ -100,7 +100,7 @@ const Navbar = () => {
                         />
                         <button
                             type="submit"
-                            className="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-indigo-600 rounded-e-lg border border-indigo-600 hover:bg-indigo-700 focus:outline-none dark:bg-indigo-500 dark:hover:bg-indigo-600"
+                            className="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-indigo-500 rounded-e-lg border border-indigo-500 hover:bg-indigo-600 focus:outline-none dark:bg-indigo-400 dark:hover:bg-indigo-500"
                         >
                             <svg
                                 className="w-4 h-4"

@@ -54,13 +54,13 @@ const Home = () => {
     ];
 
     return (
-        <div className="my-5 mx-10">
+        <div className="my-8 mx-20">
             <div>
                 <div className="my-4 text-2xl font-bold">
                     Your Library
                 </div>
             </div>
-            <div className="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
+            <div className="grid xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
                 {exampleListOfMaps.map((mapInfo, index) => {
                     return <MapCard key={index} mapInfo={mapInfo} />;
                 })}
