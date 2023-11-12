@@ -1,7 +1,15 @@
 import { useState } from "react";
+import ChooseTemplate from "./ChooseTemplate";
 
-const Modal = ({title, description, containsInput}) => {
+const UploadMap = () => {
 
+    const [content, setContent] = useState("upload");
+
+    const changeContent = (step) => {
+        if (step === "template"){
+            setContent("template")
+        }
+    }
 
     return (
         <div
@@ -34,46 +42,30 @@ const Modal = ({title, description, containsInput}) => {
                         <span className="sr-only">Close modal</span>
                     </button>
                     <div className="p-4 md:mt-0 flex flex-col">
-                        {/* <svg
-                            className="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200"
-                            aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 20 20"
-                        >
-                            <path
-                                stroke="currentColor"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                            />
-                        </svg> */}
+                    
                         <div className="flex flex-col px-6 lg:py-0 space-y-5 my-3">
                             <h3 className="text-lg font-semibold  text-black text-left">
-                                {title}
+                                {content == "upload" ? "Upload Map" : (content == "template" ? "Choose Template" : "")}
                             </h3>
-                            <div className="bg-[#F3E7FF] rounded-lg p-4 justify-center">
-                                {description}
-                                {containsInput ?
-                                    <div className="my-2">
-                                        <input
-                                            type="search"
-                                            id="search-dropdown"
-                                            className="block p-3 w-full text-sm rounded-lg drop-shadow-sm focus:outline-none focus:ring-2"
-                                            placeholder="Enter Map Name"
-                                            required=""
-                                        />
-                                    </div> : ""}
-                                
-                            </div>
-                            
+                            {content == "upload" ? 
+                                <div className="bg-[#F3E7FF] rounded-lg p-6 flex justify-center text-center text-[#938F99] border-dotted border-2 border-[#560BAD]">
+                                    <div>
+                                        <i class="fa-solid fa-cloud-arrow-up text-[2rem] mb-4"></i>
+                                        <div className="flex space-x-1">
+                                            <p className="font-semibold underline">Click to upload</p>
+                                            <p>or drag and drop</p>
+                                        </div> 
+                                        <p className="text-sm">.JSON, .GEOJSON, .SHP/.DBF, .KML</p>
+                                    </div>
+                                </div> : (content == "template" ? <ChooseTemplate/> : "")}
+
                             <div className='grid grid-cols-4 grid-row-1 my-4'>
                                 <div className='col-span-2 flex space-x-2 justify-end text-sm'>
                                     <button
                                         data-modal-hide="popup-modal"
                                         type="button"
                                         className="w-1/2 text-white bg-[#8187DC] rounded-full py-1.5 px-5 shadow-md text-center focus:outline-none focus:ring-2 focus:ring-purple-300 font-medium"
+                                        onClick={() => {changeContent("template")}}
                                     >
                                         Confirm
                                     </button>
@@ -94,4 +86,4 @@ const Modal = ({title, description, containsInput}) => {
     );
 };
 
-export default Modal;
+export default UploadMap;
