@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { ChromePicker } from "react-color"
 import Modal from "../components/Modal";
+import Legend from "../components/Modals/Legend";
 
 const EditMap = () => {
     const [menu, setMenu] = useState("none");
@@ -320,10 +321,12 @@ const EditMap = () => {
                 </button>
             </div>
             {/* Modals */}
-            {/* <Modal title={"Rename Map?"} description={"Confirm by typing a name for the Map of Europe"} inputText={"Enter Map Name"} containsInput={true} /> */}
+            {/* <Modal title={"Rename Map?"} description={"Write a new name for the Map of Europe"} inputText={"Enter Map Name"} containsInput={true} /> */}
             {/* <Modal title={"Add/Edit Label for Region"} description={"Adding value to data property: gdp_value"} inputText={"Enter Value"} containsInput={true} /> */}
             {/* <Modal title={"Add New Data Property"} description={"Enter a name for your property"} inputText={"Enter Name"} containsInput={true} /> */}
-            {/* <Modal title={"Delete Map?"} description={"Please confirm that you want to delete the map."} containsInput={false} /> */}
+            {/* <Modal title={"Delete Map?"} description={"Please confirm that you want to delete this map."} containsInput={false} /> */}
+            {/* <Modal title={"Publish Map?"} description={"Please confirm that you want to publish this map."} containsInput={false} /> */}
+            <Legend />
         </div>
     );
 };
