@@ -41,7 +41,7 @@ const MapCard = ({ mapInfo }) => {
                 (modal === "fork" ? <Modal title={"Fork Map?"} description={"Confirm by typing a name for the Map of Europe"} inputText={"Enter Map Name"} containsInput={true} /> : "")
             }
 
-            <div className="p-1 pt-1 rounded-md bg-white h-full border-2 border-violet-200 drop-shadow-sm">
+            <div className={`p-1 pt-1 rounded-md h-full drop-shadow-sm ${mapInfo.publishedDate == null ? "border-2 border-violet-200 bg-white" : "border-2 border-indigo-300 bg-indigo-300/[0.9]"}`}>
                 <div className="relative">
                     <button 
                         onClick={() => {setMenu("mapCard")}}
@@ -87,16 +87,16 @@ const MapCard = ({ mapInfo }) => {
                     className="rounded-md"
                 />
                 <div className="mx-3 mt-3">
-                    <div>
+                    <div className={`${mapInfo.publishedDate == null ? "black" : "text-white font-medium"}`}>
                         {mapInfo.name}
                     </div>
-                    <div className="text-sm text-violet-400">
+                    <div className={`text-[13px] pt-1 ${mapInfo.publishedDate == null ? "text-violet-400" : "text-white font-medium"}`}>
                         {mapInfo.owner}
                     </div>
                     <div className="flex mt-3 pb-4 gap-2 overflow-x-auto">
                         {mapInfo.tags.length != 0 ? mapInfo.tags.map((tag, index) => {
-                            return (<div className="text-xs bg-violet-200 w-fit py-1 px-2 rounded-full">{tag}</div>)
-                        }) : <div className="text-xs text-gray-300">No tags</div>}
+                            return (<div className={`text-xs ${mapInfo.publishedDate == null? "bg-violet-200" : "bg-white/[0.8]"} w-fit py-1 px-2 rounded-full`}>{tag}</div>)
+                        }) : <div className={`text-xs ${mapInfo.publishedDate == null ? "text-gray-300" : "text-white/[0.6]"}`}>No tags</div>}
                     </div>
                 </div>
             </div>

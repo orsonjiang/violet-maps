@@ -1,6 +1,7 @@
 import MapCard from './components/MapCard';
 import UploadMap from '../components/Modals/UploadMap';
 import { useState, useEffect, useRef } from "react";
+import { Link } from 'react-router-dom';
 
 const Home = () => {
     const [menu, setMenu] = useState("none");
@@ -32,7 +33,7 @@ const Home = () => {
             id: 0,
             name: 'Map of Europe',
             owner: 'Fanny Li',
-            publishedDate: new Date(),
+            publishedDate: null,
             tags: ['Europe', 'Population'],
         },
         {
@@ -46,35 +47,42 @@ const Home = () => {
             id: 0,
             name: 'Map of USA',
             owner: 'Kayla Fang',
-            publishedDate: new Date(),
+            publishedDate: null,
             tags: ['USA', 'Population'],
         },
         {
             id: 0,
             name: 'Map of Korea',
             owner: 'Orson Jiang',
-            publishedDate: new Date(),
+            publishedDate: null,
             tags: ['Korea', 'Population'],
         },
         {
             id: 0,
             name: 'This is the greatest map you will ever see in the world',
             owner: 'Orson Jiang',
-            publishedDate: new Date(),
+            publishedDate: null,
             tags: ['WorldMap', 'Puppies', "Animal", "Population"],
         },
         {
             id: 0,
             name: 'Map of Japan',
             owner: 'Rachel Cong',
-            publishedDate: new Date(),
+            publishedDate: null,
             tags: ['Japan', 'Population', "Infographic", "Rachel", "Country"],
+        },
+        {
+            id: 0,
+            name: 'Map of Germany',
+            owner: 'Katlyn Ye',
+            publishedDate: new Date(),
+            tags: [],
         },
         {
             id: 0,
             name: 'Map of France',
             owner: 'Katlyn Ye',
-            publishedDate: new Date(),
+            publishedDate: null,
             tags: [],
         },
     ];
@@ -172,7 +180,15 @@ const Home = () => {
             </div>
             <div className="grid xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
                 {exampleListOfMaps.map((mapInfo, index) => {
-                    return <MapCard key={index} mapInfo={mapInfo} />;
+                    return <div>{mapInfo.publishedDate == null ? 
+                        (<Link to={"/app/editmap"}>
+                            <MapCard key={index} mapInfo={mapInfo} />
+                        </Link> ) :
+                        <Link to={"/app/map"}>
+                            <MapCard key={index} mapInfo={mapInfo} />
+                        </Link>
+                    };
+                    </div>
                 })}
             </div>
         </div>

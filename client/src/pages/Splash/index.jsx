@@ -10,7 +10,7 @@ const Splash = () => {
                         Connect with other map enthusiasts around you on Violet
                         Maps.
                     </div>
-                    <div className="max-w-xl text-lg font-medium text-violet-500 my-12 bg-white/[0.7] rounded-lg px-12 py-9">
+                    <div className="max-w-xl text-lg font-[400] text-violet-500 my-12 bg-white/[0.7] rounded-lg px-12 py-9">
                         <ul className="list-disc">
                             <li >Customize your own maps</li>
                             <li>Add custom labels</li>
