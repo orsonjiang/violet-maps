@@ -5,7 +5,7 @@ const CommentCard = ({initials, name, comment}) => {
                 {initials}
             </button>
             <div className="m-auto space-y-1">
-                <div className="font-medium text-sm">{name}</div>
+                <div className="font-semibold text-sm">{name}</div>
                 <div className="text-xs">{comment}</div>
             </div>
         </div>

@@ -2,7 +2,7 @@ import CommentCard from "./components/commentcard";
 
 const Map = () => {
     return (
-        <div className="grid grid-cols-3 gap-5 m-10 pb-10 max-md:block">
+        <div className="md:grid grid-cols-3 gap-5 m-10 pb-10 max-md:block">
                 <div className='col-span-2'>
                     <img
                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/A_large_blank_world_map_with_oceans_marked_in_blue.PNG/1024px-A_large_blank_world_map_with_oceans_marked_in_blue.PNG"
@@ -29,7 +29,7 @@ const Map = () => {
                 </div>
                 <div className='col-span-1 bg-[#8187dc18] rounded-lg self-start'>   
                     <div className="m-5 mb-1">
-                        <h3 className="font-semibold max-md:pt-5">25 Comments</h3>
+                        <h3 className="font-semibold pt-5 md:pt-0">25 Comments</h3>
                         <div className="mt-3 flex space-x-4">
                             <button className="font-semibold bg-indigo-300 text-xs p-3 rounded-full shrink-0">
                                 {'KF'}
@@ -42,7 +42,7 @@ const Map = () => {
                                 required=""
                             />
                         </div>
-                        <div className="overflow-hidden hover:overflow-y-scroll max-h-[40rem] mt-3">
+                        <div className="overflow-hidden hover:overflow-y-scroll max-h-[30rem] mt-3">
                             <CommentCard initials={'FL'} name={'Fanny Li'} comment={'This map is great! I am going to be exporting it for my class in Geography. Thank you for putting this together!'} />
                             <CommentCard initials={'FL'} name={'Fanny Li'} comment={'This map is great! I am going to be exporting it for my class in Geography. Thank you for putting this together!'} />
                             <CommentCard initials={'FL'} name={'Fanny Li'} comment={'This map is great! I am going to be exporting it for my class in Geography. Thank you for putting this together!'} />
