@@ -17,7 +17,7 @@ const UploadMap = () => {
             tabIndex={-1}
             className="flex fixed z-50 justify-center items-center w-full h-full inset-0 max-h-full"
         >
-            <div className="relative w-full max-w-md max-h-full">
+            <div className={content == "upload" ? "relative w-full max-w-md max-h-md" : "relative w-full max-w-xl max-h-md"}>
                 <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
                     <button
                         type="button"
@@ -41,9 +41,9 @@ const UploadMap = () => {
                         </svg>
                         <span className="sr-only">Close modal</span>
                     </button>
-                    <div className="p-4 md:mt-0 flex flex-col">
+                    <div className="p-2 md:mt-0 flex flex-col">
                     
-                        <div className="flex flex-col px-6 lg:py-0 space-y-5 my-3">
+                        <div className="flex flex-col px-4 lg:py-0 space-y-5 my-3">
                             <h3 className="text-lg font-semibold  text-black text-left">
                                 {content == "upload" ? "Upload Map" : (content == "template" ? "Choose Template" : "")}
                             </h3>
