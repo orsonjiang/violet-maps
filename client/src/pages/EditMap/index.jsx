@@ -155,6 +155,38 @@ const EditMap = () => {
         </div>
     )
 
+    const exportMenu = (
+        <div
+            ref={ref}
+            className="absolute w-28 left-[-44px] z-50 my-9 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
+            id="user-dropdown"
+        >
+            <ul className="text-[13px] py-2" aria-labelledby="user-menu-button">
+                <li>
+                    <button
+                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                    >
+                        PNG
+                    </button>
+                </li>
+                <li>
+                    <button
+                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                    >
+                        JPG
+                    </button>
+                </li>
+                <li>
+                    <button
+                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                    >
+                        JSON
+                    </button>
+                </li>
+            </ul>
+        </div>
+    )
+
     return (
         <div className="m-4 text-[13px]">
             <div className="flex gap-4 my-5 text-2xl font-bold justify-center items-center">
@@ -256,9 +288,15 @@ const EditMap = () => {
                 {border}
                 <button className="px-1 hover:bg-violet-100">Publish</button>
                 {border}
-                <button className="px-1">
-                    <i className="fa-solid fa-download"></i>
-                </button>
+                <div className="flex px-1 relative">
+                    <button 
+                        onClick={() => {setMenu("export")}}
+                        className="flex gap-2 items-center"
+                    >
+                        <i className="fa-solid fa-download"></i>
+                    </button>
+                    {menu == "export" ? exportMenu : null}
+                </div>
                 <button className="px-1">
                     <i className="fa-solid fa-trash"></i>
                 </button>
