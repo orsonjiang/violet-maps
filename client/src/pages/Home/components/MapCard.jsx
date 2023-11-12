@@ -22,7 +22,7 @@ const MapCard = ({ mapInfo }) => {
 
     return (
         <div>
-            <div className="p-1 pt-1 rounded-md bg-white">
+            <div className="p-1 pt-1 rounded-md bg-white h-full border-2 border-violet-200 drop-shadow-sm">
                 <div className="relative">
                     <button 
                         onClick={() => {setMenu("mapcard")}}
@@ -65,12 +65,17 @@ const MapCard = ({ mapInfo }) => {
                     alt="map-image"
                     className="rounded-md"
                 />
-                <div className="m-3">
+                <div className="mx-3 mt-3">
                     <div>
                         {mapInfo.name}
                     </div>
                     <div className="text-sm font-medium text-violet-400">
                         {mapInfo.owner}
+                    </div>
+                    <div className="flex mt-3 pb-4 gap-2 overflow-x-auto">
+                        {mapInfo.tags.length != 0 ? mapInfo.tags.map((tag, index) => {
+                            return (<div className="text-xs bg-violet-200 w-fit py-1 px-2 rounded-full">{tag}</div>)
+                        }) : <div className="text-xs text-gray-300">No tags</div>}
                     </div>
                 </div>
             </div>

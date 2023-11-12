@@ -42,14 +42,14 @@ const Home = () => {
             name: 'Map of Japan',
             owner: 'Rachel Cong',
             publishedDate: new Date(),
-            tags: ['Korea', 'Population'],
+            tags: ['Japan', 'Population', "Infographic", "Rachel", "Country"],
         },
         {
             id: 0,
             name: 'Map of France',
             owner: 'Katlyn Ye',
             publishedDate: new Date(),
-            tags: ['Korea', 'Population'],
+            tags: [],
         },
     ];
 

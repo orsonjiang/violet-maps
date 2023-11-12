@@ -51,7 +51,7 @@ const Home = () => {
             name: "Map of France",
             owner: "Katlyn Ye",
             publishedDate: new Date(),
-            tags: ["Korea", "Population"]
+            tags: []
         }
     ]
     return (
