@@ -80,7 +80,7 @@ const Home = () => {
                     Your Library
                 </div>
                 <div className='flex gap-3 items-center'>
-                    <button className='h-fit py-2.5 px-4 rounded-lg text-white text-sm bg-indigo-400'>
+                    <button className='h-fit py-2.5 px-4 rounded-lg text-white text-sm bg-indigo-400 hover:bg-indigo-500'>
                         Create Map
                     </button>
                     <div className="relative">
