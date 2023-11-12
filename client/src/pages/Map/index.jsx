@@ -106,16 +106,16 @@ const Map = () => {
                                 required=""
                             />
                         </div>
-                        <div className="overflow-hidden hover:overflow-y-scroll max-h-[30rem] mt-3">
+                        <div className="overflow-hidden hover:overflow-y-scroll pr-3 max-h-[30rem] mt-3">
                             <CommentCard initials={'FL'} name={'Fanny Li'} comment={'This map is great! I am going to be exporting it for my class in Geography. Thank you for putting this together!'} />
+                            <CommentCard initials={'KF'} name={'Kayla Fang'} comment={'This map is great! I am going to be exporting it for my class in Geography. Thank you for putting this together!'} />
+                            <CommentCard initials={'RC'} name={'Rachel Cong'} comment={'This map is great! I am going to be exporting it for my class in Geography. Thank you for putting this together!'} />
+                            <CommentCard initials={'KY'} name={'Katlyn Ye'} comment={'This map is great! I am going to be exporting it for my class in Geography. Thank you for putting this together!'} />
+                            <CommentCard initials={'KC'} name={'Kevin Chen'} comment={'This map is great! I am going to be exporting it for my class in Geography. Thank you for putting this together!'} />
+                            <CommentCard initials={'OJ'} name={'Orson Jiang'} comment={'This map is great! I am going to be exporting it for my class in Geography. Thank you for putting this together!'} />
                             <CommentCard initials={'FL'} name={'Fanny Li'} comment={'This map is great! I am going to be exporting it for my class in Geography. Thank you for putting this together!'} />
-                            <CommentCard initials={'FL'} name={'Fanny Li'} comment={'This map is great! I am going to be exporting it for my class in Geography. Thank you for putting this together!'} />
-                            <CommentCard initials={'FL'} name={'Fanny Li'} comment={'This map is great! I am going to be exporting it for my class in Geography. Thank you for putting this together!'} />
-                            <CommentCard initials={'FL'} name={'Fanny Li'} comment={'This map is great! I am going to be exporting it for my class in Geography. Thank you for putting this together!'} />
-                            <CommentCard initials={'FL'} name={'Fanny Li'} comment={'This map is great! I am going to be exporting it for my class in Geography. Thank you for putting this together!'} />
-                            <CommentCard initials={'FL'} name={'Fanny Li'} comment={'This map is great! I am going to be exporting it for my class in Geography. Thank you for putting this together!'} />
-                            <CommentCard initials={'FL'} name={'Fanny Li'} comment={'This map is great! I am going to be exporting it for my class in Geography. Thank you for putting this together!'} />
-                            <CommentCard initials={'FL'} name={'Fanny Li'} comment={'This map is great! I am going to be exporting it for my class in Geography. Thank you for putting this together!'} />
+                            <CommentCard initials={'KC'} name={'Kevin Chen'} comment={'This map is great! I am going to be exporting it for my class in Geography. Thank you for putting this together!'} />
+                            <CommentCard initials={'KY'} name={'Katlyn Ye'} comment={'This map is great! I am going to be exporting it for my class in Geography. Thank you for putting this together!'} />
                         
                         </div>
                 
