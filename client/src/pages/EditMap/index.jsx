@@ -161,7 +161,7 @@ const EditMap = () => {
                     <i className="fa fa-edit mr-2 text-xl text-indigo-500" />
                 </button>
             </div>
-            <div className="flex flex-wrap bg-white p-2 px-4 my-2 justify-between rounded-lg border-2 border-violet-200 drop-shadow-sm">
+            <div className="flex flex-wrap bg-white p-2 px-4 my-2 justify-between rounded-lg border-[1px] border-violet-200 drop-shadow-sm">
                 <button className="px-1">
                     <i className="fa-solid fa-rotate-left"></i>
                 </button>
@@ -245,11 +245,13 @@ const EditMap = () => {
                     <i className="fa-solid fa-trash"></i>
                 </button>
             </div>
-            <img
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/A_large_blank_world_map_with_oceans_marked_in_blue.PNG/2560px-A_large_blank_world_map_with_oceans_marked_in_blue.PNG"
-                alt="map-image"
-                className="w-full p-3"
-            />
+            <div className="w-full p-3 rounded">
+                <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/A_large_blank_world_map_with_oceans_marked_in_blue.PNG/2560px-A_large_blank_world_map_with_oceans_marked_in_blue.PNG"
+                    alt="map-image"
+                    className="rounded-lg"
+                />
+            </div>
             <div className="flex gap-3 items-center mx-3 my-2">
                 <div className="text-white bg-violet-400 hover:bg-violet-500 focus:outline-none rounded-full px-5 py-2 text-center mb-2 dark:bg-violet-600 dark:hover:bg-violet-700">
                     America
