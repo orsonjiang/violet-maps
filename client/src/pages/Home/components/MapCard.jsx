@@ -25,13 +25,13 @@ const MapCard = ({ mapInfo }) => {
             <div className="p-1 pt-1 rounded-md bg-white h-full border-2 border-violet-200 drop-shadow-sm">
                 <div className="relative">
                     <button 
-                        onClick={() => {setMenu("mapcard")}}
+                        onClick={() => {setMenu("mapCard")}}
                         className="absolute right-2"
                     >
                         <i className="fas fa-ellipsis-h w-3 mr-1 text-white"/>
                     </button>
                     {/* Dropdown menu */}
-                    {menu == "mapcard" ?
+                    {menu == "mapCard" ?
                     <div
                         ref={ref}
                         className="absolute right-1 z-50 my-5 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
