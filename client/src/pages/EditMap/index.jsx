@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import Modal from "../components/Modal";
 import MapProps from "../components/Modals/MapProps";
+import { ChromePicker } from "react-color"
 
 const EditMap = () => {
     const [menu, setMenu] = useState("none");
@@ -183,6 +184,38 @@ const EditMap = () => {
         </div>
     )
 
+    const exportMenu = (
+        <div
+            ref={ref}
+            className="absolute w-28 left-[-44px] z-50 my-9 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
+            id="user-dropdown"
+        >
+            <ul className="text-[13px] py-2" aria-labelledby="user-menu-button">
+                <li>
+                    <button
+                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                    >
+                        PNG
+                    </button>
+                </li>
+                <li>
+                    <button
+                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                    >
+                        JPG
+                    </button>
+                </li>
+                <li>
+                    <button
+                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                    >
+                        JSON
+                    </button>
+                </li>
+            </ul>
+        </div>
+    )
+
     return (
         <div className="m-4 text-[13px]">
             {/* {modal == "text" ? 
@@ -196,7 +229,7 @@ const EditMap = () => {
                     <i className="fa fa-edit mr-2 text-xl text-indigo-500" />
                 </button>
             </div>
-            <div className="flex flex-wrap bg-white p-2 px-4 my-2 justify-between rounded-lg border-2 border-violet-200 drop-shadow-sm">
+            <div className="flex flex-wrap bg-white p-2 px-4 m-2 justify-between rounded-lg border-[1px] border-violet-200 drop-shadow-sm">
                 <button className="px-1">
                     <i className="fa-solid fa-rotate-left"></i>
                 </button>
@@ -244,9 +277,25 @@ const EditMap = () => {
                     {menu == "labelPosition" ? labelPositionMenu : null}
                 </div>
                 {border}
-                <button className="px-1 hover:bg-violet-100">Region Color</button>
+                <div className="flex relative">
+                    <button 
+                        onClick={() => {setMenu("regionColor")}}
+                        className="px-1 hover:bg-violet-100"
+                    >
+                        Region Color
+                    </button>
+                    {menu == "regionColor" ? <div ref={ref} className="absolute left-[-5px] z-50 my-9"><ChromePicker /></div> : null}
+                </div>
                 {border}
-                <button className="px-1 hover:bg-violet-100">Border Color</button>
+                <div className="flex relative">
+                    <button 
+                        onClick={() => {setMenu("borderColor")}}
+                        className="px-1 hover:bg-violet-100"
+                    >
+                        Border Color
+                    </button>
+                    {menu == "borderColor" ? <div ref={ref} className="absolute left-[-5px] z-50 my-9"><ChromePicker /></div> : null}
+                </div>
                 {border}
                 <button className="px-1 hover:bg-violet-100">Legend</button>
                 {border}
@@ -273,29 +322,42 @@ const EditMap = () => {
                 {border}
                 <button className="px-1 hover:bg-violet-100">Publish</button>
                 {border}
-                <button className="px-1">
-                    <i className="fa-solid fa-download"></i>
-                </button>
+                <div className="flex px-1 relative">
+                    <button 
+                        onClick={() => {setMenu("export")}}
+                        className="flex gap-2 items-center"
+                    >
+                        <i className="fa-solid fa-download"></i>
+                    </button>
+                    {menu == "export" ? exportMenu : null}
+                </div>
                 <button className="px-1" onClick={() => {setModalType("deleteMap")}}>
                     <i className="fa-solid fa-trash"></i>
                 </button>
             </div>
-            <img
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/A_large_blank_world_map_with_oceans_marked_in_blue.PNG/2560px-A_large_blank_world_map_with_oceans_marked_in_blue.PNG"
-                alt="map-image"
-                className="w-full p-3"
-            />
-            <div className="flex gap-3 items-center mx-3 my-2">
-                <div className="text-white bg-violet-400 hover:bg-violet-500 focus:outline-none rounded-full px-5 py-2 text-center mb-2 dark:bg-violet-600 dark:hover:bg-violet-700">
+            <div className="w-full p-4 rounded">
+                <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/A_large_blank_world_map_with_oceans_marked_in_blue.PNG/2560px-A_large_blank_world_map_with_oceans_marked_in_blue.PNG"
+                    alt="map-image"
+                    className="rounded-lg"
+                />
+            </div>
+            <div className="flex gap-3 items-center mx-3 my-3">
+                <div className="text-white bg-violet-400 hover:bg-violet-500 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 dark:bg-violet-600 dark:hover:bg-violet-700">
                     America
                 </div>
-                <div className="text-white bg-violet-400 hover:bg-violet-500 focus:outline-none rounded-full px-5 py-2 text-center mb-2 dark:bg-violet-600 dark:hover:bg-violet-700">
+                <div className="text-white bg-violet-400 hover:bg-violet-500 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 dark:bg-violet-600 dark:hover:bg-violet-700">
                     Population
                 </div>
                 <button onClick={() => setModal("mapProps")}>
                     <i className="fa-solid fa-plus"></i>
                 </button>
             </div>
+            {/* Modals */}
+            {/* <Modal title={"Rename Map?"} description={"Confirm by typing a name for the Map of Europe"} inputText={"Enter Map Name"} containsInput={true} /> */}
+            {/* <Modal title={"Add/Edit Label for Region"} description={"Adding value to data property: gdp_value"} inputText={"Enter Value"} containsInput={true} /> */}
+            {/* <Modal title={"Add New Data Property"} description={"Enter a name for your property"} inputText={"Enter Name"} containsInput={true} /> */}
+            {/* <Modal title={"Delete Map?"} description={"Please confirm that you want to delete the map."} containsInput={false} /> */}
         </div>
     );
 };
