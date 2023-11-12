@@ -1,8 +1,14 @@
 import MapCard from './components/MapCard';
+import UploadMap from '../components/Modals/UploadMap';
 import { useState, useEffect, useRef } from "react";
 
 const Home = () => {
     const [menu, setMenu] = useState("none");
+    const [modal, setModal] = useState(false);
+
+    const openModal = () => {
+        setModal(true);
+    }
 
     const closeMenus = (ref) => {
         useEffect(() => {
@@ -75,12 +81,13 @@ const Home = () => {
 
     return (
         <div className="my-6 mx-20">
+            {modal ? <UploadMap /> : ""}
             <div className='flex justify-between items-center'>
                 <div className="my-6 text-2xl font-bold">
                     Your Library
                 </div>
                 <div className='flex gap-3 items-center'>
-                    <button className='h-fit py-2.5 px-4 rounded-lg text-white text-sm bg-indigo-400 hover:bg-indigo-500'>
+                    <button className='h-fit py-2.5 px-4 rounded-lg text-white text-sm bg-indigo-400 hover:bg-indigo-500' onClick={openModal}>
                         Create Map
                     </button>
                     <div className="relative">

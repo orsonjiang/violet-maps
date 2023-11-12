@@ -2,132 +2,89 @@ const Register = () => {
     return (
         <div className="flex flex-col min-h-screen justify-center">
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-                <a
-                    href="#"
-                    className="flex items-center mb-6 text-2xl font-semibold"
-                >
-                    Violet Maps
-                </a>
-                <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+                <div className="w-[60rem] h-[34rem] bg-white rounded-lg shadow-xl dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-                        <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                            Create your new account
+                        <h1
+                            href="#"
+                            className="text-xl text-center text-[#3F37C9] font-bold font-italic leading-tight tracking-none  md:text-3xl dark:text-white"
+                        >
+                            Violet Maps
                         </h1>
-                        <form className="space-y-4 md:space-y-6" action="#">
+                        <h2 className="text-center font-semibold leading-none tracking-none text-gray-900 md:text-xl dark:text-white">
+                            Create your new account
+                        </h2>
+                        <form className="space-y-4 md:space-y-4" action="#">
                             <div className="flex gap-4">
                                 <div>
-                                    <label
-                                        htmlFor="firstName"
-                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                    >
-                                        First name
-                                    </label>
                                     <input
                                         type="firstName"
                                         name="firstName"
                                         id="firstName"
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        placeholder="John"
+                                        className="bg-gray-50 text-gray-900 shadow-md sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="First name"
                                         required=""
                                     />
                                 </div>
                                 <div>
-                                    <label
-                                        htmlFor="lastName"
-                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                    >
-                                        Last name
-                                    </label>
                                     <input
                                         type="lastName"
                                         name="lastName"
                                         id="lastName"
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        placeholder="Smith"
+                                        className="bg-gray-50 text-gray-900 shadow-md sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="Last name"
                                         required=""
                                     />
                                 </div>
                             </div>
                             <div>
-                                <label
-                                    htmlFor="email"
-                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                >
-                                    Your email
-                                </label>
                                 <input
                                     type="email"
                                     name="email"
                                     id="email"
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    placeholder="name@company.com"
+                                    className="bg-gray-50 text-gray-900 shadow-md sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="Email"
                                     required=""
                                 />
                             </div>
                             <div>
-                                <label
-                                    htmlFor="username"
-                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                >
-                                    Your username
-                                </label>
                                 <input
                                     type="username"
                                     name="username"
                                     id="username"
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    placeholder="johnsmith"
+                                    className="bg-gray-50 text-gray-900 shadow-md sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="Username"
                                     required=""
                                 />
                             </div>
                             <div>
-                                <label
-                                    htmlFor="password"
-                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                >
-                                    Password
-                                </label>
                                 <input
                                     type="password"
                                     name="password"
                                     id="password"
-                                    placeholder="••••••••"
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="Password"
+                                    className="bg-gray-50 text-gray-900 shadow-md sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     required=""
                                 />
                             </div>
-                            <div>
-                                <label
-                                    htmlFor="confirmPassword"
-                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                >
-                                    Confirm password
-                                </label>
-                                <input
-                                    type="confirmPassword"
-                                    name="confirmPassword"
-                                    id="confirmPassword"
-                                    placeholder="••••••••"
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    required=""
-                                />
-                            </div>
-
-                            <button
-                                type="submit"
-                                className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                            >
-                                Register
-                            </button>
-                            <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                            <p className="text-sm font-semibold text-black dark:text-gray-400 pt-5">
                                 Already have an account?{' '}
                                 <a
-                                    href="#"
-                                    className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                                    href=""
+                                    className="font-semibold text-[#560BAD] hover:underline dark:text-primary-500"
                                 >
                                     Sign in
                                 </a>
                             </p>
+                            <div className='grid grid-cols-2 grid-row-1 my-4'>
+                                <div className='col-span-2 flex space-x-2 justify-end text-sm'>
+                                    <button
+                                        type="submit"
+                                        className="text-white bg-[#8187DC] rounded-full py-1.5 px-6 shadow-lg text-center focus:outline-none focus:ring-2 focus:ring-purple-300 font-medium"
+                                    >
+                                        Register
+                                    </button>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>

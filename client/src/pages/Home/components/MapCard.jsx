@@ -1,7 +1,9 @@
 import { useState, useEffect, useRef } from "react";
+import Modal from "../../components/Modal";
 
 const MapCard = ({ mapInfo }) => {
     const [menu, setMenu] = useState("none");
+    const [modal, setModal] = useState("");
 
     const closeMenus = (ref) => {
         useEffect(() => {
@@ -17,11 +19,28 @@ const MapCard = ({ mapInfo }) => {
         }, [ref])
     }
 
+    const openModal = (type) => {
+        if (modal){
+            setModal(null);
+        }
+        if (type === "rename"){
+            setModal("rename");
+        }
+        else if (type === "fork"){
+            setModal("fork");
+        }
+    }
+
     const ref = useRef(null);
     closeMenus(ref);
 
     return (
         <div>
+            {modal === "rename" ? 
+                <Modal title={"Rename Map?"} description={"Confirm by typing a name for the Map of Europe"} containsInput={true} /> : 
+                (modal === "fork" ? <Modal title={"Fork Map?"} description={"Confirm by typing a name for the Map of Europe"} containsInput={true} /> : "")
+            }
+
             <div className="p-1 pt-1 rounded-md bg-white h-full border-2 border-violet-200 drop-shadow-sm">
                 <div className="relative">
                     <button 
@@ -42,17 +61,19 @@ const MapCard = ({ mapInfo }) => {
                                 <a
                                     href="#"
                                     className="block px-5 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                                    onClick={() => { openModal("fork") }}
                                 >
                                     <i className="fa fa-code-fork mr-2" />
                                     Fork
                                 </a>
                             </li>
-                            <li>
+                            <li >
                                 <a
                                     href="#"
                                     className="block px-5 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                                    onClick={() => {openModal("rename")}}
                                 >
-                                    <i className="fa fa-edit mr-2" />
+                                        <i className="fa fa-edit mr-2" />
                                     Rename
                                 </a>
                             </li>
