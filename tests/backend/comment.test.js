@@ -53,7 +53,7 @@ describe("create, read, update, and delete comment", () => {
             })
     });
 
-    test("PUT api/comments/edit/:_id", async () => {
+    test("DELETE api/comments/delete/:_id", async () => {
         // delete the test comment
         return request(app)
             .delete(`/api/comments/delete/${commentId}`)
