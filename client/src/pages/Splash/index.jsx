@@ -19,7 +19,6 @@ const Splash = () => {
                             </li>
                             <li>View, like and comment on other maps</li>
                             <li>Free and easy to use </li>
-                            <li>It's a great app to use! </li>
                         </ul>
                     </div>
                 </div>
