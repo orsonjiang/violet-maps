@@ -1,4 +1,4 @@
-import CommentCard from "./components/commentcard";
+import CommentCard from "./components/CommentCard";
 import Modal from "../components/Modals/Modal";
 import { useState, useRef, useEffect } from 'react';
 
