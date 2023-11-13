@@ -22,7 +22,7 @@ const ResetPassword = () => {
                                     name="email"
                                     id="email"
                                     className="bg-gray-50 shadow-md text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    placeholder="Email or username"
+                                    placeholder="Email"
                                     required=""
                                 />
                             </div>
@@ -36,26 +36,8 @@ const ResetPassword = () => {
                                     required=""
                                 />
                             </div>
-                            <div>
-                                <input
-                                    type="confirm-password"
-                                    name="confirm-password"
-                                    id="confirm-password"
-                                    placeholder="Confirm password"
-                                    className="bg-gray-50 text-gray-900 shadow-md sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    required=""
-                                />
-                            </div>
-                            <p className="text-sm font-semibold text-black dark:text-gray-400 pt-5">
-                                New to Violet Maps?{' '}
-                                <Link to={"/register"}
-                                    className="font-semibold text-violet-400 hover:underline dark:text-primary-500"
-                                >
-                                    Sign up
-                                </Link>
-                            </p>
                             <p className="text-sm font-semibold text-black dark:text-gray-400">
-                                Already have an account?{' '}
+                                Remember your password?{' '}
                                 <Link to={"/login"}
                                     className="font-semibold text-violet-400 hover:underline dark:text-primary-500"
                                 >
