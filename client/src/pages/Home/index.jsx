@@ -102,7 +102,7 @@ const Home = () => {
                         <button
                             id="dropdown-button"
                             data-dropdown-toggle="dropdown"
-                            className="whitespace-nowrap flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-lg hover:bg-gray-200 focus:outline-none dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white dark:border-gray-600"
+                            className="whitespace-nowrap flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-lg hover:bg-gray-200 focus:outline-none "
                             type="button"
                             onClick={() => {setMenu("sortBy")}}
                         >
@@ -127,16 +127,16 @@ const Home = () => {
                         <div
                             id="sort-by-dropdown"
                             ref={ref}
-                            className="absolute right-0 my-2 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-40 dark:bg-gray-700"
+                            className="absolute right-0 my-2 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-40 "
                         >
                             <ul
-                                className="py-2 text-sm text-gray-700 dark:text-gray-200"
+                                className="py-2 text-sm text-gray-700 "
                                 aria-labelledby="dropdown-button"
                             >
                                 <li>
                                     <button
                                         type="button"
-                                        className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                        className="inline-flex w-full px-4 py-2 hover:bg-gray-100 "
                                     >
                                         None
                                     </button>
@@ -144,7 +144,7 @@ const Home = () => {
                                 <li>
                                     <button
                                         type="button"
-                                        className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                        className="inline-flex w-full px-4 py-2 hover:bg-gray-100 "
                                     >
                                         Name
                                     </button>
@@ -152,7 +152,7 @@ const Home = () => {
                                 <li>
                                     <button
                                         type="button"
-                                        className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                        className="inline-flex w-full px-4 py-2 hover:bg-gray-100 "
                                     >
                                         Creation Date
                                     </button>
@@ -160,7 +160,7 @@ const Home = () => {
                                 <li>
                                     <button
                                         type="button"
-                                        className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                        className="inline-flex w-full px-4 py-2 hover:bg-gray-100 "
                                     >
                                         Likes
                                     </button>
@@ -168,7 +168,7 @@ const Home = () => {
                                 <li>
                                     <button
                                         type="button"
-                                        className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                        className="inline-flex w-full px-4 py-2 hover:bg-gray-100 "
                                     >
                                         Dislikes
                                     </button>

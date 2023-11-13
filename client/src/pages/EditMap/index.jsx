@@ -73,41 +73,41 @@ const EditMap = () => {
     const fontStyleMenu = (
         <div
             ref={ref}
-            className="absolute overflow-y-auto max-h-44 w-40 left-[-5px] z-50 my-9 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
+            className="absolute overflow-y-auto max-h-44 w-40 left-[-5px] z-50 my-9 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow "
             id="user-dropdown"
         >
             <ul className="text-[13px] py-2" aria-labelledby="user-menu-button">
                 <li>
                     <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
                     >
                         Arial
                     </button>
                 </li>
                 <li>
                     <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
                     >
                         Times New Roman
                     </button>
                 </li>
                 <li>
                     <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
                     >
                         Helvetica
                     </button>
                 </li>
                 <li>
                     <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
                     >
                         Poppins
                     </button>
                 </li>
                 <li>
                     <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
                     >
                         Verdana
                     </button>
@@ -119,34 +119,34 @@ const EditMap = () => {
     const labelPositionMenu = (
         <div
             ref={ref}
-            className="absolute overflow-y-auto max-h-44 w-40 left-[-5px] z-50 my-9 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
+            className="absolute overflow-y-auto max-h-44 w-40 left-[-5px] z-50 my-9 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow "
             id="user-dropdown"
         >
             <ul className="text-[13px] py-2" aria-labelledby="user-menu-button">
                 <li>
                     <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
                     >
                         Center
                     </button>
                 </li>
                 <li>
                     <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
                     >
                         Right
                     </button>
                 </li>
                 <li>
                     <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
                     >
                         Left
                     </button>
                 </li>
                 <li>
                     <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
                     >
                         Top
                     </button>
@@ -158,41 +158,41 @@ const EditMap = () => {
     const dataPropertyMenu = (
         <div
             ref={ref}
-            className="absolute w-40 left-[-5px] z-50 my-9 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
+            className="absolute w-40 left-[-5px] z-50 my-9 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow "
             id="user-dropdown"
         >
             <ul className="text-[13px] overflow-y-auto max-h-[136px] py-2" aria-labelledby="user-menu-button">
                 <li>
                     <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
                     >
                         name
                     </button>
                 </li>
                 <li>
                     <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
                     >
                         gdp_value
                     </button>
                 </li>
                 <li>
                     <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
                     >
                         pop_year
                     </button>
                 </li>
                 <li>
                     <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
                     >
                         admin_0
                     </button>
                 </li>
             </ul>
             <div className="px-4 py-3 hover:bg-gray-100 rounded-lg ">
-                <button className="block text-violet-500 text-xs  dark:text-white" onClick={() => setModalType("dataProp")}>
+                <button className="block text-violet-500 text-xs  " onClick={() => setModalType("dataProp")}>
                     + New Data Property
                 </button>
             </div>
@@ -202,27 +202,27 @@ const EditMap = () => {
     const exportMenu = (
         <div
             ref={ref}
-            className="absolute w-28 left-[-44px] z-50 my-9 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
+            className="absolute w-28 left-[-44px] z-50 my-9 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow "
             id="user-dropdown"
         >
             <ul className="text-[13px] py-2" aria-labelledby="user-menu-button">
                 <li>
                     <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
                     >
                         PNG
                     </button>
                 </li>
                 <li>
                     <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
                     >
                         JPG
                     </button>
                 </li>
                 <li>
                     <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
                     >
                         JSON
                     </button>
@@ -358,10 +358,10 @@ const EditMap = () => {
                 />
             </div>
             <div className="flex gap-3 items-center mx-3 my-3">
-                <div className="text-white bg-violet-400 hover:bg-violet-500 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 dark:bg-violet-600 dark:hover:bg-violet-700">
+                <div className="text-white bg-violet-400 hover:bg-violet-500 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 ">
                     America
                 </div>
-                <div className="text-white bg-violet-400 hover:bg-violet-500 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 dark:bg-violet-600 dark:hover:bg-violet-700">
+                <div className="text-white bg-violet-400 hover:bg-violet-500 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 ">
                     Population
                 </div>
                 <button onClick={() => setModal("mapProps")}>

@@ -40,16 +40,16 @@ const Legend = () => {
         <div
             id="sort-by-dropdown"
             ref={ref}
-            className="absolute w-full right-0 my-2 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700"
+            className="absolute w-full right-0 my-2 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow "
         >
             <ul
-                className="py-2 text-sm text-gray-700 dark:text-gray-200"
+                className="py-2 text-sm text-gray-700 "
                 aria-labelledby="dropdown-button"
             >
                 <li>
                     <button
                         type="button"
-                        className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                        className="inline-flex w-full px-4 py-2 hover:bg-gray-100 "
                     >
                         bottomleft
                     </button>
@@ -57,7 +57,7 @@ const Legend = () => {
                 <li>
                     <button
                         type="button"
-                        className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                        className="inline-flex w-full px-4 py-2 hover:bg-gray-100 "
                     >
                         bottomright
                     </button>
@@ -65,7 +65,7 @@ const Legend = () => {
                 <li>
                     <button
                         type="button"
-                        className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                        className="inline-flex w-full px-4 py-2 hover:bg-gray-100 "
                     >
                         topleft
                     </button>
@@ -73,7 +73,7 @@ const Legend = () => {
                 <li>
                     <button
                         type="button"
-                        className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                        className="inline-flex w-full px-4 py-2 hover:bg-gray-100 "
                     >
                         topright
                     </button>
@@ -89,7 +89,7 @@ const Legend = () => {
             className="flex fixed z-50 justify-center items-center w-full h-full bg-gray-800/[0.6] inset-0 max-h-full"
         >
             <div className="relative w-full max-w-md max-h-full">
-                <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <div className="relative bg-white rounded-lg shadow ">
                     <div className="p-2 md:mt-0 flex flex-col">
                         <div className="flex flex-col px-6 space-y-4 my-3">
                             <h3 className="text-lg font-semibold text-black">
@@ -127,7 +127,7 @@ const Legend = () => {
                                     <button
                                         id="dropdown-button"
                                         data-dropdown-toggle="dropdown"
-                                        className="whitespace-nowrap flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-white bg-violet-400 rounded-lg hover:bg-violet-500 focus:outline-none dark:bg-violet-700 dark:hover:bg-violet-600 dark:text-white dark:border-violet-600"
+                                        className="whitespace-nowrap flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-white bg-violet-400 rounded-lg hover:bg-violet-500 focus:outline-none "
                                         type="button"
                                         onClick={() => {setMenu("position")}}
                                     >
