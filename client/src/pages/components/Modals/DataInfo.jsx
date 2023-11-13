@@ -25,7 +25,7 @@ const DataInfo = ({view, containsInput}) => {
         <div
             id="sort-by-dropdown"
             ref={ref}
-            className="absolute w-full right-0 my-2 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-40 dark:bg-gray-700"
+            className="absolute w-full right-0 my-2 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700"
         >
             <ul
                 className="py-2 text-sm text-gray-700 dark:text-gray-200"
