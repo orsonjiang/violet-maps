@@ -116,7 +116,7 @@ const ChooseTemplate = () => {
                     </button>
                 </div>
             </div> 
-        </div> : <DataInfo />}
+        </div> : <DataInfo view={"home"} containsInput={true}/>}
         </div>
     )
 }

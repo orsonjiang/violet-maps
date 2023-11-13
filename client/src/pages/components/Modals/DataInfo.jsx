@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { ChromePicker } from "react-color"
 
-const DataInfo = () => {
+const DataInfo = ({view, containsInput}) => {
     const [menu, setMenu] = useState("none");
 
     const closeMenus = (ref) => {
@@ -66,12 +66,13 @@ const DataInfo = () => {
             </ul>
         </div>
     )
-
+    
+    const styling = "flex fixed z-50 justify-center items-center w-full h-full inset-0 max-h-full " ;
     return (
         <div
             id="popup-modal"
             tabIndex={-1}
-            className="flex fixed z-50 justify-center items-center w-full h-full inset-0 max-h-full"
+            className={view == "home" ? styling : (styling + "bg-gray-800/[0.6]")}
         >
             <div className="relative w-full max-w-md max-h-full">
                 <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
@@ -81,10 +82,12 @@ const DataInfo = () => {
                                 Select Data Properties
                             </h3>
                             <div className="bg-purple-50 rounded-lg p-6 space-y-4">
-                            <div className="text-sm flex gap-3 items-center">
-                                Name:
-                                <input type="text" placeholder="Name your map" className="rounded-lg p-1.5 px-3 bg-white w-full" />
-                            </div>
+                                {containsInput ? 
+                                    <div className="text-sm flex gap-3 items-center">
+                                        Name:
+                                        <input type="text" placeholder="Name your map" className="rounded-lg p-1.5 px-3 bg-white w-full" />
+                                    </div> : "" }
+
                             <div className="text-sm flex gap-3 items-center justify-between">
                                 Data Property:
                                 <div className="relative">
@@ -117,7 +120,7 @@ const DataInfo = () => {
                             </div>
                     
                               
-                            <div className="flex gap-4 items-center mb-3 justify-between">
+                            <div className="flex gap-4 items-center mb-3 justify-between text-sm">
                                 Select Color: 
                                 <div className="flex relative">
                                     <button onClick={() => { setMenu("color") }} className={`w-8 h-8 bg-purple-300`}></button>

@@ -3,6 +3,7 @@ import Modal from "../components/Modals/Modal";
 import MapProps from "../components/Modals/MapProps";
 import { ChromePicker } from "react-color"
 import Legend from "../components/Modals/Legend";
+import DataInfo from "../components/Modals/DataInfo";
 
 const EditMap = () => {
     const [menu, setMenu] = useState("none");
@@ -41,6 +42,9 @@ const EditMap = () => {
         }
         else if (modal == "legend"){
             return (<Legend/>)
+        }
+        else if (modal == "dataProps"){
+            return (<DataInfo view={"edit"} containsInput={false} />)
         }
     }
 
@@ -321,12 +325,12 @@ const EditMap = () => {
                     {menu == "dataProperty" ? dataPropertyMenu : null}
                 </div>
                 {border}
-                <button className="px-1 hover:bg-violet-100">
+                <button className="px-1 hover:bg-violet-100" onClick={() => {setModalType("dataProps")}}>
                     <i className="fa-solid fa-plus mr-1.5"></i>
                     Bubbles
                 </button>
                 {border}
-                <button className="px-1 hover:bg-violet-100">
+                <button className="px-1 hover:bg-violet-100" onClick={() => { setModalType("dataProps") }}>
                     <i className="fa-solid fa-plus mr-1.5"></i>
                     Heat Map
                 </button>

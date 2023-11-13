@@ -7,12 +7,7 @@ const Map = () => {
     const [menu, setMenu] = useState("none");
 
     const openModal = (type) => {
-        if (modal){
-            setModal("");
-        }
-        else if (type == "fork"){
-            setModal("fork");
-        }
+        setModal(type);
     }
 
     const closeMenus = (ref) => {
@@ -98,7 +93,7 @@ const Map = () => {
                                 </button>
                                 {menu == "export" ? exportMenu : null}
                             </div>
-                        <button className='rounded-full bg-[#8187DC] py-1.5 px-4 shadow-lg text-white'><i class="fa-solid fa-copy pr-2" onClick={() => {openModal("fork")}}></i>Fork</button>
+                        <button className='rounded-full bg-[#8187DC] py-1.5 px-4 shadow-lg text-white' onClick={() => { openModal("fork") }}><i class="fa-solid fa-copy pr-2" ></i>Fork</button>
                         </div>
                     </div>
                 

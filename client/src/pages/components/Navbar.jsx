@@ -26,7 +26,7 @@ const Navbar = () => {
     return (
         <nav className="bg-gradient-to-r from-violet-300 to-indigo-300 dark:bg-gray-900 p-3">
             <div className="flex gap-4 items-center pl-2">
-                <i className="fa fa-home text-xl text-white" />
+                <Link to={"/app/home"}><i className="fa fa-home text-xl text-white" /></Link>
                 <i className="fas fa-globe-americas text-xl text-violet-100" />
                 <div className="flex w-full">
                     <div className="relative">
