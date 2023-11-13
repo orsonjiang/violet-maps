@@ -10,7 +10,7 @@ const Modal = ({title, description, inputText, containsInput}) => {
             className="flex fixed z-50 justify-center items-center w-full h-full bg-gray-800/[0.6] inset-0 max-h-full"
         >
             <div className="relative w-full max-w-md max-h-full">
-                <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <div className="relative bg-white rounded-lg shadow ">
                     <div className="p-2 md:mt-0 flex flex-col">
                         <div className="flex flex-col px-6 space-y-4 my-3">
                             <h3 className="text-lg font-semibold text-black">

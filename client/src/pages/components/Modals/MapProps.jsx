@@ -6,7 +6,7 @@ const MapProps = () => {
             className="flex fixed z-50 justify-center items-center w-full h-full inset-0 max-h-full bg-gray-800/[0.6]"
         >
             <div className="relative w-full max-w-sm max-h-full ">
-                <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <div className="relative bg-white rounded-lg shadow ">
                     <div className="p-2 md:mt-0 flex flex-col">
                         <div className="flex flex-col px-4 lg:py-0 space-y-5 my-3">
                             <h3 className="text-lg font-semibold  text-black text-left">

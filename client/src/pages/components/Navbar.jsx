@@ -24,7 +24,7 @@ const Navbar = () => {
     const setSearchBy = () => {};
 
     return (
-        <nav className="bg-gradient-to-r from-violet-300 to-indigo-300 dark:bg-gray-900 p-3">
+        <nav className="bg-gradient-to-r from-violet-300 to-indigo-300 p-3">
             <div className="flex gap-4 items-center pl-2">
                 <Link to={"/app/home"}><i className="fa fa-home text-xl text-white" /></Link>
                 <i className="fas fa-globe-americas text-xl text-violet-100" />
@@ -33,7 +33,7 @@ const Navbar = () => {
                         <button
                             id="dropdown-button"
                             data-dropdown-toggle="dropdown"
-                            className="whitespace-nowrap flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:outline-none dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white dark:border-gray-600"
+                            className="whitespace-nowrap flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:outline-none "
                             type="button"
                             onClick={() => {setMenu("searchBy")}}
                         >
@@ -58,16 +58,16 @@ const Navbar = () => {
                         <div
                             id="search-by-dropdown"
                             ref={ref}
-                            className="absolute my-2 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
+                            className="absolute my-2 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 "
                         >
                             <ul
-                                className="py-2 text-sm text-gray-700 dark:text-gray-200"
+                                className="py-2 text-sm text-gray-700 "
                                 aria-labelledby="dropdown-button"
                             >
                                 <li>
                                     <button
                                         type="button"
-                                        className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                        className="inline-flex w-full px-4 py-2 hover:bg-gray-100 "
                                     >
                                         Map Name
                                     </button>
@@ -75,7 +75,7 @@ const Navbar = () => {
                                 <li>
                                     <button
                                         type="button"
-                                        className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                        className="inline-flex w-full px-4 py-2 hover:bg-gray-100 "
                                     >
                                         Map Properties
                                     </button>
@@ -83,7 +83,7 @@ const Navbar = () => {
                                 <li>
                                     <button
                                         type="button"
-                                        className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                        className="inline-flex w-full px-4 py-2 hover:bg-gray-100 "
                                     >
                                         Username
                                     </button>
@@ -95,13 +95,13 @@ const Navbar = () => {
                         <input
                             type="search"
                             id="search-dropdown"
-                            className="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                            className="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300  "
                             placeholder="Search maps"
                             required=""
                         />
                         <button
                             type="submit"
-                            className="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-indigo-500 rounded-e-lg border border-indigo-500 hover:bg-indigo-600 focus:outline-none dark:bg-indigo-400 dark:hover:bg-indigo-500"
+                            className="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-indigo-500 rounded-e-lg border border-indigo-500 hover:bg-indigo-600 focus:outline-none "
                         >
                             <svg
                                 className="w-4 h-4"
@@ -132,14 +132,14 @@ const Navbar = () => {
                     {menu == "profile" ?
                     <div
                         ref={ref}
-                        className="absolute right-0 z-50 my-2 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
+                        className="absolute right-0 z-50 my-2 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow "
                         id="user-dropdown"
                     >
                         <div className="px-4 py-3">
-                            <span className="block text-sm text-gray-900 dark:text-white">
+                            <span className="block text-sm text-gray-900 ">
                                 Kayla Fang
                             </span>
-                            <span className="block text-sm  text-gray-500 truncate dark:text-gray-400">
+                            <span className="block text-sm  text-gray-500 truncate ">
                                 kayla.fang@stonybrook.edu
                             </span>
                         </div>
@@ -147,7 +147,7 @@ const Navbar = () => {
                             <li>
                                 <Link to={"/"}>
                                     <button
-                                        className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                                        className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 "
                                     >
                                         Sign out
                                     </button>

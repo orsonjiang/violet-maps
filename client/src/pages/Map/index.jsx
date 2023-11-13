@@ -30,27 +30,27 @@ const Map = () => {
     const exportMenu = (
         <div
             ref={ref}
-            className="absolute w-28 left-[-3px] z-50 my-9 text-xs list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
+            className="absolute w-28 left-[-3px] z-50 my-9 text-xs list-none bg-white divide-y divide-gray-100 rounded-lg shadow "
             id="user-dropdown"
         >
             <ul className="py-2" aria-labelledby="user-menu-button">
                 <li>
                     <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
                     >
                         PNG
                     </button>
                 </li>
                 <li>
                     <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
                     >
                         JPG
                     </button>
                 </li>
                 <li>
                     <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
                     >
                         JSON
                     </button>
@@ -72,13 +72,13 @@ const Map = () => {
                             <h3 className='font-semibold text-lg'>Map of Europe</h3>
                             <h4 className="">Jane Kim</h4>
                             <div className="flex gap-3 items-center mt-3 text-xs whitespace-nowrap">
-                                <div className=" bg-violet-200 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 dark:bg-violet-600 dark:hover:bg-violet-700">
+                                <div className=" bg-violet-200 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 ">
                                     Heat Map
                                 </div>
-                                <div className=" bg-violet-200 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 dark:bg-violet-600 dark:hover:bg-violet-700">
+                                <div className=" bg-violet-200 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 ">
                                     Europe
                                 </div>
-                                <div className="bg-violet-200 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 dark:bg-violet-600 dark:hover:bg-violet-700">
+                                <div className="bg-violet-200 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 ">
                                     Labels
                                 </div>
                             </div>
