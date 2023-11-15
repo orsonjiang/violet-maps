@@ -1,5 +1,5 @@
 import MapCard from './components/MapCard';
-import UploadMap from '../components/Modals/UploadMap';
+import UploadMap from '../../components/Modals/UploadMap';
 import { useState, useEffect, useRef } from "react";
 import { Link } from 'react-router-dom';
 
