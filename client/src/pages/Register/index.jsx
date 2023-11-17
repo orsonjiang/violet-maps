@@ -81,7 +81,7 @@ const Register = () => {
                                     <Link to={"/login"}>
                                         <button
                                             type="submit"
-                                            className="text-white bg-[#8187DC] rounded-full py-1.5 px-6 shadow-lg text-center focus:outline-none focus:ring-2 focus:ring-purple-300 font-medium"
+                                            className="text-white bg-accent rounded-full py-1.5 px-6 shadow-lg text-center focus:outline-none focus:ring-2 focus:ring-purple-300 font-medium"
                                         >
                                             Register
                                         </button>

@@ -97,7 +97,7 @@ const Legend = () => {
                             </h3>
                             <div className="text-sm flex gap-3 items-center">
                                 Name:
-                                <input type="text" placeholder="Name your legend" className="rounded-lg p-1.5 px-3 bg-gray-100 w-full"/>
+                                <input type="text" placeholder="Name your legend" className="rounded-lg p-1.5 px-3 bg-gray-100 w-full" />
                             </div>
                             <div className="text-[14px] bg-purple-100 rounded-lg py-3 px-6 justify-center">
                                 {legendData.map((row, index) => {
@@ -105,7 +105,7 @@ const Legend = () => {
                                         <div key={index}>
                                             <ol className="list-decimal list-inside my-3">
                                                 <li className="flex gap-4 items-center">
-                                                    <button style={{backgroundColor: `${row.color}`}} className={`w-11 h-8`}></button>
+                                                    <button style={{ backgroundColor: `${row.color}` }} className={`w-11 h-8`}></button>
                                                     <div className="w-full">{row.description}</div>
                                                     <i className="fa fa-edit mr-2 text-xl text-gray-500" />
                                                 </li>
@@ -115,11 +115,11 @@ const Legend = () => {
                                 })}
                                 <div className="flex gap-4 items-center mb-3">
                                     <div className="flex relative">
-                                        <button onClick={() => {setMenu("color")}} className={`w-8 h-8 bg-white`}></button>
+                                        <button onClick={() => { setMenu("color") }} className={`w-8 h-8 bg-white`}></button>
                                         {menu == "color" ? <div ref={ref} className="absolute left-[-3px] z-50 my-10"><ChromePicker /></div> : null}
                                     </div>
-                                    <input type="text" placeholder="Description" className="rounded-lg p-1.5 px-3 w-full"/>
-                                </div>                                
+                                    <input type="text" placeholder="Description" className="rounded-lg p-1.5 px-3 w-full" />
+                                </div>
                             </div>
                             <div className="text-sm flex gap-3 items-center justify-between">
                                 Position:
@@ -129,7 +129,7 @@ const Legend = () => {
                                         data-dropdown-toggle="dropdown"
                                         className="whitespace-nowrap flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-white bg-violet-400 rounded-lg hover:bg-violet-500 focus:outline-none "
                                         type="button"
-                                        onClick={() => {setMenu("position")}}
+                                        onClick={() => { setMenu("position") }}
                                     >
                                         bottomleft
                                         <svg
@@ -148,7 +148,7 @@ const Legend = () => {
                                             />
                                         </svg>
                                     </button>
-                                    { menu == "position" ? legendPositionMenu : null}
+                                    {menu == "position" ? legendPositionMenu : null}
                                 </div>
                             </div>
                             <div className='grid grid-cols-4 grid-row-1 py-1'>
@@ -156,7 +156,7 @@ const Legend = () => {
                                     <button
                                         data-modal-hide="popup-modal"
                                         type="button"
-                                        className="w-1/2 text-white bg-[#8187DC] rounded-full py-1.5 px-5 shadow-md text-center focus:outline-none focus:ring-2 focus:ring-purple-300 font-medium"
+                                        className="w-1/2 text-white bg-accent rounded-full py-1.5 px-5 shadow-md text-center focus:outline-none focus:ring-2 focus:ring-purple-300 font-medium"
                                     >
                                         Confirm
                                     </button>

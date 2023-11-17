@@ -4,18 +4,18 @@ const Login = () => {
     return (
         <div className="flex flex-col min-h-screen bg-violet-200 justify-center">
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-                <div className="w-[60rem] h-[34rem] bg-white rounded-lg shadow-xl mt-0 max-w-md xl:p-0 ">
-                    <div className="p-6 space-y-4 m-8 ">
+                <div className="flex items-center justify-center w-96 bg-white rounded-lg shadow-xl mt-0 max-w-md xl:p-0 ">
+                    <div className="p-6 space-y-4 m-4 ">
                         <h1
                             href="#"
                             className="text-2xl text-center text-indigo-500 font-bold font-italic leading-tight tracking-none "
                         >
                             Violet Maps
-                        </h1> 
+                        </h1>
                         <h2 className="text-center pb-5 font-semibold leading-none tracking-none text-gray-900 text-md ">
                             Sign in to your account
                         </h2>
-                        <form className="space-y-4 md:space-y-4" action="#">
+                        <form className="space-y-4 md:space-y-4 w-72" action="#">
                             <div>
                                 <input
                                     type="email"
@@ -57,7 +57,7 @@ const Login = () => {
                                     <Link to={"/app/home"}>
                                         <button
                                             type="submit"
-                                            className="rounded-full text-white bg-[#8187DC] py-1.5 px-6 shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-300 font-medium text-md text-center"
+                                            className="rounded-full text-white bg-accent py-1.5 px-6 shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-300 font-medium text-md text-center"
                                         >
                                             Log in
                                         </button>
