@@ -35,7 +35,6 @@ const loginUser = async (req, res) => {
 		})
 			.status(200)
 			.json({
-				success: true,
 				user: {
 					_id: existingUser._id,
 					username: existingUser.username,
@@ -104,7 +103,6 @@ const registerUser = async (req, res) => {
 		})
 			.status(200)
 			.json({
-				success: true,
 				user: {
 					_id: savedUser._id,
 					username: savedUser.username,
