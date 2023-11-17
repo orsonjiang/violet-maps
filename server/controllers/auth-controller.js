@@ -5,6 +5,60 @@ const { sendError } = require("../helpers");
 const bcrypt = require("bcryptjs");
 
 const loginUser = async (req, res) => {
+	if (req.body && req.body.auto) {
+		auth.verifyToken(req, res);
+
+        if (!req.userId) {
+			res.cookie("token", "", {
+				httpOnly: true,
+				secure: true,
+				sameSite: false,
+				expires: new Date(0),
+			})
+				.status(400)
+				.json({
+					user: {
+						_id: "",
+						username: "",
+						firstName: "",
+						lastName: "",
+						email: "",
+					},
+				});;
+        }
+
+        const loggedInUser = await User.findOne({ _id: req.userId });
+		
+		if (!loggedInUser) {
+			res.cookie("token", "", {
+				httpOnly: true,
+				secure: true,
+				sameSite: false,
+				expires: new Date(0),
+			})
+				.status(400)
+				.json({
+					user: {
+						_id: "",
+						username: "",
+						firstName: "",
+						lastName: "",
+						email: "",
+					},
+				});;
+		}
+
+        return res.status(200).json({
+            user: {
+                _id: loggedInUser._id,
+                username: loggedInUser.username,
+                firstName: loggedInUser.firstName,
+                lastName: loggedInUser.lastName,
+                email: loggedInUser.email,
+            },
+        });
+	}
+
 	try {
 		const { email, password } = req.body;
 

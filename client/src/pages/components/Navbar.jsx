@@ -12,7 +12,6 @@ const Navbar = () => {
     const [menu, setMenu] = useState('none');
 
     const { user } = useSelector((state) => state.user);
-    console.log(user);
 
     const handleLogout = async () => {
         const req = await auths.postLogout();
@@ -161,7 +160,7 @@ const Navbar = () => {
                     {menu == 'profile' ? (
                         <div
                             ref={ref}
-                            className="absolute right-0 z-50 my-2 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow w-32"
+                            className="absolute right-0 z-50 my-2 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow min-w-32"
                             id="user-dropdown"
                         >
                             {user._id === '' ? (
@@ -202,14 +201,6 @@ const Navbar = () => {
                                             </button>
                                         </li>
                                     </ul>
-                                    <li>
-                                        <button
-                                            className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
-                                            onClick={handleLogout}
-                                        >
-                                            Log out
-                                        </button>
-                                    </li>
                                 </div>
                             )}
                         </div>
