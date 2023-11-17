@@ -55,7 +55,17 @@ const logoutUser = async (req, res) => {
 		secure: true,
 		sameSite: false,
 		expires: new Date(0),
-	}).send();
+	})
+		.status(200)
+		.json({
+			user: {
+				_id: "",
+				username: "",
+				firstName: "",
+				lastName: "",
+				email: "",
+			},
+		});;
 };
 
 const registerUser = async (req, res) => {

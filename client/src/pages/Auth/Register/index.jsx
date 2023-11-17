@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import auth from '../../../api/auth';
 import store from '../../../store';
@@ -7,6 +7,8 @@ import Form from '../components/Form';
 import Field from '../components/Field';
 
 const Register = () => {
+    const navigate = useNavigate();
+
     const handleRegister = async (e) => {
         e.preventDefault();
 
@@ -28,6 +30,7 @@ const Register = () => {
         const req = await auth.postRegister(data);
         if (req.status === 200) {
             store.dispatch(setUser(req.data));
+            navigate("/app/home");
         } else {
             console.log(req.error);
         }

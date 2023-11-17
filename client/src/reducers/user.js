@@ -15,7 +15,7 @@ const user = (state = initialState, action) => {
 		case SET_USER:
 			return {
 				...state,
-				user: action.payload
+				...action.payload
 			}
 
 		default:
