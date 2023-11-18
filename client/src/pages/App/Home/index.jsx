@@ -1,14 +1,20 @@
 import MapCard from './components/MapCard';
 import UploadMap from '../../components/Modals/UploadMap';
 import { useState, useEffect, useRef } from "react";
+import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+// import store from '../../../store';
+import { openModal } from '../../../actions/modal';
 
 const Home = () => {
     const [menu, setMenu] = useState("none");
-    const [modal, setModal] = useState(false);
+    // const [modal, setModal] = useState(false);
+    const currentModal = useSelector((state)=> state.modal.currentModal);
 
-    const openModal = () => {
-        setModal(true);
+    const dispatch = useDispatch()
+
+    const openUploadModal = () => {
+        dispatch(openModal("UPLOAD_MAP"));
     }
 
     const closeMenus = (ref) => {
@@ -89,13 +95,13 @@ const Home = () => {
 
     return (
         <div className="my-6 mx-20">
-            {modal ? <UploadMap /> : ""}
+            {currentModal == "UPLOAD_MAP" ? <UploadMap /> : ""}
             <div className='flex justify-between items-center'>
                 <div className="my-6 text-2xl font-semibold">
                     Your Library
                 </div>
                 <div className='flex gap-3 items-center'>
-                    <button className='h-fit py-2.5 px-4 rounded-lg text-white text-sm bg-indigo-400 hover:bg-indigo-500' onClick={openModal}>
+                    <button className='h-fit py-2.5 px-4 rounded-lg text-white text-sm bg-indigo-400 hover:bg-indigo-500' onClick={openUploadModal}>
                         Create Map
                     </button>
                     <div className="relative">

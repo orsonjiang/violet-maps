@@ -16,7 +16,7 @@ import { CLOSE_MODAL, OPEN_MODAL } from "../action-types/modal-types";
 // }
 
 const initialState = {
-    currentModal: null
+    currentModal: "NONE"
 }
 
 const modal = (state = initialState, action)=> {
@@ -27,7 +27,7 @@ const modal = (state = initialState, action)=> {
             }
         case CLOSE_MODAL:
             return {
-                currentModal: null
+                currentModal: "NONE"
             }
         default:
             return state;
