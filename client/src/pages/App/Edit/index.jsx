@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from "react";
-import Modal from "../components/Modals/Modal";
-import MapProps from "../components/Modals/MapProps";
+import Modal from "../../components/Modals/Modal";
+import MapProps from "../../components/Modals/MapProps";
 import { ChromePicker } from "react-color"
-import Legend from "../components/Modals/Legend";
-import DataInfo from "../components/Modals/DataInfo";
+import Legend from "../../components/Modals/Legend";
+import DataInfo from "../../components/Modals/DataInfo";
 
 const EditMap = () => {
     const [menu, setMenu] = useState("none");

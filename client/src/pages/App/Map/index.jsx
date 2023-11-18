@@ -1,10 +1,20 @@
 import CommentCard from "./components/CommentCard";
-import Modal from "../components/Modals/Modal";
+import Modal from "../../components/Modals/Modal";
 import { useState, useRef, useEffect } from 'react';
 
 const Map = () => {
     const [modal, setModal] = useState("");
     const [menu, setMenu] = useState("none");
+
+    useEffect(() => {
+        var map = L.map('map').setView([51.505, -0.09], 13);
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+        
+    }, [])
 
     const openModal = (type) => {
         setModal(type);
@@ -63,10 +73,12 @@ const Map = () => {
         <div className="md:grid grid-cols-3 gap-5 m-10 pb-10 max-md:block">
             {modal == "fork" ? <Modal title={"Fork Map?"} description={"Confirm by typing a name for the Map of Europe"} inputText={"Enter Map Name"} containsInput={true} /> : ""}
             <div className='col-span-2'>
-                <img
+                {/* <img
                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/A_large_blank_world_map_with_oceans_marked_in_blue.PNG/1024px-A_large_blank_world_map_with_oceans_marked_in_blue.PNG"
                     alt="map-image"
-                    className="rounded-lg shadow-md" />
+                    className="rounded-lg shadow-md" /> */}
+
+                <div id="map" className="h-96 rounded-lg shadow-md"></div>
                 <div className='grid grid-cols-3 grid-row-2 my-4'>
                     <div className='col-span-1 row-span-2'>
                         <h3 className='font-semibold text-lg'>Map of Europe</h3>

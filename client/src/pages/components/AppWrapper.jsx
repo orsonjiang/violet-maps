@@ -1,13 +1,27 @@
 import { useParams } from 'react-router-dom';
 
 import Navbar from './Navbar';
-import Modal from './Modals/Modal';
-import Home from '../Home';
-import Map from '../Map';
-import EditMap from '../EditMap';
+import Home from '../App/Home';
+import Map from '../App/Map';
+import Edit from '../App/Edit';
+import { useEffect } from 'react';
+import auths from '../../api/auth';
+import store from '../../store';
+import { setUser } from '../../actions/user';
 
 const AppWrapper = () => {
     let { view } = useParams();
+
+    useEffect(() => {
+        const autoLogin = async () => {
+            const req = await auths.postLogin({ auto: true });
+
+            if (req.status === 200) {
+                store.dispatch(setUser(req.data));
+            }
+        };
+        autoLogin();
+    }, []);
 
     const renderView = () => {
         switch (view) {
@@ -18,7 +32,7 @@ const AppWrapper = () => {
                 return <Map />;
 
             case 'editmap':
-                return <EditMap />;
+                return <Edit />;
 
             default:
                 return <div></div>;
@@ -28,7 +42,6 @@ const AppWrapper = () => {
     return (
         <div>
             <Navbar />
-			{/* <Modal title={"Rename Map?"} description={"Confirm by typing a name for the Map of Europe"} containsInput={true} /> */}
             {renderView()}
         </div>
     );

@@ -19,8 +19,8 @@ app.use(express.json())
 app.use(cookieParser())
 
 // SETUP OUR OWN ROUTERS AS MIDDLEWARE
-// const authRouter = require('./routes/auth-router')
-// app.use('/auth', authRouter)
+const authRouter = require('./routes/auth-router')
+app.use('/auth', authRouter)
 
 const apiRouter = require('./routes/api-router')
 app.use('/api', apiRouter)
