@@ -1,5 +1,7 @@
 import { useState } from "react";
 import ChooseTemplate from "./ChooseTemplate";
+import { closeModal } from "../../../actions/modal";
+import { useDispatch } from 'react-redux';
 
 const UploadMap = () => {
 
@@ -9,6 +11,12 @@ const UploadMap = () => {
         if (step === "template") {
             setContent("template")
         }
+    }
+
+    const dispatch = useDispatch()
+
+    const closeUploadModal = () => {
+        dispatch(closeModal());
     }
 
     return (
@@ -52,7 +60,7 @@ const UploadMap = () => {
 
                                 <div className="bg-purple-100 rounded-lg p-6 flex justify-center text-center text-[#938F99] border-dotted border-2 border-[#560BAD]">
                                     <div>
-                                        <i class="fa-solid fa-cloud-arrow-up text-[2rem] mb-4"></i>
+                                        <i className="fa-solid fa-cloud-arrow-up text-[2rem] mb-4"></i>
                                         <div className="flex space-x-1">
                                             <p className="font-semibold underline">Click to upload</p>
                                             <p>or drag and drop</p>
@@ -75,6 +83,7 @@ const UploadMap = () => {
                                             data-modal-hide="popup-modal"
                                             type="button"
                                             className="w-1/2 text-[#686868] bg-[#D9D9D9] rounded-full py-1.5 px-5 shadow-md text-center focus:outline-none focus:ring-2 focus:ring-gray-500 font-medium"
+                                            onClick={closeUploadModal}
                                         >
                                             Cancel
                                         </button>
