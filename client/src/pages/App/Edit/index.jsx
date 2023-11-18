@@ -1,10 +1,34 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Modal from "../../components/Modals/Modal";
 import MapProps from "../../components/Modals/MapProps";
 import Toolbar from "./components/Toolbar";
+import * as L from 'leaflet';
 
 const EditMap = () => {
+    const map = useRef(null);
     const [modal, setModal] = useState("");
+
+    useEffect(() => {
+        if (!map.current) {
+            map.current = L.map('map').setView([39.74739, -105], 2);
+
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution:
+                '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+            }).addTo(map.current);
+
+            var southWest = L.latLng(-90, -180);
+            var northEast = L.latLng(90, 180);
+            var bounds = L.latLngBounds(southWest, northEast);
+
+            map.current.setMaxBounds(bounds);
+            map.current.on('drag', function() {
+                map.current.panInsideBounds(bounds, { animate: false });
+            });
+        }
+       
+    }, [])
 
     const setModalType = (type) => {
         
@@ -36,11 +60,12 @@ const EditMap = () => {
             </div>
             <Toolbar />
             <div className="w-full p-4 rounded">
-                <img
+                <div id="map" className="h-[60vh]"></div>
+                {/* <img
                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/A_large_blank_world_map_with_oceans_marked_in_blue.PNG/2560px-A_large_blank_world_map_with_oceans_marked_in_blue.PNG"
                     alt="map-image"
                     className="rounded-lg"
-                />
+                /> */}
             </div>
             <div className="flex gap-3 items-center mx-3 my-3">
                 <div className="text-white bg-violet-400 hover:bg-violet-500 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 ">
