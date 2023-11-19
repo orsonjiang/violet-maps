@@ -4,6 +4,7 @@ import { closeModal } from "../../../actions/modal";
 import { useDispatch } from 'react-redux';
 import * as shapefile from 'shapefile';
 import { kml } from '@tmcw/togeojson';
+import { createMap } from "../../../actions/map";
 
 const UploadMap = () => {
     const fileInput = useRef(null);
@@ -84,11 +85,11 @@ const UploadMap = () => {
                 if (validExt(files[0].name, '.shp') && validExt(files[1].name, '.dbf')) {
                     shp = await readFileAsArrayBuffer(files[0]);
                     dbf = await readFileAsArrayBuffer(files[1]);
-                    setFilename(files[0].name + " " + files[1].name);
+                    setFilename(files[0].name + ", " + files[1].name);
                 } else if (validExt(files[0].name, '.dbf') && validExt(files[1].name, '.shp')) {
                     shp = await readFileAsArrayBuffer(files[1]);
                     dbf = await readFileAsArrayBuffer(files[0]);
-                    setFilename(files[0].name + " " + files[1].name);
+                    setFilename(files[0].name + ", " + files[1].name);
                 } else {
                     setError(
                         'The file formats of the two files you have uploaded are incorrect. One file should be a SHP file and one file should be a DBF file.'
@@ -107,6 +108,7 @@ const UploadMap = () => {
     };
 
     const handleClickConfirm = () => {
+        dispatch(createMap(geojson));
         changeContent("template")
     }
 

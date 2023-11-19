@@ -3,6 +3,8 @@ import { ChromePicker } from "react-color"
 
 const DataInfo = ({view, containsInput}) => {
     const [menu, setMenu] = useState("none");
+    const [dataProp, setDataProp] = useState("");
+    const [name, setName] = useState("");
 
     const closeMenus = (ref) => {
         useEffect(() => {
@@ -20,6 +22,11 @@ const DataInfo = ({view, containsInput}) => {
 
     const ref = useRef(null);
     closeMenus(ref);
+
+    const handleNameChange = (event) => {
+        setName(event.target.value);
+        console.log(name);
+    }
 
     const dataPropsMenu = (
         <div
@@ -85,7 +92,7 @@ const DataInfo = ({view, containsInput}) => {
                                 {containsInput ? 
                                     <div className="text-sm flex gap-3 items-center">
                                         Name:
-                                        <input type="text" placeholder="Name your map" className="rounded-lg p-1.5 px-3 bg-white w-full" />
+                                        <input type="text" onChange={handleNameChange} placeholder="Name your map" className="rounded-lg p-1.5 px-3 bg-white w-full" />
                                     </div> : "" }
 
                             <div className="text-sm flex gap-3 items-center justify-between">

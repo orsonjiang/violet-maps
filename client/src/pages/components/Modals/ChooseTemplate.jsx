@@ -1,14 +1,27 @@
 import { useState } from "react";
 import DataInfo from "./DataInfo";
+import { useDispatch } from 'react-redux';
+import { createMapTemplate } from "../../../actions/map";
 
 const ChooseTemplate = () => {
-
+    const [template, setTemplate] = useState("");
     const [content, setContent] = useState("template");
 
     const changeContent = (step) => {
         if (step === "dataInfo") {
             setContent("dataInfo")
         }
+    }
+
+    const chooseTemplate = (t) => {
+        setTemplate(t);
+    }
+
+    const dispatch = useDispatch()
+
+    const handleClickConfirm = () => {
+        dispatch(createMapTemplate(template));
+        changeContent("dataInfo");
     }
 
 
@@ -48,54 +61,54 @@ const ChooseTemplate = () => {
                 </div>
 
             <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 px-5">
-                <div className="p-2 pt-2 rounded-md bg-white h-full border-[1px] border-[#B998EE] drop-shadow-lg">
+                <button onClick={() => chooseTemplate("")} className="text-left p-2 pt-2 rounded-md bg-white h-full border-[1px] border-[#B998EE] drop-shadow-lg">
                     <img
                         src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/A_large_blank_world_map_with_oceans_marked_in_blue.PNG/640px-A_large_blank_world_map_with_oceans_marked_in_blue.PNG"
                         alt="map-image"
                         className="border-[1px] border-[#B998EE]"
                     />
                     <div className="text-sm font-semibold mt-2">Blank Map</div>
-                </div>
-                <div className="p-2 pt-2 rounded-md bg-white h-full border-[1px] border-[#B998EE] drop-shadow-lg">
+                </button>
+                <button onClick={() => chooseTemplate("heat")} className="text-left p-2 pt-2 rounded-md bg-white h-full border-[1px] border-[#B998EE] drop-shadow-lg">
                     <img
                         src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/A_large_blank_world_map_with_oceans_marked_in_blue.PNG/640px-A_large_blank_world_map_with_oceans_marked_in_blue.PNG"
                         alt="map-image"
                         className="border-[1px] border-[#B998EE]"
                     />
                     <div className="text-sm font-semibold mt-2">Heat Map</div>
-                </div>
-                <div className="p-2 pt-2 rounded-md bg-white h-full border-[1px] border-[#B998EE] drop-shadow-lg">
+                </button>
+                <button onClick={() => chooseTemplate("choropleth")} className="text-left p-2 pt-2 rounded-md bg-white h-full border-[1px] border-[#B998EE] drop-shadow-lg">
                     <img
                         src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/A_large_blank_world_map_with_oceans_marked_in_blue.PNG/640px-A_large_blank_world_map_with_oceans_marked_in_blue.PNG"
                         alt="map-image"
                         className="border-[1px] border-[#B998EE]"
                     />
                     <div className="text-sm font-semibold mt-2">Choropleth Map</div>
-                </div>
-                <div className="p-2 pt-2 rounded-md bg-white h-full border-[1px] border-[#B998EE] drop-shadow-lg">
+                </button>
+                <button onClick={() => chooseTemplate("string")} className="text-left p-2 pt-2 rounded-md bg-white h-full border-[1px] border-[#B998EE] drop-shadow-lg">
                     <img
                         src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/A_large_blank_world_map_with_oceans_marked_in_blue.PNG/640px-A_large_blank_world_map_with_oceans_marked_in_blue.PNG"
                         alt="map-image"
                         className="border-[1px] border-[#B998EE]"
                     />
-                    <div className="text-sm font-semibold mt-2">Graphic Marker Map</div>
-                </div>
-                <div className="p-2 pt-2 rounded-md bg-white h-full border-[1px] border-[#B998EE] drop-shadow-lg">
+                    <div className="text-sm font-semibold mt-2">String Map</div>
+                </button>
+                <button onClick={() => chooseTemplate("numerical")} className="text-left p-2 pt-2 rounded-md bg-white h-full border-[1px] border-[#B998EE] drop-shadow-lg">
                     <img
                         src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/A_large_blank_world_map_with_oceans_marked_in_blue.PNG/640px-A_large_blank_world_map_with_oceans_marked_in_blue.PNG"
                         alt="map-image"
                         className="border-[1px] border-[#B998EE]"
                     />
                     <div className="text-sm font-semibold mt-2">Numerical Map</div>
-                </div>
-                <div className="p-2 pt-2 rounded-md bg-white h-full border-[1px] border-[#B998EE] drop-shadow-lg">
+                </button>
+                <button onClick={() => chooseTemplate("bubble")} className="text-left p-2 pt-2 rounded-md bg-white h-full border-[1px] border-[#B998EE] drop-shadow-lg">
                     <img
                         src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/A_large_blank_world_map_with_oceans_marked_in_blue.PNG/640px-A_large_blank_world_map_with_oceans_marked_in_blue.PNG"
                         alt="map-image"
                         className="border-[1px] border-[#B998EE]"
                     />
                     <div className="text-sm font-semibold mt-2">Bubble Map</div>
-                </div>
+                </button>
             </div>
             <div className='flex m-4 pb-4'>
                 <div className='flex space-x-2 justify-end text-sm'>
@@ -103,7 +116,7 @@ const ChooseTemplate = () => {
                         data-modal-hide="popup-modal"
                         type="button"
                         className="w-1/2 text-white bg-[#8187DC] rounded-full py-1.5 px-5 shadow-md text-center focus:outline-none focus:ring-2 focus:ring-purple-300 font-medium"
-                        onClick={() => { changeContent("dataInfo") }}
+                        onClick={() => handleClickConfirm()}
                     >
                         Confirm
                     </button>
