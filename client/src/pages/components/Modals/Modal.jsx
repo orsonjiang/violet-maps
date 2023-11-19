@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const Modal = ({ title, description, inputText, containsInput }) => {
+const Modal = ({title, description, inputText, containsInput}) => {
 
 
     return (
@@ -28,15 +28,15 @@ const Modal = ({ title, description, inputText, containsInput }) => {
                                             required=""
                                         />
                                     </div> : ""}
-
+                                
                             </div>
-
+                            
                             <div className='grid grid-cols-4 grid-row-1 py-1'>
                                 <div className='col-span-2 flex space-x-2 justify-end text-sm'>
                                     <button
                                         data-modal-hide="popup-modal"
                                         type="button"
-                                        className="w-1/2 text-white bg-accent rounded-full py-1.5 px-5 shadow-md text-center focus:outline-none focus:ring-2 focus:ring-purple-300 font-medium"
+                                        className="w-1/2 text-white bg-[#8187DC] rounded-full py-1.5 px-5 shadow-md text-center focus:outline-none focus:ring-2 focus:ring-purple-300 font-medium"
                                     >
                                         Confirm
                                     </button>

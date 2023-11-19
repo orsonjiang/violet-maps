@@ -5,9 +5,11 @@ import store from '../../../store';
 import { setUser } from '../../../actions/user';
 import Form from '../components/Form';
 import Field from '../components/Field';
+import { useState } from 'react';
 
 const Register = () => {
     const navigate = useNavigate();
+    const [error, setError] = useState("");
 
     const handleRegister = async (e) => {
         e.preventDefault();
@@ -27,7 +29,10 @@ const Register = () => {
             return;
         }
 
-        const req = await auth.postRegister(data);
+        const req = await auth.postRegister(data).catch((err) => {
+            setError(err.response.data.error)
+        });
+
         if (req.status === 200) {
             store.dispatch(setUser(req.data));
             navigate("/app/home");
@@ -50,7 +55,8 @@ const Register = () => {
                 placeholder="Confirm password"
                 type="password"
             />
-            <p className="text-sm font-semibold text-black py-2">
+            {error != "" ? <div className='text-sm text-center text-red-600'>{error}</div> : ""}
+            <p className="text-sm font-semibold text-black">
                 Already have an account?{' '}
                 <Link
                     to={'/login'}
@@ -59,6 +65,7 @@ const Register = () => {
                     Sign in
                 </Link>
             </p>
+            
             <button className="rounded-full text-white bg-accent py-2 shadow-md hover:outline-none hover:ring-2 hover:ring-purple-300 font-medium text-center">
                 Sign Up
             </button>
