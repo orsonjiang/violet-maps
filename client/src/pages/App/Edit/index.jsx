@@ -48,15 +48,15 @@ const EditMap = () => {
 
     return (
         <div className="text-[13px]">
-            <div className="flex gap-4 mt-7 mb-4 text-2xl font-bold justify-center items-center">
+            <div className="flex gap-4 mt-5 mb-2 text-2xl font-bold justify-center items-center">
                 Map of Europe
                 <button onClick={() => { setModalType("rename")}}>
                     <i className="fa fa-edit mr-2 text-xl text-indigo-500" />
                 </button>
             </div>
-            <div id="map" className="w-full h-[60vh] mt-[65px] !absolute"></div>
+            <div id="map" className="w-full h-[63vh] mt-[65px] !absolute"></div>
             <Toolbar />
-            <div className="relative top-[calc(60vh+80px)] z-[3000] flex gap-3 items-center mx-5 my-3">
+            <div className="relative top-[calc(63vh+75px)] z-[3000] flex gap-3 items-center mx-5 my-3">
                 <div className="text-white bg-violet-400 hover:bg-violet-500 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 ">
                     America
                 </div>
