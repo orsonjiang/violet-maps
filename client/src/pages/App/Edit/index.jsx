@@ -3,6 +3,7 @@ import Modal from "../../components/Modals/Modal";
 import MapProps from "../../components/Modals/MapProps";
 import Toolbar from "./components/Toolbar";
 import * as L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
 const EditMap = () => {
     const map = useRef(null);
@@ -46,29 +47,27 @@ const EditMap = () => {
     }
 
     return (
-        <div className="m-4 text-[13px]">
-            {modal ? openModal() : ""}
-            <div className="flex gap-4 my-5 text-2xl font-bold justify-center items-center">
+        <div className="text-[13px]">
+            <div className="flex gap-4 mt-5 mb-2 text-2xl font-bold justify-center items-center">
                 Map of Europe
                 <button onClick={() => { setModalType("rename")}}>
                     <i className="fa fa-edit mr-2 text-xl text-indigo-500" />
                 </button>
             </div>
+            <div id="map" className="w-full h-[63vh] mt-[65px] !absolute"></div>
             <Toolbar />
-            <div className="w-full p-4 rounded">
-                <div id="map" className="h-[60vh]"></div>
-            </div>
-            <div className="flex gap-3 items-center mx-3 my-3">
+            <div className="relative top-[calc(63vh+75px)] z-[3000] flex gap-3 items-center mx-5 my-3">
                 <div className="text-white bg-violet-400 hover:bg-violet-500 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 ">
                     America
                 </div>
                 <div className="text-white bg-violet-400 hover:bg-violet-500 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 ">
                     Population
                 </div>
-                <button onClick={() => setModal("mapProps")}>
+                <button onClick={() => setModalType("mapProps")}>
                     <i className="fa-solid fa-plus"></i>
                 </button>
             </div>
+            {modal ? openModal() : ""}
         </div>
     );
 };

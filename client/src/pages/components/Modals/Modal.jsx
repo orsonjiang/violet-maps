@@ -7,7 +7,7 @@ const Modal = ({title, description, inputText, containsInput}) => {
         <div
             id="popup-modal"
             tabIndex={-1}
-            className="flex fixed z-50 justify-center items-center w-full h-full bg-gray-800/[0.6] inset-0 max-h-full"
+            className="flex fixed z-[4000] justify-center items-center w-full h-full bg-gray-800/[0.6] inset-0 max-h-full"
         >
             <div className="relative w-full max-w-md max-h-full">
                 <div className="relative bg-white rounded-lg shadow ">
