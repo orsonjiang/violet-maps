@@ -63,7 +63,7 @@ const EditMap = () => {
                 <div className="text-white bg-violet-400 hover:bg-violet-500 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 ">
                     Population
                 </div>
-                <button onClick={() => setModal("mapProps")}>
+                <button onClick={() => setModalType("mapProps")}>
                     <i className="fa-solid fa-plus"></i>
                 </button>
             </div>
