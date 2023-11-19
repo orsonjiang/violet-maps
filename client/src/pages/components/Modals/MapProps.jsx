@@ -3,7 +3,7 @@ const MapProps = () => {
         <div
             id="popup-modal"
             tabIndex={-1}
-            className="flex fixed z-50 justify-center items-center w-full h-full inset-0 max-h-full bg-gray-800/[0.6]"
+            className="flex fixed z-[4000] justify-center items-center w-full h-full inset-0 max-h-full bg-gray-800/[0.6]"
         >
             <div className="relative w-full max-w-sm max-h-full ">
                 <div className="relative bg-white rounded-lg shadow ">

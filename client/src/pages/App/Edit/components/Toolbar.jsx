@@ -223,9 +223,9 @@ const Toolbar = () => {
     )
 
     return (
-        <div>
+        <div className="absolute z-[4000] w-full">
             {modal ? openModal() : ""}
-            <div className="flex flex-wrap bg-white p-2 px-4 m-2 justify-between rounded-lg border-[1px] border-violet-200 drop-shadow-sm">
+            <div className="flex flex-wrap bg-white p-2 px-4 mx-5 my-2 justify-between rounded-lg border-[1px] border-violet-200 drop-shadow-sm">
                 <button className="px-1">
                     <i className="fa-solid fa-rotate-left"></i>
                 </button>
