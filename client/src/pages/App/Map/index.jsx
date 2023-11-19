@@ -1,24 +1,42 @@
 import CommentCard from "./components/CommentCard";
 import Modal from "../../components/Modals/Modal";
 import { useState, useRef, useEffect } from 'react';
+import { useSelector, useDispatch } from "react-redux";
+import { openModal } from "../../../actions/modal";
 
 const Map = () => {
-    const [modal, setModal] = useState("");
+    const map = useRef(null);
     const [menu, setMenu] = useState("none");
 
-    useEffect(() => {
-        var map = L.map('map').setView([51.505, -0.09], 13);
+    const currentModal = useSelector((state) => state.modal.currentModal);
 
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        }).addTo(map);
-        
+    const dispatch = useDispatch();
+
+    const openCurrentModal = (type) => {
+        dispatch(openModal(type))
+    }
+
+    useEffect(() => {
+        if (!map.current) {
+            map.current = L.map('map').setView([39.74739, -105], 2);
+
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution:
+                    '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+            }).addTo(map.current);
+
+            var southWest = L.latLng(-90, -180);
+            var northEast = L.latLng(90, 180);
+            var bounds = L.latLngBounds(southWest, northEast);
+
+            map.current.setMaxBounds(bounds);
+            map.current.on('drag', function () {
+                map.current.panInsideBounds(bounds, { animate: false });
+            });
+        }
     }, [])
 
-    const openModal = (type) => {
-        setModal(type);
-    }
 
     const closeMenus = (ref) => {
         useEffect(() => {
@@ -71,7 +89,7 @@ const Map = () => {
 
     return (
         <div className="md:grid grid-cols-3 gap-5 m-10 pb-10 max-md:block">
-            {modal == "fork" ? <Modal title={"Fork Map?"} description={"Confirm by typing a name for the Map of Europe"} inputText={"Enter Map Name"} containsInput={true} /> : ""}
+            {currentModal == "FORK_MODAL" ? <Modal title={"Fork Map?"} description={"Confirm by typing a name for the Map of Europe"} inputText={"Enter Map Name"} containsInput={true} /> : ""}
             <div className='col-span-2'>
                 {/* <img
                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/A_large_blank_world_map_with_oceans_marked_in_blue.PNG/1024px-A_large_blank_world_map_with_oceans_marked_in_blue.PNG"
@@ -105,7 +123,7 @@ const Map = () => {
                             </button>
                             {menu == "export" ? exportMenu : null}
                         </div>
-                        <button className='rounded-full bg-accent py-1.5 px-4 shadow-lg text-white' onClick={() => { openModal("fork") }}><i class="fa-solid fa-copy pr-2" ></i>Fork</button>
+                        <button className='rounded-full bg-accent py-1.5 px-4 shadow-lg text-white' onClick={() => { openCurrentModal("FORK_MODAL") }}><i class="fa-solid fa-copy pr-2" ></i>Fork</button>
                     </div>
                 </div>
 

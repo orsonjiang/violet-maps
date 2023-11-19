@@ -3,39 +3,43 @@ import { ChromePicker } from "react-color"
 import Modal from "../../../components/Modals/Modal";
 import Legend from "../../../components/Modals/Legend";
 import DataInfo from "../../../components/Modals/DataInfo";
+import { useSelector, useDispatch } from "react-redux";
+import { openModal } from "../../../../actions/modal";
 
 const Toolbar = () => {
     const [menu, setMenu] = useState("none");
-    const [modal, setModal] = useState("");
 
-    const setModalType = (type) => {
-        
-        setModal(type);
+    const currentModal = useSelector((state) => state.modal.currentModal);
+
+    const dispatch = useDispatch();
+
+    const openCurrentModal = (type) => {
+        dispatch(openModal(type))
     }
 
-    const openModal = () => {
-        if (modal == "text"){
+    const selectModal = () => {
+        if (currentModal == "TEXT_MODAL"){
             return (
                 <Modal title={"Add/Edit Label for Region"} description={"Adding value to data property: gdp_value"} inputText={"Enter Value"} containsInput={true} /> 
             )
         }
-        else if (modal == "dataProp"){
+        else if (currentModal == "ADD_DATA_PROP_MODAL"){
             return (
                 <Modal title={"Add New Data Property"} description={"Enter a name for your property"} inputText={"Enter Name"} containsInput={true} />
             )
         }
-        else if (modal == "deleteMap"){
+        else if (currentModal == "DELETE_MAP"){
             return (
                 <Modal title={"Delete Map?"} description={"Please confirm that you want to delete the map."} containsInput={false} />    
             )
         }
-        else if (modal == "publish"){
+        else if (currentModal == "PUBLISH_MODAL"){
             return (<Modal title={"Publish Map?"} description={"Please confirm that you want to publish this map."} containsInput={false} />);
         }
-        else if (modal == "legend"){
+        else if (currentModal == "LEGEND_MODAL"){
             return (<Legend/>)
         }
-        else if (modal == "dataProps"){
+        else if (currentModal == "TAG_MODAL"){
             return (<DataInfo view={"edit"} containsInput={false} />)
         }
     }
@@ -183,7 +187,7 @@ const Toolbar = () => {
                 </li>
             </ul>
             <div className="px-4 py-3 hover:bg-gray-100 rounded-lg ">
-                <button className="block text-violet-500 text-xs  " onClick={() => setModalType("dataProp")}>
+                <button className="block text-violet-500 text-xs  " onClick={() => openCurrentModal("TAG_MODAL")}>
                     + New Data Property
                 </button>
             </div>
@@ -224,7 +228,7 @@ const Toolbar = () => {
 
     return (
         <div className="absolute z-[4000] w-full">
-            {modal ? openModal() : ""}
+            {currentModal ? selectModal() : ""}
             <div className="flex flex-wrap bg-white p-2 px-4 mx-5 my-2 justify-between rounded-lg border-[1px] border-violet-200 drop-shadow-sm">
                 <button className="px-1">
                     <i className="fa-solid fa-rotate-left"></i>
@@ -235,7 +239,7 @@ const Toolbar = () => {
                 {border}
                 <button className="px-1 hover:bg-violet-100">Show Labels</button>
                 {border}
-                <button className="px-1 hover:bg-violet-100" onClick={() => {setModalType("text")}}>Add Text</button>
+                <button className="px-1 hover:bg-violet-100" onClick={() => {openCurrentModal("TEXT_MODAL")}}>Add Text</button>
                 {border}
                 <div className="flex px-1 relative">
                     <button 
@@ -293,7 +297,7 @@ const Toolbar = () => {
                     {menu == "borderColor" ? <div ref={ref} className="absolute left-[-5px] z-50 my-9"><ChromePicker /></div> : null}
                 </div>
                 {border}
-                <button className="px-1 hover:bg-violet-100" onClick={() => {setModalType("legend")}}>Legend</button>
+                <button className="px-1 hover:bg-violet-100" onClick={() => {openCurrentModal("LEGEND_MODAL")}}>Legend</button>
                 {border}
                 <div className="flex px-1 relative">
                     <button 
@@ -306,17 +310,17 @@ const Toolbar = () => {
                     {menu == "dataProperty" ? dataPropertyMenu : null}
                 </div>
                 {border}
-                <button className="px-1 hover:bg-violet-100" onClick={() => {setModalType("dataProps")}}>
+                <button className="px-1 hover:bg-violet-100" onClick={() => {openCurrentModal("ADD_DATA_PROP_MODAL")}}>
                     <i className="fa-solid fa-plus mr-1.5"></i>
                     Bubbles
                 </button>
                 {border}
-                <button className="px-1 hover:bg-violet-100" onClick={() => { setModalType("dataProps") }}>
+                <button className="px-1 hover:bg-violet-100" onClick={() => { openCurrentModal("ADD_DATA_PROP_MODAL") }}>
                     <i className="fa-solid fa-plus mr-1.5"></i>
                     Heat Map
                 </button>
                 {border}
-                <button className="px-1 hover:bg-violet-100" onClick={() => {setModalType("publish")}}>Publish</button>
+                <button className="px-1 hover:bg-violet-100" onClick={() => {openCurrentModal("PUBLISH_MODAL")}}>Publish</button>
                 {border}
                 <div className="flex px-1 relative">
                     <button 
@@ -327,7 +331,7 @@ const Toolbar = () => {
                     </button>
                     {menu == "export" ? exportMenu : null}
                 </div>
-                <button className="px-1" onClick={() => {setModalType("deleteMap")}}>
+                <button className="px-1" onClick={() => {openCurrentModal("DELETE_MAP")}}>
                     <i className="fa-solid fa-trash"></i>
                 </button>
             </div>

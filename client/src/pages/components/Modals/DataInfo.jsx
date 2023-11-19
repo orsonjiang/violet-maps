@@ -1,8 +1,16 @@
 import { useState, useEffect, useRef } from "react";
 import { ChromePicker } from "react-color"
+import { useDispatch } from "react-redux";
+import { closeModal } from "../../../actions/modal";
 
 const DataInfo = ({ view, containsInput }) => {
     const [menu, setMenu] = useState("none");
+
+    const dispatch = useDispatch()
+
+    const closeCurrentModal = () => {
+        dispatch(closeModal());
+    }
 
     const closeMenus = (ref) => {
         useEffect(() => {
@@ -142,7 +150,7 @@ const DataInfo = ({ view, containsInput }) => {
                                     <button
                                         data-modal-hide="popup-modal"
                                         type="button"
-                                        className="w-1/2 text-[#686868] bg-gray-200 rounded-full py-1.5 px-5 shadow-md text-center focus:outline-none focus:ring-2 focus:ring-gray-500 font-medium"
+                                        className="w-1/2 text-[#686868] bg-gray-200 rounded-full py-1.5 px-5 shadow-md text-center focus:outline-none focus:ring-2 focus:ring-gray-500 font-medium" onClick={closeCurrentModal}
                                     >
                                         Cancel
                                     </button>

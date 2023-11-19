@@ -1,5 +1,7 @@
 import { useState } from "react";
 import DataInfo from "./DataInfo";
+import { useDispatch } from "react-redux";
+import { closeModal } from "../../../actions/modal";
 
 const ChooseTemplate = () => {
 
@@ -9,6 +11,12 @@ const ChooseTemplate = () => {
         if (step === "dataInfo") {
             setContent("dataInfo")
         }
+    }
+
+    const dispatch = useDispatch()
+
+    const closeCurrentModal = () => {
+        dispatch(closeModal());
     }
 
 
@@ -89,7 +97,7 @@ const ChooseTemplate = () => {
                             <button
                                 data-modal-hide="popup-modal"
                                 type="button"
-                                className="w-1/2 text-[#686868] bg-[#D9D9D9] rounded-full py-1.5 px-5 shadow-md text-center focus:outline-none focus:ring-2 focus:ring-gray-500 font-medium"
+                                className="w-1/2 text-[#686868] bg-[#D9D9D9] rounded-full py-1.5 px-5 shadow-md text-center focus:outline-none focus:ring-2 focus:ring-gray-500 font-medium" onClick={closeCurrentModal}
                             >
                                 Cancel
                             </button>

@@ -4,10 +4,19 @@ import MapProps from "../../components/Modals/MapProps";
 import Toolbar from "./components/Toolbar";
 import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import { useSelector, useDispatch } from "react-redux";
+import { openModal } from '../../../actions/modal';
 
 const EditMap = () => {
     const map = useRef(null);
-    const [modal, setModal] = useState("");
+
+    const currentModal = useSelector((state) => state.modal.currentModal);
+
+    const dispatch = useDispatch();
+
+    const openCurrentModal = (type) => {
+        dispatch(openModal(type));
+    }
 
     useEffect(() => {
         if (!map.current) {
@@ -31,16 +40,12 @@ const EditMap = () => {
        
     }, [])
 
-    const setModalType = (type) => {
-        
-        setModal(type);
-    }
 
-    const openModal = () => {
-        if (modal == "mapProps"){
+    const selectModal = () => {
+        if (currentModal == "MAP_PROPS_MODAL"){
             return ( <MapProps /> );
         }
-        else if (modal == "rename"){
+        else if (currentModal == "RENAME_MAP"){
             return (<Modal title={"Rename Map?"} description={"Write a new name for the Map of Europe"} inputText={"Enter Map Name"} containsInput={true} />);
 
         }
@@ -50,7 +55,7 @@ const EditMap = () => {
         <div className="text-[13px]">
             <div className="flex gap-4 mt-5 mb-2 text-2xl font-bold justify-center items-center">
                 Map of Europe
-                <button onClick={() => { setModalType("rename")}}>
+                <button onClick={() => { openCurrentModal("RENAME_MAP")}}>
                     <i className="fa fa-edit mr-2 text-xl text-indigo-500" />
                 </button>
             </div>
@@ -63,11 +68,11 @@ const EditMap = () => {
                 <div className="text-white bg-violet-400 hover:bg-violet-500 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 ">
                     Population
                 </div>
-                <button onClick={() => setModalType("mapProps")}>
+                <button onClick={() => { openCurrentModal("MAP_PROPS_MODAL")}}>
                     <i className="fa-solid fa-plus"></i>
                 </button>
             </div>
-            {modal ? openModal() : ""}
+            {currentModal ? selectModal() : ""}
         </div>
     );
 };
