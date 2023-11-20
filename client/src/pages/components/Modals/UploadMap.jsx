@@ -99,8 +99,14 @@ const UploadMap = () => {
     };
 
     const handleClickConfirm = () => {
-        dispatch(createMap(geojson));
-        dispatch(openModal("CHOOSE_TEMPLATE"));
+        if (geojson == null) {
+            setError(
+                'Please upload a file :)'
+            );
+        } else {
+            dispatch(createMap(geojson));
+            dispatch(openModal("CHOOSE_TEMPLATE"));
+        }
     }
 
     return (
