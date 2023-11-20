@@ -41,7 +41,7 @@ const ResetPassword = () => {
                                     <Link to={"/login"}>
                                         <button
                                             type="submit"
-                                            className=" text-white bg-[#8187DC] mt-2 py-1.5 px-6 shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-300 font-medium rounded-full text-md  text-center"
+                                            className=" text-white bg-accent mt-2 py-1.5 px-6 shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-300 font-medium rounded-full text-md  text-center"
                                         >
                                             Confirm
                                         </button>

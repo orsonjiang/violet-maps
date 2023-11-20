@@ -150,11 +150,10 @@ const Navbar = () => {
                         onClick={() => {
                             setMenu('profile');
                         }}
-                        className="h-10 w-10 shadow-none hover:shadow-none font-semibold bg-indigo-200 text-sm p-2 rounded-full shrink-0"
+                        className="flex gap-[1px] items-center justify-center h-10 w-10 shadow-none hover:shadow-none font-semibold bg-indigo-200 text-sm p-2 rounded-full shrink-0"
                     >
-                        {user.firstName.charAt(0) +
-                            ' ' +
-                            user.lastName.charAt(0)}
+                        <p>{user.firstName.charAt(0)}</p>
+                        <p>{user.lastName.charAt(0)}</p>
                     </button>
                     {/* Dropdown menu */}
                     {menu == 'profile' ? (
