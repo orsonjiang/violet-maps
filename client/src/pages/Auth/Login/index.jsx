@@ -1,13 +1,22 @@
 import { Link, useNavigate } from 'react-router-dom';
-
+import { useEffect } from 'react';
 import auth from '../../../api/auth';
 import store from '../../../store';
 import { setUser } from '../../../actions/user';
 import Form from '../components/Form';
 import Field from '../components/Field';
+import { useSelector } from 'react-redux';
 
 const Login = () => {
     const navigate = useNavigate();
+
+    // const { user } = useSelector((state) => state.user);
+
+    // useEffect(() => {
+    //     if (user.email != "") {
+    //         navigate("/app/home");
+    //     }
+    // }, [user.email])
 
     const handleLogin = async (e) => {
         e.preventDefault();

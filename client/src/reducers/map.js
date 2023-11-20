@@ -15,9 +15,9 @@ const map = (state = initialState, action) => {
 	switch (action.type) {
 		case CREATE_MAP:
 			return {
-				...state,
+				...initialState,
                 newMap: {
-                    ...state.newMap,
+                    ...initialState.newMap,
                     data: action.payload
                 }
 			}

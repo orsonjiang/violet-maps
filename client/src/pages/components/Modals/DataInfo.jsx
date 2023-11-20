@@ -3,6 +3,7 @@ import { ChromePicker } from "react-color"
 import { useSelector, useDispatch } from 'react-redux';
 import { createMapProperties } from "../../../actions/map";
 import { closeModal } from "../../../actions/modal";
+import apis from "../../../api/api";
 
 const DataInfo = ({view, containsInput}) => {
     const [menu, setMenu] = useState("none");
@@ -97,12 +98,19 @@ const DataInfo = ({view, containsInput}) => {
 
     const dispatch = useDispatch()
 
+    useEffect(() => {
+        if (newMap.name != "") {
+            apis.postCreateMap(newMap);
+            dispatch(closeModal());
+        }
+    }, [newMap.name])
+
     const handleClickConfirm = () => {
         dispatch(createMapProperties({
             name: name,
             dataProperty: dataProp,
             color: color
-        }))
+        }));
     }
 
     const closeDataInfoModal = () => {

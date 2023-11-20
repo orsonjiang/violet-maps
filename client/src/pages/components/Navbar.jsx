@@ -13,6 +13,12 @@ const Navbar = () => {
 
     const { user } = useSelector((state) => state.user);
 
+    // useEffect(() => {
+    //     if (user.email == "") {
+    //         navigate('/');
+    //     }
+    // },[user.email])
+
     const handleLogout = async () => {
         const req = await auths.postLogout();
         if (req.status === 200) {
