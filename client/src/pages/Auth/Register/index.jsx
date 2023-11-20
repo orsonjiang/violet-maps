@@ -65,8 +65,7 @@ const Register = () => {
                     Sign in
                 </Link>
             </p>
-            
-            <button className="rounded-full text-white bg-accent py-2 shadow-md hover:outline-none hover:ring-2 hover:ring-purple-300 font-medium text-center">
+            <button id="registerButton" className="rounded-full text-white bg-accent py-2 shadow-md hover:outline-none hover:ring-2 hover:ring-purple-300 font-medium text-center">
                 Sign Up
             </button>
         </Form>
