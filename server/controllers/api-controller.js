@@ -43,6 +43,7 @@ createMap = (req, res) => {
         }
     });
 
+    console.log(newMap);
     if (!newMap) {
         return res.status(400).json({ success: false, error: err })
     }
@@ -54,7 +55,7 @@ createMap = (req, res) => {
     })
     .catch(error => {
         return res.status(400).json({
-            errorMessage: "Map Not Created"
+            errorMessage: error
         })
     })
 }

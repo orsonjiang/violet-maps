@@ -8,7 +8,7 @@ import apis from "../../../api/api";
 const DataInfo = ({view}) => {
     const [menu, setMenu] = useState("none");
     const [dataPropList, setDataPropList] = useState([]);
-    const [dataProp, setDataProp] = useState(null);
+    const [dataProp, setDataProp] = useState("N/A");
     const [name, setName] = useState("");
     const [color, setColor] = useState("#D8B4FE");
 
@@ -128,7 +128,7 @@ const DataInfo = ({view}) => {
                     <div className="p-2 md:mt-0 flex flex-col">
                         <div className="flex flex-col px-6 space-y-4 my-3">
                             <h3 className="text-lg font-semibold text-black">
-                                Select Data Info
+                                Enter Data Info
                             </h3>
                             <div className="bg-purple-50 rounded-lg p-6 space-y-4">
                                 <div className="text-sm flex gap-3 items-center">
@@ -147,7 +147,7 @@ const DataInfo = ({view}) => {
                                             type="button"
                                             onClick={() => { setMenu("dataProps") }}
                                         >
-                                            {dataProp != null ? dataProp : "N/A"}
+                                            {dataProp != "N/A" ? dataProp : "N/A"}
                                             <svg
                                                 className="w-2.5 h-2.5 ms-2.5"
                                                 aria-hidden="true"

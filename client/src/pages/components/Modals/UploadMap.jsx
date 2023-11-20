@@ -104,7 +104,11 @@ const UploadMap = () => {
                 'Please upload a file :)'
             );
         } else {
-            dispatch(createMap(geojson));
+            dispatch(createMap({
+                type: geojson.type,
+                features: geojson.features
+            }));
+            console.log(geojson);
             dispatch(openModal("CHOOSE_TEMPLATE"));
         }
     }

@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const GeoJSON = require('mongoose-geojson-schema');
 
 // const MapSchema = new Schema(
 //     {
@@ -54,11 +55,7 @@ const MapSchema = new Schema(
         ownerId: { type: String, required: true },
         tags: [String],
         publishedDate: { type: Date, required: true },
-        data: {
-            type: { type: String },
-            features: [{type: Object}],
-            bbox: [{type: Number}]
-        },
+        data: mongoose.Schema.Types.GeoJSON,
         graphics: {
             fontStyle: { type: String, required: true },
             fontSize: { type: Number, required: true },
