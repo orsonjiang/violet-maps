@@ -42,7 +42,7 @@ describe("login user", () => {
             email: "fake.user@email.com",
             password: "password123"
         }).expect(401).then((res) => {
-            expect(res.body.error).toEqual("No account exists with this email.")
+            expect(res.body.error).toEqual("Wrong email or password provided.")
         })
     })
 

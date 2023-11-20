@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import auth from '../../../api/auth';
 import store from '../../../store';
 import { setUser } from '../../../actions/user';
@@ -9,22 +9,7 @@ import { useSelector } from 'react-redux';
 
 const Login = () => {
     const navigate = useNavigate();
-
-    // const { user } = useSelector((state) => state.user);
-
-    // useEffect(() => {
-    //     if (user.email != "") {
-    //         navigate("/app/home");
-    //     }
-    // }, [user.email])
-
-    // const { user } = useSelector((state) => state.user);
-
-    // useEffect(() => {
-    //     if (user.email != "") {
-    //         navigate("/app/home");
-    //     }
-    // }, [user.email])
+    const [error, setError] = useState("");
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -36,7 +21,10 @@ const Login = () => {
             password: formData.get('password'),
         };
 
-        const req = await auth.postLogin(data);
+        const req = await auth.postLogin(data)
+            .catch((err) => {
+                setError(err.response.data.error)
+            });
         
         if (req.status === 200) {
             store.dispatch(setUser(req.data));
@@ -50,6 +38,7 @@ const Login = () => {
         <Form title="Sign in to your account" onSubmit={handleLogin}>
             <Field id="email" placeholder="Email" />
             <Field id="password" placeholder="Password" type="password" />
+            {error != "" ? <div className='text-sm text-center text-red-600'>{error}</div> : ""}
             <div className="flex justify-start pt-2 pb-4">
                 <Link
                     to={'/requestReset'}
