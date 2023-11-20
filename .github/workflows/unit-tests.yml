@@ -1,0 +1,13 @@
+name: Unit Tests
+
+on:
+  workflow_call
+
+jobs:
+  frontend-tests:
+    uses: ./.github/workflows/frontend-tests.yml
+    secrets: inherit
+
+  backend-tests:
+    uses: ./.github/workflows/backend-tests.yml
+    secrets: inherit
