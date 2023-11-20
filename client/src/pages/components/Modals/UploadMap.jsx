@@ -43,6 +43,7 @@ const UploadMap = () => {
 
     const handleUpload = (event) => {
         setError('');
+        setgeojson(null);
     
         const files = event.target.files;
     
@@ -67,6 +68,7 @@ const UploadMap = () => {
                 setError(
                     'You uploaded one file but the file format was not a JSON file or a KML file. If you are uploading a SHP file, please select a DBF file as well.'
                 );
+                setgeojson(null);
             }
         } else if (files.length == 2) {
             async function asyncFunction() {
@@ -85,6 +87,7 @@ const UploadMap = () => {
                     setError(
                         'The file formats of the two files you have uploaded are incorrect. One file should be a SHP file and one file should be a DBF file.'
                     );
+                    setgeojson(null);
                 }
     
                 shapefile.read(shp, dbf).then((r) => setgeojson(r));
@@ -95,6 +98,7 @@ const UploadMap = () => {
             setError(
                 'You uploaded more than 2 files. Please upload one file if it is a JSON or KML file, or upload two files if you have a SHP + DBF file.'
             );
+            setgeojson(null);
         }
     };
 
