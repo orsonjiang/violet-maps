@@ -70,7 +70,7 @@ const loginUser = async (req, res) => {
 
 		const existingUser = await User.findOne({ email: email });
 		if (!existingUser) {
-			return sendError(res, "No account exists with this email.", 401);
+			return sendError(res, "Wrong email or password provided.", 401);
 		}
 
 		const passwordCorrect = await bcrypt.compare(
