@@ -25,7 +25,7 @@ const Splash = () => {
             </div>
             <div className="flex flex-col p-8 grow justify-center items-center bg-white">
                 <TitleButton title={"Don't have an account?"} buttonText={"Sign Up"} link={"/register"}/>
-                <TitleButton title={"Already have an account?"} buttonText={"Log In"} link={"/login"}/>
+                <TitleButton title={"Alredy have an account?"} buttonText={"Log In"} link={"/login"}/>
                 <TitleButton title={"Want to anonymously browse?"} buttonText={"Continue as Guest"} link={"/app/home"}/>
             </div>
         </div>
