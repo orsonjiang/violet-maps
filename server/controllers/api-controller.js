@@ -1,70 +1,65 @@
-const Comment = require("../models/comment-model")
+const Map = require("../models/MapSchema");
 
-const getComment = async (req, res) => {
-	Comment.find({}, async (err, comments) => {
-		if (err) {
-			return res.status(400).end();
-		}
+createMap = (req, res) => {
+    const body = req.body;
 
-		res.status(200).json({
-			comments: comments
-		})
-	})
-}
+    if (!body) {
+        return res.status(400).json({
+            success: false,
+            error: 'You must provide a map',
+        })
+    }
 
-const addComment = async (req, res) => {
-	if (!req.body || !req.body.content) {
-		return res.status(400).end();
-	}
+    const newMap = new Map({
+        name: body.name,
+        ownerId: "blank",
+        tags: [],
+        publishedDate: new Date(),
+        data: body.data,
+        graphics: {
+            fontStyle: "Times New Roman",
+            fontSize: 12,
+            labelPosition: "Center",
+            dataProperty: body.dataProperty,
+            heatMap: {
+                dataProperty: "",
+            },
+            showLabels: false,
+            bubbles: {
+                dataProperty: "",
+            },
+            legend: {
+                name: "",
+                position: "",
+                value: [],
+                visible: false
+            }
+        },
+        social: {
+            views: 0,
+            likes: 0,
+            dislikes: 0,
+            comments: []
+        }
+    });
 
-	const comment = new Comment({
-		content: req.body.content
-	});
+    console.log(newMap);
+    if (!newMap) {
+        return res.status(400).json({ success: false, error: err })
+    }
 
-	comment.save((err, doc) => {
-		if (err) {
-			return res.status(400).end();
-		}
-		return res.status(200).send(doc);
-	})
-}
-
-const editComment = async (req, res) => {
-	if (!req.params || !req.params._id || !req.body || !req.body.content) {
-		return res.status(400).end();
-	}
-
-	Comment.findById(req.params._id, (err, comment) => {
-		if (err || !comment) {
-			return res.status(400).end();
-		}
-
-		comment.content = req.body.content;
-		comment.save((err, doc) => {
-			if (err) {
-				return res.status(400).end();
-			}
-			return res.status(200).end();
-		})
-	});
-}
-
-const deleteComment = async (req, res) => {
-	if (!req.params || !req.params._id) {
-		return res.status(400).end();
-	}
-
-	Comment.deleteOne({ _id: req.params._id }, (err, doc) => {
-		if (err || !doc.acknowledged || doc.deletedCount != 1) {
-			return res.status(400).end();
-		}
-		res.status(200).end();
-	});
+    newMap.save().then(() => {
+        return res.status(201).json({
+            successMessage: "Map Created"
+        })
+    })
+    .catch(error => {
+        return res.status(400).json({
+            errorMessage: error
+        })
+    })
 }
 
 module.exports = {
-	getComment,
-	addComment,
-	editComment,
-	deleteComment,
-}
+	createMap
+};

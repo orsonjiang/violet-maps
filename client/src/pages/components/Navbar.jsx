@@ -1,22 +1,47 @@
-import { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+
+import store from '../../store';
+import auths from '../../api/auth';
+import { setUser } from '../../actions/user';
 
 const Navbar = () => {
-    const [menu, setMenu] = useState("none");
+    const navigate = useNavigate();
+
+    const [menu, setMenu] = useState('none');
+
+    const { user } = useSelector((state) => state.user);
+
+    // useEffect(() => {
+    //     if (user.email == "") {
+    //         navigate('/');
+    //     }
+    // },[user.email])
+
+    const handleLogout = async () => {
+        const req = await auths.postLogout();
+        if (req.status === 200) {
+            store.dispatch(setUser(req.body));
+            navigate('/');
+        } else {
+            console.log(req.error);
+        }
+    };
 
     const closeMenus = (ref) => {
         useEffect(() => {
             function handleClickOutside(event) {
                 if (ref.current && !ref.current.contains(event.target)) {
-                    setMenu("none");
+                    setMenu('none');
                 }
             }
-            document.addEventListener("mousedown", handleClickOutside);
+            document.addEventListener('mousedown', handleClickOutside);
             return () => {
-                document.removeEventListener("mousedown", handleClickOutside);
+                document.removeEventListener('mousedown', handleClickOutside);
             };
-        }, [ref])
-    }
+        }, [ref]);
+    };
 
     const ref = useRef(null);
     closeMenus(ref);
@@ -26,7 +51,9 @@ const Navbar = () => {
     return (
         <nav className="bg-gradient-to-r from-violet-300 to-indigo-300 p-3">
             <div className="flex gap-4 items-center pl-2">
-                <Link to={"/app/home"}><i className="fa fa-home text-xl text-white" /></Link>
+                <Link to={'/app/home'}>
+                    <i className="fa fa-home text-xl text-white" />
+                </Link>
                 <i className="fas fa-globe-americas text-xl text-violet-100" />
                 <div className="flex w-full">
                     <div className="relative">
@@ -35,7 +62,9 @@ const Navbar = () => {
                             data-dropdown-toggle="dropdown"
                             className="whitespace-nowrap flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:outline-none "
                             type="button"
-                            onClick={() => {setMenu("searchBy")}}
+                            onClick={() => {
+                                setMenu('searchBy');
+                            }}
                         >
                             Map Name{' '}
                             <svg
@@ -54,42 +83,43 @@ const Navbar = () => {
                                 />
                             </svg>
                         </button>
-                        { menu == "searchBy" ?
-                        <div
-                            id="search-by-dropdown"
-                            ref={ref}
-                            className="absolute my-2 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 "
-                        >
-                            <ul
-                                className="py-2 text-sm text-gray-700 "
-                                aria-labelledby="dropdown-button"
+                        {menu == 'searchBy' ? (
+                            <div
+                                id="search-by-dropdown"
+                                ref={ref}
+                                className="absolute my-2 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 "
                             >
-                                <li>
-                                    <button
-                                        type="button"
-                                        className="inline-flex w-full px-4 py-2 hover:bg-gray-100 "
-                                    >
-                                        Map Name
-                                    </button>
-                                </li>
-                                <li>
-                                    <button
-                                        type="button"
-                                        className="inline-flex w-full px-4 py-2 hover:bg-gray-100 "
-                                    >
-                                        Map Properties
-                                    </button>
-                                </li>
-                                <li>
-                                    <button
-                                        type="button"
-                                        className="inline-flex w-full px-4 py-2 hover:bg-gray-100 "
-                                    >
-                                        Username
-                                    </button>
-                                </li>
-                            </ul>
-                        </div> : null}
+                                <ul
+                                    className="py-2 text-sm text-gray-700 "
+                                    aria-labelledby="dropdown-button"
+                                >
+                                    <li>
+                                        <button
+                                            type="button"
+                                            className="inline-flex w-full px-4 py-2 hover:bg-gray-100 "
+                                        >
+                                            Map Name
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button
+                                            type="button"
+                                            className="inline-flex w-full px-4 py-2 hover:bg-gray-100 "
+                                        >
+                                            Map Properties
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button
+                                            type="button"
+                                            className="inline-flex w-full px-4 py-2 hover:bg-gray-100 "
+                                        >
+                                            Username
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        ) : null}
                     </div>
                     <div className="relative w-full">
                         <input
@@ -122,39 +152,65 @@ const Navbar = () => {
                     </div>
                 </div>
                 <div className="relative">
-                    <button 
-                        onClick={() => {setMenu("profile")}}
-                        className="shadow-none hover:shadow-none font-semibold bg-indigo-200 text-sm p-3 rounded-full shrink-0"
+                    <button
+                        onClick={() => {
+                            setMenu('profile');
+                        }}
+                        id="userAvatar"
+                        className="flex gap-[1px] items-center justify-center h-10 w-10 shadow-none hover:shadow-none font-semibold bg-indigo-200 text-sm p-2 rounded-full shrink-0"
                     >
-                        {'KF'}
+                        <p>{user.firstName.charAt(0)}</p>
+                        <p>{user.lastName.charAt(0)}</p>
                     </button>
                     {/* Dropdown menu */}
-                    {menu == "profile" ?
-                    <div
-                        ref={ref}
-                        className="absolute right-0 z-50 my-2 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow "
-                        id="user-dropdown"
-                    >
-                        <div className="px-4 py-3">
-                            <span className="block text-sm text-gray-900 ">
-                                Kayla Fang
-                            </span>
-                            <span className="block text-sm  text-gray-500 truncate ">
-                                kayla.fang@stonybrook.edu
-                            </span>
-                        </div>
-                        <ul className="py-2" aria-labelledby="user-menu-button">
-                            <li>
-                                <Link to={"/"}>
-                                    <button
-                                        className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 "
+                    {menu == 'profile' ? (
+                        <div
+                            ref={ref}
+                            className="absolute right-0 z-50 my-2 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow min-w-32"
+                            id="user-dropdown"
+                        >
+                            {user._id === '' ? (
+                                <div>
+                                    <Link
+                                        className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
+                                        to={'/login'}
                                     >
-                                        Sign out
-                                    </button>
-                                </Link>
-                            </li>
-                        </ul>
-                    </div>: null}
+                                        Log In
+                                    </Link>
+                                    <Link
+                                        className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg "
+                                        to={'/register'}
+                                    >
+                                        Register
+                                    </Link>
+                                </div>
+                            ) : (
+                                <div>
+                                    <div className="px-4 py-3">
+                                        <span className="block text-sm text-gray-900 ">
+                                            {user.firstName} {user.lastName}
+                                        </span>
+                                        <span className="block text-sm  text-gray-500 truncate ">
+                                            {user.email}
+                                        </span>
+                                    </div>
+                                    <ul
+                                        className="py-2"
+                                        aria-labelledby="user-menu-button"
+                                    >
+                                        <li>
+                                            <button
+                                                className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
+                                                onClick={handleLogout}
+                                            >
+                                                Log out
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            )}
+                        </div>
+                    ) : null}
                 </div>
             </div>
         </nav>

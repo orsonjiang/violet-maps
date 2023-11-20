@@ -1,10 +1,10 @@
 describe('create, read, update, and delete comment', () => {
   beforeEach(() => {
-    cy.visit('/')
+    cy.visit('/');
   })
 
-  describe('view home screen', () => {
-    it('can view home screen', () => {
+  describe('view splash screen', () => {
+    it('can view splash screen', () => {
       cy.contains('Violet Maps');
       cy.contains('Log In');
       cy.contains('Continue as Guest');
@@ -14,52 +14,54 @@ describe('create, read, update, and delete comment', () => {
   describe('view sign up screen', () => {
     it('click and view sign up screen', () => {
       cy.contains('Sign Up').click();
-      cy.contains('Register')
+      cy.contains('Create your new account');
+      cy.contains('Sign Up');
+      cy.url().should('include', 'register');
     })
   })
 
   describe('view log in screen', () => {
     it('click and view log in screen', () => {
       cy.contains('Log In').click();
-      cy.contains('Sign in to your account')
+      cy.contains('Sign in to your account');
+      cy.contains('Forgot password?');
+      cy.url().should('include', '/login');
     })
   })
 
   describe('request reset password', () => {
     it('click and view login then request reset password screen', () => {
       cy.contains('Log In').click();
-      cy.contains('password?').click();
+      cy.contains('Forgot password?').click();
       cy.contains('Reset your password');
+      cy.url().should('include', '/requestReset');
     })
   })
 
   describe('reset password', () => {
     it('view reset password screen', () => {
       cy.visit('/reset');
-      cy.get('input').should('have.length', 2)
+      cy.get('input').should('have.length', 2);
     })
   })
 
-  describe('view home screen', () => {
-    it('click and view home screen', () => {
+  describe('visit home' , () => {
+    it('view home screen from splash', () => {
       cy.contains('Continue as Guest').click();
-      cy.contains('Your Library')
+      cy.url().should('include', '/app/home');
+      cy.contains('Create Map');
+      cy.contains('Sort By').click();
+      cy.contains('Name');
     })
   })
 
-  describe('view edit map screen', () => {
-    it('click and view edit map screen', () => {
+  describe('visit map edit page', () => {
+    it('view the map edit screen', () => {
       cy.contains('Continue as Guest').click();
+      cy.url().should('include', '/app/home');
       cy.contains('Map of Europe').click();
-      cy.contains('Add Text');
-    })
-  })
-
-  describe('view published map screen', () => {
-    it('click and view published map screen', () => {
-      cy.contains('Continue as Guest').click();
-      cy.contains('Map of China').click();
-      cy.contains('Comments');
+      cy.contains('Map of Europe');
+      cy.contains('America');
     })
   })
 })
