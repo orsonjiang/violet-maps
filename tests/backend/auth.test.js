@@ -19,14 +19,6 @@ afterAll(() => {
 // })
 
 describe("login user", () => {
-    test("POST /auth/login", async () => {
-        return request(app).post("/auth/login").send({
-            email: "jane.doe@testemail.com",
-            password: "password123"
-        }).expect(200).then((res) => {
-            console.log(res.body)
-        })
-    })
 
     test("login credentials are wrong", async () => {
         return request(app).post("/auth/login").send({
