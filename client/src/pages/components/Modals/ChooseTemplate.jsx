@@ -21,7 +21,8 @@ const ChooseTemplate = () => {
         dispatch(closeModal());
     }
 
-
+    const selected = "text-left p-2 pt-2 rounded-md bg-indigo-200 h-full border-[1px] border-[#B998EE] drop-shadow-lg";
+    const unselected = "text-left p-2 pt-2 rounded-md bg-white h-full border-[1px] border-[#B998EE] drop-shadow-lg";
     return (
         <div
             id="popup-modal"
@@ -61,8 +62,8 @@ const ChooseTemplate = () => {
                         </div>
                     </div>
 
-                <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 px-5">
-                    <button onClick={() => chooseTemplate("")} className="text-left p-2 pt-2 rounded-md bg-white h-full border-[1px] border-[#B998EE] drop-shadow-lg">
+                <div className="grid grid-cols-3 gap-4 px-5">
+                    <button onClick={() => chooseTemplate("")} className={`${template == "" ? selected : unselected }`}>
                         <img
                             src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/A_large_blank_world_map_with_oceans_marked_in_blue.PNG/640px-A_large_blank_world_map_with_oceans_marked_in_blue.PNG"
                             alt="map-image"
@@ -70,7 +71,7 @@ const ChooseTemplate = () => {
                         />
                         <div className="text-sm font-semibold mt-2">Blank Map</div>
                     </button>
-                    <button onClick={() => chooseTemplate("heat")} className="text-left p-2 pt-2 rounded-md bg-white h-full border-[1px] border-[#B998EE] drop-shadow-lg">
+                    <button onClick={() => chooseTemplate("heat")} className={`${template == "heat" ? selected : unselected }`}>
                         <img
                             src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/A_large_blank_world_map_with_oceans_marked_in_blue.PNG/640px-A_large_blank_world_map_with_oceans_marked_in_blue.PNG"
                             alt="map-image"
@@ -78,7 +79,7 @@ const ChooseTemplate = () => {
                         />
                         <div className="text-sm font-semibold mt-2">Heat Map</div>
                     </button>
-                    <button onClick={() => chooseTemplate("choropleth")} className="text-left p-2 pt-2 rounded-md bg-white h-full border-[1px] border-[#B998EE] drop-shadow-lg">
+                    <button onClick={() => chooseTemplate("choropleth")} className={`${template == "choropleth" ? selected : unselected }`}>
                         <img
                             src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/A_large_blank_world_map_with_oceans_marked_in_blue.PNG/640px-A_large_blank_world_map_with_oceans_marked_in_blue.PNG"
                             alt="map-image"
@@ -86,7 +87,7 @@ const ChooseTemplate = () => {
                         />
                         <div className="text-sm font-semibold mt-2">Choropleth Map</div>
                     </button>
-                    <button onClick={() => chooseTemplate("string")} className="text-left p-2 pt-2 rounded-md bg-white h-full border-[1px] border-[#B998EE] drop-shadow-lg">
+                    <button onClick={() => chooseTemplate("string")} className={`${template == "string" ? selected : unselected }`}>
                         <img
                             src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/A_large_blank_world_map_with_oceans_marked_in_blue.PNG/640px-A_large_blank_world_map_with_oceans_marked_in_blue.PNG"
                             alt="map-image"
@@ -94,7 +95,7 @@ const ChooseTemplate = () => {
                         />
                         <div className="text-sm font-semibold mt-2">String Map</div>
                     </button>
-                    <button onClick={() => chooseTemplate("numerical")} className="text-left p-2 pt-2 rounded-md bg-white h-full border-[1px] border-[#B998EE] drop-shadow-lg">
+                    <button onClick={() => chooseTemplate("numerical")} className={`${template == "numerical" ? selected : unselected }`}>
                         <img
                             src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/A_large_blank_world_map_with_oceans_marked_in_blue.PNG/640px-A_large_blank_world_map_with_oceans_marked_in_blue.PNG"
                             alt="map-image"
@@ -102,7 +103,7 @@ const ChooseTemplate = () => {
                         />
                         <div className="text-sm font-semibold mt-2">Numerical Map</div>
                     </button>
-                    <button onClick={() => chooseTemplate("bubble")} className="text-left p-2 pt-2 rounded-md bg-white h-full border-[1px] border-[#B998EE] drop-shadow-lg">
+                    <button onClick={() => chooseTemplate("bubble")} className={`${template == "bubble" ? selected : unselected }`}>
                         <img
                             src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/A_large_blank_world_map_with_oceans_marked_in_blue.PNG/640px-A_large_blank_world_map_with_oceans_marked_in_blue.PNG"
                             alt="map-image"
