@@ -55,7 +55,7 @@ const MapSchema = new Schema(
         ownerId: { type: String, required: true },
         tags: [String],
         publishedDate: { type: Date, required: true },
-        data: mongoose.Schema.Types.GeoJSON,
+        data: {type: Object},
         graphics: {
             fontStyle: { type: String, required: true },
             fontSize: { type: Number, required: true },

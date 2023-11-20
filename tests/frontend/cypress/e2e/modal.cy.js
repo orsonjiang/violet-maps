@@ -13,7 +13,7 @@ describe('map uploading modals are present', () => {
         cy.contains('Heat Map').click({force : true});
         cy.contains('Confirm').click({force : true});
         // third modal of the uploading map process
-        cy.contains('Select Data Properties');
+        cy.contains('Enter Data Info');
         cy.get("[type='text']").type('Awesome Map');
         cy.contains('Confirm').click();
         // should be back on the home screen

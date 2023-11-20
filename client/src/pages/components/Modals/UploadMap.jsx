@@ -108,7 +108,10 @@ const UploadMap = () => {
                 type: geojson.type,
                 features: geojson.features
             }));
-            console.log(geojson);
+            console.log({
+                type: geojson.type,
+                features: geojson.features
+            });
             dispatch(openModal("CHOOSE_TEMPLATE"));
         }
     }
