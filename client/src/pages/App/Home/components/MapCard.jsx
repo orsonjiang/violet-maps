@@ -84,7 +84,7 @@ const MapCard = ({ mapInfo }) => {
                 <img
                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/A_large_blank_world_map_with_oceans_marked_in_blue.PNG/640px-A_large_blank_world_map_with_oceans_marked_in_blue.PNG"
                     alt="map-image"
-                    className="rounded-md"
+                    className="rounded-md w-full"
                 />
                 <div className="mx-3 mt-3">
                     <div className={`${mapInfo.publishedDate == null ? "black" : "text-white font-medium"}`}>

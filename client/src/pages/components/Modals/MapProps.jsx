@@ -1,4 +1,14 @@
+import { useDispatch } from "react-redux";
+import { closeModal } from "../../../actions/modal";
+
 const MapProps = () => {
+
+    const dispatch = useDispatch()
+
+    const closeCurrentModal = () => {
+        dispatch(closeModal());
+    }
+
     return (
         <div
             id="popup-modal"
@@ -19,7 +29,7 @@ const MapProps = () => {
                                             <div>America</div>
                                             <button><i className="fa-solid fa-pencil "></i></button>
                                         </div>
-                                      
+
                                     </li>
                                     <li>
                                         <div className="flex justify-between">
@@ -40,8 +50,8 @@ const MapProps = () => {
                                         </div>
                                     </li>
                                 </ol>
-                                
-                             
+
+
 
                             </div>
 
@@ -50,14 +60,14 @@ const MapProps = () => {
                                     <button
                                         data-modal-hide="popup-modal"
                                         type="button"
-                                        className="w-1/2 text-white bg-[#8187DC] rounded-full py-1.5 px-5 shadow-md text-center focus:outline-none focus:ring-2 focus:ring-purple-300 font-medium"
+                                        className="w-1/2 text-white bg-accent rounded-full py-1.5 px-5 shadow-md text-center focus:outline-none focus:ring-2 focus:ring-purple-300 font-medium"
                                     >
                                         Confirm
                                     </button>
                                     <button
                                         data-modal-hide="popup-modal"
                                         type="button"
-                                        className="w-1/2 text-[#686868] bg-[#D9D9D9] rounded-full py-1.5 px-5 shadow-md text-center focus:outline-none focus:ring-2 focus:ring-gray-500 font-medium"
+                                        className="w-1/2 text-[#686868] bg-[#D9D9D9] rounded-full py-1.5 px-5 shadow-md text-center focus:outline-none focus:ring-2 focus:ring-gray-500 font-medium" onClick={closeCurrentModal}
                                     >
                                         Cancel
                                     </button>
