@@ -1,0 +1,10 @@
+name: Run Unit Tests
+
+on:
+	push:
+	  branches: ['main']
+
+jobs:
+  run-unit-tests:
+    uses: ./.github/workflows/unit-tests.yml
+    secrets: inheri
