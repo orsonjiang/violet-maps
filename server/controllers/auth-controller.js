@@ -68,7 +68,7 @@ const loginUser = async (req, res) => {
 
 		const existingUser = await User.findOne({ email: email });
 		if (!existingUser) {
-			return sendError(res, MESSAGE, 401);
+			return sendError(res, "No account exists with this email.", 401);
 		}
 
 		const passwordCorrect = await bcrypt.compare(
@@ -99,7 +99,7 @@ const loginUser = async (req, res) => {
 			});
 	} catch (err) {
 		console.error(err);
-		return sendError(res, "There was an error logging in to your account.");
+		return sendError(res, "There was an error logging into your account.");
 	}
 };
 

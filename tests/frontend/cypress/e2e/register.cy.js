@@ -7,7 +7,7 @@ describe('successful sign up', () => {
         cy.get('#email').type('Joe.Shmoe@email.com');
         cy.get('#username').type('JoeShmoe-inator');
         cy.get('#password').type('JoeShmoe2023');
-        cy.get('#confirmPassword').type('JoeSmhoe2023');
+        cy.get('#confirmPassword').type('JoeShmoe2023');
         cy.intercept('POST', '/auth/register', {});
         cy.get('#registerButton').click();
         cy.url().should('include', '/app/home');

@@ -25,7 +25,7 @@ const Register = () => {
         };
 
         if (data.password !== formData.get('confirmPassword')) {
-            console.log('no duplicate password');
+            setError('Passwords are not the same.');
             return;
         }
 
