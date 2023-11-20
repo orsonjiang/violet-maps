@@ -6,8 +6,10 @@ const bcrypt = require("bcryptjs");
 
 const loginUser = async (req, res) => {
 	if (req.body && req.body.auto) {
-		auth.verifyToken(req, res);
-
+		const verify = auth.verifyToken(req, res);
+		if (!verify) {
+			return;
+		}
         if (!req.userId) {
 			return res.cookie("token", "", {
 				httpOnly: true,
