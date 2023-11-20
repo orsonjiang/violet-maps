@@ -1,8 +1,7 @@
 name: Run Unit Tests
 
 on:
-  push:
-    branches: ['main']
+  push
 
 jobs:
   run-unit-tests:
