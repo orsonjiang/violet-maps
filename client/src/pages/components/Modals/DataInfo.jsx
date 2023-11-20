@@ -5,7 +5,7 @@ import { createMapProperties } from "../../../actions/map";
 import { closeModal } from "../../../actions/modal";
 import apis from "../../../api/api";
 
-const DataInfo = ({view, containsInput}) => {
+const DataInfo = ({view}) => {
     const [menu, setMenu] = useState("none");
     const [dataPropList, setDataPropList] = useState([]);
     const [dataProp, setDataProp] = useState(null);
@@ -128,57 +128,56 @@ const DataInfo = ({view, containsInput}) => {
                     <div className="p-2 md:mt-0 flex flex-col">
                         <div className="flex flex-col px-6 space-y-4 my-3">
                             <h3 className="text-lg font-semibold text-black">
-                                Select Data Properties
+                                Select Data Info
                             </h3>
                             <div className="bg-purple-50 rounded-lg p-6 space-y-4">
-                                {containsInput ? 
-                                    <div className="text-sm flex gap-3 items-center">
-                                        Name:
-                                        <input type="text" onChange={handleNameChange} placeholder="Name your map" className="rounded-lg p-1.5 px-3 bg-white w-full" />
-                                    </div> : "" }
+                                <div className="text-sm flex gap-3 items-center">
+                                    Name:
+                                    <input type="text" onChange={handleNameChange} placeholder="Name your map" className="rounded-lg p-1.5 px-3 bg-white w-full" />
+                                </div> 
 
-                            <div className="text-sm flex gap-3 items-center justify-between">
-                                Data Property:
-                                <div className="relative">
-                                    <button
-                                        id="dropdown-button"
-                                        data-dropdown-toggle="dropdown"
-                                        className="whitespace-nowrap flex-shrink-0 z-10 inline-flex items-center py-2 px-4 text-sm font-medium text-center text-white bg-violet-400 rounded-lg hover:bg-violet-500 focus:outline-none "
-                                        type="button"
-                                        onClick={() => { setMenu("dataProps") }}
-                                    >
-                                        {dataProp != null ? dataProp : "N/A"}
-                                        <svg
-                                            className="w-2.5 h-2.5 ms-2.5"
-                                            aria-hidden="true"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 10 6"
+                                {newMap.template != "" ?
+                                <div className="text-sm flex gap-3 items-center justify-between">
+                                    Data Property:
+                                    <div className="relative">
+                                        <button
+                                            id="dropdown-button"
+                                            data-dropdown-toggle="dropdown"
+                                            className="whitespace-nowrap flex-shrink-0 z-10 inline-flex items-center py-2 px-4 text-sm font-medium text-center text-white bg-violet-400 rounded-lg hover:bg-violet-500 focus:outline-none "
+                                            type="button"
+                                            onClick={() => { setMenu("dataProps") }}
                                         >
-                                            <path
-                                                stroke="currentColor"
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="m1 1 4 4 4-4"
-                                            />
-                                        </svg>
-                                    </button>
-                                    {menu == "dataProps" ? dataPropsMenu : null}
-                                </div>
-                            </div>
-                    
-                              
-                            <div className="flex gap-4 items-center mb-3 justify-between text-sm">
-                                Select Color: 
-                                <div className="flex relative">
-                                    <button onClick={() => { setMenu("color") }} style={{backgroundColor: `${color}`}}className={`w-8 h-8`}></button>
-                                    {menu == "color" ? <div ref={ref} className="absolute left-[-3px] z-50 my-10">
-                                        <ChromePicker color={color} onChange={handleColorChange} />
-                                    </div> : null}
-                                </div>
-                                
-                            </div>
+                                            {dataProp != null ? dataProp : "N/A"}
+                                            <svg
+                                                className="w-2.5 h-2.5 ms-2.5"
+                                                aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="none"
+                                                viewBox="0 0 10 6"
+                                            >
+                                                <path
+                                                    stroke="currentColor"
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth={2}
+                                                    d="m1 1 4 4 4-4"
+                                                />
+                                            </svg>
+                                        </button>
+                                        {menu == "dataProps" ? dataPropsMenu : null}
+                                    </div>
+                                </div> : null}
+                        
+                                {newMap.template == "bubble" || newMap.template == "choropleth" ? 
+                                <div className="flex gap-4 items-center mb-3 justify-between text-sm">
+                                    Select Color: 
+                                    <div className="flex relative">
+                                        <button onClick={() => { setMenu("color") }} style={{backgroundColor: `${color}`}}className={`w-8 h-8`}></button>
+                                        {menu == "color" ? <div ref={ref} className="absolute left-[-3px] z-50 my-10">
+                                            <ChromePicker color={color} onChange={handleColorChange} />
+                                        </div> : null}
+                                    </div>
+                                </div> : null}
                           
                             </div>
                             <div className='grid grid-cols-4 grid-row-1 py-1'>

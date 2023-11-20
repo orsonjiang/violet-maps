@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { ChromePicker } from "react-color"
 import Modal from "../../../components/Modals/Modal";
 import Legend from "../../../components/Modals/Legend";
-import DataInfo from "../../../components/Modals/DataInfo";
+import AddLayer from "../../../components/Modals/AddLayer";
 
 const Toolbar = () => {
     const [menu, setMenu] = useState("none");
@@ -35,8 +35,8 @@ const Toolbar = () => {
         else if (modal == "legend"){
             return (<Legend/>)
         }
-        else if (modal == "dataProps"){
-            return (<DataInfo view={"edit"} containsInput={false} />)
+        else if (modal == "addLayer"){
+            return (<AddLayer view={"edit"} containsInput={false} />)
         }
     }
 
@@ -306,12 +306,12 @@ const Toolbar = () => {
                     {menu == "dataProperty" ? dataPropertyMenu : null}
                 </div>
                 {border}
-                <button className="px-1 hover:bg-violet-100" onClick={() => {setModalType("dataProps")}}>
+                <button className="px-1 hover:bg-violet-100" onClick={() => {setModalType("addLayer")}}>
                     <i className="fa-solid fa-plus mr-1.5"></i>
                     Bubbles
                 </button>
                 {border}
-                <button className="px-1 hover:bg-violet-100" onClick={() => { setModalType("dataProps") }}>
+                <button className="px-1 hover:bg-violet-100" onClick={() => { setModalType("addLayer") }}>
                     <i className="fa-solid fa-plus mr-1.5"></i>
                     Heat Map
                 </button>
