@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { ChromePicker } from "react-color"
 import Modal from "../../../components/Modals/Modal";
 import Legend from "../../../components/Modals/Legend";
-import DataInfo from "../../../components/Modals/DataInfo";
+import AddLayer from "../../../components/Modals/AddLayer";
 import { useSelector, useDispatch } from "react-redux";
 import { openModal } from "../../../../actions/modal";
 
@@ -39,8 +39,8 @@ const Toolbar = () => {
         else if (currentModal == "LEGEND_MODAL") {
             return (<Legend />)
         }
-        else if (currentModal == "SELECT_PROP") {
-            return (<DataInfo view={"edit"} containsInput={false} />)
+        else if (currentModal == "ADD_LAYER"){
+            return (<AddLayer view={"edit"} containsInput={false} />)
         }
     }
 
@@ -310,12 +310,12 @@ const Toolbar = () => {
                     {menu == "dataProperty" ? dataPropertyMenu : null}
                 </div>
                 {border}
-                <button className="px-1 hover:bg-violet-100" onClick={() => { openCurrentModal("SELECT_PROP") }}>
+                <button className="px-1 hover:bg-violet-100" onClick={() => {openCurrentModal("ADD_LAYER")}}>
                     <i className="fa-solid fa-plus mr-1.5"></i>
                     Bubbles
                 </button>
                 {border}
-                <button className="px-1 hover:bg-violet-100" onClick={() => { openCurrentModal("SELECT_PROP") }}>
+                <button className="px-1 hover:bg-violet-100" onClick={() => {openCurrentModal("ADD_LAYER")}}>
                     <i className="fa-solid fa-plus mr-1.5"></i>
                     Heat Map
                 </button>

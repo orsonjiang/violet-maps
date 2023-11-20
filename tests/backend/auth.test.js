@@ -42,7 +42,7 @@ describe("login user", () => {
             email: "fake.user@email.com",
             password: "password123"
         }).expect(401).then((res) => {
-            expect(res.body.error).toEqual("No account exists with this email.")
+            expect(res.body.error).toEqual("Wrong email or password provided.")
         })
     })
 
@@ -54,3 +54,28 @@ describe("login user", () => {
     })
 
 })
+
+// describe('successfully register the user to database', () => {
+//     it("Should successfully register the user", async () => {
+//         const response = await request(app).post("/auth/register").send({
+//             firstName: 'Danny',
+//             lastName: 'Shmanny',
+//             email: 'Danny.Shmanny@email.com',
+//             username: 'DanTheShman',
+//             passwordHash: 'password'
+//         })
+//         expect(response.status).toEqual(200)
+//     });
+//     /*
+//     it('user should be registered and added to db', async () => {
+//         const response = await request(app).post('/auth/register').send({
+//             firstName: 'Danny',
+//             lastName: 'Shmanny',
+//             email: 'Danny.Shmanny@email.com',
+//             username: 'DanTheShman',
+//             passwordHash: 'password'
+//         });
+//         expect(response.status).toBe(200)
+//     });
+//     */
+// });

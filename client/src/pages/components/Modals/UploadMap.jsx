@@ -1,23 +1,15 @@
 import { useState, useRef } from "react";
-import ChooseTemplate from "./ChooseTemplate";
-import { closeModal } from "../../../actions/modal";
+import { closeModal, openModal } from "../../../actions/modal";
 import { useDispatch } from 'react-redux';
 import * as shapefile from 'shapefile';
 import { kml } from '@tmcw/togeojson';
+import { createMap } from "../../../actions/map";
 
 const UploadMap = () => {
     const fileInput = useRef(null);
     const [error, setError] = useState('');
     const [geojson, setgeojson] = useState(null);
     const [filename, setFilename] = useState('');
-
-    const [content, setContent] = useState("upload");
-
-    const changeContent = (step) => {
-        if (step === "template") {
-            setContent("template")
-        }
-    }
 
     const dispatch = useDispatch()
 
@@ -84,11 +76,11 @@ const UploadMap = () => {
                 if (validExt(files[0].name, '.shp') && validExt(files[1].name, '.dbf')) {
                     shp = await readFileAsArrayBuffer(files[0]);
                     dbf = await readFileAsArrayBuffer(files[1]);
-                    setFilename(files[0].name + " " + files[1].name);
+                    setFilename(files[0].name + ", " + files[1].name);
                 } else if (validExt(files[0].name, '.dbf') && validExt(files[1].name, '.shp')) {
                     shp = await readFileAsArrayBuffer(files[1]);
                     dbf = await readFileAsArrayBuffer(files[0]);
-                    setFilename(files[0].name + " " + files[1].name);
+                    setFilename(files[0].name + ", " + files[1].name);
                 } else {
                     setError(
                         'The file formats of the two files you have uploaded are incorrect. One file should be a SHP file and one file should be a DBF file.'
@@ -107,7 +99,21 @@ const UploadMap = () => {
     };
 
     const handleClickConfirm = () => {
-        changeContent("template")
+        if (geojson == null) {
+            setError(
+                'Please upload a file :)'
+            );
+        } else {
+            dispatch(createMap({
+                type: geojson.type,
+                features: geojson.features
+            }));
+            console.log({
+                type: geojson.type,
+                features: geojson.features
+            });
+            dispatch(openModal("CHOOSE_TEMPLATE"));
+        }
     }
 
     return (
@@ -116,70 +122,67 @@ const UploadMap = () => {
             tabIndex={-1}
             className="flex fixed z-50 bg-gray-800/[0.6] justify-center items-center w-full h-full inset-0 max-h-full"
         >
-            {content == "upload" ?
-                <div className="relative w-full max-w-md max-h-md" >
-                    <div className="relative bg-white rounded-lg shadow ">
-                        
-                        <div className="p-2 md:mt-0 flex flex-col">
-
-                            <div className="flex flex-col px-4 lg:py-0 space-y-5 my-3">
-                                <h3 className="text-lg font-semibold  text-black text-left">
-                                    Upload Map
-                                </h3>
-                                
-            
-                                <div className="bg-purple-50 rounded-lg p-6 flex justify-center text-center text-[#938F99] border-dotted border-2 border-[#560BAD]">
+            <div className="relative w-full max-w-md max-h-md" >
+                <div className="relative bg-white rounded-lg shadow ">
+                    <div className="p-2 md:mt-0 flex flex-col">
+                    
+                        <div className="flex flex-col px-4 lg:py-0 space-y-5 my-3">
+                            <h3 className="text-lg font-semibold  text-black text-left">
+                                Upload Map
+                            </h3>
+                            
+        
+                            <div className="bg-purple-50 rounded-lg p-6 flex justify-center text-center text-[#938F99] border-dotted border-2 border-[#560BAD]">
+                                <div>
+                                    <i className="fa-solid fa-cloud-arrow-up text-[2rem] mb-3"></i>
                                     <div>
-                                        <i className="fa-solid fa-cloud-arrow-up text-[2rem] mb-3"></i>
-                                        <div>
-                                            <button className="font-semibold underline" onClick={handleClick}>
-                                                Click to upload
-                                                <input
-                                                    type="file"
-                                                    accept=".json, .geojson, .shp, .dbf, .kml"
-                                                    id="file-upload"
-                                                    ref={fileInput}
-                                                    style={{display: 'none'}}
-                                                    onChange={handleUpload}
-                                                    multiple
-                                                />
-                                            </button>
-                                            {/* <p>or drag and drop</p> */}
-                                        </div> 
-                                        <p className="text-sm mt-1">.JSON, .GEOJSON, .SHP/.DBF, .KML</p>
-                                    </div>
-                                </div> 
-                                {error != '' 
-                                    ? <p className="text-sm text-red-500">Error: {error}</p> 
-                                    : filename != '' 
-                                        ? <p className="text-sm text-purple-500">Files Uploaded: {filename}</p> 
-                                        : null}
-                                <div className='grid grid-cols-4 grid-row-1 my-4'>
-                                    <div className='col-span-2 flex space-x-2 justify-end text-sm'>
-                                        <button
-                                            data-modal-hide="popup-modal"
-                                            type="button"
-                                            className="w-1/2 text-white bg-[#8187DC] rounded-full py-1.5 px-5 shadow-md text-center focus:outline-none focus:ring-2 focus:ring-purple-300 font-medium"
-                                            onClick={() => handleClickConfirm()}
-                                        >
-                                            Confirm
+                                        <button className="font-semibold underline" onClick={handleClick}>
+                                            Click to upload
+                                            <input
+                                                type="file"
+                                                accept=".json, .geojson, .shp, .dbf, .kml"
+                                                id="file-upload"
+                                                ref={fileInput}
+                                                style={{display: 'none'}}
+                                                onChange={handleUpload}
+                                                multiple
+                                            />
                                         </button>
-                                        <button
-                                            data-modal-hide="popup-modal"
-                                            type="button"
-                                            className="w-1/2 text-[#686868] bg-[#D9D9D9] rounded-full py-1.5 px-5 shadow-md text-center focus:outline-none focus:ring-2 focus:ring-gray-500 font-medium"
-                                            onClick={closeUploadModal}
-                                        >
-                                            Cancel
-                                        </button>
-                                    </div>
+                                        {/* <p>or drag and drop</p> */}
+                                    </div> 
+                                    <p className="text-sm mt-1">.JSON, .GEOJSON, .SHP/.DBF, .KML</p>
                                 </div>
-
-                            </div>
+                            </div> 
+                            {error != '' 
+                                ? <p className="text-sm text-red-500">Error: {error}</p> 
+                                : filename != '' 
+                                    ? <p className="text-sm text-purple-500">Files Uploaded: {filename}</p> 
+                                    : null}
+                            <div className='grid grid-cols-4 grid-row-1 my-4'>
+                                <div className='col-span-2 flex space-x-2 justify-end text-sm'>
+                                    <button
+                                        data-modal-hide="popup-modal"
+                                        type="button"
+                                        className="w-1/2 text-white bg-[#8187DC] rounded-full py-1.5 px-5 shadow-md text-center focus:outline-none focus:ring-2 focus:ring-purple-300 font-medium"
+                                        onClick={() => handleClickConfirm()}
+                                    >
+                                        Confirm
+                                    </button>
+                                    <button
+                                        data-modal-hide="popup-modal"
+                                        type="button"
+                                        className="w-1/2 text-[#686868] bg-[#D9D9D9] rounded-full py-1.5 px-5 shadow-md text-center focus:outline-none focus:ring-2 focus:ring-gray-500 font-medium"
+                                        onClick={closeUploadModal}
+                                    >
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div> 
+                            
                         </div>
                     </div>
                 </div>
-                : <ChooseTemplate />}
+            </div>
         </div>
     );
 };

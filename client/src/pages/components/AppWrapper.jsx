@@ -20,7 +20,12 @@ const AppWrapper = () => {
                 store.dispatch(setUser(req.data));
             }
         };
-        autoLogin();
+        try {
+            autoLogin();
+        } catch (err) {
+            console.log(err);
+        }
+        
     }, []);
 
     const renderView = () => {

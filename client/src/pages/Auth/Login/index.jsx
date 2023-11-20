@@ -1,11 +1,11 @@
 import { Link, useNavigate } from 'react-router-dom';
-
+import { useEffect, useState } from 'react';
 import auth from '../../../api/auth';
 import store from '../../../store';
 import { setUser } from '../../../actions/user';
 import Form from '../components/Form';
 import Field from '../components/Field';
-import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 const Login = () => {
     const navigate = useNavigate();
@@ -13,7 +13,6 @@ const Login = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        setError("");
 
         const formData = new FormData(e.currentTarget);
 
@@ -26,7 +25,7 @@ const Login = () => {
             .catch((err) => {
                 setError(err.response.data.error)
             });
-
+        
         if (req.status === 200) {
             store.dispatch(setUser(req.data));
             navigate("/app/home");
@@ -40,7 +39,7 @@ const Login = () => {
             <Field id="email" placeholder="Email" />
             <Field id="password" placeholder="Password" type="password" />
             {error != "" ? <div className='text-sm text-center text-red-600'>{error}</div> : ""}
-            <div className="flex justify-start pb-2">
+            <div className="flex justify-start pt-2 pb-4">
                 <Link
                     to={'/requestReset'}
                     className="text-sm text-gray-500 font-medium hover:underline"
@@ -51,7 +50,7 @@ const Login = () => {
             <div className="flex flex-col w-full gap-6">
                 <button
                     type="submit"
-                    className="rounded-full text-white bg-accent py-2 shadow-md hover:outline-none focus:outline-none focus:ring-2 focus:ring-purple-300 font-medium text-center"
+                    className="rounded-full text-white bg-[#8187DC] py-2 shadow-md focus:outline-none focus:ring-2 focus:ring-purple-300 font-medium text-center"
                 >
                     Log in
                 </button>
@@ -62,7 +61,7 @@ const Login = () => {
                 </div>
                 <Link
                     to={'/register'}
-                    className="rounded-full text-white bg-accent py-2 shadow-md hover:outline-none hover:ring-2 hover:ring-purple-300 font-medium text-center"
+                    className="rounded-full text-white bg-[#8187DC] py-2 shadow-md hover:outline-none hover:ring-2 hover:ring-purple-300 font-medium text-center"
                 >
                     <button>Sign Up</button>
                 </Link>

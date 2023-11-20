@@ -6,10 +6,12 @@ const bcrypt = require("bcryptjs");
 
 const loginUser = async (req, res) => {
 	if (req.body && req.body.auto) {
-		auth.verifyToken(req, res);
-
+		const verify = auth.verifyToken(req, res);
+		if (verify) {
+			return;
+		}
         if (!req.userId) {
-			res.cookie("token", "", {
+			return res.cookie("token", "", {
 				httpOnly: true,
 				secure: true,
 				sameSite: false,
@@ -30,7 +32,7 @@ const loginUser = async (req, res) => {
         const loggedInUser = await User.findOne({ _id: req.userId });
 		
 		if (!loggedInUser) {
-			res.cookie("token", "", {
+			return res.cookie("token", "", {
 				httpOnly: true,
 				secure: true,
 				sameSite: false,
@@ -68,7 +70,7 @@ const loginUser = async (req, res) => {
 
 		const existingUser = await User.findOne({ email: email });
 		if (!existingUser) {
-			return sendError(res, "No account exists with this email.", 401);
+			return sendError(res, "Wrong email or password provided.", 401);
 		}
 
 		const passwordCorrect = await bcrypt.compare(
