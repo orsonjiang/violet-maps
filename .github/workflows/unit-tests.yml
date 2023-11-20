@@ -4,10 +4,10 @@ on:
   workflow_call
 
 jobs:
-  run-frontend-tests:
+  frontend-tests:
     uses: ./.github/workflows/frontend-tests.yml
     secrets: inherit
 
-  run-backend-tests:
+  backend-tests:
     uses: ./.github/workflows/backend-tests.yml
     secrets: inherit
