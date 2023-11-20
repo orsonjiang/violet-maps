@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { ChromePicker } from "react-color"
 import { useSelector, useDispatch } from 'react-redux';
 import { createMapProperties } from "../../../actions/map";
+import { closeModal } from "../../../actions/modal";
 
 const DataInfo = ({view, containsInput}) => {
     const [menu, setMenu] = useState("none");
@@ -101,16 +102,18 @@ const DataInfo = ({view, containsInput}) => {
             name: name,
             dataProperty: dataProp,
             color: color
-        })).then(console.log(newMap))
-        
+        }))
     }
-    
-    const styling = "flex fixed z-50 justify-center items-center w-full h-full inset-0 max-h-full " ;
+
+    const closeDataInfoModal = () => {
+        dispatch(closeModal());
+    }
+
     return (
         <div
             id="popup-modal"
             tabIndex={-1}
-            className={view == "home" ? styling : (styling + "bg-gray-800/[0.6]")}
+            className="flex fixed z-50 bg-gray-800/[0.6] justify-center items-center w-full h-full inset-0 max-h-full"
         >
             <div className="relative w-full max-w-md max-h-full">
                 <div className="relative bg-white rounded-lg shadow ">
@@ -184,6 +187,7 @@ const DataInfo = ({view, containsInput}) => {
                                         data-modal-hide="popup-modal"
                                         type="button"
                                         className="w-1/2 text-[#686868] bg-gray-200 rounded-full py-1.5 px-5 shadow-md text-center focus:outline-none focus:ring-2 focus:ring-gray-500 font-medium"
+                                        onClick={closeDataInfoModal}
                                     >
                                         Cancel
                                     </button>
