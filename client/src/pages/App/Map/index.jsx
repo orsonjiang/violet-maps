@@ -3,6 +3,7 @@ import Modal from "../../components/Modals/Modal";
 import { useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { openModal } from "../../../actions/modal";
+import * as L from 'leaflet';
 
 const Map = () => {
     const map = useRef(null);
@@ -34,6 +35,8 @@ const Map = () => {
             map.current.on('drag', function () {
                 map.current.panInsideBounds(bounds, { animate: false });
             });
+
+            // L.control.browserPrint().addTo(map);
         }
     }, [])
 
@@ -91,12 +94,7 @@ const Map = () => {
         <div className="md:grid grid-cols-3 gap-5 m-10 pb-10 max-md:block">
             {currentModal == "FORK_MODAL" ? <Modal title={"Fork Map?"} description={"Confirm by typing a name for the Map of Europe"} inputText={"Enter Map Name"} containsInput={true} /> : ""}
             <div className='col-span-2'>
-                {/* <img
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/A_large_blank_world_map_with_oceans_marked_in_blue.PNG/1024px-A_large_blank_world_map_with_oceans_marked_in_blue.PNG"
-                    alt="map-image"
-                    className="rounded-lg shadow-md" /> */}
-
-                <div id="map" className="h-96 rounded-lg shadow-md"></div>
+                <div id="map" className="h-[60vh] rounded-lg shadow-md"></div>
                 <div className='grid grid-cols-3 grid-row-2 my-4'>
                     <div className='col-span-1 row-span-2'>
                         <h3 className='font-semibold text-lg'>Map of Europe</h3>
@@ -128,11 +126,11 @@ const Map = () => {
                 </div>
 
             </div>
-            <div className='col-span-1 bg-[accent18] rounded-lg self-start'>
+            <div className='col-span-1 bg-violet-100 rounded-lg self-start'>
                 <div className="m-5 mb-1">
                     <h3 className="font-medium pt-5 md:pt-0">25 Comments</h3>
                     <div className="mt-3 flex space-x-4">
-                        <button className="font-semibold bg-indigo-300 text-xs p-3 rounded-full shrink-0">
+                        <button className="font-semibold bg-indigo-300 text-xs w-10 h-10 rounded-full shrink-0">
                             {'KF'}
                         </button>
                         <input
@@ -143,7 +141,7 @@ const Map = () => {
                             required=""
                         />
                     </div>
-                    <div className="overflow-hidden hover:overflow-y-scroll pr-3 max-h-[30rem] mt-3">
+                    <div className="overflow-hidden hover:overflow-y-scroll max-h-[30rem] mt-3 space-y-2">
                         <CommentCard initials={'FL'} name={'Fanny Li'} comment={'This map is great! I am going to be exporting it for my class in Geography. Thank you for putting this together!'} />
                         <CommentCard initials={'KF'} name={'Kayla Fang'} comment={'This map is great! I am going to be exporting it for my class in Geography. Thank you for putting this together!'} />
                         <CommentCard initials={'RC'} name={'Rachel Cong'} comment={'This map is great! I am going to be exporting it for my class in Geography. Thank you for putting this together!'} />

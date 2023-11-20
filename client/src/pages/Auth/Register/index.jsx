@@ -25,7 +25,7 @@ const Register = () => {
         };
 
         if (data.password !== formData.get('confirmPassword')) {
-            console.log('no duplicate password');
+            setError('Passwords are not the same.');
             return;
         }
 
@@ -47,7 +47,7 @@ const Register = () => {
                 <Field id="firstName" placeholder="First name" />
                 <Field id="lastName" placeholder="Last name" />
             </div>
-            <Field id="email" placeholder="Email" />
+            <Field id="email" placeholder="Email" type="email" />
             <Field id="username" placeholder="Username" />
             <Field id="password" placeholder="Password" type="password" />
             <Field

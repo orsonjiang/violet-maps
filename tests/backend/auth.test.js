@@ -1,0 +1,56 @@
+const request = require('supertest');
+
+const { app, db } = require('../../server');
+
+afterAll(() => {
+    db.close();
+})
+
+// describe("register users", () => {
+//     test("POST /auth/register", async () => {
+//         return request(app).post("/auth/register").send({
+//             firstName: "Tom",
+//             lastName: "Train",
+//             email: "tomq.train@email.com",
+//             username: "ttrain",
+//             password: "password123", 
+//         }).expect(200)
+//     })
+// })
+
+describe("login user", () => {
+    test("POST /auth/login", async () => {
+        return request(app).post("/auth/login").send({
+            email: "jane.doe@testemail.com",
+            password: "password123"
+        }).expect(200).then((res) => {
+            console.log(res.body)
+        })
+    })
+
+    test("login credentials are wrong", async () => {
+        return request(app).post("/auth/login").send({
+            email: "jane.doe@testemail.com",
+            password: "password"
+        }).expect(401).then((res) => {
+            expect(res.body.error).toEqual("Wrong email or password provided.")
+        })
+    })
+
+    test("user does not exist", async () => {
+        return request(app).post("/auth/login").send({
+            email: "fake.user@email.com",
+            password: "password123"
+        }).expect(401).then((res) => {
+            expect(res.body.error).toEqual("No account exists with this email.")
+        })
+    })
+
+    test("fields are blank", async () => {
+        return request(app).post("/auth/login").send({
+        }).expect(400).then((res) => {
+            expect(res.body.error).toEqual("Please enter all required fields.")
+        })
+    })
+
+})
