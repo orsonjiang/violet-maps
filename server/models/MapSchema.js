@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const GeoJSON = require('mongoose-geojson-schema');
+// const GeoJSON = require('mongoose-geojson-schema');
 
 // const MapSchema = new Schema(
 //     {
