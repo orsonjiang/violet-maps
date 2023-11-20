@@ -33,7 +33,7 @@ const map = (state = initialState, action) => {
             return {
                 ...state,
                 newMap: {
-                    ...newMap,
+                    ...state.newMap,
                     ...action.payload
                 }
             }
