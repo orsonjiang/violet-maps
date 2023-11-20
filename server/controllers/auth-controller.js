@@ -9,7 +9,7 @@ const loginUser = async (req, res) => {
 		auth.verifyToken(req, res);
 
         if (!req.userId) {
-			res.cookie("token", "", {
+			return res.cookie("token", "", {
 				httpOnly: true,
 				secure: true,
 				sameSite: false,
@@ -30,7 +30,7 @@ const loginUser = async (req, res) => {
         const loggedInUser = await User.findOne({ _id: req.userId });
 		
 		if (!loggedInUser) {
-			res.cookie("token", "", {
+			return res.cookie("token", "", {
 				httpOnly: true,
 				secure: true,
 				sameSite: false,
