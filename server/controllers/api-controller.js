@@ -16,6 +16,7 @@ createMap = (req, res) => {
         tags: [],
         publishedDate: new Date(),
         data: body.data,
+        features: body.features,
         graphics: {
             fontStyle: "Times New Roman",
             fontSize: 12,
@@ -43,11 +44,12 @@ createMap = (req, res) => {
         }
     });
 
-    console.log(newMap);
+    console.log(newMap.data);
+    console.log(body.data);
     if (!newMap) {
         return res.status(400).json({ success: false, error: err })
     }
-
+    newMap.markModified('data');
     newMap.save().then(() => {
         return res.status(201).json({
             successMessage: "Map Created"

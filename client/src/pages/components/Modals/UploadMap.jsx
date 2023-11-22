@@ -102,20 +102,49 @@ const UploadMap = () => {
         }
     };
 
-    const handleClickConfirm = () => {
+    const handleClickConfirm = async () => {
         if (geojson == null) {
             setError(
                 'Please upload a file :)'
             );
         } else {
+
+            // create blob from json, then transform to readable stream
+            const stream = new Blob([JSON.stringify(geojson)], {
+                type: 'application/json',
+            }).stream();
+
+            // gzip compression
+            const compressed = stream.pipeThrough(new CompressionStream("gzip"));
+
+            // create response
+            const response = await new Response(compressed);
+            // Get response Blob
+            const blob = await response.blob();
+            // Get the ArrayBuffer
+            const buffer = await blob.arrayBuffer();
+
+            let binary = buffer;
+            let features = []
+            let style = {
+                fill: "#e8c2ff",
+                border: "#ab63d6",
+                bubble: { 
+                    radius: 1,
+                    fill: "#e8c2ff",
+                    border: "#ab63d6",
+                },
+            }
+            for (let i = 0; i < geojson.features.length; i++) {
+                features.push({
+                    properties: geojson.features[i].properties,
+                    style: style
+                })
+            }
             dispatch(createMap({
-                type: geojson.type,
-                features: geojson.features
+                data: binary,
+                features: features
             }));
-            console.log({
-                type: geojson.type,
-                features: geojson.features
-            });
             dispatch(openModal("CHOOSE_TEMPLATE"));
         }
     }

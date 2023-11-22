@@ -33,8 +33,8 @@ const DataInfo = ({view}) => {
 
     useEffect(()=> {
         const list = [];
-        if (newMap.data.features.length > 0) { // does it have at least one feature?
-            const props = newMap.data.features[0].properties;
+        if (newMap.features.length > 0) { // does it have at least one feature?
+            const props = newMap.features[0].properties;
             if (newMap.template == "string") {
                 for (const [key, value] of Object.entries(props)) {
                     if (typeof value == "string") {
@@ -100,6 +100,7 @@ const DataInfo = ({view}) => {
 
     useEffect(() => {
         if (newMap.name != "") {
+            console.log(newMap);
             apis.postCreateMap(newMap);
             dispatch(closeModal());
         }

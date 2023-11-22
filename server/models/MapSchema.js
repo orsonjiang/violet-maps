@@ -55,7 +55,19 @@ const MapSchema = new Schema(
         ownerId: { type: String, required: true },
         tags: [String],
         publishedDate: { type: Date, required: true },
-        data: {type: Object},
+        data: {type: Object, required: true },
+        features: [{
+            properties: [{type: Object, required: true}],
+            style: {
+                fill: { type: String, required: true },
+                border: { type: String, required: true },
+                bubble: { 
+                    radius: { type: Number, required: true },
+                    fill: { type: String, required: true },
+                    border: { type: String, required: true },
+                },
+            }
+        }],
         graphics: {
             fontStyle: { type: String, required: true },
             fontSize: { type: Number, required: true },
