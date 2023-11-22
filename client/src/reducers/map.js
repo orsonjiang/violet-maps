@@ -1,4 +1,4 @@
-import { CREATE_MAP, CREATE_MAP_PROPERTIES, CREATE_MAP_TEMPLATE } from "../action-types/map-types";
+import { CREATE_MAP, CREATE_MAP_PROPERTIES, CREATE_MAP_TEMPLATE, SET_MAPS, SET_CURRENT_MAP } from "../action-types/map-types";
 
 const initialState = {
     newMap: {
@@ -10,6 +10,7 @@ const initialState = {
         color: ""
     },
 	currentMap: null,
+    maps: []
 }
 
 const map = (state = initialState, action) => {
@@ -39,7 +40,16 @@ const map = (state = initialState, action) => {
                     ...action.payload
                 }
             }
-
+        case SET_MAPS:
+            return {
+                ...state,
+                maps: action.payload
+            }
+        case SET_CURRENT_MAP:
+            return {
+                ...state,
+                currentMap: action.payload
+            }
 		default:
 			return state;
 	}

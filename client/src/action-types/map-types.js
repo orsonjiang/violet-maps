@@ -3,3 +3,7 @@ export const CREATE_MAP = "CREATE_MAP";
 export const CREATE_MAP_TEMPLATE= "CREATE_MAP_TEMPLATE";
 
 export const CREATE_MAP_PROPERTIES = "CREATE_MAP_PROPERTIES";
+
+export const SET_MAPS = "SET_MAPS";
+
+export const SET_CURRENT_MAP = "SET_CURRENT_MAP";

@@ -44,15 +44,14 @@ createMap = (req, res) => {
         }
     });
 
-    console.log(newMap.data);
-    console.log(body.data);
     if (!newMap) {
         return res.status(400).json({ success: false, error: err })
     }
-    newMap.markModified('data');
+    // newMap.markModified('data');
     newMap.save().then(() => {
         return res.status(201).json({
-            successMessage: "Map Created"
+            successMessage: "Map Created",
+            id: newMap._id
         })
     })
     .catch(error => {
@@ -62,6 +61,26 @@ createMap = (req, res) => {
     })
 }
 
+getMaps = (req, res) => {
+
+}
+
+getCurrentMap = async (req, res) => {
+    console.log("Find map with id: " + JSON.stringify(req.params.id));
+
+    await Map.findById({ _id: req.params.id }, (err, map) => {
+        if (err) {
+            return res.status(400).json({ success: false, error: err });
+        }
+        return res.status(200).json({ success: true, map: map })
+
+    }).catch(err => console.log(err))
+}
+
+
+
 module.exports = {
-	createMap
+	createMap,
+    getMaps,
+    getCurrentMap
 };

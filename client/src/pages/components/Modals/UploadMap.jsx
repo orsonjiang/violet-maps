@@ -118,13 +118,15 @@ const UploadMap = () => {
             const compressed = stream.pipeThrough(new CompressionStream("gzip"));
 
             // create response
-            const response = await new Response(compressed);
+            const response = new Response(compressed);
             // Get response Blob
             const blob = await response.blob();
             // Get the ArrayBuffer
             const buffer = await blob.arrayBuffer();
 
-            let binary = buffer;
+            // convert to base64 encoded string
+            const base64 = btoa(new Uint8Array(buffer).reduce((acc, i) => acc += String.fromCharCode.apply(null, [i]), ''));
+
             let features = []
             let style = {
                 fill: "#e8c2ff",
@@ -142,9 +144,10 @@ const UploadMap = () => {
                 })
             }
             dispatch(createMap({
-                data: binary,
+                data: base64,
                 features: features
             }));
+
             dispatch(openModal("CHOOSE_TEMPLATE"));
         }
     }
