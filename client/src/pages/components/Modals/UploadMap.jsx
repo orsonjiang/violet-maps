@@ -186,11 +186,12 @@ const UploadMap = () => {
                                     <p className="text-sm mt-1">.JSON, .GEOJSON, .SHP/.DBF, .KML</p>
                                 </div>
                             </div> 
-                            {error != '' 
+                            {error != '' && geojson == null
                                 ? <p className="text-sm text-red-500">Error: {error}</p> 
-                                : filename != '' 
-                                    ? <p className="text-sm text-purple-500">Files Uploaded: {filename}</p> 
-                                    : null}
+                                : null}
+                            {geojson != null 
+                                ? <p className="text-sm text-purple-500">Files Uploaded: {filename}</p> 
+                                : null}
                             <div className='grid grid-cols-4 grid-row-1 my-4'>
                                 <div className='col-span-2 flex space-x-2 justify-end text-sm'>
                                     <button

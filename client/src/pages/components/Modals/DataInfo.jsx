@@ -100,7 +100,6 @@ const DataInfo = ({view}) => {
 
     useEffect(() => {
         if (newMap.name != "") {
-            console.log(newMap);
             apis.postCreateMap(newMap);
             dispatch(closeModal());
         }
