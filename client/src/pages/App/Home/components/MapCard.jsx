@@ -1,9 +1,13 @@
 import { useState, useEffect, useRef } from "react";
 import Modal from "../../../components/Modals/Modal";
 import { useNavigate } from "react-router-dom";
+import apis from "../../../../api/api";
+import { useDispatch } from "react-redux";
+import { setCurrentMap } from "../../../../actions/map";
 
 const MapCard = ({ mapInfo }) => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [menu, setMenu] = useState("none");
     const [modal, setModal] = useState("");
 
@@ -37,11 +41,15 @@ const MapCard = ({ mapInfo }) => {
     closeMenus(ref);
 
     const handleClickCard = () => {
-        if (mapInfo.publishedDate == null) {
-            navigate("/app/editmap");
-        } else {
-            navigate("/app/map");
-        }
+        apis.getCurrentMap(mapInfo._id).then((res) => {
+            dispatch(setCurrentMap(res.data.map));
+            if (mapInfo.publishedDate == null) {
+                navigate("/app/editmap");
+            } else {
+                navigate("/app/map");
+            }
+        }).catch((err)=> console.log(err));
+        
     }
     
     const clickMenuMapCard = (event) => {
