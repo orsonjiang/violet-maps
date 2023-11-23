@@ -2,7 +2,7 @@ import { SET_VIEW, SET_SEARCH_TEXT, SET_SEARCH_BY, SET_SORT_BY } from "../action
 
 const initialState = {
     view: "NONE",
-    searchBy: "",
+    searchBy: "Map Name",
     searchText: "",
     sortBy: "",
 }
@@ -12,7 +12,13 @@ const home = (state = initialState, action)=> {
         case SET_VIEW:
             return {
                 ...state,
-                view: action.payload
+                view: action.payload,
+                searchBy: "Map Name"
+            }
+        case SET_SEARCH_BY:
+            return {
+                ...state,
+                searchBy: action.payload
             }
         default:
             return state;

@@ -13,7 +13,7 @@ const UploadMap = () => {
     const [geojson, setgeojson] = useState(null);
     const [filename, setFilename] = useState('');
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
     const closeUploadModal = () => {
         dispatch(closeModal());
