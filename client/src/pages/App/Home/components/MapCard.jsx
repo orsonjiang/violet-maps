@@ -1,7 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import Modal from "../../../components/Modals/Modal";
+import { useNavigate } from "react-router-dom";
 
 const MapCard = ({ mapInfo }) => {
+    const navigate = useNavigate();
     const [menu, setMenu] = useState("none");
     const [modal, setModal] = useState("");
 
@@ -34,6 +36,19 @@ const MapCard = ({ mapInfo }) => {
     const ref = useRef(null);
     closeMenus(ref);
 
+    const handleClickCard = () => {
+        if (mapInfo.publishedDate == null) {
+            navigate("/app/editmap");
+        } else {
+            navigate("/app/map");
+        }
+    }
+    
+    const clickMenuMapCard = (event) => {
+        event.stopPropagation();
+        setMenu("mapCard");
+    }
+
     return (
         <div>
             {modal === "rename" ? 
@@ -41,10 +56,10 @@ const MapCard = ({ mapInfo }) => {
                 (modal === "fork" ? <Modal title={"Fork Map?"} description={"Confirm by typing a name for the Map of Europe"} inputText={"Enter Map Name"} containsInput={true} /> : "")
             }
 
-            {/* <div className={`p-1 pt-1 rounded-md h-full drop-shadow-sm ${mapInfo.publishedDate == null ? "border-2 border-violet-200 bg-white" : "border-2 border-indigo-300 bg-indigo-300/[0.9]"}`}> */}
+            <div onClick={handleClickCard} className={`p-1 pt-1 rounded-md h-full drop-shadow-sm ${mapInfo.publishedDate == null ? "border-2 border-violet-200 bg-white" : "border-2 border-indigo-300 bg-indigo-300/[0.9]"}`}>
                 <div className="relative">
                     <button 
-                        onClick={() => {setMenu("mapCard")}}
+                        onClick={clickMenuMapCard}
                         className="absolute right-2"
                     >
                         <i className="fas fa-ellipsis-h w-3 mr-1 text-white"/>
@@ -99,7 +114,7 @@ const MapCard = ({ mapInfo }) => {
                         }) : <div className={`text-xs ${mapInfo.publishedDate == null ? "text-gray-300" : "text-white/[0.6]"}`}>No tags</div>}
                     </div>
                 </div>
-            {/* </div> */}
+            </div>
         </div>
     );
 };
