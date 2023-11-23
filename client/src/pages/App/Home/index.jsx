@@ -7,11 +7,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 // import store from '../../../store';
 import { openModal } from '../../../actions/modal';
+import { setView } from '../../../actions/home';
 
 const Home = () => {
     const [menu, setMenu] = useState("none");
     // const [modal, setModal] = useState(false);
     const currentModal = useSelector((state)=> state.modal.currentModal);
+    const view = useSelector((state)=> state.home.view);
+    const user = useSelector((state)=> state.user.user);
 
     const dispatch = useDispatch()
 
@@ -35,6 +38,16 @@ const Home = () => {
 
     const ref = useRef(null);
     closeMenus(ref);
+
+    useEffect(() => {
+        if (view == "NONE") {
+            if (user.username == "") {
+                dispatch(setView("EXPLORE"));
+            } else {
+                dispatch(setView("HOME"));
+            }
+        }
+    }, [])
 
     const exampleListOfMaps = [
         {

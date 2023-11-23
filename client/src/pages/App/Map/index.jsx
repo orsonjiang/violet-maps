@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { openModal } from "../../../actions/modal";
 import * as L from 'leaflet';
+import { setView } from "../../../actions/home";
 
 const Map = () => {
     const map = useRef(null);
@@ -18,6 +19,7 @@ const Map = () => {
     }
 
     useEffect(() => {
+        dispatch(setView("NONE"));
         if (!map.current) {
             map.current = L.map('map').setView([39.74739, -105], 2);
 

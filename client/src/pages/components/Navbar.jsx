@@ -60,6 +60,7 @@ const Navbar = () => {
                 <div onClick={() => handleClickView("EXPLORE")}>
                     <i className={`fas fa-globe-americas text-xl ${view == "EXPLORE" ? "text-white" : "text-violet-100"}`} />
                 </div>
+                {view != "NONE" ?
                 <div className="flex w-full">
                     <div className="relative">
                         <button
@@ -160,8 +161,8 @@ const Navbar = () => {
                             </svg>
                         </button>
                     </div>
-                </div>
-                <div className="relative">
+                </div> : null }
+                <div className={`${view == "NONE" ? "absolute right-2" : "relative"}`}>
                     <button
                         onClick={() => {
                             setMenu('profile');
@@ -176,7 +177,7 @@ const Navbar = () => {
                     {menu == 'profile' ? (
                         <div
                             ref={ref}
-                            className="absolute right-0 z-50 my-2 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow min-w-32"
+                            className={`absolute ${view == "NONE" ? "top-[-10px] right-12" : "right-0"} z-50 my-2 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow min-w-32`}
                             id="user-dropdown"
                         >
                             {user._id === '' ? (

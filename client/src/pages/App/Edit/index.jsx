@@ -9,6 +9,7 @@ import { openModal } from '../../../actions/modal';
 import geobuf from "geobuf";
 import Pbf from "pbf";
 import { updateMapData } from "../../../actions/map";
+import { setView } from "../../../actions/home";
 
 const EditMap = () => {
     const map = useRef(null);
@@ -23,6 +24,7 @@ const EditMap = () => {
     }
 
     useEffect(() => {
+        dispatch(setView("NONE"));
         if (!map.current) {
             map.current = L.map('map').setView([39.74739, -105], 2);
 
