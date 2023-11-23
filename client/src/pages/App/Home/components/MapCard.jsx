@@ -106,7 +106,7 @@ const MapCard = ({ mapInfo }) => {
                         {mapInfo.name}
                     </div>
                     <div className={`text-[13px] pt-1 ${mapInfo.publishedDate == null ? "text-violet-400" : "text-white font-medium"}`}>
-                        {mapInfo.owner}
+                        {mapInfo.username}
                     </div>
                     <div className="flex mt-3 pb-4 gap-2 overflow-x-auto">
                         {mapInfo.tags.length != 0 ? mapInfo.tags.map((tag, index) => {

@@ -8,13 +8,16 @@ import { Link } from 'react-router-dom';
 // import store from '../../../store';
 import { openModal } from '../../../actions/modal';
 import { setView } from '../../../actions/home';
+import apis from '../../../api/api';
+import { setMaps } from '../../../actions/map';
 
 const Home = () => {
     const [menu, setMenu] = useState("none");
     // const [modal, setModal] = useState(false);
     const currentModal = useSelector((state)=> state.modal.currentModal);
-    const view = useSelector((state)=> state.home.view);
+    const {view, searchBy} = useSelector((state)=> state.home);
     const user = useSelector((state)=> state.user.user);
+    const maps = useSelector((state)=> state.map.maps);
 
     const dispatch = useDispatch()
 
@@ -40,6 +43,9 @@ const Home = () => {
     closeMenus(ref);
 
     useEffect(() => {
+        apis.getMaps(view, "", searchBy, user.username).then((res) => {
+            dispatch(setMaps(res.data.list));
+        })
         if (view == "NONE") {
             if (user.username == "") {
                 dispatch(setView("EXPLORE"));
@@ -47,66 +53,13 @@ const Home = () => {
                 dispatch(setView("HOME"));
             }
         }
-    }, [])
+    }, []);
 
-    const exampleListOfMaps = [
-        {
-            id: 0,
-            name: 'Map of Europe',
-            owner: 'Fanny Li',
-            publishedDate: null,
-            tags: ['Europe', 'Population'],
-        },
-        {
-            id: 0,
-            name: 'Map of China',
-            owner: 'Kevin Chen',
-            publishedDate: new Date(),
-            tags: ['China', 'Population'],
-        },
-        {
-            id: 0,
-            name: 'Map of USA',
-            owner: 'Kayla Fang',
-            publishedDate: null,
-            tags: ['USA', 'Population'],
-        },
-        {
-            id: 0,
-            name: 'Map of Korea',
-            owner: 'Orson Jiang',
-            publishedDate: null,
-            tags: ['Korea', 'Population'],
-        },
-        {
-            id: 0,
-            name: 'This is the greatest map you will ever see in the world',
-            owner: 'Orson Jiang',
-            publishedDate: null,
-            tags: ['WorldMap', 'Puppies', "Animal", "Population"],
-        },
-        {
-            id: 0,
-            name: 'Map of Japan',
-            owner: 'Rachel Cong',
-            publishedDate: null,
-            tags: ['Japan', 'Population', "Infographic", "Rachel", "Country"],
-        },
-        {
-            id: 0,
-            name: 'Map of Germany',
-            owner: 'Katlyn Ye',
-            publishedDate: new Date(),
-            tags: [],
-        },
-        {
-            id: 0,
-            name: 'Map of France',
-            owner: 'Katlyn Ye',
-            publishedDate: null,
-            tags: [],
-        },
-    ];
+    useEffect(() => {
+        apis.getMaps(view, "", searchBy, user.username).then((res) => {
+            dispatch(setMaps(res.data.list))
+        })
+    }, [view]);
 
     return (
         <div className="my-6 mx-20">
@@ -115,12 +68,13 @@ const Home = () => {
             {currentModal == "DATA_PROPS" ?  <DataInfo view={"home"} containsInput={true}/> : ""}
             <div className='flex justify-between items-center'>
                 <div className="my-6 text-2xl font-semibold">
-                    Your Library
+                    {view == "HOME" ? "Your Library" : "All Maps"}
                 </div>
                 <div className='flex gap-3 items-center'>
+                    {view == "HOME" ?
                     <button className='h-fit py-2.5 px-4 rounded-lg text-white text-sm bg-indigo-400 hover:bg-indigo-500' onClick={openUploadModal}>
                         Create Map
-                    </button>
+                    </button> : null}
                     <div className="relative">
                         <button
                             id="dropdown-button"
@@ -202,7 +156,7 @@ const Home = () => {
                 </div>
             </div>
             <div className="grid xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
-                {exampleListOfMaps.map((mapInfo, index) => {
+                {maps.map((mapInfo, index) => {
                     return <MapCard key={index} mapInfo={mapInfo} />
                 })}
             </div>

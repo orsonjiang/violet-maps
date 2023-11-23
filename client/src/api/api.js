@@ -9,11 +9,12 @@ const api = axios.create({
 
 const postCreateMap = (data) => api.post("/map", data);
 const getCurrentMap = (id) => api.get(`/map/${id}`);
-const getMaps = (view, searchText, searchBy) => {
+const getMaps = (view, searchText, searchBy, username) => {
 	return api.post(`/maps`, {
 		view: view,
         searchText: searchText,
-        searchBy: searchBy
+        searchBy: searchBy,
+		username: username
 	})
 }
 

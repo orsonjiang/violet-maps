@@ -32,9 +32,10 @@ createMap = async (req, res) => {
 
     const newMap = new Map({
         name: body.name,
-        ownerEmail: body.email,
+        username: body.username,
         tags: [],
         publishedDate: null,
+        creationDate: new Date(),
         data: buf,
         features: body.features,
         graphics: {
@@ -81,8 +82,39 @@ createMap = async (req, res) => {
     })
 }
 
-getMaps = (req, res) => {
-
+getMaps = async (req, res) => {
+    let body = req.body;
+    if (body.view === "HOME") {
+        await Map.find({ username: body.username, name: new RegExp(body.searchText, "i") })
+            .exec((err, maps) => {
+                if (err) {
+                    return res.status(400).json({ success: false, error: err })
+                }
+                if (!maps) {
+                    return res
+                        .status(404)
+                        .json({ success: false, error: 'Maps not found' })
+                }
+                else {
+                    // only grab the map data needed
+                    let mapsList = [];
+                    for (let i = 0; i < maps.length; i++) {
+                        let map = {
+                            _id: maps[i]._id,
+                            name: maps[i].name,
+                            username: maps[i].username,
+                            tags: maps[i].tags,
+                            likes: maps[i].social.likes,
+                            dislikes: maps[i].social.dislikes,
+                            creationDate: maps[i].creationDate,
+                            publishedDate: maps[i].publishedDate
+                        };
+                        mapsList.push(map);
+                    }
+                    return res.status(200).json({ success: true, list: mapsList })
+                }
+            })
+    }
 }
 
 getCurrentMap = async (req, res) => {

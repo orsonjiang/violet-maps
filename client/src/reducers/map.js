@@ -5,7 +5,7 @@ const initialState = {
         name: "",
         data: {},
         features: [],
-        email: "",
+        username: "",
         template: "",
         dataProperty: "",
         color: ""
@@ -23,7 +23,7 @@ const map = (state = initialState, action) => {
                     ...initialState.newMap,
                     data: action.payload["data"],
                     features: action.payload["features"], 
-                    email: action.payload["email"]
+                    username: action.payload["username"]
                 }
 			}
         case CREATE_MAP_TEMPLATE:

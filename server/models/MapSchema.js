@@ -52,9 +52,10 @@ const Schema = mongoose.Schema;
 const MapSchema = new Schema(
     {
         name: { type: String, required: true },
-        ownerEmail: { type: String, required: true },
+        username: { type: String, required: true },
         tags: [String],
         publishedDate: { type: Date },
+        creationDate: { type: Date, required: true },
         data: {type: Object, required: true },
         features: [{
             properties: [{type: Object, required: true}],
