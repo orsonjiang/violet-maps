@@ -4,8 +4,8 @@ import { useDispatch } from 'react-redux';
 import * as shapefile from 'shapefile';
 import { kml } from '@tmcw/togeojson';
 import { createMap } from "../../../actions/map";
-import geobuf from "geobuf";
-import Pbf from "pbf";
+// import geobuf from "geobuf";
+// import Pbf from "pbf";
 
 const UploadMap = () => {
     const fileInput = useRef(null);
@@ -141,11 +141,11 @@ const UploadMap = () => {
             let features = []
             let style = {
                 fill: "#E9D5FF",
-                border: "#A5B4FC",
+                border: "#97a8fc",
                 bubble: { 
                     radius: 1,
                     fill: "#E9D5FF",
-                    border: "#A5B4FC",
+                    border: "#97a8fc",
                 },
             }
             for (let i = 0; i < geojson.features.length; i++) {

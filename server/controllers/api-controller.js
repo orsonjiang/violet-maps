@@ -12,14 +12,31 @@ createMap = async (req, res) => {
         })
     }
 
-    var buffer = geobuf.encode(body.data, new Pbf());
+    var buf = geobuf.encode(body.data, new Pbf());
+
+    // // going to compress
+    // const stream = new Blob([buf], {
+    //     type: "application/json",
+    // }).stream();
+
+    // const compressed = stream.pipeThrough(new CompressionStream("gzip"));
+
+    // // create response
+    // const response = new Response(compressed);
+    // // Get response Blob
+    // const blob = await response.blob();
+    // // Get the ArrayBuffer
+    // const buffer = await blob.arrayBuffer();
+
+    // const arr = new Uint8Array(buffer)
+
 
     const newMap = new Map({
         name: body.name,
         ownerId: "blank",
         tags: [],
         publishedDate: new Date(),
-        data: buffer,
+        data: buf,
         features: body.features,
         graphics: {
             fontStyle: "Times New Roman",
