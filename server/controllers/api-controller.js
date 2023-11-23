@@ -30,12 +30,11 @@ createMap = async (req, res) => {
 
     // const arr = new Uint8Array(buffer)
 
-
     const newMap = new Map({
         name: body.name,
-        ownerId: "blank",
+        ownerEmail: body.email,
         tags: [],
-        publishedDate: new Date(),
+        publishedDate: null,
         data: buf,
         features: body.features,
         graphics: {

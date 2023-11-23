@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { closeModal, openModal } from "../../../actions/modal";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as shapefile from 'shapefile';
 import { kml } from '@tmcw/togeojson';
 import { createMap } from "../../../actions/map";
@@ -104,6 +104,8 @@ const UploadMap = () => {
         }
     };
 
+    const user = useSelector((state)=> state.user.user);
+
     const handleClickConfirm = async () => {
         if (geojson == null) {
             setError(
@@ -136,8 +138,6 @@ const UploadMap = () => {
             // const base64 = btoa(new Uint8Array(buffer).reduce((acc, i) => acc += String.fromCharCode.apply(null, [i]), ''));
             // console.log(base64);
 
-            
-
             let features = []
             let style = {
                 fill: "#E9D5FF",
@@ -156,7 +156,8 @@ const UploadMap = () => {
             }
             dispatch(createMap({
                 data: geojson,
-                features: features
+                features: features,
+                email: user.email
             }));
 
             dispatch(openModal("CHOOSE_TEMPLATE"));

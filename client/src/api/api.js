@@ -7,11 +7,7 @@ const api = axios.create({
 	baseURL: `${import.meta.env.VITE_SERVER_URL}/api`
 })
 
-const postCreateMap = (data) => {
-	return api.post("/map", data, {
-		'Content-Type': `multipart/form-data;`,
-	})
-}
+const postCreateMap = (data) => api.post("/map", data);
 const getCurrentMap = (id) => api.get(`/map/${id}`);
 const getMaps = (view, searchText, searchBy) => {
 	return api.post(`/maps`, {
