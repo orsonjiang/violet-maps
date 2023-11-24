@@ -4,13 +4,16 @@ import { Link, useNavigate } from 'react-router-dom';
 import store from '../../store';
 import auths from '../../api/auth';
 import { setUser } from '../../actions/user';
-import { setView, setSearchBy } from '../../actions/home';
+import { setView, setSearchBy, setSearchText } from '../../actions/home';
+import { setMaps } from '../../actions/map';
+import apis from '../../api/api';
 
 const Navbar = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const [menu, setMenu] = useState('none');
+    const [text, setText] = useState("");
 
     const { user } = useSelector((state) => state.user);
     const {view, searchBy} = useSelector((state) => state.home);
@@ -50,6 +53,16 @@ const Navbar = () => {
 
     const ref = useRef(null);
     closeMenus(ref);
+
+    const handleEnter = (event) => {
+        if (event.key == "Enter") {
+            dispatch(setSearchText(text));
+            apis.getMaps(view, text, searchBy, user.username).then((res) => {
+                dispatch(setMaps(res.data.list));
+            })
+            setText("");
+        }
+    }
 
     return (
         <nav className="bg-gradient-to-r from-violet-300 to-indigo-300 p-3">
@@ -139,6 +152,9 @@ const Navbar = () => {
                             className="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300  "
                             placeholder="Search maps"
                             required=""
+                            onChange={(event) => setText(event.target.value)}
+                            onKeyDown={handleEnter}
+                            value={text}
                         />
                         <button
                             type="submit"
