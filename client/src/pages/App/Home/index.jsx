@@ -156,9 +156,9 @@ const Home = () => {
                 </div>
             </div>
             <div className="grid xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
-                {maps.map((mapInfo, index) => {
+                {maps.length != 0 ? maps.map((mapInfo, index) => {
                     return <MapCard key={index} mapInfo={mapInfo} />
-                })}
+                }) : <h3 className="text-gray-400 text-sm">No maps</h3>}
             </div>
         </div>
     );

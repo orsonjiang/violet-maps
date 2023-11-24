@@ -64,6 +64,14 @@ const Navbar = () => {
         }
     }
 
+    const clickSearch = () => {
+        dispatch(setSearchText(text));
+        apis.getMaps(view, text, searchBy, user.username).then((res) => {
+            dispatch(setMaps(res.data.list));
+        })
+        setText("");
+    }
+
     return (
         <nav className="bg-gradient-to-r from-violet-300 to-indigo-300 p-3">
             <div className="flex gap-4 items-center pl-2">
@@ -159,6 +167,7 @@ const Navbar = () => {
                         <button
                             type="submit"
                             className="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-indigo-500 rounded-e-lg border border-indigo-500 hover:bg-indigo-600 focus:outline-none "
+                            onClick={clickSearch}
                         >
                             <svg
                                 className="w-4 h-4"
