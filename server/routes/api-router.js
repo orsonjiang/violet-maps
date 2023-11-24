@@ -8,5 +8,7 @@ router.get("/", (req, res) => {
 });
 
 router.post("/map", ApiController.createMap);
+router.get("/map/:id", ApiController.getCurrentMap);
+router.post("/maps", ApiController.getMaps);
 
 module.exports = router;

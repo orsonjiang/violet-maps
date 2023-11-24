@@ -6,11 +6,16 @@ import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useSelector, useDispatch } from "react-redux";
 import { openModal } from '../../../actions/modal';
+import geobuf from "geobuf";
+import Pbf from "pbf";
+import { updateMapData } from "../../../actions/map";
+import { setView } from "../../../actions/home";
 
 const EditMap = () => {
     const map = useRef(null);
 
     const currentModal = useSelector((state) => state.modal.currentModal);
+    const currentMap = useSelector((state) => state.map.currentMap);
 
     const dispatch = useDispatch();
 
@@ -19,6 +24,7 @@ const EditMap = () => {
     }
 
     useEffect(() => {
+        dispatch(setView("NONE"));
         if (!map.current) {
             map.current = L.map('map').setView([39.74739, -105], 2);
 
@@ -36,8 +42,46 @@ const EditMap = () => {
             map.current.on('drag', function() {
                 map.current.panInsideBounds(bounds, { animate: false });
             });
+
+            // get the map data from the store and convert back to geojson
+            const convertToGeoJSON = async () => {
+                //convert from base64 back to string
+                let str = atob(currentMap.data);
+                let buf = new ArrayBuffer(str.length);
+                let bufView = new Uint8Array(buf);
+                for (var i=0; i<str.length; i++) {
+                    bufView[i] = str.charCodeAt(i);
+                }
+
+                // const stream = new Blob([buf], {
+                //     type: "application/json",
+                // }).stream();
+
+                // // decompress
+                // const decompress = stream.pipeThrough(
+                //     new DecompressionStream("gzip")
+                // );
+
+                // const resp = await new Response(decompress);
+                // const blob = await resp.blob();
+                // const buffer = await blob.arrayBuffer();
+                // const arr = new Uint8Array(buffer)
+                var geojson = geobuf.decode(new Pbf(bufView));
+                return geojson;
+            }
+            convertToGeoJSON().then((geojson) => {
+                L.geoJSON(geojson, {
+                    style: function (feature) {
+                        return {
+                            color: currentMap.features[geojson.features.indexOf(feature)].style.border,
+                            fillColor: currentMap.features[geojson.features.indexOf(feature)].style.fill,
+                        }
+                    }
+                }).addTo(map.current);
+                // current map in the store would now have the map data in geojson
+                dispatch(updateMapData(geojson));
+            })
         }
-       
     }, [])
 
 

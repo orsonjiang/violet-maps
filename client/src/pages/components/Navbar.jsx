@@ -1,23 +1,28 @@
 import { useState, useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-
 import store from '../../store';
 import auths from '../../api/auth';
 import { setUser } from '../../actions/user';
+import { setView, setSearchBy } from '../../actions/home';
 
 const Navbar = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const [menu, setMenu] = useState('none');
 
     const { user } = useSelector((state) => state.user);
+    const {view, searchBy} = useSelector((state) => state.home);
 
-    // useEffect(() => {
-    //     if (user.email == "") {
-    //         navigate('/');
-    //     }
-    // },[user.email])
+    const handleClickView = (v) => {
+        dispatch(setView(v));
+        navigate('/app/home');
+    }
+
+    const handleClickSearchBy = (s) => {
+        dispatch(setSearchBy(s));
+    }
 
     const handleLogout = async () => {
         const req = await auths.postLogout();
@@ -46,15 +51,16 @@ const Navbar = () => {
     const ref = useRef(null);
     closeMenus(ref);
 
-    const setSearchBy = () => {};
-
     return (
         <nav className="bg-gradient-to-r from-violet-300 to-indigo-300 p-3">
             <div className="flex gap-4 items-center pl-2">
-                <Link to={'/app/home'}>
-                    <i className="fa fa-home text-xl text-white" />
-                </Link>
-                <i className="fas fa-globe-americas text-xl text-violet-100" />
+                <div onClick={() => handleClickView("HOME")}>
+                    <i className={`fa fa-home text-xl ${view == "HOME" ? "text-white" : "text-violet-100"}`} />
+                </div>
+                <div onClick={() => handleClickView("EXPLORE")}>
+                    <i className={`fas fa-globe-americas text-xl ${view == "EXPLORE" ? "text-white" : "text-violet-100"}`} />
+                </div>
+                {view != "NONE" ?
                 <div className="flex w-full">
                     <div className="relative">
                         <button
@@ -66,7 +72,7 @@ const Navbar = () => {
                                 setMenu('searchBy');
                             }}
                         >
-                            Map Name{' '}
+                            {searchBy}{' '}
                             <svg
                                 className="w-2.5 h-2.5 ms-2.5"
                                 aria-hidden="true"
@@ -97,6 +103,7 @@ const Navbar = () => {
                                         <button
                                             type="button"
                                             className="inline-flex w-full px-4 py-2 hover:bg-gray-100 "
+                                            onClick={() => handleClickSearchBy("Map Name")}
                                         >
                                             Map Name
                                         </button>
@@ -105,18 +112,22 @@ const Navbar = () => {
                                         <button
                                             type="button"
                                             className="inline-flex w-full px-4 py-2 hover:bg-gray-100 "
+                                            onClick={() => handleClickSearchBy("Map Properties")}
                                         >
                                             Map Properties
                                         </button>
                                     </li>
-                                    <li>
-                                        <button
-                                            type="button"
-                                            className="inline-flex w-full px-4 py-2 hover:bg-gray-100 "
-                                        >
-                                            Username
-                                        </button>
-                                    </li>
+                                    {view == "EXPLORE" ?
+                                        <li>
+                                            <button
+                                                type="button"
+                                                className="inline-flex w-full px-4 py-2 hover:bg-gray-100 "
+                                                onClick={() => handleClickSearchBy("Username")}
+                                            >
+                                                Username
+                                            </button>
+                                        </li> 
+                                    : null}
                                 </ul>
                             </div>
                         ) : null}
@@ -150,8 +161,8 @@ const Navbar = () => {
                             </svg>
                         </button>
                     </div>
-                </div>
-                <div className="relative">
+                </div> : null }
+                <div className={`${view == "NONE" ? "absolute right-2" : "relative"}`}>
                     <button
                         onClick={() => {
                             setMenu('profile');
@@ -166,7 +177,7 @@ const Navbar = () => {
                     {menu == 'profile' ? (
                         <div
                             ref={ref}
-                            className="absolute right-0 z-50 my-2 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow min-w-32"
+                            className={`absolute ${view == "NONE" ? "top-[-10px] right-12" : "right-0"} z-50 my-2 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow min-w-32`}
                             id="user-dropdown"
                         >
                             {user._id === '' ? (

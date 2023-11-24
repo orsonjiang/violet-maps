@@ -1,11 +1,13 @@
 import { useState, useEffect, useRef } from "react";
 import { ChromePicker } from "react-color"
 import { useSelector, useDispatch } from 'react-redux';
-import { createMapProperties } from "../../../actions/map";
+import { createMapProperties, setCurrentMap } from "../../../actions/map";
 import { closeModal } from "../../../actions/modal";
 import apis from "../../../api/api";
+import { useNavigate } from 'react-router-dom';
 
 const DataInfo = ({view}) => {
+    const navigate = useNavigate();
     const [menu, setMenu] = useState("none");
     const [dataPropList, setDataPropList] = useState([]);
     const [dataProp, setDataProp] = useState("N/A");
@@ -32,9 +34,9 @@ const DataInfo = ({view}) => {
     const newMap = useSelector((state)=> state.map.newMap);
 
     useEffect(()=> {
-        const list = [];
-        if (newMap.data.features.length > 0) { // does it have at least one feature?
-            const props = newMap.data.features[0].properties;
+        const list = []; // list of data props for user to choose
+        if (newMap.features.length > 0) { // does it have at least one feature?
+            const props = newMap.features[0].properties;
             if (newMap.template == "string") {
                 for (const [key, value] of Object.entries(props)) {
                     if (typeof value == "string") {
@@ -100,7 +102,12 @@ const DataInfo = ({view}) => {
 
     useEffect(() => {
         if (newMap.name != "") {
-            apis.postCreateMap(newMap);
+            apis.postCreateMap(newMap).then((res) => {
+                apis.getCurrentMap(res.data.id).then((res1) => {
+                    dispatch(setCurrentMap(res1.data.map));
+                    navigate("/app/editmap");
+                }).catch((err)=> console.log(err));
+            }).catch((err)=> console.log(err));
             dispatch(closeModal());
         }
     }, [newMap.name])
