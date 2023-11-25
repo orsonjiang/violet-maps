@@ -158,10 +158,34 @@ getCurrentMap = async (req, res) => {
     }).catch(err => console.log(err))
 }
 
+updateMapByID = async (req, res) => {
+    console.log("Updating map with id: " + JSON.stringify(req.params.id));
 
+    await Map.findById({_id: req.params.id}).then((map, err) => {
+        if (err) {
+            return res.status(400).json({ success: false, error: err});
+        }
+        else{
+            map.publishedDate = req.body.map.publishedDate;
+
+            map.save().then(() => {
+                return res.status(201).json({
+                    successMessage: "Map Created",
+                    id: map._id
+                })
+            })
+                .catch(error => {
+                    return res.status(400).json({
+                        errorMessage: error
+                    })
+                })
+        }
+    }).catch(err => console.log(err))
+}
 
 module.exports = {
 	createMap,
     getMaps,
-    getCurrentMap
+    getCurrentMap,
+    updateMapByID
 };

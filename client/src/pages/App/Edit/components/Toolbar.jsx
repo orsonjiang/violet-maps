@@ -18,26 +18,26 @@ const Toolbar = () => {
     }
 
     const selectModal = () => {
-        if (currentModal == "TEXT_MODAL"){
+        if (currentModal == "TEXT_MODAL") {
             return (
-                <Modal title={"Add/Edit Label for Region"} description={"Adding value to data property: gdp_value"} inputText={"Enter Value"} containsInput={true} /> 
+                <Modal title={"Add/Edit Label for Region"} description={"Adding value to data property: gdp_value"} inputText={"Enter Value"} containsInput={true} />
             )
         }
-        else if (currentModal == "ADD_DATA_PROP_MODAL"){
+        else if (currentModal == "ADD_DATA_PROP_MODAL") {
             return (
                 <Modal title={"Add New Data Property"} description={"Enter a name for your property"} inputText={"Enter Name"} containsInput={true} />
             )
         }
-        else if (currentModal == "DELETE_MAP"){
+        else if (currentModal == "DELETE_MAP") {
             return (
-                <Modal title={"Delete Map?"} description={"Please confirm that you want to delete the map."} containsInput={false} />    
+                <Modal title={"Delete Map?"} description={"Please confirm that you want to delete the map."} containsInput={false} />
             )
         }
-        else if (currentModal == "PUBLISH_MODAL"){
+        else if (currentModal == "PUBLISH_MODAL") {
             return (<Modal title={"Publish Map?"} description={"Please confirm that you want to publish this map."} containsInput={false} />);
         }
-        else if (currentModal == "LEGEND_MODAL"){
-            return (<Legend/>)
+        else if (currentModal == "LEGEND_MODAL") {
+            return (<Legend />)
         }
         else if (currentModal == "ADD_LAYER"){
             return (<AddLayer view={"edit"} containsInput={false} />)
@@ -187,7 +187,7 @@ const Toolbar = () => {
                 </li>
             </ul>
             <div className="px-4 py-3 hover:bg-gray-100 rounded-lg ">
-                <button className="block text-violet-500 text-xs  " onClick={() => openCurrentModal("TAG_MODAL")}>
+                <button className="block text-violet-500 text-xs  " onClick={() => openCurrentModal("ADD_DATA_PROP_MODAL")}>
                     + New Data Property
                 </button>
             </div>
@@ -239,11 +239,11 @@ const Toolbar = () => {
                 {border}
                 <button className="px-1 hover:bg-violet-100">Show Labels</button>
                 {border}
-                <button className="px-1 hover:bg-violet-100" onClick={() => {openCurrentModal("TEXT_MODAL")}}>Add Text</button>
+                <button className="px-1 hover:bg-violet-100" onClick={() => { openCurrentModal("TEXT_MODAL") }}>Add Text</button>
                 {border}
                 <div className="flex px-1 relative">
-                    <button 
-                        onClick={() => {setMenu("fontStyle")}}
+                    <button
+                        onClick={() => { setMenu("fontStyle") }}
                         className="flex gap-2 items-center"
                     >
                         Arial
@@ -267,8 +267,8 @@ const Toolbar = () => {
                 </button>
                 {border}
                 <div className="flex px-1 relative">
-                    <button 
-                        onClick={() => {setMenu("labelPosition")}}
+                    <button
+                        onClick={() => { setMenu("labelPosition") }}
                         className="flex gap-2 items-center"
                     >
                         Center
@@ -278,8 +278,8 @@ const Toolbar = () => {
                 </div>
                 {border}
                 <div className="flex relative">
-                    <button 
-                        onClick={() => {setMenu("regionColor")}}
+                    <button
+                        onClick={() => { setMenu("regionColor") }}
                         className="px-1 hover:bg-violet-100"
                     >
                         Region Color
@@ -288,8 +288,8 @@ const Toolbar = () => {
                 </div>
                 {border}
                 <div className="flex relative">
-                    <button 
-                        onClick={() => {setMenu("borderColor")}}
+                    <button
+                        onClick={() => { setMenu("borderColor") }}
                         className="px-1 hover:bg-violet-100"
                     >
                         Border Color
@@ -297,11 +297,11 @@ const Toolbar = () => {
                     {menu == "borderColor" ? <div ref={ref} className="absolute left-[-5px] z-50 my-9"><ChromePicker /></div> : null}
                 </div>
                 {border}
-                <button className="px-1 hover:bg-violet-100" onClick={() => {openCurrentModal("LEGEND_MODAL")}}>Legend</button>
+                <button className="px-1 hover:bg-violet-100" onClick={() => { openCurrentModal("LEGEND_MODAL") }}>Legend</button>
                 {border}
                 <div className="flex px-1 relative">
-                    <button 
-                        onClick={() => {setMenu("dataProperty")}}
+                    <button
+                        onClick={() => { setMenu("dataProperty") }}
                         className="flex gap-2 items-center"
                     >
                         GDP_Value
@@ -320,18 +320,18 @@ const Toolbar = () => {
                     Heat Map
                 </button>
                 {border}
-                <button className="px-1 hover:bg-violet-100" onClick={() => {openCurrentModal("PUBLISH_MODAL")}}>Publish</button>
+                <button className="px-1 hover:bg-violet-100" onClick={() => { openCurrentModal("PUBLISH_MODAL") }}>Publish</button>
                 {border}
                 <div className="flex px-1 relative">
-                    <button 
-                        onClick={() => {setMenu("export")}}
+                    <button
+                        onClick={() => { setMenu("export") }}
                         className="flex gap-2 items-center"
                     >
                         <i className="fa-solid fa-download"></i>
                     </button>
                     {menu == "export" ? exportMenu : null}
                 </div>
-                <button className="px-1" onClick={() => {openCurrentModal("DELETE_MAP")}}>
+                <button className="px-1" onClick={() => { openCurrentModal("DELETE_MAP") }}>
                     <i className="fa-solid fa-trash"></i>
                 </button>
             </div>

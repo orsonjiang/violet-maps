@@ -9,10 +9,10 @@ afterAll(() => {
 // describe("register users", () => {
 //     test("POST /auth/register", async () => {
 //         return request(app).post("/auth/register").send({
-//             firstName: "Tom",
-//             lastName: "Train",
-//             email: "tomq.train@email.com",
-//             username: "ttrain",
+//             firstName: "Jane",
+//             lastName: "Doe",
+//             email: "jane.doe@testemail.com",
+//             username: "janedoe",
 //             password: "password123", 
 //         }).expect(200)
 //     })

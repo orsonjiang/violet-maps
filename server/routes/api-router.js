@@ -10,5 +10,6 @@ router.get("/", (req, res) => {
 router.post("/map", ApiController.createMap);
 router.get("/map/:id", ApiController.getCurrentMap);
 router.post("/maps", ApiController.getMaps);
+router.put("/map/:id", ApiController.updateMapByID);
 
 module.exports = router;
