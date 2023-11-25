@@ -6,7 +6,7 @@ import { openModal } from "../../../actions/modal";
 import * as L from 'leaflet';
 // import "../../../dist/leaflet.browser.print.min.js"
 import { setView } from "../../../actions/home";
-import { addComment } from "../../../actions/map.js";
+import { updateMapInStore } from "../../../actions/map.js";
 import apis from "../../../api/api.js";
 import { useNavigate } from "react-router-dom";
 import geobuf from "geobuf";
@@ -48,14 +48,17 @@ const Map = () => {
                 datePublished: new Date()
             }
 
-            currentMap.social.comments.unshift(newComment);
-            console.log(currentMap);
+            const updates = {...currentMap};
+            delete updates["data"];
 
-            apis.updateMapByID(currentMap._id, currentMap).then((res) => {
+            updates.social.comments.unshift(newComment);
+            // console.log(currentMap);
 
-                dispatch(addComment(currentMap.social.comments))
-                ref.current.value = "";
             
+            apis.updateMap(currentMap._id, updates).then((res) => {
+                console.log(res);
+                dispatch(updateMapInStore(updates))
+                ref.current.value = "";
             }).catch((err) => {
                 console.log(err);
             })
@@ -198,7 +201,7 @@ const Map = () => {
                             <button className='rounded-full bg-accent py-1.5 px-4 shadow-lg text-white'><i className="fa-solid fa-thumbs-down pr-2"></i>{currentMap.social.dislikes}</button>
                             <div className="flex relative">
                                 <button onClick={() => { setMenu("export") }} className='rounded-full bg-accent py-1.5 px-4 shadow-lg text-white'>
-                                    <i class="fa-solid fa-file-export pr-2"></i>
+                                    <i className="fa-solid fa-file-export pr-2"></i>
                                     Export
                                 </button>
                                 {menu == "export" ? exportMenu : null}

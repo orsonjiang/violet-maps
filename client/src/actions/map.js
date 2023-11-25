@@ -1,4 +1,4 @@
-import { CREATE_MAP, CREATE_MAP_TEMPLATE, CREATE_MAP_PROPERTIES, SET_MAPS, SET_CURRENT_MAP, UPDATE_MAP_DATA, ADD_COMMENT, EXPORT_MAP, SET_LEAFLET_MAP} from "../action-types/map-types";
+import { CREATE_MAP, CREATE_MAP_TEMPLATE, CREATE_MAP_PROPERTIES, SET_MAPS, SET_CURRENT_MAP, UPDATE_MAP_DATA, EXPORT_MAP, SET_LEAFLET_MAP, UPDATE_MAP} from "../action-types/map-types";
 
 export const createMap = (data) => ({
 	type: CREATE_MAP,
@@ -36,8 +36,13 @@ export const updateMapData = (data) => ({
 // 	payload: data
 // })
 
-export const addComment = (data) => ({
-	type: ADD_COMMENT,
+// export const addComment = (data) => ({
+// 	type: ADD_COMMENT,
+// 	payload: data
+// });
+
+export const updateMapInStore = (data) => ({
+	type: UPDATE_MAP,
 	payload: data
 });
 

@@ -164,7 +164,7 @@ getCurrentMap = async (req, res) => {
     }).catch(err => console.log(err))
 }
 
-updateMapByID = async (req, res) => {
+updateMap = async (req, res) => {
     console.log("Updating map with id: " + JSON.stringify(req.params.id));
 
     await Map.findById({_id: req.params.id}).then((map, err) => {
@@ -176,8 +176,8 @@ updateMapByID = async (req, res) => {
             map.social.comments = req.body.map.social.comments;
 
             map.save().then(() => {
-                return res.status(201).json({
-                    successMessage: "Map Created",
+                return res.status(200).json({
+                    successMessage: "Map Updated",
                     id: map._id
                 })
             })
@@ -194,5 +194,5 @@ module.exports = {
 	createMap,
     getMaps,
     getCurrentMap,
-    updateMapByID
+    updateMap
 };

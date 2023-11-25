@@ -1,4 +1,4 @@
-import { CREATE_MAP, CREATE_MAP_PROPERTIES, CREATE_MAP_TEMPLATE, SET_MAPS, SET_CURRENT_MAP, UPDATE_MAP_DATA } from "../action-types/map-types";
+import { CREATE_MAP, CREATE_MAP_PROPERTIES, CREATE_MAP_TEMPLATE, SET_MAPS, SET_CURRENT_MAP, UPDATE_MAP_DATA, UPDATE_MAP } from "../action-types/map-types";
 
 const initialState = {
     newMap: {
@@ -58,6 +58,14 @@ const map = (state = initialState, action) => {
                 currentMap: {
                     data: action.payload,
                     ...state.currentMap
+                }
+            }
+        case UPDATE_MAP:
+            return {
+                ...state,
+                currentMap: {
+                    data: {...state.currentMap.data},
+                    ...action.payload
                 }
             }
 		default:

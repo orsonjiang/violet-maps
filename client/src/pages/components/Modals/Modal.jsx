@@ -19,9 +19,8 @@ const Modal = ({title, description, inputText, containsInput, type}) => {
         switch (currentModal){
             case 'PUBLISH_MODAL':
                 currentMap.publishedDate = new Date();
-                console.log(currentMap)
 
-                apis.updateMapByID(currentMap._id, currentMap).then((res) => {
+                apis.updateMap(currentMap._id, currentMap).then((res) => {
                     navigate("/app/home");
                     dispatch(setView("HOME"))
                 }).catch((err) => console.log(err));
