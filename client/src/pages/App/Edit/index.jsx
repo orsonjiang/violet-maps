@@ -107,7 +107,7 @@ const EditMap = () => {
     return (
         <div className="text-[13px]">
             <div className="flex gap-4 mt-5 mb-2 text-2xl font-bold justify-center items-center">
-                Map of Europe
+                {currentMap.name}
                 <button onClick={() => { openCurrentModal("RENAME_MAP")}}>
                     <i className="fa fa-edit mr-2 text-xl text-indigo-500" />
                 </button>
