@@ -79,6 +79,15 @@ const EditMap = () => {
                             color: currentMap.features[geojson.features.indexOf(feature)].style.border,
                             fillColor: currentMap.features[geojson.features.indexOf(feature)].style.fill,
                         }
+                    },
+                    onEachFeature: (feature, layer) => {
+                        if (currentMap.graphics.showLabels) {
+                            layer.bindTooltip("" + feature.properties[currentMap.graphics.dataProperty], 
+                                {
+                                    permanent: true,
+                                    direction: 'center',
+                                })
+                        }
                     }
                 }).addTo(map.current);
                 // current map in the store would now have the map data in geojson
@@ -107,7 +116,7 @@ const EditMap = () => {
     return (
         <div className="text-[13px]">
             <div className="flex gap-4 mt-5 mb-2 text-2xl font-bold justify-center items-center">
-                Map of Europe
+                {currentMap.name}
                 <button onClick={() => { openCurrentModal("RENAME_MAP")}}>
                     <i className="fa fa-edit mr-2 text-xl text-indigo-500" />
                 </button>

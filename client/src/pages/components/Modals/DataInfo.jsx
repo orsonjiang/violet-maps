@@ -134,15 +134,16 @@ const DataInfo = ({view}) => {
                 <div className="relative bg-white rounded-lg shadow ">
                     <div className="p-2 md:mt-0 flex flex-col">
                         <div className="flex flex-col px-6 space-y-4 my-3">
-                            <h3 className="text-lg font-semibold text-black">
+                            <h3 className="text-lg font-semibold text-black flex items-center gap-3">
                                 Enter Data Info
+                                <div className="text-xs font-medium text-indigo-400">chosen template: {newMap.template == "" ? "blank" : newMap.template}</div>
                             </h3>
+
                             <div className="bg-purple-50 rounded-lg p-6 space-y-4">
                                 <div className="text-sm flex gap-3 items-center">
                                     Name:
                                     <input type="text" onChange={handleNameChange} placeholder="Name your map" className="rounded-lg p-1.5 px-3 bg-white w-full" />
                                 </div> 
-
                                 {newMap.template != "" ?
                                 <div className="text-sm flex gap-3 items-center justify-between">
                                     Data Property:

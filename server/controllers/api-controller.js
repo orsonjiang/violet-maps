@@ -30,6 +30,12 @@ createMap = async (req, res) => {
 
     // const arr = new Uint8Array(buffer)
 
+    // should labels be shown initially
+    let showLabels = false;
+    if (body.template == "string" || body.template == "numerical") {
+        showLabels = true;
+    }
+
     const newMap = new Map({
         name: body.name,
         username: body.username,
@@ -46,7 +52,7 @@ createMap = async (req, res) => {
             heatMap: {
                 dataProperty: "",
             },
-            showLabels: false,
+            showLabels: showLabels,
             bubbles: {
                 dataProperty: "",
             },
@@ -84,67 +90,65 @@ createMap = async (req, res) => {
 
 getMaps = async (req, res) => {
     let body = req.body;
+    const getMapList = (err, maps) => {
+        if (err) {
+            return res.status(400).json({ success: false, error: err })
+        }
+        if (!maps) {
+            return res
+                .status(404)
+                .json({ success: false, error: 'Maps not found' })
+        }
+        else {
+            // only grab the map data needed
+            let mapsList = [];
+            for (let i = 0; i < maps.length; i++) {
+                let map = {
+                    _id: maps[i]._id,
+                    name: maps[i].name,
+                    username: maps[i].username,
+                    tags: maps[i].tags,
+                    likes: maps[i].social.likes,
+                    dislikes: maps[i].social.dislikes,
+                    creationDate: maps[i].creationDate,
+                    publishedDate: maps[i].publishedDate
+                };
+                mapsList.push(map);
+            }
+            return res.status(200).json({ success: true, list: mapsList })
+        }
+    }
     if (body.view === "HOME") {
-        await Map.find({ username: body.username, name: new RegExp(body.searchText, "i") })
-            .exec((err, maps) => {
-                if (err) {
-                    return res.status(400).json({ success: false, error: err })
-                }
-                if (!maps) {
-                    return res
-                        .status(404)
-                        .json({ success: false, error: 'Maps not found' })
-                }
-                else {
-                    // only grab the map data needed
-                    let mapsList = [];
-                    for (let i = 0; i < maps.length; i++) {
-                        let map = {
-                            _id: maps[i]._id,
-                            name: maps[i].name,
-                            username: maps[i].username,
-                            tags: maps[i].tags,
-                            likes: maps[i].social.likes,
-                            dislikes: maps[i].social.dislikes,
-                            creationDate: maps[i].creationDate,
-                            publishedDate: maps[i].publishedDate
-                        };
-                        mapsList.push(map);
-                    }
-                    return res.status(200).json({ success: true, list: mapsList })
-                }
-            })
+        if (body.searchBy == "Map Name") {
+            await Map.find({ username: body.username, name: new RegExp(body.searchText, "i") })
+                .exec((err, maps) => {
+                    getMapList(err, maps);
+                })
+        } else if (body.searchBy == "Map Properties") {
+            await Map.find({ username: body.username, tags: new RegExp(body.searchText, "i") })
+                .exec((err, maps) => {
+                    getMapList(err, maps);
+                })
+        }
+        
     }
     else if (body.view === "EXPLORE") {
-        await Map.find({ name: new RegExp(body.searchText, "i") })
-            .exec((err, maps) => {
-                if (err) {
-                    return res.status(400).json({ success: false, error: err })
-                }
-                if (!maps) {
-                    return res
-                        .status(404)
-                        .json({ success: false, error: 'Maps not found' })
-                }
-                else {
-                    // only grab the map data needed
-                    let mapsList = [];
-                    for (let i = 0; i < maps.length; i++) {
-                        let map = {
-                            _id: maps[i]._id,
-                            name: maps[i].name,
-                            username: maps[i].username,
-                            tags: maps[i].tags,
-                            likes: maps[i].social.likes,
-                            dislikes: maps[i].social.dislikes,
-                            creationDate: maps[i].creationDate,
-                            publishedDate: maps[i].publishedDate
-                        };
-                        mapsList.push(map);
-                    }
-                    return res.status(200).json({ success: true, list: mapsList })
-                }
-            })
+        if (body.searchBy == "Map Name") {
+            await Map.find({ publishedDate: { $ne: null }, name: new RegExp(body.searchText, "i") })
+                .exec((err, maps) => {
+                    getMapList(err, maps);
+                })
+        } else if (body.searchBy == "Username") {
+            await Map.find({ publishedDate: { $ne: null }, username: new RegExp(body.searchText, "i") })
+                .exec((err, maps) => {
+                    getMapList(err, maps);
+                })
+        } else if (body.searchBy == "Map Properties") {
+            await Map.find({ publishedDate: { $ne: null }, tags: new RegExp(body.searchText, "i") })
+                .exec((err, maps) => {
+                    getMapList(err, maps);
+                })
+        }
     }
 }
 
