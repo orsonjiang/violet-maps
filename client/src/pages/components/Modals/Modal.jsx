@@ -1,14 +1,40 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { closeModal } from "../../../actions/modal";
+import { setView } from "../../../actions/home";
+import apis from "../../../api/api";
+import { useNavigate } from 'react-router-dom';
 
-const Modal = ({title, description, inputText, containsInput}) => {
-
+const Modal = ({title, description, inputText, containsInput, type}) => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
+    const currentModal = useSelector((state) => state.modal.currentModal);
+    const currentMap = useSelector((state) => state.map.currentMap);
 
     const closeCurrentModal = () => {
         dispatch(closeModal());
     }
+
+    const confirmAction = () => {
+        switch (currentModal){
+            case 'PUBLISH_MODAL':
+                currentMap.publishedDate = new Date();
+                console.log(currentMap)
+
+                apis.updateMapByID(currentMap._id, currentMap).then((res) => {
+                    navigate("/app/home");
+                    dispatch(setView("HOME"))
+                }).catch((err) => console.log(err));
+
+                dispatch(closeModal());
+
+                return;
+
+            default:
+                return;
+        }
+    }
+
 
     return (
         <div
@@ -43,7 +69,7 @@ const Modal = ({title, description, inputText, containsInput}) => {
                                     <button
                                         data-modal-hide="popup-modal"
                                         type="button"
-                                        className="w-1/2 text-white bg-[#8187DC] rounded-full py-1.5 px-5 shadow-md text-center focus:outline-none focus:ring-2 focus:ring-purple-300 font-medium"
+                                        className="w-1/2 text-white bg-[#8187DC] rounded-full py-1.5 px-5 shadow-md text-center focus:outline-none focus:ring-2 focus:ring-purple-300 font-medium" onClick={confirmAction}
                                     >
                                         Confirm
                                     </button>
