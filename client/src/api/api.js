@@ -17,7 +17,7 @@ const getMaps = (view, searchText, searchBy, username) => {
 		username: username
 	})
 }
-const updateMapByID = (id, data) => {
+const updateMap = (id, data) => {
 	return api.put(`/map/${id}`, {
 		map: data
 	})
@@ -27,7 +27,7 @@ const apis = {
 	postCreateMap,
 	getCurrentMap,
 	getMaps,
-	updateMapByID
+	updateMap
 };
 
 export default apis;

@@ -1,4 +1,4 @@
-import { CREATE_MAP, CREATE_MAP_PROPERTIES, CREATE_MAP_TEMPLATE, SET_MAPS, SET_CURRENT_MAP, UPDATE_MAP_DATA, ADD_COMMENT, SET_LEAFLET_MAP, EXPORT_MAP } from "../action-types/map-types";
+import { CREATE_MAP, CREATE_MAP_PROPERTIES, CREATE_MAP_TEMPLATE, SET_MAPS, SET_CURRENT_MAP, UPDATE_MAP_DATA, UPDATE_MAP } from "../action-types/map-types";
 
 const initialState = {
     newMap: {
@@ -70,24 +70,24 @@ const map = (state = initialState, action) => {
         //             ...state.currentMap
         //         }
         //     }
-        case ADD_COMMENT: 
+        case UPDATE_MAP:
             return {
                 ...state,
                 currentMap: {
-                    comments: action.payload,
-                    ...state.currentMap
+                    data: { ...state.currentMap.data },
+                    ...action.payload
                 }
             }
-        case SET_LEAFLET_MAP:
-            return {
-                ...state,
-                leafletMap: action.payload
-            }
-        case EXPORT_MAP:
-            return {
-                ...state,
-                exportType: action.payload
-            }
+        // case SET_LEAFLET_MAP:
+        //     return {
+        //         ...state,
+        //         leafletMap: action.payload
+        //     }
+        // case EXPORT_MAP:
+        //     return {
+        //         ...state,
+        //         exportType: action.payload
+        //     }
 		default:
 			return state;
 	}
