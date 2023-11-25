@@ -101,6 +101,8 @@ const MapSchema = new Schema(
                 {
                     comment: String,
                     userReference: String,
+                    username: String,
+                    userInitial: String,
                     datePublished: Date
                 }
             ]
