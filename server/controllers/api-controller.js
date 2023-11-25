@@ -169,6 +169,7 @@ updateMapByID = async (req, res) => {
         }
         else{
             map.publishedDate = req.body.map.publishedDate;
+            map.social.comments = req.body.map.social.comments;
 
             map.save().then(() => {
                 return res.status(201).json({
