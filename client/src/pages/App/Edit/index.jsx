@@ -76,6 +76,15 @@ const EditMap = () => {
                             color: currentMap.features[geojson.features.indexOf(feature)].style.border,
                             fillColor: currentMap.features[geojson.features.indexOf(feature)].style.fill,
                         }
+                    },
+                    onEachFeature: (feature, layer) => {
+                        if (currentMap.graphics.showLabels) {
+                            layer.bindTooltip("" + feature.properties[currentMap.graphics.dataProperty], 
+                                {
+                                    permanent: true,
+                                    direction: 'center',
+                                })
+                        }
                     }
                 }).addTo(map.current);
                 // current map in the store would now have the map data in geojson

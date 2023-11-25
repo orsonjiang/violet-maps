@@ -30,6 +30,12 @@ createMap = async (req, res) => {
 
     // const arr = new Uint8Array(buffer)
 
+    // should labels be shown initially
+    let showLabels = false;
+    if (body.template == "string" || body.template == "numerical") {
+        showLabels = true;
+    }
+
     const newMap = new Map({
         name: body.name,
         username: body.username,
@@ -46,7 +52,7 @@ createMap = async (req, res) => {
             heatMap: {
                 dataProperty: "",
             },
-            showLabels: false,
+            showLabels: showLabels,
             bubbles: {
                 dataProperty: "",
             },
