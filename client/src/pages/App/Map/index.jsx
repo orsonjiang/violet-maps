@@ -9,6 +9,8 @@ import { setView } from "../../../actions/home";
 import { addComment } from "../../../actions/map.js";
 import apis from "../../../api/api.js";
 import { useNavigate } from "react-router-dom";
+import geobuf from "geobuf";
+import Pbf from "pbf";
 
 const Map = () => {
     const map = useRef(null);
@@ -86,10 +88,38 @@ const Map = () => {
             // L.control.browserPrint().addTo(map.current);
             // console.log(map.current);
 
-
+            // get the map data from the store and convert back to geojson
+            const convertToGeoJSON = async () => {
+                //convert from base64 back to string
+                let str = atob(currentMap.data);
+                let buf = new ArrayBuffer(str.length);
+                let bufView = new Uint8Array(buf);
+                for (var i=0; i<str.length; i++) {
+                    bufView[i] = str.charCodeAt(i);
+                }
+                var geojson = geobuf.decode(new Pbf(bufView));
+                return geojson;
+            }
+            convertToGeoJSON().then((geojson) => {
+                L.geoJSON(geojson, {
+                    style: function (feature) {
+                        return {
+                            color: currentMap.features[geojson.features.indexOf(feature)].style.border,
+                            fillColor: currentMap.features[geojson.features.indexOf(feature)].style.fill,
+                        }
+                    },
+                    onEachFeature: (feature, layer) => {
+                        if (currentMap.graphics.showLabels) {
+                            layer.bindTooltip("" + feature.properties[currentMap.graphics.dataProperty], 
+                                {
+                                    permanent: true,
+                                    direction: 'center',
+                                })
+                        }
+                    }
+                }).addTo(map.current);
+            })
         }
-
-        console.log(currentMap);
 
     }, [])
 
@@ -179,7 +209,7 @@ const Map = () => {
 
                 </div>
                 <div className='col-span-1 bg-violet-100 rounded-lg self-start'>
-                    <div className="m-5 mb-1">
+                    <div className="m-5 mb-1 pb-2">
                         <h3 className="font-medium pt-5 md:pt-0">{`${currentMap.social.comments.length} Comments`}</h3>
                         <div className="mt-3 flex space-x-4">
                             <button className="flex gap-[1px] items-center justify-center h-10 w-10 shadow-none hover:shadow-none font-semibold bg-indigo-200 text-xs p-2 rounded-full shrink-0">
