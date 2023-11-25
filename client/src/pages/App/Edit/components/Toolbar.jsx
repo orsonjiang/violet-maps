@@ -5,13 +5,47 @@ import Legend from "../../../components/Modals/Legend";
 import AddLayer from "../../../components/Modals/AddLayer";
 import { useSelector, useDispatch } from "react-redux";
 import { openModal } from "../../../../actions/modal";
+// import * as L from 'leaflet';
+// import "../../../../dist/leaflet.browser.print.min.js"
+// import domtoimage from 'dom-to-image'
+// import "../../../../dist/Leaflet.BigImage.min.css"
+// import "../../../../dist/Leaflet.BigImage.min.js"
+// import { exportMap } from "../../../../actions/map.js";
 
 const Toolbar = () => {
     const [menu, setMenu] = useState("none");
 
     const currentModal = useSelector((state) => state.modal.currentModal);
+    // const map = useSelector((state) => state.map.leafletMap);
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch(); 
+    // const exportMap = (type) => {
+    //     console.log(map);
+
+    //     var saveAsImage = function () {
+    //         return domtoimage.toPng(document.body)
+    //             .then(function (dataUrl) {
+    //                 var link = document.createElement('a');
+    //                 link.download = map.printControl.options.documentTitle || "exportedMap" + '.png';
+    //                 link.href = dataUrl;
+    //                 link.click();
+    //             });
+    //     }
+
+    //     L.control.browserPrint({
+    //         documentTitle: "printImage",
+    //         printModes: [
+    //             L.BrowserPrint.Mode.Auto("Download PNG"),
+    //         ],
+    //         printFunction: saveAsImage
+    //     }).addTo(map); 
+
+    //     // L.control.bigImage({ position: 'topright' }).addTo(map.data);
+    //     // console.log(map.data);
+        
+
+
+    // }
 
     const openCurrentModal = (type) => {
         dispatch(openModal(type))
@@ -30,7 +64,7 @@ const Toolbar = () => {
         }
         else if (currentModal == "DELETE_MAP") {
             return (
-                <Modal title={"Delete Map?"} description={"Please confirm that you want to delete the map."} containsInput={false} />
+                <Modal title={"Delete Map?"} description={"Please confirm that you want to delete the map."} containsInput={false}/>
             )
         }
         else if (currentModal == "PUBLISH_MODAL") {

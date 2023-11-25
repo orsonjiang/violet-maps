@@ -8,14 +8,17 @@ import { useSelector, useDispatch } from "react-redux";
 import { openModal } from '../../../actions/modal';
 import geobuf from "geobuf";
 import Pbf from "pbf";
-import { updateMapData } from "../../../actions/map";
+import { updateMapData, setLeafletMap } from "../../../actions/map";
 import { setView } from "../../../actions/home";
+// import "../../../dist/Leaflet.BigImage.min.css"
+// import "../../../dist/Leaflet.BigImage.min.js"
 
 const EditMap = () => {
     const map = useRef(null);
 
     const currentModal = useSelector((state) => state.modal.currentModal);
     const currentMap = useSelector((state) => state.map.currentMap);
+    // const exportType = useSelector((state) => state.map.exportType);
 
     const dispatch = useDispatch();
 
@@ -81,6 +84,11 @@ const EditMap = () => {
                 // current map in the store would now have the map data in geojson
                 dispatch(updateMapData(geojson));
             })
+
+            // console.log(map.current);
+            // dispatch(setLeafletMap(map.current));
+
+            // L.control.bigImage({ position: 'topright' }).addTo(map.current);
         }
     }, [])
 
@@ -94,6 +102,7 @@ const EditMap = () => {
 
         }
     }
+
 
     return (
         <div className="text-[13px]">
@@ -117,6 +126,7 @@ const EditMap = () => {
                 </button>
             </div>
             {currentModal ? selectModal() : ""}
+            {/* {exportType ? exportCurrentMap() : ""} */}
         </div>
     );
 };
