@@ -128,17 +128,17 @@ getMaps = async (req, res) => {
     }
     else if (body.view === "EXPLORE") {
         if (body.searchBy == "Map Name") {
-            await Map.find({ name: new RegExp(body.searchText, "i") })
+            await Map.find({ publishedDate: { $ne: null }, name: new RegExp(body.searchText, "i") })
                 .exec((err, maps) => {
                     getMapList(err, maps);
                 })
         } else if (body.searchBy == "Username") {
-            await Map.find({ username: new RegExp(body.searchText, "i") })
+            await Map.find({ publishedDate: { $ne: null }, username: new RegExp(body.searchText, "i") })
                 .exec((err, maps) => {
                     getMapList(err, maps);
                 })
         } else if (body.searchBy == "Map Properties") {
-            await Map.find({ tags: new RegExp(body.searchText, "i") })
+            await Map.find({ publishedDate: { $ne: null }, tags: new RegExp(body.searchText, "i") })
                 .exec((err, maps) => {
                     getMapList(err, maps);
                 })
