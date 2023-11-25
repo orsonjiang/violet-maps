@@ -10,12 +10,15 @@ import geobuf from "geobuf";
 import Pbf from "pbf";
 import { updateMapData } from "../../../actions/map";
 import { setView } from "../../../actions/home";
+import { useNavigate } from "react-router-dom";
 
 const EditMap = () => {
     const map = useRef(null);
+    const navigate = useNavigate();
 
     const currentModal = useSelector((state) => state.modal.currentModal);
     const currentMap = useSelector((state) => state.map.currentMap);
+    const user = useSelector((state) => state.user.user);
 
     const dispatch = useDispatch();
 
@@ -25,6 +28,9 @@ const EditMap = () => {
 
     useEffect(() => {
         dispatch(setView("NONE"));
+        if (currentMap == null) {
+            navigate("/app/home"); // for now
+        }
         if (!map.current) {
             map.current = L.map('map').setView([39.74739, -105], 2);
 
@@ -107,7 +113,7 @@ const EditMap = () => {
     return (
         <div className="text-[13px]">
             <div className="flex gap-4 mt-5 mb-2 text-2xl font-bold justify-center items-center">
-                {currentMap.name}
+                {currentMap ? currentMap.name : "---"}
                 <button onClick={() => { openCurrentModal("RENAME_MAP")}}>
                     <i className="fa fa-edit mr-2 text-xl text-indigo-500" />
                 </button>
