@@ -10,11 +10,32 @@ import { updateMapInStore } from "../../../../actions/map";
 
 const Toolbar = () => {
     const [menu, setMenu] = useState("none");
+    const updates = useRef(null);
+    const [dataPropList, setDataPropList] = useState([]);
 
     const currentModal = useSelector((state) => state.modal.currentModal);
     const currentMap = useSelector((state) => state.map.currentMap);
 
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (!updates.current) {
+            updates.current = {...currentMap};
+            delete updates.current["data"];
+        }
+        // get the data properties
+        const list = []; // list of data props for user to choose
+        if (currentMap.features.length > 0) { // does it have at least one feature?
+            const props = currentMap.features[0]["properties"];
+            
+            for (const [key, value] of Object.entries(props)) {
+                if (typeof value == "number" || typeof value == "string") {
+                    list.push(key);
+                }
+            }
+        }
+        setDataPropList(list);
+    }, [])
 
     const openCurrentModal = (type) => {
         dispatch(openModal(type))
@@ -65,13 +86,19 @@ const Toolbar = () => {
     closeMenus(ref);
 
     const toggleLabels = () => {
-        const updates = {...currentMap};
-        delete updates["data"];
+        updates.current.graphics.showLabels = !updates.current.graphics.showLabels;
 
-        updates.graphics.showLabels = !updates.graphics.showLabels;
+        apis.updateMap(currentMap._id, updates.current).then((res) => {
+            dispatch(updateMapInStore(updates.current))
+        }).catch((err) => {
+            console.log(err);
+        })
+    }
 
-        apis.updateMap(currentMap._id, updates).then((res) => {
-            dispatch(updateMapInStore(updates))
+    const changeDataProp = (item) => {
+        updates.current.graphics.dataProperty = item;
+        apis.updateMap(currentMap._id, updates.current).then((res) => {
+            dispatch(updateMapInStore(updates.current))
         }).catch((err) => {
             console.log(err);
         })
@@ -173,34 +200,18 @@ const Toolbar = () => {
             id="user-dropdown"
         >
             <ul className="text-[13px] overflow-y-auto max-h-[136px] py-2" aria-labelledby="user-menu-button">
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        name
-                    </button>
-                </li>
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        gdp_value
-                    </button>
-                </li>
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        pop_year
-                    </button>
-                </li>
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        admin_0
-                    </button>
-                </li>
+                {dataPropList.map((item, key) => {
+                    return (
+                        <li key={key}>
+                            <button
+                                className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
+                                onClick={() => changeDataProp(item)}
+                            >
+                                {item}
+                            </button>
+                        </li>
+                    )
+                })}
             </ul>
             <div className="px-4 py-3 hover:bg-gray-100 rounded-lg ">
                 <button className="block text-violet-500 text-xs  " onClick={() => openCurrentModal("ADD_DATA_PROP_MODAL")}>

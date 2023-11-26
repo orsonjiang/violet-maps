@@ -58,7 +58,7 @@ const MapSchema = new Schema(
         creationDate: { type: Date, required: true },
         data: {type: Object, required: true },
         features: [{
-            properties: [{type: Object, required: true}],
+            properties: {type: Object, required: true},
             style: {
                 fill: { type: String, required: true },
                 border: { type: String, required: true },
