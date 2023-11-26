@@ -267,7 +267,7 @@ const Toolbar = () => {
                         onClick={() => { setMenu("fontStyle") }}
                         className="flex gap-2 items-center"
                     >
-                        Arial
+                        {currentMap.graphics.fontStyle}
                         <i className="fa-solid fa-chevron-down text-xs"></i>
                     </button>
                     {/* Dropdown menu */}
@@ -279,7 +279,7 @@ const Toolbar = () => {
                 </button>
                 <input
                     type="text"
-                    value={12}
+                    value={currentMap.graphics.fontSize}
                     maxLength={2}
                     className="w-6 text-center"
                 />
@@ -292,7 +292,7 @@ const Toolbar = () => {
                         onClick={() => { setMenu("labelPosition") }}
                         className="flex gap-2 items-center"
                     >
-                        Center
+                        {currentMap.graphics.labelPosition}
                         <i className="fa-solid fa-chevron-down text-xs"></i>
                     </button>
                     {menu == "labelPosition" ? labelPositionMenu : null}
@@ -325,7 +325,7 @@ const Toolbar = () => {
                         onClick={() => { setMenu("dataProperty") }}
                         className="flex gap-2 items-center"
                     >
-                        GDP_Value
+                        {currentMap.graphics.dataProperty}
                         <i className="fa-solid fa-chevron-down text-xs"></i>
                     </button>
                     {menu == "dataProperty" ? dataPropertyMenu : null}

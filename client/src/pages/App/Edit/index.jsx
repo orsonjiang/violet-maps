@@ -151,12 +151,14 @@ const EditMap = () => {
             <div id="map" className="w-full h-[63vh] mt-[65px] !absolute"></div>
             {currentMap ? <Toolbar /> : null}
             <div className="relative top-[calc(63vh+75px)] z-[3000] flex gap-3 items-center mx-5 my-3">
-                <div className="text-white bg-violet-400 hover:bg-violet-500 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 ">
-                    America
-                </div>
-                <div className="text-white bg-violet-400 hover:bg-violet-500 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 ">
-                    Population
-                </div>
+                {currentMap ? currentMap.tags.map((tag, key) => {
+                    return (
+                        <div key = {key} className="text-white bg-violet-400 hover:bg-violet-500 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 ">
+                            {tag}
+                        </div>
+                    )
+                }) : null}
+                {currentMap && currentMap.tags.length == 0 ? <div className="text-gray-400">No tags</div> : null}
                 <button onClick={() => { openCurrentModal("MAP_PROPS_MODAL")}}>
                     <i className="fa-solid fa-plus"></i>
                 </button>
