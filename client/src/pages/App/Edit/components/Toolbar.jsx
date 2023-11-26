@@ -5,11 +5,14 @@ import Legend from "../../../components/Modals/Legend";
 import AddLayer from "../../../components/Modals/AddLayer";
 import { useSelector, useDispatch } from "react-redux";
 import { openModal } from "../../../../actions/modal";
+import apis from "../../../../api/api";
+import { updateMapInStore } from "../../../../actions/map";
 
 const Toolbar = () => {
     const [menu, setMenu] = useState("none");
 
     const currentModal = useSelector((state) => state.modal.currentModal);
+    const currentMap = useSelector((state) => state.map.currentMap);
 
     const dispatch = useDispatch();
 
@@ -60,6 +63,19 @@ const Toolbar = () => {
 
     const ref = useRef(null);
     closeMenus(ref);
+
+    const toggleLabels = () => {
+        const updates = {...currentMap};
+        delete updates["data"];
+
+        updates.graphics.showLabels = !updates.graphics.showLabels;
+
+        apis.updateMap(currentMap._id, updates).then((res) => {
+            dispatch(updateMapInStore(updates))
+        }).catch((err) => {
+            console.log(err);
+        })
+    }
 
     const border = (
         <div className="w-0.5 h-6 bg-gray-100 mx-1"></div>
@@ -237,7 +253,12 @@ const Toolbar = () => {
                     <i className="fa-solid fa-rotate-right"></i>
                 </button>
                 {border}
-                <button className="px-1 hover:bg-violet-100">Show Labels</button>
+                <button 
+                    className="px-1 hover:bg-violet-100"
+                    onClick={toggleLabels}
+                    >
+                        {currentMap.graphics.showLabels ? "Hide Labels" : "Show Labels"}
+                </button>
                 {border}
                 <button className="px-1 hover:bg-violet-100" onClick={() => { openCurrentModal("TEXT_MODAL") }}>Add Text</button>
                 {border}
