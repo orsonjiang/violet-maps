@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 mongoose.set('strictQuery', false);
-mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true, dbName: ("development") })
+mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true, dbName: (process.env.ENVIRONMENT.toLowerCase()) })
     .catch((e) => {
         console.error("Database connection error: ", e.message);
     });

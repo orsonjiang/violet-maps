@@ -9,17 +9,28 @@ afterAll(() => {
 // describe("register users", () => {
 //     test("POST /auth/register", async () => {
 //         return request(app).post("/auth/register").send({
-//             firstName: "Tom",
-//             lastName: "Train",
-//             email: "tomq.train@email.com",
-//             username: "ttrain",
+//             firstName: "Jane",
+//             lastName: "Doe",
+//             email: "jane.doe@testemail.com",
+//             username: "janedoe",
 //             password: "password123", 
 //         }).expect(200)
 //     })
 // })
 
 describe("login user", () => {
-
+    /*
+    expected 200 "OK", got 400 "Bad Request"
+    
+    test("POST /auth/login", async () => {
+        return request(app).post("/auth/login").send({
+            email: "jane.doe@testemail.com",
+            password: "password123"
+        }).expect(200).then((res) => {
+            console.log(res.body)
+        })
+    })
+    */
     test("login credentials are wrong", async () => {
         return request(app).post("/auth/login").send({
             email: "jane.doe@testemail.com",

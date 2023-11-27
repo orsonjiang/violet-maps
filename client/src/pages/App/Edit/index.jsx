@@ -6,11 +6,21 @@ import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useSelector, useDispatch } from "react-redux";
 import { openModal } from '../../../actions/modal';
+import geobuf from "geobuf";
+import Pbf from "pbf";
+// import { updateMapData } from "../../../actions/map";
+import { setView } from "../../../actions/home";
+import { useNavigate } from "react-router-dom";
 
 const EditMap = () => {
     const map = useRef(null);
+    const navigate = useNavigate();
+
+    const [geojson, setGeojson] = useState(null);
 
     const currentModal = useSelector((state) => state.modal.currentModal);
+    const currentMap = useSelector((state) => state.map.currentMap);
+    const user = useSelector((state) => state.user.user);
 
     const dispatch = useDispatch();
 
@@ -19,8 +29,12 @@ const EditMap = () => {
     }
 
     useEffect(() => {
+        dispatch(setView("NONE"));
+        if (currentMap == null) {
+            navigate("/app/home"); // for now
+        }
         if (!map.current) {
-            map.current = L.map('map').setView([39.74739, -105], 2);
+            map.current = L.map('map', {preferCanvas: true}).setView([39.74739, -105], 2);
 
             L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,
@@ -36,9 +50,84 @@ const EditMap = () => {
             map.current.on('drag', function() {
                 map.current.panInsideBounds(bounds, { animate: false });
             });
+
+            // get the map data from the store and convert back to geojson
+            const convertToGeoJSON = async () => {
+                //convert from base64 back to string
+                let str = atob(currentMap.data);
+                let buf = new ArrayBuffer(str.length);
+                let bufView = new Uint8Array(buf);
+                for (var i=0; i<str.length; i++) {
+                    bufView[i] = str.charCodeAt(i);
+                }
+
+                // const stream = new Blob([buf], {
+                //     type: "application/json",
+                // }).stream();
+
+                // // decompress
+                // const decompress = stream.pipeThrough(
+                //     new DecompressionStream("gzip")
+                // );
+
+                // const resp = await new Response(decompress);
+                // const blob = await resp.blob();
+                // const buffer = await blob.arrayBuffer();
+                // const arr = new Uint8Array(buffer)
+                var json = geobuf.decode(new Pbf(bufView));
+                setGeojson(json);
+                return json;
+            }
+            convertToGeoJSON().then((geo) => {
+                L.geoJSON(geo, {
+                    style: function (feature) {
+                        return {
+                            color: currentMap.features[geo.features.indexOf(feature)].style.border,
+                            fillColor: currentMap.features[geo.features.indexOf(feature)].style.fill,
+                        }
+                    },
+                    onEachFeature: (feature, layer) => {
+                        if (currentMap.graphics.showLabels) {
+                            layer.bindTooltip("" + feature.properties[currentMap.graphics.dataProperty], 
+                                {
+                                    permanent: true,
+                                    direction: 'center',
+                                })
+                        }
+                    }
+                }).addTo(map.current);
+                // current map in the store would now have the map data in geojson
+                // dispatch(updateMapData(geojson));
+            })
         }
-       
     }, [])
+
+    useEffect(() => {
+        if (geojson != null) {
+            map.current.eachLayer(function (layer) {
+                if (!layer.getAttribution()) {
+                map.current.removeLayer(layer);
+                }
+            });
+            L.geoJSON(geojson, {
+                style: function (feature) {
+                    return {
+                        color: currentMap.features[geojson.features.indexOf(feature)].style.border,
+                        fillColor: currentMap.features[geojson.features.indexOf(feature)].style.fill,
+                    }
+                },
+                onEachFeature: (feature, layer) => {
+                    if (currentMap.graphics.showLabels) {
+                        layer.bindTooltip("" + feature.properties[currentMap.graphics.dataProperty], 
+                            {
+                                permanent: true,
+                                direction: 'center',
+                            })
+                    }
+                }
+            }).addTo(map.current);
+        }
+    }, [currentMap])
 
 
     const selectModal = () => {
@@ -54,20 +143,22 @@ const EditMap = () => {
     return (
         <div className="text-[13px]">
             <div className="flex gap-4 mt-5 mb-2 text-2xl font-bold justify-center items-center">
-                Map of Europe
+                {currentMap ? currentMap.name : "---"}
                 <button onClick={() => { openCurrentModal("RENAME_MAP")}}>
                     <i className="fa fa-edit mr-2 text-xl text-indigo-500" />
                 </button>
             </div>
             <div id="map" className="w-full h-[63vh] mt-[65px] !absolute"></div>
-            <Toolbar />
+            {currentMap ? <Toolbar /> : null}
             <div className="relative top-[calc(63vh+75px)] z-[3000] flex gap-3 items-center mx-5 my-3">
-                <div className="text-white bg-violet-400 hover:bg-violet-500 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 ">
-                    America
-                </div>
-                <div className="text-white bg-violet-400 hover:bg-violet-500 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 ">
-                    Population
-                </div>
+                {currentMap ? currentMap.tags.map((tag, key) => {
+                    return (
+                        <div key = {key} className="text-white bg-violet-400 hover:bg-violet-500 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 ">
+                            {tag}
+                        </div>
+                    )
+                }) : null}
+                {currentMap && currentMap.tags.length == 0 ? <div className="text-gray-400">No tags</div> : null}
                 <button onClick={() => { openCurrentModal("MAP_PROPS_MODAL")}}>
                     <i className="fa-solid fa-plus"></i>
                 </button>
