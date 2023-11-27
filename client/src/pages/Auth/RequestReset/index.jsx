@@ -4,7 +4,7 @@ const ResetPassword = () => {
     return (
         <div className="flex flex-col bg-violet-200 min-h-screen justify-center">
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-                <div className="w-[60rem] h-[34rem] bg-white rounded-lg shadow-xl mt-0 max-w-md xl:p-0 ">
+                <div className=" bg-white rounded-lg shadow-xl mt-0 max-w-md xl:p-0 ">
                     <div className="p-6 space-y-4 m-8">
                         <h1
                             href="#"
@@ -39,7 +39,7 @@ const ResetPassword = () => {
                                     <Link to={"/reset"}>
                                         <button
                                             type="submit"
-                                            className=" text-white bg-[#8187DC] py-1.5 px-6 shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-300 font-medium rounded-full text-md  text-center"
+                                            className=" text-white bg-accent py-1.5 px-6 shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-300 font-medium rounded-full text-md  text-center"
                                         >
                                             Confirm
                                         </button>

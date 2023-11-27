@@ -7,4 +7,12 @@ const api = axios.create({
 	baseURL: `${import.meta.env.VITE_SERVER_URL}/api`
 })
 
+const postCreateMap = (data) => api.post("/map", data);
+// const postCreateMap = (data) => api.get(`/map`);
+
+
+const apis = {
+	postCreateMap
+};
+
 export default apis;

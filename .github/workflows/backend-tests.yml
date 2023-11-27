@@ -1,6 +1,7 @@
 name: Backend Tests
 
-on: push
+on:
+  workflow_call
 
 jobs:
   jest-run:
@@ -16,6 +17,7 @@ jobs:
           envkey_DB_CONNECT: ${{ secrets.DB_CONNECT }}
           envkey_CLIENT_URL: ${{ vars.DEV_CLIENT_URL }}
           envkey_ENVIRONMENT: ${{ vars.TEST_ENVIRONMENT }}
+          envkey_JWT_SECRET: ${{ secrets.JWT_SECRET }}
 
       - name: jest run
         run: 'cd server && npm ci && cd ../tests/backend && npm ci && npm test'

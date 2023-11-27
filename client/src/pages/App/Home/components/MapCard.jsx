@@ -84,7 +84,7 @@ const MapCard = ({ mapInfo }) => {
                 <img
                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/A_large_blank_world_map_with_oceans_marked_in_blue.PNG/640px-A_large_blank_world_map_with_oceans_marked_in_blue.PNG"
                     alt="map-image"
-                    className="rounded-md"
+                    className="rounded-md w-full"
                 />
                 <div className="mx-3 mt-3">
                     <div className={`${mapInfo.publishedDate == null ? "black" : "text-white font-medium"}`}>
@@ -95,7 +95,7 @@ const MapCard = ({ mapInfo }) => {
                     </div>
                     <div className="flex mt-3 pb-4 gap-2 overflow-x-auto">
                         {mapInfo.tags.length != 0 ? mapInfo.tags.map((tag, index) => {
-                            return (<div className={`text-xs ${mapInfo.publishedDate == null? "bg-violet-200" : "bg-white/[0.8]"} w-fit py-1 px-2 rounded-full`}>{tag}</div>)
+                            return (<div key={index} className={`text-xs ${mapInfo.publishedDate == null? "bg-violet-200" : "bg-white/[0.8]"} w-fit py-1 px-2 rounded-full`}>{tag}</div>)
                         }) : <div className={`text-xs ${mapInfo.publishedDate == null ? "text-gray-300" : "text-white/[0.6]"}`}>No tags</div>}
                     </div>
                 </div>

@@ -15,6 +15,7 @@ const verifyToken = (req, res, next) => {
         if (next) {
             next();
         }
+        return null;
     } catch (err) {
 		return sendError(res, "Unauthorized", 401);
     }

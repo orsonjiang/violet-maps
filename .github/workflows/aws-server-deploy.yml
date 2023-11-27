@@ -1,8 +1,7 @@
 name: AWS Server Deploy
 
 on:
-  push:
-    branches: ['main']
+  workflow_call
 
 jobs:
   deploy:
@@ -17,6 +16,7 @@ jobs:
           envkey_DB_CONNECT: ${{ secrets.DB_CONNECT }}
           envkey_CLIENT_URL: ${{ vars.CLIENT_URL }}
           envkey_ENVIRONMENT: ${{ vars.ENVIRONMENT }}
+          envkey_JWT_SECRET: ${{ secrets.JWT_SECRET }}
           directory: server
           fail_on_empty: false
           sort_keys: false

@@ -1,14 +1,22 @@
 import MapCard from './components/MapCard';
 import UploadMap from '../../components/Modals/UploadMap';
+import DataInfo from '../../components/Modals/DataInfo';
+import ChooseTemplate from '../../components/Modals/ChooseTemplate';
 import { useState, useEffect, useRef } from "react";
+import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+// import store from '../../../store';
+import { openModal } from '../../../actions/modal';
 
 const Home = () => {
     const [menu, setMenu] = useState("none");
-    const [modal, setModal] = useState(false);
+    // const [modal, setModal] = useState(false);
+    const currentModal = useSelector((state)=> state.modal.currentModal);
 
-    const openModal = () => {
-        setModal(true);
+    const dispatch = useDispatch()
+
+    const openUploadModal = () => {
+        dispatch(openModal("UPLOAD_MAP"));
     }
 
     const closeMenus = (ref) => {
@@ -89,13 +97,15 @@ const Home = () => {
 
     return (
         <div className="my-6 mx-20">
-            {modal ? <UploadMap /> : ""}
+            {currentModal == "UPLOAD_MAP" ? <UploadMap /> : ""}
+            {currentModal == "CHOOSE_TEMPLATE" ? <ChooseTemplate /> : ""}
+            {currentModal == "DATA_PROPS" ?  <DataInfo view={"home"} containsInput={true}/> : ""}
             <div className='flex justify-between items-center'>
                 <div className="my-6 text-2xl font-semibold">
                     Your Library
                 </div>
                 <div className='flex gap-3 items-center'>
-                    <button className='h-fit py-2.5 px-4 rounded-lg text-white text-sm bg-indigo-400 hover:bg-indigo-500' onClick={openModal}>
+                    <button className='h-fit py-2.5 px-4 rounded-lg text-white text-sm bg-indigo-400 hover:bg-indigo-500' onClick={openUploadModal}>
                         Create Map
                     </button>
                     <div className="relative">
@@ -180,13 +190,13 @@ const Home = () => {
             </div>
             <div className="grid xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
                 {exampleListOfMaps.map((mapInfo, index) => {
-                    return <div className={`p-1 pt-1 rounded-md h-full drop-shadow-sm ${mapInfo.publishedDate == null ? "border-2 border-violet-200 bg-white" : "border-2 border-indigo-300 bg-indigo-300/[0.9]"}`}>
+                    return <div key={index} className={`p-1 pt-1 rounded-md h-full drop-shadow-sm ${mapInfo.publishedDate == null ? "border-2 border-violet-200 bg-white" : "border-2 border-indigo-300 bg-indigo-300/[0.9]"}`}>
                         {mapInfo.publishedDate == null ? 
                             (<Link to={"/app/editmap"}>
-                                <MapCard key={index} mapInfo={mapInfo} />
+                                <MapCard mapInfo={mapInfo} />
                             </Link> ) :
                             <Link to={"/app/map"}>
-                                <MapCard key={index} mapInfo={mapInfo} />
+                                <MapCard mapInfo={mapInfo} />
                             </Link>
                         }
                     </div>

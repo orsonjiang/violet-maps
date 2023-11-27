@@ -1,380 +1,78 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Modal from "../../components/Modals/Modal";
 import MapProps from "../../components/Modals/MapProps";
-import { ChromePicker } from "react-color"
-import Legend from "../../components/Modals/Legend";
-import DataInfo from "../../components/Modals/DataInfo";
+import Toolbar from "./components/Toolbar";
+import * as L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+import { useSelector, useDispatch } from "react-redux";
+import { openModal } from '../../../actions/modal';
 
 const EditMap = () => {
-    const [menu, setMenu] = useState("none");
-    const [modal, setModal] = useState("");
+    const map = useRef(null);
 
-    const setModalType = (type) => {
-        
-        setModal(type);
+    const currentModal = useSelector((state) => state.modal.currentModal);
+
+    const dispatch = useDispatch();
+
+    const openCurrentModal = (type) => {
+        dispatch(openModal(type));
     }
 
-    const openModal = () => {
-        if (modal == "text"){
-            return (
-                <Modal title={"Add/Edit Label for Region"} description={"Adding value to data property: gdp_value"} inputText={"Enter Value"} containsInput={true} /> 
-            )
+    useEffect(() => {
+        if (!map.current) {
+            map.current = L.map('map').setView([39.74739, -105], 2);
+
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution:
+                '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+            }).addTo(map.current);
+
+            var southWest = L.latLng(-90, -180);
+            var northEast = L.latLng(90, 180);
+            var bounds = L.latLngBounds(southWest, northEast);
+
+            map.current.setMaxBounds(bounds);
+            map.current.on('drag', function() {
+                map.current.panInsideBounds(bounds, { animate: false });
+            });
         }
-        else if (modal == "dataProp"){
-            return (
-                <Modal title={"Add New Data Property"} description={"Enter a name for your property"} inputText={"Enter Name"} containsInput={true} />
-            )
-        }
-        else if (modal == "deleteMap"){
-            return (
-                <Modal title={"Delete Map?"} description={"Please confirm that you want to delete the map."} containsInput={false} />    
-            )
-        }
-        else if (modal == "mapProps"){
+       
+    }, [])
+
+
+    const selectModal = () => {
+        if (currentModal == "MAP_PROPS_MODAL"){
             return ( <MapProps /> );
         }
-        else if (modal == "rename"){
+        else if (currentModal == "RENAME_MAP"){
             return (<Modal title={"Rename Map?"} description={"Write a new name for the Map of Europe"} inputText={"Enter Map Name"} containsInput={true} />);
 
         }
-        else if (modal == "publish"){
-            return (<Modal title={"Publish Map?"} description={"Please confirm that you want to publish this map."} containsInput={false} />);
-        }
-        else if (modal == "legend"){
-            return (<Legend/>)
-        }
-        else if (modal == "dataProps"){
-            return (<DataInfo view={"edit"} containsInput={false} />)
-        }
     }
-
-
-    const closeMenus = (ref) => {
-        useEffect(() => {
-            function handleClickOutside(event) {
-                if (ref.current && !ref.current.contains(event.target)) {
-                    setMenu("none");
-                }
-            }
-            document.addEventListener("mousedown", handleClickOutside);
-            return () => {
-                document.removeEventListener("mousedown", handleClickOutside);
-            };
-        }, [ref])
-    }
-
-    const ref = useRef(null);
-    closeMenus(ref);
-
-    const border = (
-        <div className="w-0.5 h-6 bg-gray-100 mx-1"></div>
-    );
-
-    const fontStyleMenu = (
-        <div
-            ref={ref}
-            className="absolute overflow-y-auto max-h-44 w-40 left-[-5px] z-50 my-9 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow "
-            id="user-dropdown"
-        >
-            <ul className="text-[13px] py-2" aria-labelledby="user-menu-button">
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        Arial
-                    </button>
-                </li>
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        Times New Roman
-                    </button>
-                </li>
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        Helvetica
-                    </button>
-                </li>
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        Poppins
-                    </button>
-                </li>
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        Verdana
-                    </button>
-                </li>
-            </ul>
-        </div>
-    )
-
-    const labelPositionMenu = (
-        <div
-            ref={ref}
-            className="absolute overflow-y-auto max-h-44 w-40 left-[-5px] z-50 my-9 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow "
-            id="user-dropdown"
-        >
-            <ul className="text-[13px] py-2" aria-labelledby="user-menu-button">
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        Center
-                    </button>
-                </li>
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        Right
-                    </button>
-                </li>
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        Left
-                    </button>
-                </li>
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        Top
-                    </button>
-                </li>
-            </ul>
-        </div>
-    )
-
-    const dataPropertyMenu = (
-        <div
-            ref={ref}
-            className="absolute w-40 left-[-5px] z-50 my-9 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow "
-            id="user-dropdown"
-        >
-            <ul className="text-[13px] overflow-y-auto max-h-[136px] py-2" aria-labelledby="user-menu-button">
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        name
-                    </button>
-                </li>
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        gdp_value
-                    </button>
-                </li>
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        pop_year
-                    </button>
-                </li>
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        admin_0
-                    </button>
-                </li>
-            </ul>
-            <div className="px-4 py-3 hover:bg-gray-100 rounded-lg ">
-                <button className="block text-violet-500 text-xs  " onClick={() => setModalType("dataProp")}>
-                    + New Data Property
-                </button>
-            </div>
-        </div>
-    )
-
-    const exportMenu = (
-        <div
-            ref={ref}
-            className="absolute w-28 left-[-44px] z-50 my-9 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow "
-            id="user-dropdown"
-        >
-            <ul className="text-[13px] py-2" aria-labelledby="user-menu-button">
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        PNG
-                    </button>
-                </li>
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        JPG
-                    </button>
-                </li>
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        JSON
-                    </button>
-                </li>
-            </ul>
-        </div>
-    )
 
     return (
-        <div className="m-4 text-[13px]">
-            {/* {modal == "text" ? 
-                <Modal title={"Add/Edit Label for Region"} description={"Enter in value for the label"} containsInput={true} /> 
-                ? (modal == "dataProp" ? <Modal title={"Add New Data Property"} description={"Enter a name for your property"} containsInput={true}/> :
-             : ""} */}
-            {modal ? openModal() : ""}
-            <div className="flex gap-4 my-5 text-2xl font-bold justify-center items-center">
+        <div className="text-[13px]">
+            <div className="flex gap-4 mt-5 mb-2 text-2xl font-bold justify-center items-center">
                 Map of Europe
-                <button onClick={() => { setModalType("rename")}}>
+                <button onClick={() => { openCurrentModal("RENAME_MAP")}}>
                     <i className="fa fa-edit mr-2 text-xl text-indigo-500" />
                 </button>
             </div>
-            <div className="flex flex-wrap bg-white p-2 px-4 m-2 justify-between rounded-lg border-[1px] border-violet-200 drop-shadow-sm">
-                <button className="px-1">
-                    <i className="fa-solid fa-rotate-left"></i>
-                </button>
-                <button className="px-1">
-                    <i className="fa-solid fa-rotate-right"></i>
-                </button>
-                {border}
-                <button className="px-1 hover:bg-violet-100">Show Labels</button>
-                {border}
-                <button className="px-1 hover:bg-violet-100" onClick={() => {setModalType("text")}}>Add Text</button>
-                {border}
-                <div className="flex px-1 relative">
-                    <button 
-                        onClick={() => {setMenu("fontStyle")}}
-                        className="flex gap-2 items-center"
-                    >
-                        Arial
-                        <i className="fa-solid fa-chevron-down text-xs"></i>
-                    </button>
-                    {/* Dropdown menu */}
-                    {menu == "fontStyle" ? fontStyleMenu : null}
-                </div>
-                {border}
-                <button className="px-1" >
-                    <i className="fa-solid fa-minus"></i>
-                </button>
-                <input
-                    type="text"
-                    value={12}
-                    maxLength={2}
-                    className="w-6 text-center"
-                />
-                <button className="px-1">
-                    <i className="fa-solid fa-plus"></i>
-                </button>
-                {border}
-                <div className="flex px-1 relative">
-                    <button 
-                        onClick={() => {setMenu("labelPosition")}}
-                        className="flex gap-2 items-center"
-                    >
-                        Center
-                        <i className="fa-solid fa-chevron-down text-xs"></i>
-                    </button>
-                    {menu == "labelPosition" ? labelPositionMenu : null}
-                </div>
-                {border}
-                <div className="flex relative">
-                    <button 
-                        onClick={() => {setMenu("regionColor")}}
-                        className="px-1 hover:bg-violet-100"
-                    >
-                        Region Color
-                    </button>
-                    {menu == "regionColor" ? <div ref={ref} className="absolute left-[-5px] z-50 my-9"><ChromePicker /></div> : null}
-                </div>
-                {border}
-                <div className="flex relative">
-                    <button 
-                        onClick={() => {setMenu("borderColor")}}
-                        className="px-1 hover:bg-violet-100"
-                    >
-                        Border Color
-                    </button>
-                    {menu == "borderColor" ? <div ref={ref} className="absolute left-[-5px] z-50 my-9"><ChromePicker /></div> : null}
-                </div>
-                {border}
-                <button className="px-1 hover:bg-violet-100" onClick={() => {setModalType("legend")}}>Legend</button>
-                {border}
-                <div className="flex px-1 relative">
-                    <button 
-                        onClick={() => {setMenu("dataProperty")}}
-                        className="flex gap-2 items-center"
-                    >
-                        GDP_Value
-                        <i className="fa-solid fa-chevron-down text-xs"></i>
-                    </button>
-                    {menu == "dataProperty" ? dataPropertyMenu : null}
-                </div>
-                {border}
-                <button className="px-1 hover:bg-violet-100" onClick={() => {setModalType("dataProps")}}>
-                    <i className="fa-solid fa-plus mr-1.5"></i>
-                    Bubbles
-                </button>
-                {border}
-                <button className="px-1 hover:bg-violet-100" onClick={() => { setModalType("dataProps") }}>
-                    <i className="fa-solid fa-plus mr-1.5"></i>
-                    Heat Map
-                </button>
-                {border}
-                <button className="px-1 hover:bg-violet-100" onClick={() => {setModalType("publish")}}>Publish</button>
-                {border}
-                <div className="flex px-1 relative">
-                    <button 
-                        onClick={() => {setMenu("export")}}
-                        className="flex gap-2 items-center"
-                    >
-                        <i className="fa-solid fa-download"></i>
-                    </button>
-                    {menu == "export" ? exportMenu : null}
-                </div>
-                <button className="px-1" onClick={() => {setModalType("deleteMap")}}>
-                    <i className="fa-solid fa-trash"></i>
-                </button>
-            </div>
-            <div className="w-full p-4 rounded">
-                <img
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/A_large_blank_world_map_with_oceans_marked_in_blue.PNG/2560px-A_large_blank_world_map_with_oceans_marked_in_blue.PNG"
-                    alt="map-image"
-                    className="rounded-lg"
-                />
-            </div>
-            <div className="flex gap-3 items-center mx-3 my-3">
+            <div id="map" className="w-full h-[63vh] mt-[65px] !absolute"></div>
+            <Toolbar />
+            <div className="relative top-[calc(63vh+75px)] z-[3000] flex gap-3 items-center mx-5 my-3">
                 <div className="text-white bg-violet-400 hover:bg-violet-500 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 ">
                     America
                 </div>
                 <div className="text-white bg-violet-400 hover:bg-violet-500 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 ">
                     Population
                 </div>
-                <button onClick={() => setModal("mapProps")}>
+                <button onClick={() => { openCurrentModal("MAP_PROPS_MODAL")}}>
                     <i className="fa-solid fa-plus"></i>
                 </button>
             </div>
-            {/* Modals */}
-            {/* <Modal title={"Rename Map?"} description={"Write a new name for the Map of Europe"} inputText={"Enter Map Name"} containsInput={true} /> */}
-            {/* <Modal title={"Add/Edit Label for Region"} description={"Adding value to data property: gdp_value"} inputText={"Enter Value"} containsInput={true} /> */}
-            {/* <Modal title={"Add New Data Property"} description={"Enter a name for your property"} inputText={"Enter Name"} containsInput={true} /> */}
-            {/* <Modal title={"Delete Map?"} description={"Please confirm that you want to delete this map."} containsInput={false} /> */}
-            {/* <Modal title={"Publish Map?"} description={"Please confirm that you want to publish this map."} containsInput={false} /> */}
-            {/* <Legend /> */}
+            {currentModal ? selectModal() : ""}
         </div>
     );
 };
