@@ -42,8 +42,8 @@ describe('sign in tests', () => {
             cy.get('#username').type('JoeShmoe-inator');
             cy.get('#password').type('JoeShmoe2023');
             cy.get('#confirmPassword').type('JoeShmoe2023');
-            cy.get('#registerButton').click();
             cy.intercept('POST', '/auth/register', {});
+            cy.get('#registerButton').click();
             cy.url().should('include', '/app/home');
             cy.get('#userAvatar').click();
             cy.contains("Log In").click();
