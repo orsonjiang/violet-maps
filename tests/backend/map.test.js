@@ -78,6 +78,27 @@ describe("update map", () => {
             expect(res.body).toHaveProperty('successMessage');
         })
     })
+
+    // test("add comment", async() => {
+    //     return request(app).put("/api/map/6564534417cd89c108b05e70").send({
+    //         map: {
+    //             social: {
+    //                 comments: {
+    //                     comment: "Testing add comment.",
+    //                     userReference: "someUserId",
+    //                     username: "TestUser",
+    //                     userInitial: "TU",
+    //                     datePublished: new Date()
+    //                 }
+    //             }
+    //         }
+    //     }).expect(200).then((res) => {
+    //         console.log(res.body);
+    //         expect(res.body).toHaveProperty('id');
+    //         expect(res.body).toHaveProperty('successMessage');
+    //     })
+    // })
+
     test("unpublish map", async () => {
         return request(app).put("/api/map/6564534417cd89c108b05e70").send({
             map: {
@@ -96,7 +117,10 @@ describe("update map", () => {
             expect(res.body).toHaveProperty('successMessage');
         })
     })
+
 })
+
+
 
 // const request = require('supertest');
 
