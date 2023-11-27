@@ -34,6 +34,8 @@ describe("get maps", () => {
             username: "kfang00"
         }).expect(200).then((res) => {
             console.log(res.body)
+            expect(res.body).toHaveProperty('success');
+            expect(res.body).toHaveProperty('list');
         })
     })
 })
@@ -43,6 +45,8 @@ describe("get map by id", () => {
         return request(app).get(`/api/map/6564534417cd89c108b05e70`)
         .expect(200).then((res) => {
             console.log(res.body)
+            expect(res.body).toHaveProperty('success');
+            expect(res.body).toHaveProperty('map');
         })
     })
 })
@@ -61,7 +65,9 @@ describe("update map", () => {
                 }
             }
         }).expect(200).then((res) => {
-            console.log(res.body)
+            console.log(res.body);
+            expect(res.body).toHaveProperty('id');
+            expect(res.body).toHaveProperty('successMessage');
         })
     })
     test("unpublish map", async () => {
@@ -78,6 +84,8 @@ describe("update map", () => {
             }
         }).expect(200).then((res) => {
             console.log(res.body)
+            expect(res.body).toHaveProperty('id');
+            expect(res.body).toHaveProperty('successMessage');
         })
     })
 })

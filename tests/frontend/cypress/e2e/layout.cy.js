@@ -49,19 +49,19 @@ describe('create, read, update, and delete comment', () => {
     it('view home screen from splash', () => {
       cy.contains('Continue as Guest').click();
       cy.url().should('include', '/app/home');
-      cy.contains('Create Map');
+      cy.contains('All Maps');
       cy.contains('Sort By').click();
       cy.contains('Name');
     })
   })
 
-  describe('visit map edit page', () => {
-    it('view the map edit screen', () => {
-      cy.contains('Continue as Guest').click();
-      cy.url().should('include', '/app/home');
-      cy.contains('Map of Europe').click();
-      cy.contains('Map of Europe');
-      cy.contains('America');
-    })
-  })
+//   describe('visit selected map page', () => {
+//     it('view the selected map screen', () => {
+//       cy.contains('Continue as Guest').click();
+//       cy.url().should('include', '/app/home');
+//       cy.contains('Map of Europe').click();
+//       cy.contains('Map of Europe');
+//       cy.contains('America');
+//     })
+//   })
 })

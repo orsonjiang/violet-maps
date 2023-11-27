@@ -2,6 +2,27 @@ describe('sign in tests', () => {
     beforeEach(() => {
         cy.visit('/');
     })
+
+    // describe('login', () => {
+    //     it('error message from invalid email input', () => {
+    //         cy.contains('Log In').click();
+    //         cy.get('#email').type('jane.doe@testemail.com');
+    //         cy.get('#password').type('Invalid Password');
+            
+    //         cy.intercept('POST', '/auth/login', {});
+    //         cy.contains('Log in').click();
+    //         cy.intercept("POST", "/api/maps", (req) => {
+    //             req.body = {
+    //                 searchBy: "Map Name",
+    //                 searchText: "",
+    //                 username: "",
+    //                 view: "EXPLORE"
+    //             }
+    //             req.continue()
+    //         })
+    //     })
+    // })
+
     describe('invalid email as input', () => {
         it('error message from invalid email input', () => {
             cy.contains('Log In').click();
@@ -20,8 +41,8 @@ describe('sign in tests', () => {
             cy.get('#username').type('JoeShmoe-inator');
             cy.get('#password').type('JoeShmoe2023');
             cy.get('#confirmPassword').type('JoeShmoe2023');
-            cy.intercept('POST', '/auth/register', {});
             cy.get('#registerButton').click();
+            cy.intercept('POST', '/auth/register', {});
             cy.url().should('include', '/app/home');
             cy.get('#userAvatar').click();
             cy.contains("Log In").click();
