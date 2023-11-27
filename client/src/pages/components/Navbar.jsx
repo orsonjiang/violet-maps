@@ -156,7 +156,7 @@ const Navbar = () => {
                     <div className="relative w-full">
                         <input
                             type="search"
-                            id="search-dropdown"
+                            id="searchbar"
                             className="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300  "
                             placeholder="Search maps"
                             required=""
