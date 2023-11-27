@@ -27,8 +27,9 @@ describe('check selected map screen', () => {
     
 })
 
-// describe('search maps', () => {
-//     it("search for the string map", () => {
-//         cy.get('#commentinput').type('greatmap{enter}');
-//     })
-// })
+describe('search maps', () => {
+    it("search for the string map", () => {
+        cy.get('#searchbar').type('string{enter}');
+        cy.contains('No maps').should('not.exist');
+    })
+})
