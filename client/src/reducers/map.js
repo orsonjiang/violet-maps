@@ -11,6 +11,8 @@ const initialState = {
         color: ""
     },
 	currentMap: null,
+    leafletMap: null,
+    exportType: null,
     maps: []
 }
 
@@ -64,10 +66,20 @@ const map = (state = initialState, action) => {
             return {
                 ...state,
                 currentMap: {
-                    data: {...state.currentMap.data},
+                    data: { ...state.currentMap.data },
                     ...action.payload
                 }
             }
+        // case SET_LEAFLET_MAP:
+        //     return {
+        //         ...state,
+        //         leafletMap: action.payload
+        //     }
+        // case EXPORT_MAP:
+        //     return {
+        //         ...state,
+        //         exportType: action.payload
+        //     }
 		default:
 			return state;
 	}

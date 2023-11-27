@@ -5,6 +5,12 @@ import Legend from "../../../components/Modals/Legend";
 import AddLayer from "../../../components/Modals/AddLayer";
 import { useSelector, useDispatch } from "react-redux";
 import { openModal } from "../../../../actions/modal";
+// import * as L from 'leaflet';
+// import "../../../../dist/leaflet.browser.print.min.js"
+// import domtoimage from 'dom-to-image'
+// import "../../../../dist/Leaflet.BigImage.min.css"
+// import "../../../../dist/Leaflet.BigImage.min.js"
+// import { exportMap } from "../../../../actions/map.js";
 import apis from "../../../../api/api";
 import { updateMapInStore } from "../../../../actions/map";
 
@@ -14,20 +20,48 @@ const Toolbar = () => {
     const [dataPropList, setDataPropList] = useState([]);
 
     const currentModal = useSelector((state) => state.modal.currentModal);
+    // const map = useSelector((state) => state.map.leafletMap);
     const currentMap = useSelector((state) => state.map.currentMap);
 
     const dispatch = useDispatch();
+    // const exportMap = (type) => {
+    //     console.log(map);
+
+    //     var saveAsImage = function () {
+    //         return domtoimage.toPng(document.body)
+    //             .then(function (dataUrl) {
+    //                 var link = document.createElement('a');
+    //                 link.download = map.printControl.options.documentTitle || "exportedMap" + '.png';
+    //                 link.href = dataUrl;
+    //                 link.click();
+    //             });
+    //     }
+
+    //     L.control.browserPrint({
+    //         documentTitle: "printImage",
+    //         printModes: [
+    //             L.BrowserPrint.Mode.Auto("Download PNG"),
+    //         ],
+    //         printFunction: saveAsImage
+    //     }).addTo(map); 
+
+    //     // L.control.bigImage({ position: 'topright' }).addTo(map.data);
+    //     // console.log(map.data);
+
+
+
+    // }
 
     useEffect(() => {
         if (!updates.current) {
-            updates.current = {...currentMap};
+            updates.current = { ...currentMap };
             delete updates.current["data"];
         }
         // get the data properties
         const list = []; // list of data props for user to choose
         if (currentMap.features.length > 0) { // does it have at least one feature?
             const props = currentMap.features[0]["properties"];
-            
+
             for (const [key, value] of Object.entries(props)) {
                 if (typeof value == "number" || typeof value == "string") {
                     list.push(key);
@@ -63,7 +97,7 @@ const Toolbar = () => {
         else if (currentModal == "LEGEND_MODAL") {
             return (<Legend />)
         }
-        else if (currentModal == "ADD_LAYER"){
+        else if (currentModal == "ADD_LAYER") {
             return (<AddLayer view={"edit"} containsInput={false} />)
         }
     }
@@ -264,11 +298,11 @@ const Toolbar = () => {
                     <i className="fa-solid fa-rotate-right"></i>
                 </button>
                 {border}
-                <button 
+                <button
                     className="px-1 hover:bg-violet-100"
                     onClick={toggleLabels}
-                    >
-                        {currentMap.graphics.showLabels ? "Hide Labels" : "Show Labels"}
+                >
+                    {currentMap.graphics.showLabels ? "Hide Labels" : "Show Labels"}
                 </button>
                 {border}
                 <button className="px-1 hover:bg-violet-100" onClick={() => { openCurrentModal("TEXT_MODAL") }}>Add Text</button>
@@ -342,12 +376,12 @@ const Toolbar = () => {
                     {menu == "dataProperty" ? dataPropertyMenu : null}
                 </div>
                 {border}
-                <button className="px-1 hover:bg-violet-100" onClick={() => {openCurrentModal("ADD_LAYER")}}>
+                <button className="px-1 hover:bg-violet-100" onClick={() => { openCurrentModal("ADD_LAYER") }}>
                     <i className="fa-solid fa-plus mr-1.5"></i>
                     Bubbles
                 </button>
                 {border}
-                <button className="px-1 hover:bg-violet-100" onClick={() => {openCurrentModal("ADD_LAYER")}}>
+                <button className="px-1 hover:bg-violet-100" onClick={() => { openCurrentModal("ADD_LAYER") }}>
                     <i className="fa-solid fa-plus mr-1.5"></i>
                     Heat Map
                 </button>

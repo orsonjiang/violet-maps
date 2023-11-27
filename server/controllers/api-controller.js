@@ -173,7 +173,8 @@ updateMap = async (req, res) => {
         }
         else{
             map.publishedDate = req.body.map.publishedDate;
-            map.social.comments = req.body.map.social.comments;
+            map.social = req.body.map.social;
+            // map.social.comments = req.body.map.social.comments;
             map.graphics.showLabels = req.body.map.graphics.showLabels;
             map.graphics.dataProperty = req.body.map.graphics.dataProperty;
 
