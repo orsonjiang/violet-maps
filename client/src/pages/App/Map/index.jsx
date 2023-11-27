@@ -216,7 +216,7 @@ const Map = () => {
                             </div>
                         </div>
                         <div className='col-span-2 flex space-x-2 justify-end text-xs font-medium flex-wrap'>
-                            <button className='rounded-full bg-accent py-1.5 px-4 shadow-lg text-white' onClick={() => {handleInteraction("like")}}><i className="fa-solid fa-thumbs-up pr-2"></i>{currentMap.social.likes}</button>
+                            <button data-cy="like" className='rounded-full bg-accent py-1.5 px-4 shadow-lg text-white' onClick={() => {handleInteraction("like")}}><i className="fa-solid fa-thumbs-up pr-2"></i>{currentMap.social.likes}</button>
                             <button className='rounded-full bg-accent py-1.5 px-4 shadow-lg text-white' onClick={() => { handleInteraction("dislike") }}><i className="fa-solid fa-thumbs-down pr-2"></i>{currentMap.social.dislikes}</button>
                             <div className="flex relative">
                                 <button onClick={() => { setMenu("export") }} className='rounded-full bg-accent py-1.5 px-4 shadow-lg text-white'>
@@ -240,7 +240,7 @@ const Map = () => {
                             </button>
                             <input
                                 type="search"
-                                id="search-dropdown"
+                                id="commentinput"
                                 className="block px-3 w-full text-sm rounded-lg drop-shadow-sm focus:outline-none focus:ring-2"
                                 placeholder="Add a comment..."
                                 required=""
