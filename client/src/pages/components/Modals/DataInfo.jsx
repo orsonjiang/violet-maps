@@ -1,11 +1,13 @@
 import { useState, useEffect, useRef } from "react";
 import { ChromePicker } from "react-color"
 import { useSelector, useDispatch } from 'react-redux';
-import { createMapProperties } from "../../../actions/map";
+import { createMapProperties, setCurrentMap } from "../../../actions/map";
 import { closeModal } from "../../../actions/modal";
 import apis from "../../../api/api";
+import { useNavigate } from 'react-router-dom';
 
 const DataInfo = ({view}) => {
+    const navigate = useNavigate();
     const [menu, setMenu] = useState("none");
     const [dataPropList, setDataPropList] = useState([]);
     const [dataProp, setDataProp] = useState("N/A");
@@ -32,9 +34,9 @@ const DataInfo = ({view}) => {
     const newMap = useSelector((state)=> state.map.newMap);
 
     useEffect(()=> {
-        const list = [];
-        if (newMap.data.features.length > 0) { // does it have at least one feature?
-            const props = newMap.data.features[0].properties;
+        const list = []; // list of data props for user to choose
+        if (newMap.features.length > 0) { // does it have at least one feature?
+            const props = newMap.features[0].properties;
             if (newMap.template == "string") {
                 for (const [key, value] of Object.entries(props)) {
                     if (typeof value == "string") {
@@ -44,7 +46,7 @@ const DataInfo = ({view}) => {
             } else if (newMap.template == "") {
                 for (const [key, value] of Object.entries(props)) {
                     if (typeof value == "number" || typeof value == "string") {
-                        list.push(key + " " + value);
+                        list.push(key);
                     }
                 }
             } else { // the rest of the templates need numerical data
@@ -100,7 +102,12 @@ const DataInfo = ({view}) => {
 
     useEffect(() => {
         if (newMap.name != "") {
-            apis.postCreateMap(newMap);
+            apis.postCreateMap(newMap).then((res) => {
+                apis.getCurrentMap(res.data.id).then((res1) => {
+                    dispatch(setCurrentMap(res1.data.map));
+                    navigate("/app/editmap");
+                }).catch((err)=> console.log(err));
+            }).catch((err)=> console.log(err));
             dispatch(closeModal());
         }
     }, [newMap.name])
@@ -127,15 +134,16 @@ const DataInfo = ({view}) => {
                 <div className="relative bg-white rounded-lg shadow ">
                     <div className="p-2 md:mt-0 flex flex-col">
                         <div className="flex flex-col px-6 space-y-4 my-3">
-                            <h3 className="text-lg font-semibold text-black">
+                            <h3 className="text-lg font-semibold text-black flex items-center gap-3">
                                 Enter Data Info
+                                <div className="text-xs font-medium text-indigo-400">chosen template: {newMap.template == "" ? "blank" : newMap.template}</div>
                             </h3>
+
                             <div className="bg-purple-50 rounded-lg p-6 space-y-4">
                                 <div className="text-sm flex gap-3 items-center">
                                     Name:
                                     <input type="text" onChange={handleNameChange} placeholder="Name your map" className="rounded-lg p-1.5 px-3 bg-white w-full" />
                                 </div> 
-
                                 {newMap.template != "" ?
                                 <div className="text-sm flex gap-3 items-center justify-between">
                                     Data Property:

@@ -1,6 +1,16 @@
-import TitleButton from "./components/TitleButton";
+// import TitleButton from "./components/TitleButton";
+import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setView } from '../../actions/home';
 
 const Splash = () => {
+
+    const dispatch = useDispatch()
+
+    const handleGuest = () => {
+        dispatch(setView("EXPLORE"));
+    }
+
     return (
         <div className="flex min-h-screen">
             <div className="flex bg-cover bg-center w-2/3 justify-center">
@@ -24,9 +34,28 @@ const Splash = () => {
                 </div>
             </div>
             <div className="flex flex-col p-8 grow justify-center items-center bg-white">
-                <TitleButton title={"Don't have an account?"} buttonText={"Sign Up"} link={"/register"}/>
+                <div className="flex flex-col my-4">
+                    <div className="text-[17px] my-2 font-medium text-center">Don't have an account?</div>
+                    <Link to={"/register"} className="text-white bg-violet-400/[0.9] hover:bg-violet-500/[0.9] focus:outline-none focus:ring-2 focus:ring-purple-300 font-medium rounded-full text-md py-2 text-center mb-2 self-center w-60">
+                        Sign Up
+                    </Link>
+                </div>
+                <div className="flex flex-col my-4">
+                    <div className="text-[17px] my-2 font-medium text-center">Already have an account?</div>
+                    <Link to={"/login"} className="text-white bg-violet-400/[0.9] hover:bg-violet-500/[0.9] focus:outline-none focus:ring-2 focus:ring-purple-300 font-medium rounded-full text-md py-2 text-center mb-2 self-center w-60">
+                        Log In
+                    </Link>
+                </div>
+                <div className="flex flex-col my-4">
+                    <div className="text-[17px] my-2 font-medium text-center">Want to anonymously browse?</div>
+                    <Link onClick={handleGuest} to={"/app/home"} className="text-white bg-violet-400/[0.9] hover:bg-violet-500/[0.9] focus:outline-none focus:ring-2 focus:ring-purple-300 font-medium rounded-full text-md py-2 text-center mb-2 self-center w-60">
+                        Continue as Guest
+                    </Link>
+                </div>
+                      
+                {/* <TitleButton title={"Don't have an account?"} buttonText={"Sign Up"} link={"/register"}/>
                 <TitleButton title={"Already have an account?"} buttonText={"Log In"} link={"/login"}/>
-                <TitleButton title={"Want to anonymously browse?"} buttonText={"Continue as Guest"} link={"/app/home"}/>
+                <TitleButton title={"Want to anonymously browse?"} buttonText={"Continue as Guest"} link={"/app/home"}/> */}
             </div>
         </div>
     );
