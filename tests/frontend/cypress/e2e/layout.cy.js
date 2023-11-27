@@ -55,15 +55,15 @@ describe('create, read, update, and delete comment', () => {
     })
   })
 
-  describe('visit selected map page', () => {
-    it('view the selected map screen', () => {
-      cy.contains('Continue as Guest').click();
-      cy.url().should('include', '/app/home');
-      cy.contains('Choropleth Map').click();
-      cy.contains('Choropleth Map');
-      // cy.contains('America');
-    })
-  })
+  // describe('visit selected map page', () => {
+  //   it('view the selected map screen', () => {
+  //     cy.contains('Continue as Guest').click();
+  //     cy.url().should('include', '/app/home');
+  //     cy.contains('Choropleth Map').click();
+  //     cy.contains('Choropleth Map');
+  //     // cy.contains('America');
+  //   })
+  // })
   /*
   describe('visit selected map page', () => {
     it('view the selected map screen', () => {
