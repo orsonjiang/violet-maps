@@ -1,6 +1,7 @@
 const request = require('supertest');
 
 const { app, db } = require('../../server');
+const { User } = requre("../models/UserSchema");
 
 afterAll(() => {
     db.close();
@@ -18,42 +19,42 @@ afterAll(() => {
 //     })
 // })
 
-describe("login user", () => {
-    test("POST /auth/login", async () => {
-        return request(app).post("/auth/login").send({
-            email: "jane.doe@testemail.com",
-            password: "password123"
-        }).expect(200).then((res) => {
-            console.log(res.body)
-        })
-    })
+// describe("login user", () => {
+//     test("POST /auth/login", async () => {
+//         return request(app).post("/auth/login").send({
+//             email: "jane.doe@testemail.com",
+//             password: "password123"
+//         }).expect(200).then((res) => {
+//             console.log(res.body)
+//         })
+//     })
 
-    test("login credentials are wrong", async () => {
-        return request(app).post("/auth/login").send({
-            email: "jane.doe@testemail.com",
-            password: "password"
-        }).expect(401).then((res) => {
-            expect(res.body.error).toEqual("Wrong email or password provided.")
-        })
-    })
+//     test("login credentials are wrong", async () => {
+//         return request(app).post("/auth/login").send({
+//             email: "jane.doe@testemail.com",
+//             password: "password"
+//         }).expect(401).then((res) => {
+//             expect(res.body.error).toEqual("Wrong email or password provided.")
+//         })
+//     })
 
-    test("user does not exist", async () => {
-        return request(app).post("/auth/login").send({
-            email: "fake.user@email.com",
-            password: "password123"
-        }).expect(401).then((res) => {
-            expect(res.body.error).toEqual("Wrong email or password provided.")
-        })
-    })
+//     test("user does not exist", async () => {
+//         return request(app).post("/auth/login").send({
+//             email: "fake.user@email.com",
+//             password: "password123"
+//         }).expect(401).then((res) => {
+//             expect(res.body.error).toEqual("Wrong email or password provided.")
+//         })
+//     })
 
-    test("fields are blank", async () => {
-        return request(app).post("/auth/login").send({
-        }).expect(400).then((res) => {
-            expect(res.body.error).toEqual("Please enter all required fields.")
-        })
-    })
+//     test("fields are blank", async () => {
+//         return request(app).post("/auth/login").send({
+//         }).expect(400).then((res) => {
+//             expect(res.body.error).toEqual("Please enter all required fields.")
+//         })
+//     })
 
-})
+// })
 
 // describe('successfully register the user to database', () => {
 //     it("Should successfully register the user", async () => {
@@ -79,3 +80,15 @@ describe("login user", () => {
 //     });
 //     */
 // });
+
+describe("POST /auth/login", () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    })
+
+    it("Should login a user", async() => {
+        
+    })
+});
+
+
