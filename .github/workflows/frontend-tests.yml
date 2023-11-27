@@ -22,7 +22,7 @@ jobs:
           directory: server
           envkey_DB_CONNECT: ${{ secrets.DB_CONNECT }}
           envkey_CLIENT_URL: ${{ vars.DEV_CLIENT_URL }}
-          envkey_ENVIRONMENT: ${{ vars.TESTING_ENVIRONMENT }}
+          envkey_ENVIRONMENT: ${{ vars.TEST_ENVIRONMENT }}
           envkey_JWT_SECRET: ${{ secrets.JWT_SECRET }}
 
       - name: cypress run
