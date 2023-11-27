@@ -31,11 +31,6 @@ export const updateMapData = (data) => ({
 	payload: data
 });
 
-// export const publishMap = (data) => ({
-// 	type: PUBLISH_MAP,
-// 	payload: data
-// })
-
 // export const addComment = (data) => ({
 // 	type: ADD_COMMENT,
 // 	payload: data

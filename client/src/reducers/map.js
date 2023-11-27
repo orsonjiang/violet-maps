@@ -62,14 +62,6 @@ const map = (state = initialState, action) => {
                     ...state.currentMap
                 }
             }
-        // case PUBLISH_MAP:
-        //     return {
-        //         ...state,
-        //         currentMap: {
-        //             publishedDate: action.payload,
-        //             ...state.currentMap
-        //         }
-        //     }
         case UPDATE_MAP:
             return {
                 ...state,
