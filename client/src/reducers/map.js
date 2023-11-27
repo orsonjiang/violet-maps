@@ -11,8 +11,6 @@ const initialState = {
         color: ""
     },
 	currentMap: null,
-    leafletMap: null,
-    exportType: null,
     maps: []
 }
 

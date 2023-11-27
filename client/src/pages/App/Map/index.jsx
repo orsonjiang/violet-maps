@@ -54,6 +54,9 @@ const Map = () => {
 
     const handleAddComment = (event) => {
         if (event.code === "Enter"){
+            console.log(text);
+            console.log(user);
+
             const initials = user.firstName.charAt(0) + user.lastName.charAt(0);
 
             const newComment = {
@@ -214,7 +217,7 @@ const Map = () => {
                         </div>
                         <div className='col-span-2 flex space-x-2 justify-end text-xs font-medium flex-wrap'>
                             <button className='rounded-full bg-accent py-1.5 px-4 shadow-lg text-white' onClick={() => {handleInteraction("like")}}><i className="fa-solid fa-thumbs-up pr-2"></i>{currentMap.social.likes}</button>
-                                <button className='rounded-full bg-accent py-1.5 px-4 shadow-lg text-white' onClick={() => { handleInteraction("dislike") }}><i className="fa-solid fa-thumbs-down pr-2"></i>{currentMap.social.dislikes}</button>
+                            <button className='rounded-full bg-accent py-1.5 px-4 shadow-lg text-white' onClick={() => { handleInteraction("dislike") }}><i className="fa-solid fa-thumbs-down pr-2"></i>{currentMap.social.dislikes}</button>
                             <div className="flex relative">
                                 <button onClick={() => { setMenu("export") }} className='rounded-full bg-accent py-1.5 px-4 shadow-lg text-white'>
                                     <i className="fa-solid fa-file-export pr-2"></i>

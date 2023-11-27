@@ -76,7 +76,7 @@ const Navbar = () => {
         <nav className="bg-gradient-to-r from-violet-300 to-indigo-300 p-3">
             <div className="flex gap-4 items-center pl-2">
                 <div onClick={() => handleClickView("HOME")}>
-                    <i className={`fa fa-home text-xl ${view == "HOME" ? "text-white" : "text-violet-100"}`} />
+                    <i id='home-icon' className={`fa fa-home text-xl ${view == "HOME" ? "text-white" : "text-violet-100"}`} />
                 </div>
                 <div onClick={() => handleClickView("EXPLORE")}>
                     <i className={`fas fa-globe-americas text-xl ${view == "EXPLORE" ? "text-white" : "text-violet-100"}`} />

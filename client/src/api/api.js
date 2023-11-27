@@ -22,12 +22,14 @@ const updateMap = (id, data) => {
 		map: data
 	})
 }
+const deleteMap = (id) => api.delete(`/map/${id}`);
 
 const apis = {
 	postCreateMap,
 	getCurrentMap,
 	getMaps,
-	updateMap
+	updateMap,
+	deleteMap
 };
 
 export default apis;

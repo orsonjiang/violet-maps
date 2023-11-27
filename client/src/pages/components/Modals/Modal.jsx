@@ -29,6 +29,15 @@ const Modal = ({title, description, inputText, containsInput, type}) => {
 
                 return;
 
+            case 'DELETE_MAP':
+                apis.deleteMap(currentMap._id, currentMap).then((res) =>{
+                    navigate("/app/home");
+                    dispatch(setView("HOME"))
+                }).catch((err) => console.log(err));
+
+                dispatch(closeModal());
+                return;
+                
             default:
                 return;
         }

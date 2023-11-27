@@ -71,6 +71,26 @@ const Toolbar = () => {
         setDataPropList(list);
     }, [])
 
+    useEffect(() => {
+        if (!updates.current) {
+            updates.current = {...currentMap};
+            delete updates.current["data"];
+        }
+        // get the data properties
+        const list = []; // list of data props for user to choose
+        console.log(currentMap);
+        if (currentMap.features.length > 0) { // does it have at least one feature?
+            const props = currentMap.features[0]["properties"];
+            
+            for (const [key, value] of Object.entries(props)) {
+                if (typeof value == "number" || typeof value == "string") {
+                    list.push(key);
+                }
+            }
+        }
+        setDataPropList(list);
+    }, [])
+
     const openCurrentModal = (type) => {
         dispatch(openModal(type))
     }

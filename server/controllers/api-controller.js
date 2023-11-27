@@ -193,9 +193,24 @@ updateMap = async (req, res) => {
     }).catch(err => console.log(err))
 }
 
+deleteMap = async (req, res) => {
+    console.log("delete map with id: " + JSON.stringify(req.params.id));
+    console.log("delete " + req.params.id);
+    await Map.deleteOne({ _id: req.params.id }).then((map, err) => {
+        if (err) {
+            return res.status(400).json({ success: false, error: err});
+        }
+        else {
+            console.log("delete map is successful. map with id: " + JSON.stringify(req.params.id));
+            return res.status(200).json({ success: true });
+        }
+    });
+}
+
 module.exports = {
 	createMap,
     getMaps,
     getCurrentMap,
-    updateMap
+    updateMap,
+    deleteMap
 };
