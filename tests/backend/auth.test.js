@@ -42,7 +42,7 @@ const request = require('supertest');
 
 const { app, db } = require('../../server');
 
-jest.mock("axios");
+// jest.mock("axios");
 
 afterAll(() => {
     db.close();

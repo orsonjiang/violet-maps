@@ -10,13 +10,6 @@ afterAll(() => {
 
 
 describe("create map", () => {
-    
-    test('passes', () => {
-        expect(true).toBe(true);
-    })
-    /*
-    Error: secretOrPrivateKey must have a value
-
     test("POST /api/map", async () => {
         return request(app).post("/api/map").send({
             name: "Great Map",
@@ -30,7 +23,6 @@ describe("create map", () => {
             console.log(res.body)
         })
     })
-    */
 })
 
 describe("get maps", () => {
@@ -65,7 +57,10 @@ describe("update map", () => {
             map: {
                 publishedDate: new Date(),
                 social: {
-                    comments: []
+                    comments: [],
+                    likes: 0,
+                    views: 0,
+                    dislikes: 0,
                 },
                 graphics: {
                     showLabels: false,
@@ -104,7 +99,10 @@ describe("update map", () => {
             map: {
                 publishedDate: null,
                 social: {
-                    comments: []
+                    comments: [],
+                    likes: 0,
+                    views: 0,
+                    dislikes: 0,
                 },
                 graphics: {
                     showLabels: false,
