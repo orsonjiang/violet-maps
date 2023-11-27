@@ -71,7 +71,7 @@ const Map = () => {
             navigate("/app/home"); // for now
         }
         if (!map.current) {
-            map.current = L.map('map').setView([39.74739, -105], 2);
+            map.current = L.map('map', {preferCanvas: true}).setView([39.74739, -105], 2);
 
             L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,
@@ -206,7 +206,7 @@ const Map = () => {
                                 </button>
                                 {menu == "export" ? exportMenu : null}
                             </div>
-                            <button className='rounded-full bg-accent py-1.5 px-4 shadow-lg text-white' onClick={() => { openCurrentModal("FORK_MODAL") }}><i class="fa-solid fa-copy pr-2" ></i>Fork</button>
+                            <button className='rounded-full bg-accent py-1.5 px-4 shadow-lg text-white' onClick={() => { openCurrentModal("FORK_MODAL") }}><i className="fa-solid fa-copy pr-2" ></i>Fork</button>
                         </div>
                     </div>
 

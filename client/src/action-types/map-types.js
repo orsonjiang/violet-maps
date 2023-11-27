@@ -9,7 +9,7 @@ export const SET_MAPS = "SET_MAPS";
 export const SET_CURRENT_MAP = "SET_CURRENT_MAP";
 
 // after you get the current map, you have to convert the map data back to geojson
-export const UPDATE_MAP_DATA = "UPDATE_MAP_DATA";
+// export const UPDATE_MAP_DATA = "UPDATE_MAP_DATA";
 
 // export const PUBLISH_MAP = "PUBLISH_MAP";
 // export const ADD_COMMENT = "ADD_COMMENT";

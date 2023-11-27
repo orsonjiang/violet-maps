@@ -5,13 +5,37 @@ import Legend from "../../../components/Modals/Legend";
 import AddLayer from "../../../components/Modals/AddLayer";
 import { useSelector, useDispatch } from "react-redux";
 import { openModal } from "../../../../actions/modal";
+import apis from "../../../../api/api";
+import { updateMapInStore } from "../../../../actions/map";
 
 const Toolbar = () => {
     const [menu, setMenu] = useState("none");
+    const updates = useRef(null);
+    const [dataPropList, setDataPropList] = useState([]);
 
     const currentModal = useSelector((state) => state.modal.currentModal);
+    const currentMap = useSelector((state) => state.map.currentMap);
 
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (!updates.current) {
+            updates.current = {...currentMap};
+            delete updates.current["data"];
+        }
+        // get the data properties
+        const list = []; // list of data props for user to choose
+        if (currentMap.features.length > 0) { // does it have at least one feature?
+            const props = currentMap.features[0]["properties"];
+            
+            for (const [key, value] of Object.entries(props)) {
+                if (typeof value == "number" || typeof value == "string") {
+                    list.push(key);
+                }
+            }
+        }
+        setDataPropList(list);
+    }, [])
 
     const openCurrentModal = (type) => {
         dispatch(openModal(type))
@@ -60,6 +84,25 @@ const Toolbar = () => {
 
     const ref = useRef(null);
     closeMenus(ref);
+
+    const toggleLabels = () => {
+        updates.current.graphics.showLabels = !updates.current.graphics.showLabels;
+
+        apis.updateMap(currentMap._id, updates.current).then((res) => {
+            dispatch(updateMapInStore(updates.current))
+        }).catch((err) => {
+            console.log(err);
+        })
+    }
+
+    const changeDataProp = (item) => {
+        updates.current.graphics.dataProperty = item;
+        apis.updateMap(currentMap._id, updates.current).then((res) => {
+            dispatch(updateMapInStore(updates.current))
+        }).catch((err) => {
+            console.log(err);
+        })
+    }
 
     const border = (
         <div className="w-0.5 h-6 bg-gray-100 mx-1"></div>
@@ -157,34 +200,18 @@ const Toolbar = () => {
             id="user-dropdown"
         >
             <ul className="text-[13px] overflow-y-auto max-h-[136px] py-2" aria-labelledby="user-menu-button">
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        name
-                    </button>
-                </li>
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        gdp_value
-                    </button>
-                </li>
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        pop_year
-                    </button>
-                </li>
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        admin_0
-                    </button>
-                </li>
+                {dataPropList.map((item, key) => {
+                    return (
+                        <li key={key}>
+                            <button
+                                className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
+                                onClick={() => changeDataProp(item)}
+                            >
+                                {item}
+                            </button>
+                        </li>
+                    )
+                })}
             </ul>
             <div className="px-4 py-3 hover:bg-gray-100 rounded-lg ">
                 <button className="block text-violet-500 text-xs  " onClick={() => openCurrentModal("ADD_DATA_PROP_MODAL")}>
@@ -237,7 +264,12 @@ const Toolbar = () => {
                     <i className="fa-solid fa-rotate-right"></i>
                 </button>
                 {border}
-                <button className="px-1 hover:bg-violet-100">Show Labels</button>
+                <button 
+                    className="px-1 hover:bg-violet-100"
+                    onClick={toggleLabels}
+                    >
+                        {currentMap.graphics.showLabels ? "Hide Labels" : "Show Labels"}
+                </button>
                 {border}
                 <button className="px-1 hover:bg-violet-100" onClick={() => { openCurrentModal("TEXT_MODAL") }}>Add Text</button>
                 {border}
@@ -246,7 +278,7 @@ const Toolbar = () => {
                         onClick={() => { setMenu("fontStyle") }}
                         className="flex gap-2 items-center"
                     >
-                        Arial
+                        {currentMap.graphics.fontStyle}
                         <i className="fa-solid fa-chevron-down text-xs"></i>
                     </button>
                     {/* Dropdown menu */}
@@ -258,7 +290,7 @@ const Toolbar = () => {
                 </button>
                 <input
                     type="text"
-                    value={12}
+                    value={currentMap.graphics.fontSize}
                     maxLength={2}
                     className="w-6 text-center"
                 />
@@ -271,7 +303,7 @@ const Toolbar = () => {
                         onClick={() => { setMenu("labelPosition") }}
                         className="flex gap-2 items-center"
                     >
-                        Center
+                        {currentMap.graphics.labelPosition}
                         <i className="fa-solid fa-chevron-down text-xs"></i>
                     </button>
                     {menu == "labelPosition" ? labelPositionMenu : null}
@@ -304,7 +336,7 @@ const Toolbar = () => {
                         onClick={() => { setMenu("dataProperty") }}
                         className="flex gap-2 items-center"
                     >
-                        GDP_Value
+                        {currentMap.graphics.dataProperty}
                         <i className="fa-solid fa-chevron-down text-xs"></i>
                     </button>
                     {menu == "dataProperty" ? dataPropertyMenu : null}

@@ -46,7 +46,7 @@ const DataInfo = ({view}) => {
             } else if (newMap.template == "") {
                 for (const [key, value] of Object.entries(props)) {
                     if (typeof value == "number" || typeof value == "string") {
-                        list.push(key + " " + value);
+                        list.push(key);
                     }
                 }
             } else { // the rest of the templates need numerical data

@@ -9,12 +9,14 @@ import { Link } from 'react-router-dom';
 import { openModal } from '../../../actions/modal';
 import { setView } from '../../../actions/home';
 import apis from '../../../api/api';
-import { setMaps } from '../../../actions/map';
+import { setMaps, setCurrentMap } from '../../../actions/map';
 
 const Home = () => {
     const [menu, setMenu] = useState("none");
     // const [modal, setModal] = useState(false);
     const currentModal = useSelector((state)=> state.modal.currentModal);
+    // const currentMap = useSelector((state)=> state.map.currentMap);
+
     const {view, searchBy} = useSelector((state)=> state.home);
     const user = useSelector((state)=> state.user.user);
     const maps = useSelector((state)=> state.map.maps);
@@ -43,6 +45,7 @@ const Home = () => {
     closeMenus(ref);
 
     useEffect(() => {
+        dispatch(setCurrentMap(null));
         apis.getMaps(view, "", searchBy, user.username).then((res) => {
             dispatch(setMaps(res.data.list));
         })
