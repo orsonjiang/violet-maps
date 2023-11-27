@@ -23,7 +23,7 @@ const Toolbar = () => {
     // const map = useSelector((state) => state.map.leafletMap);
     const currentMap = useSelector((state) => state.map.currentMap);
 
-    const dispatch = useDispatch(); 
+    const dispatch = useDispatch();
     // const exportMap = (type) => {
     //     console.log(map);
 
@@ -47,21 +47,21 @@ const Toolbar = () => {
 
     //     // L.control.bigImage({ position: 'topright' }).addTo(map.data);
     //     // console.log(map.data);
-        
+
 
 
     // }
 
     useEffect(() => {
         if (!updates.current) {
-            updates.current = {...currentMap};
+            updates.current = { ...currentMap };
             delete updates.current["data"];
         }
         // get the data properties
         const list = []; // list of data props for user to choose
         if (currentMap.features.length > 0) { // does it have at least one feature?
             const props = currentMap.features[0]["properties"];
-            
+
             for (const [key, value] of Object.entries(props)) {
                 if (typeof value == "number" || typeof value == "string") {
                     list.push(key);
@@ -88,7 +88,7 @@ const Toolbar = () => {
         }
         else if (currentModal == "DELETE_MAP") {
             return (
-                <Modal title={"Delete Map?"} description={"Please confirm that you want to delete the map."} containsInput={false}/>
+                <Modal title={"Delete Map?"} description={"Please confirm that you want to delete the map."} containsInput={false} />
             )
         }
         else if (currentModal == "PUBLISH_MODAL") {
@@ -97,7 +97,7 @@ const Toolbar = () => {
         else if (currentModal == "LEGEND_MODAL") {
             return (<Legend />)
         }
-        else if (currentModal == "ADD_LAYER"){
+        else if (currentModal == "ADD_LAYER") {
             return (<AddLayer view={"edit"} containsInput={false} />)
         }
     }
@@ -298,11 +298,11 @@ const Toolbar = () => {
                     <i className="fa-solid fa-rotate-right"></i>
                 </button>
                 {border}
-                <button 
+                <button
                     className="px-1 hover:bg-violet-100"
                     onClick={toggleLabels}
-                    >
-                        {currentMap.graphics.showLabels ? "Hide Labels" : "Show Labels"}
+                >
+                    {currentMap.graphics.showLabels ? "Hide Labels" : "Show Labels"}
                 </button>
                 {border}
                 <button className="px-1 hover:bg-violet-100" onClick={() => { openCurrentModal("TEXT_MODAL") }}>Add Text</button>
@@ -376,12 +376,12 @@ const Toolbar = () => {
                     {menu == "dataProperty" ? dataPropertyMenu : null}
                 </div>
                 {border}
-                <button className="px-1 hover:bg-violet-100" onClick={() => {openCurrentModal("ADD_LAYER")}}>
+                <button className="px-1 hover:bg-violet-100" onClick={() => { openCurrentModal("ADD_LAYER") }}>
                     <i className="fa-solid fa-plus mr-1.5"></i>
                     Bubbles
                 </button>
                 {border}
-                <button className="px-1 hover:bg-violet-100" onClick={() => {openCurrentModal("ADD_LAYER")}}>
+                <button className="px-1 hover:bg-violet-100" onClick={() => { openCurrentModal("ADD_LAYER") }}>
                     <i className="fa-solid fa-plus mr-1.5"></i>
                     Heat Map
                 </button>
