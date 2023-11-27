@@ -175,6 +175,8 @@ updateMap = async (req, res) => {
             map.publishedDate = req.body.map.publishedDate;
             map.social = req.body.map.social;
             // map.social.comments = req.body.map.social.comments;
+            map.graphics.showLabels = req.body.map.graphics.showLabels;
+            map.graphics.dataProperty = req.body.map.graphics.dataProperty;
 
             map.save().then(() => {
                 return res.status(200).json({
