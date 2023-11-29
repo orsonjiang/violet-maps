@@ -2,12 +2,34 @@ describe('sign in tests', () => {
     beforeEach(() => {
         cy.visit('/');
     })
+
+    // describe('login', () => {
+    //     it('error message from invalid email input', () => {
+    //         cy.contains('Log In').click();
+    //         cy.get('#email').type('jane.doe@testemail.com');
+    //         cy.get('#password').type('Invalid Password');
+            
+    //         cy.intercept('POST', '/auth/login', {});
+    //         cy.contains('Log in').click();
+    //         cy.intercept("POST", "/api/maps", (req) => {
+    //             req.body = {
+    //                 searchBy: "Map Name",
+    //                 searchText: "",
+    //                 username: "",
+    //                 view: "EXPLORE"
+    //             }
+    //             req.continue()
+    //         })
+    //     })
+    // })
+
     describe('invalid email as input', () => {
         it('error message from invalid email input', () => {
             cy.contains('Log In').click();
             cy.get('#email').type('InvalidEmail@dne.com');
             cy.get('#password').type('Invalid Password');
             cy.contains('Log in').click();
+            cy.url().should('include', '/login');
         })
     })
 
@@ -29,7 +51,20 @@ describe('sign in tests', () => {
             cy.get('#email').type('Joe.Shmoe@email.com');
             cy.get('#password').type('InvalidPassword');
             cy.contains('Log in').click();
-
+            cy.url().should('include', '/login');
+        })
+    })
+    describe('valid login', () => {
+        it('log into an existing account', () => {
+            cy.contains('Log In').click();
+            cy.get('#email').type('test.one@email.com');
+            cy.get('#password').type('testone123');
+            cy.intercept('POST', '/auth/login', {});
+            cy.contains('Log in').click();
+            cy.url().should('include', '/app/home');
+            cy.contains('Sort By').click();
+            cy.contains('Creation Date')
+            cy.contains('Create Map');
         })
     })
     /*

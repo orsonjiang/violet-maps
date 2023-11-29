@@ -5,11 +5,14 @@ import store from '../../../store';
 import { setUser } from '../../../actions/user';
 import Form from '../components/Form';
 import Field from '../components/Field';
-import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { setView } from '../../../actions/home';
 
 const Login = () => {
     const navigate = useNavigate();
     const [error, setError] = useState("");
+
+    const dispatch = useDispatch();
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -27,8 +30,9 @@ const Login = () => {
             });
         
         if (req.status === 200) {
-            store.dispatch(setUser(req.data));
+            dispatch(setUser(req.data));
             navigate("/app/home");
+            dispatch(setView("HOME"));
         } else {
             console.log(req.error);
         }

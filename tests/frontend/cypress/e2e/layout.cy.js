@@ -1,6 +1,6 @@
 describe('create, read, update, and delete comment', () => {
   beforeEach(() => {
-    cy.visit('/');
+    cy.visit('http://localhost:5173/');
   })
 
   describe('view splash screen', () => {
@@ -40,28 +40,43 @@ describe('create, read, update, and delete comment', () => {
 
   describe('reset password', () => {
     it('view reset password screen', () => {
-      cy.visit('/reset');
+      cy.visit('http://localhost:5173/reset/');
       cy.get('input').should('have.length', 2);
     })
   })
 
-  describe('visit home' , () => {
-    it('view home screen from splash', () => {
+  describe('visit explore' , () => {
+    it('view explore screen from splash', () => {
       cy.contains('Continue as Guest').click();
       cy.url().should('include', '/app/home');
-      cy.contains('Create Map');
+      cy.contains('All Maps');
       cy.contains('Sort By').click();
       cy.contains('Name');
     })
   })
 
-  describe('visit map edit page', () => {
-    it('view the map edit screen', () => {
+  // describe('visit selected map page', () => {
+  //   it('view the selected map screen', () => {
+  //     cy.contains('Continue as Guest').click();
+  //     cy.url().should('include', '/app/home');
+  //     cy.contains('Choropleth Map').click();
+  //     cy.contains('Choropleth Map');
+  //     // cy.contains('America');
+  //   })
+  // })
+  /*
+  describe('visit selected map page', () => {
+    it('view the selected map screen', () => {
       cy.contains('Continue as Guest').click();
       cy.url().should('include', '/app/home');
-      cy.contains('Map of Europe').click();
-      cy.contains('Map of Europe');
-      cy.contains('America');
+      cy.contains('This is one great map').click();
+      cy.url().should('include', '/app/map');
+      cy.contains('great');
+      cy.contains('Export').click();
+      cy.contains('JSON');
+      cy.contains('0 Comments');
     })
   })
+  */
+  
 })
