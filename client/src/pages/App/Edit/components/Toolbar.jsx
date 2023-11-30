@@ -7,7 +7,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { openModal } from "../../../../actions/modal";
 // import * as L from 'leaflet';
 // import "../../../../dist/leaflet.browser.print.min.js"
-// import domtoimage from 'dom-to-image'
 // import "../../../../dist/Leaflet.BigImage.min.css"
 // import "../../../../dist/Leaflet.BigImage.min.js"
 // import { exportMap } from "../../../../actions/map.js";
