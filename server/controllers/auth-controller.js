@@ -7,47 +7,13 @@ const bcrypt = require("bcryptjs");
 const loginUser = async (req, res) => {
 	if (req.body && req.body.auto) {
 		const verify = auth.verifyToken(req, res);
-		if (verify) {
-			return;
-		}
-        if (!req.userId) {
-			return res.cookie("token", "", {
-				httpOnly: true,
-				secure: true,
-				sameSite: false,
-				expires: new Date(0),
-			})
-				.status(400)
-				.json({
-					user: {
-						_id: "",
-						username: "",
-						firstName: "",
-						lastName: "",
-						email: "",
-					},
-				});;
-        }
+		// If verify failed (has returned something) skip the rest of the login process.
+		if (verify) return;
 
         const loggedInUser = await User.findOne({ _id: req.userId });
 		
 		if (!loggedInUser) {
-			return res.cookie("token", "", {
-				httpOnly: true,
-				secure: true,
-				sameSite: false,
-				expires: new Date(0),
-			})
-				.status(400)
-				.json({
-					user: {
-						_id: "",
-						username: "",
-						firstName: "",
-						lastName: "",
-						email: "",
-					},
-				});;
+			return sendError(res, "Unauthorized", 401);
 		}
 
         return res.status(200).json({
@@ -65,21 +31,18 @@ const loginUser = async (req, res) => {
 		const { email, password } = req.body;
 
 		if (!email || !password) {
-			return sendError(res, "Please enter all required fields.");
+			return sendError(res, "Please enter all required fields.", 401);
 		}
 
 		const existingUser = await User.findOne({ email: email });
 		if (!existingUser) {
 			return sendError(res, "Wrong email or password provided.", 401);
 		}
-		console.log(existingUser);
-		console.log(password);
-		console.log(existingUser.passwordHash);
+
 		const passwordCorrect = await bcrypt.compare(
 			password,
 			existingUser.passwordHash
 		);
-		console.log(passwordCorrect);
 		if (!passwordCorrect) {
 			return sendError(res, "Wrong email or password provided.", 401);
 		}
@@ -109,22 +72,26 @@ const loginUser = async (req, res) => {
 };
 
 const logoutUser = async (req, res) => {
-	res.cookie("token", "", {
+	const options = {
 		httpOnly: true,
 		secure: true,
 		sameSite: false,
 		expires: new Date(0),
-	})
+	};
+
+	const user = {
+		user: {
+			_id: "",
+			username: "",
+			firstName: "",
+			lastName: "",
+			email: "",
+		},
+	};
+
+	return res.cookie("token", "", options)
 		.status(200)
-		.json({
-			user: {
-				_id: "",
-				username: "",
-				firstName: "",
-				lastName: "",
-				email: "",
-			},
-		});;
+		.json(user);
 };
 
 const registerUser = async (req, res) => {
