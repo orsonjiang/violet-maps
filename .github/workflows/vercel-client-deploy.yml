@@ -1,12 +1,7 @@
 name: Vercel Client Deploy
 
 on:
-<<<<<<< HEAD
-  push:
-    branches: ['main']
-=======
   workflow_call
->>>>>>> main
 
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
