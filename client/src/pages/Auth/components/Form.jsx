@@ -1,5 +1,5 @@
 const Form = (props) => {
-	const { title, children, onSubmit } = props;
+    const { title, children, onSubmit } = props;
 
     return (
         <div className="flex flex-col min-h-screen bg-violet-200 justify-center">
@@ -9,11 +9,11 @@ const Form = (props) => {
                         Violet Maps
                     </div>
                     <div className="text-center font-semibold text-gray-900">
-						{title}
+                        {title}
                     </div>
                 </div>
                 <form className="flex flex-col w-full gap-4" onSubmit={onSubmit}>
-					{children}
+                    {children}
                 </form>
             </div>
         </div>

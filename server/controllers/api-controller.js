@@ -208,7 +208,7 @@ deleteMap = async (req, res) => {
 }
 
 module.exports = {
-	createMap,
+    createMap,
     getMaps,
     getCurrentMap,
     updateMap,

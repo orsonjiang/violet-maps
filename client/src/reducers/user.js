@@ -1,26 +1,26 @@
 import { SET_USER } from "../action-types/user-types";
 
 const initialState = {
-	user: {
-		_id: "",
-		username: "",
-		firstName: "",
-		lastName: "",
-		email: "",
-	},
+    user: {
+        _id: "",
+        username: "",
+        firstName: "",
+        lastName: "",
+        email: "",
+    },
 }
 
 const user = (state = initialState, action) => {
-	switch (action.type) {
-		case SET_USER:
-			return {
-				...state,
-				...action.payload
-			}
+    switch (action.type) {
+        case SET_USER:
+            return {
+                ...state,
+                ...action.payload
+            }
 
-		default:
-			return state;
-	}
+        default:
+            return state;
+    }
 };
 
 export default user;
