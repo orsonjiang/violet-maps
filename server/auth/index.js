@@ -6,16 +6,13 @@ const verifyToken = (req, res, next) => {
     try {
         const token = req.cookies.token;
         if (!token) {
-            throw new Error("Unauthorized");
+            throw new Error();
         }
 
         const verified = jwt.verify(token, process.env.JWT_SECRET);
         req.userId = verified.userId;
 
-        if (next) {
-            next();
-        }
-        return null;
+        next?.();
     } catch (err) {
 		return sendError(res, "Unauthorized", 401);
     }
