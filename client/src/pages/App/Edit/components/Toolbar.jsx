@@ -5,11 +5,6 @@ import Legend from "../../../components/Modals/Legend";
 import AddLayer from "../../../components/Modals/AddLayer";
 import { useSelector, useDispatch } from "react-redux";
 import { openModal } from "../../../../actions/modal";
-// import * as L from 'leaflet';
-// import "../../../../dist/leaflet.browser.print.min.js"
-// import "../../../../dist/Leaflet.BigImage.min.css"
-// import "../../../../dist/Leaflet.BigImage.min.js"
-// import { exportMap } from "../../../../actions/map.js";
 import apis from "../../../../api/api";
 import { updateMapInStore } from "../../../../actions/map";
 
@@ -19,37 +14,9 @@ const Toolbar = () => {
     const [dataPropList, setDataPropList] = useState([]);
 
     const currentModal = useSelector((state) => state.modal.currentModal);
-    // const map = useSelector((state) => state.map.leafletMap);
     const currentMap = useSelector((state) => state.map.currentMap);
 
     const dispatch = useDispatch();
-    // const exportMap = (type) => {
-    //     console.log(map);
-
-    //     var saveAsImage = function () {
-    //         return domtoimage.toPng(document.body)
-    //             .then(function (dataUrl) {
-    //                 var link = document.createElement('a');
-    //                 link.download = map.printControl.options.documentTitle || "exportedMap" + '.png';
-    //                 link.href = dataUrl;
-    //                 link.click();
-    //             });
-    //     }
-
-    //     L.control.browserPrint({
-    //         documentTitle: "printImage",
-    //         printModes: [
-    //             L.BrowserPrint.Mode.Auto("Download PNG"),
-    //         ],
-    //         printFunction: saveAsImage
-    //     }).addTo(map); 
-
-    //     // L.control.bigImage({ position: 'topright' }).addTo(map.data);
-    //     // console.log(map.data);
-
-
-
-    // }
 
     useEffect(() => {
         if (!updates.current) {
