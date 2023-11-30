@@ -10,8 +10,6 @@ import geobuf from "geobuf";
 import Pbf from "pbf";
 // import { updateMapData } from "../../../actions/map";
 import { setView } from "../../../actions/home";
-// import "../../../dist/Leaflet.BigImage.min.css"
-// import "../../../dist/Leaflet.BigImage.min.js"
 import { useNavigate } from "react-router-dom";
 
 const EditMap = () => {
