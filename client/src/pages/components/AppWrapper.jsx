@@ -13,18 +13,13 @@ const AppWrapper = () => {
     let { view } = useParams();
 
     useEffect(() => {
-        const autoLogin = async () => {
-            const req = await auths.postLogin({ auto: true });
-
-            if (req.status === 200) {
-                store.dispatch(setUser(req.data));
-            }
-        };
-        try {
-            autoLogin();
-        } catch (err) {
-            console.log(err);
-        }
+        auths.postLogin({ auto: true })
+            .then(req => {
+                if (req.status === 200) {
+                    store.dispatch(setUser(req.data));
+                }
+            })
+            .catch()
         
     }, []);
 
@@ -32,6 +27,9 @@ const AppWrapper = () => {
         switch (view) {
             case 'home':
                 return <Home />;
+            
+            case 'explore':
+
 
             case 'map':
                 return <Map />;

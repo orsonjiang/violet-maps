@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const MapSchema = new Schema(
     {
         name: { type: String, required: true },
-        ownerId: { type: String, required: true },
+        owner: { type: Schema.Types.ObjectId, required: true },
         tags: [String],
         publishedDate: { type: Date, required: true },
         data: { type: Object, required: true },
@@ -46,6 +46,7 @@ const MapSchema = new Schema(
                 visible: { type: Boolean, required: true }
             }
         },
+        // TODO: Audit social.
         social: {
             views: { type: Number, required: true },
             likes: [Schema.Types.ObjectId],
