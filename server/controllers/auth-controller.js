@@ -13,7 +13,7 @@ const loginUser = async (req, res) => {
         const loggedInUser = await User.findOne({ _id: req.userId });
         
         if (!loggedInUser) {
-            return sendError(res, "Unauthorized", 401);
+            return sendError(res, "Unauthorized.", 401);
         }
 
         return res.status(200).json({
