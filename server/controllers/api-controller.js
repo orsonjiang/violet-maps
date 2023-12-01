@@ -25,6 +25,7 @@ createMap = async (req, res) => {
 
     var buf = geobuf.encode(body.data, new Pbf());
 
+    // TODO: Change Map when schema is changed.
     const map = new Map({
         name: body.name,
         owner: body.username,
@@ -59,7 +60,7 @@ createMap = async (req, res) => {
         }
     });
 
-    // should labels be shown initially
+    // If should labels be shown initially.
     if (body.template == "string" || body.template == "numerical") {
         showLabels = true;
     }
@@ -90,7 +91,7 @@ getMaps = async (req, res) => {
                 .json({ success: false, error: 'Maps not found' })
         }
         else {
-            // only grab the map data needed
+            // Only grab the map data needed.
             let mapsList = [];
             for (let i = 0; i < maps.length; i++) {
                 let map = {
@@ -108,6 +109,8 @@ getMaps = async (req, res) => {
             return res.status(200).json({ success: true, list: mapsList })
         }
     }
+
+    // TODO: Change this functionality.
     if (body.view === "HOME") {
         if (body.searchBy == "Map Name") {
             await Map.find({ username: body.username, name: new RegExp(body.searchText, "i") })
