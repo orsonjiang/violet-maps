@@ -6,9 +6,9 @@ import auths from '../../api/auth';
 import { setUser } from '../../actions/user';
 
 import Navbar from './Navbar';
-import Home from '../App/Home';
-import Map from '../App/Map';
-import Edit from '../App/Edit';
+import Home from '../AppPages/Home';
+import Map from '../AppPages/Map';
+import Edit from '../AppPages/Edit';
 
 const AppWrapper = () => {
     const dispatch = useDispatch();

@@ -2,10 +2,10 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import SiteWrapper from './pages/components/SiteWrapper';
 import Splash from './pages/Splash'
-import Login from './pages/Auth/Login'
-import Register from './pages/Auth/Register'
-import RequestReset from './pages/Auth/RequestReset'
-import Reset from './pages/Auth/Reset'
+import Login from './pages/AuthPages/Login'
+import Register from './pages/AuthPages/Register'
+import RequestReset from './pages/AuthPages/RequestReset'
+import Reset from './pages/AuthPages/Reset'
 import AppWrapper from './pages/components/AppWrapper';
 
 function App() {
