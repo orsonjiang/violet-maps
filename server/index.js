@@ -9,6 +9,8 @@ dotenv.config();
 const PORT = process.env.PORT || 8080;
 const app = express();
 
+// TODO: Investigate limit.
+
 // SETUP THE MIDDLEWARE
 app.use(express.urlencoded({ extended: true, limit: '200mb' }))
 app.use(cors({
