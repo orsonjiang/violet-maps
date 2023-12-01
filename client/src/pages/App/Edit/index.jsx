@@ -9,7 +9,7 @@ import { openModal } from '../../../actions/modal';
 import geobuf from "geobuf";
 import Pbf from "pbf";
 // import { updateMapData } from "../../../actions/map";
-import { setView } from "../../../actions/home";
+// import { setView } from "../../../actions/home";
 import { useNavigate } from "react-router-dom";
 
 const EditMap = () => {
@@ -30,7 +30,7 @@ const EditMap = () => {
     }
 
     useEffect(() => {
-        dispatch(setView("NONE"));
+        // dispatch(setView("NONE"));
         if (currentMap == null) {
             navigate("/app/home"); // for now
         }

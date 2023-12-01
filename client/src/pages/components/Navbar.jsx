@@ -1,27 +1,23 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
+import apis from '../../api/api';
 import auths from '../../api/auth';
 import { setUser } from '../../actions/user';
-import { setView, setSearchBy, setSearchText } from '../../actions/home';
+import { setSearchBy, setSearchText } from '../../actions/home';
 import { setMaps } from '../../actions/map';
-import apis from '../../api/api';
 
 const Navbar = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const [menu, setMenu] = useState('none');
-    const [text, setText] = useState("");
-
+    const { view } = useParams();
     const { user } = useSelector((state) => state.user);
     const { searchBy } = useSelector((state) => state.home);
 
-    const handleClickView = (v) => {
-        dispatch(setView(v));
-        navigate('/app/home');
-    }
+    const [menu, setMenu] = useState('none');
+    const [text, setText] = useState("");
 
     const handleClickSearchBy = (s) => {
         dispatch(setSearchBy(s));
@@ -72,15 +68,17 @@ const Navbar = () => {
         setText("");
     }
 
+    const colorSelectedView = (page) => view === page ? "text-white" : "text-violet-100";
+
     return (
         <nav className="bg-gradient-to-r from-violet-300 to-indigo-300 p-3">
             <div className="flex gap-4 items-center pl-2">
-                <div onClick={() => handleClickView("HOME")}>
-                    <i id='home-icon' className={`fa fa-home text-xl ${view == "HOME" ? "text-white" : "text-violet-100"}`} />
-                </div>
-                <div onClick={() => handleClickView("EXPLORE")}>
-                    <i className={`fas fa-globe-americas text-xl ${view == "EXPLORE" ? "text-white" : "text-violet-100"}`} />
-                </div>
+                <Link to={"/app/home"}>
+                    <i className={`fa fa-home text-xl ${colorSelectedView("home")}`} />
+                </Link>
+                <Link to={"/app/explore"}>
+                    <i className={`fas fa-globe-americas text-xl ${colorSelectedView("explore")}`} />
+                </Link>
                 {view != "NONE" ?
                 <div className="flex w-full">
                     <div className="relative">

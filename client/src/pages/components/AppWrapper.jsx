@@ -32,7 +32,7 @@ const AppWrapper = () => {
                 return <Home />;
             
             case 'explore':
-
+                return <Home />;
 
             case 'map':
                 return <Map />;

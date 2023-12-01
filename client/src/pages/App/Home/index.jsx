@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from 'react-redux';
+import { useParams } from "react-router-dom";
 
 import apis from '../../../api/api';
 import { openModal } from '../../../actions/modal';
-import { setView } from '../../../actions/home';
+// import { setView } from '../../../actions/home';
 import { setMaps, setCurrentMap } from '../../../actions/map';
 
 import MapCard from './components/MapCard';
@@ -12,12 +13,14 @@ import DataInfo from '../../components/Modals/DataInfo';
 import ChooseTemplate from '../../components/Modals/ChooseTemplate';
 
 const Home = () => {
+    const { view } = useParams();
+
     const [menu, setMenu] = useState("none");
     // const [modal, setModal] = useState(false);
     const currentModal = useSelector((state)=> state.modal.currentModal);
     // const currentMap = useSelector((state)=> state.map.currentMap);
 
-    const {view, searchBy} = useSelector((state)=> state.home);
+    const { searchBy } = useSelector((state)=> state.home);
     const user = useSelector((state)=> state.user.user);
     const maps = useSelector((state)=> state.map.maps);
 
@@ -51,9 +54,9 @@ const Home = () => {
         })
         if (view == "NONE") {
             if (user.username == "") {
-                dispatch(setView("EXPLORE"));
+                // dispatch(setView("EXPLORE"));
             } else {
-                dispatch(setView("HOME"));
+                // dispatch(setView("HOME"));
             }
         }
     }, []);

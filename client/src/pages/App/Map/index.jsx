@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { openModal } from "../../../actions/modal";
 import * as L from 'leaflet';
 // import "../../../dist/leaflet.browser.print.min.js"
-import { setView } from "../../../actions/home";
+// import { setView } from "../../../actions/home";
 import { updateMapInStore } from "../../../actions/map.js";
 import apis from "../../../api/api.js";
 import { useNavigate } from "react-router-dom";
@@ -85,7 +85,7 @@ const Map = () => {
     }
 
     useEffect(() => {
-        dispatch(setView("NONE"));
+        // dispatch(setView("NONE"));
         if (currentMap == null) {
             navigate("/app/home"); // for now
         }
