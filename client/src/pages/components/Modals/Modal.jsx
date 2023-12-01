@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { closeModal } from "../../../actions/modal";
-import { setView } from "../../../actions/home";
 import apis from "../../../api/api";
 import { useNavigate } from 'react-router-dom';
 
@@ -22,7 +21,6 @@ const Modal = ({title, description, inputText, containsInput, type}) => {
 
                 apis.updateMap(currentMap._id, currentMap).then((res) => {
                     navigate("/app/home");
-                    dispatch(setView("HOME"))
                 }).catch((err) => console.log(err));
 
                 dispatch(closeModal());
@@ -32,7 +30,6 @@ const Modal = ({title, description, inputText, containsInput, type}) => {
             case 'DELETE_MAP':
                 apis.deleteMap(currentMap._id, currentMap).then((res) =>{
                     navigate("/app/home");
-                    dispatch(setView("HOME"))
                 }).catch((err) => console.log(err));
 
                 dispatch(closeModal());

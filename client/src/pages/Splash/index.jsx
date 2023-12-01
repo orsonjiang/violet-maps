@@ -1,15 +1,6 @@
 import TitleButton from "./components/TitleButton";
-import { useDispatch } from 'react-redux';
-import { setView } from '../../actions/home';
 
 const Splash = () => {
-
-    const dispatch = useDispatch()
-
-    const handleGuest = () => {
-        dispatch(setView("EXPLORE"));
-    }
-
     return (
         <div className="flex min-h-screen">
             <div className="flex bg-cover bg-center w-2/3 justify-center">
@@ -35,7 +26,7 @@ const Splash = () => {
             <div className="flex flex-col p-8 grow justify-center items-center bg-white">
                 <TitleButton title={"Don't have an account?"} buttonText={"Sign Up"} link={"/register"}/>
                 <TitleButton title={"Already have an account?"} buttonText={"Log In"} link={"/login"}/>
-                <TitleButton title={"Want to anonymously browse?"} buttonText={"Continue as Guest"} link={"/app/home"}/>
+                <TitleButton title={"Want to anonymously browse?"} buttonText={"Continue as Guest"} link={"/app/explore"}/>
             </div>
         </div>
     );
