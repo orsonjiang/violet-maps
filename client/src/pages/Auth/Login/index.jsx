@@ -1,18 +1,17 @@
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+
 import auth from '../../../api/auth';
-import store from '../../../store';
 import { setUser } from '../../../actions/user';
 import Form from '../components/Form';
 import Field from '../components/Field';
-import { useDispatch } from 'react-redux';
-import { setView } from '../../../actions/home';
 
 const Login = () => {
     const navigate = useNavigate();
-    const [error, setError] = useState("");
-
     const dispatch = useDispatch();
+
+    const [error, setError] = useState("");
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -32,7 +31,6 @@ const Login = () => {
         if (req.status === 200) {
             dispatch(setUser(req.data));
             navigate("/app/home");
-            dispatch(setView("HOME"));
         } else {
             console.log(req.error);
         }
