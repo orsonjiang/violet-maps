@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { closeModal } from "../../../actions/modal";
 import apis from "../../../api/api";
 import { useNavigate } from 'react-router-dom';
 
@@ -11,7 +10,7 @@ const Modal = ({title, description, inputText, containsInput, type}) => {
     const currentMap = useSelector((state) => state.map.currentMap);
 
     const closeCurrentModal = () => {
-        dispatch(closeModal());
+//         dispatch(closeModal());
     }
 
     const confirmAction = () => {
@@ -23,7 +22,7 @@ const Modal = ({title, description, inputText, containsInput, type}) => {
                     navigate("/app/home");
                 }).catch((err) => console.log(err));
 
-                dispatch(closeModal());
+//                 dispatch(closeModal());
 
                 return;
 
@@ -32,7 +31,7 @@ const Modal = ({title, description, inputText, containsInput, type}) => {
                     navigate("/app/home");
                 }).catch((err) => console.log(err));
 
-                dispatch(closeModal());
+//                 dispatch(closeModal());
                 return;
                 
             default:

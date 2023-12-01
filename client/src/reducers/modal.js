@@ -1,4 +1,4 @@
-import { CLOSE_MODAL, OPEN_MODAL } from "../action-types/modal-types";
+import { OPEN_MODAL } from "../action-types/modal-types";
 
 // const CurrentModal = {
 //     NONE : "NONE",
@@ -25,10 +25,7 @@ const modal = (state = initialState, action)=> {
             return {
                 currentModal: action.payload
             }
-        case CLOSE_MODAL:
-            return {
-                currentModal: "NONE"
-            }
+
         default:
             return state;
     }

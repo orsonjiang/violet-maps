@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from 'react-redux';
 import { createMapTemplate } from "../../../actions/map";
-import { openModal, closeModal } from "../../../actions/modal";
+// import { openModal, closeModal } from "../../../actions/modal";
 
 const ChooseTemplate = () => {
     const [template, setTemplate] = useState("");
@@ -18,7 +18,7 @@ const ChooseTemplate = () => {
     }
 
     const closeTemplateModal = () => {
-        dispatch(closeModal());
+//         dispatch(closeModal());
     }
 
     const selected = "text-left p-2 pt-2 rounded-md bg-indigo-200 h-full border-[1px] border-[#B998EE] drop-shadow-lg";

@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { ChromePicker } from "react-color"
 import { useDispatch } from "react-redux";
-import { closeModal } from "../../../actions/modal";
+// import { closeModal } from "../../../actions/modal";
 
 const Legend = () => {
     const [menu, setMenu] = useState("none");
@@ -9,7 +9,7 @@ const Legend = () => {
     const dispatch = useDispatch()
 
     const closeCurrentModal = () => {
-        dispatch(closeModal());
+//         dispatch(closeModal());
     }
 
     const closeMenus = (ref) => {

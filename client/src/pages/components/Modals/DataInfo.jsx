@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { ChromePicker } from "react-color"
 import { useSelector, useDispatch } from 'react-redux';
 import { createMapProperties, setCurrentMap } from "../../../actions/map";
-import { closeModal } from "../../../actions/modal";
+// import { closeModal } from "../../../actions/modal";
 import apis from "../../../api/api";
 import { useNavigate } from 'react-router-dom';
 
@@ -108,7 +108,7 @@ const DataInfo = ({view}) => {
                     navigate("/app/editmap");
                 }).catch((err)=> console.log(err));
             }).catch((err)=> console.log(err));
-            dispatch(closeModal());
+//             dispatch(closeModal());
         }
     }, [newMap.name])
 
@@ -121,7 +121,7 @@ const DataInfo = ({view}) => {
     }
 
     const closeDataInfoModal = () => {
-        dispatch(closeModal());
+//         dispatch(closeModal());
     }
 
     return (

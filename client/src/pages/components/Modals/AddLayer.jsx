@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { ChromePicker } from "react-color"
 import { useDispatch } from "react-redux";
-import { closeModal } from "../../../actions/modal";
+// // import { closeModal } from "../../../actions/modal";
 
 const AddLayer = ({view, containsInput}) => {
     const [menu, setMenu] = useState("none");
@@ -26,7 +26,7 @@ const AddLayer = ({view, containsInput}) => {
     const dispatch = useDispatch();
 
     const closeCurrentModal = () => {
-        dispatch(closeModal());
+//         // dispatch(closeModal());
     }
 
 

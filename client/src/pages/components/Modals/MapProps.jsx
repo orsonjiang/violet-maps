@@ -1,12 +1,12 @@
 import { useDispatch } from "react-redux";
-import { closeModal } from "../../../actions/modal";
+// import { closeModal } from "../../../actions/modal";
 
 const MapProps = () => {
 
     const dispatch = useDispatch()
 
     const closeCurrentModal = () => {
-        dispatch(closeModal());
+//         dispatch(closeModal());
     }
 
     return (

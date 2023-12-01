@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { closeModal, openModal } from "../../../actions/modal";
+import { openModal } from "../../../actions/modal";
 import { useDispatch, useSelector } from 'react-redux';
 import * as shapefile from 'shapefile';
 import { kml } from '@tmcw/togeojson';
@@ -16,7 +16,7 @@ const UploadMap = () => {
     const dispatch = useDispatch();
 
     const closeUploadModal = () => {
-        dispatch(closeModal());
+//         // dispatch(closeModal());
     }
 
     const handleClick = () => {
