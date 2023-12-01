@@ -1,47 +1,35 @@
-const Map = require("../models/MapSchema");
 var Pbf = require('pbf');
 var geobuf = require('geobuf');
+
+const Map = require("../models/MapSchema");
+const { sendError } = require("../helpers");
+
+getMap = async (req, res) => {
+    Map.findOne({ _id: req.params.id })
+        .then((map) => {
+            return res.status(200).json({ map: map })
+        })
+        .catch(err => {
+            console.log(err);
+            return sendError(res, "The map could not be found.");
+        });
+}
 
 createMap = async (req, res) => {
     const body = req.body;
 
+    // TODO: Verify body.features and other body data.
     if (!body) {
-        return res.status(400).json({
-            success: false,
-            error: 'You must provide a map',
-        })
+        return sendError(res, "You must provide a map.");
     }
 
     var buf = geobuf.encode(body.data, new Pbf());
 
-    // // going to compress
-    // const stream = new Blob([buf], {
-    //     type: "application/json",
-    // }).stream();
-
-    // const compressed = stream.pipeThrough(new CompressionStream("gzip"));
-
-    // // create response
-    // const response = new Response(compressed);
-    // // Get response Blob
-    // const blob = await response.blob();
-    // // Get the ArrayBuffer
-    // const buffer = await blob.arrayBuffer();
-
-    // const arr = new Uint8Array(buffer)
-
-    // should labels be shown initially
-    let showLabels = false;
-    if (body.template == "string" || body.template == "numerical") {
-        showLabels = true;
-    }
-
-    const newMap = new Map({
+    const map = new Map({
         name: body.name,
-        username: body.username,
+        owner: body.username,
         tags: [],
         publishedDate: null,
-        creationDate: new Date(),
         data: buf,
         features: body.features,
         graphics: {
@@ -52,7 +40,7 @@ createMap = async (req, res) => {
             heatMap: {
                 dataProperty: "",
             },
-            showLabels: showLabels,
+            showLabels: false,
             bubbles: {
                 dataProperty: "",
             },
@@ -65,27 +53,29 @@ createMap = async (req, res) => {
         },
         social: {
             views: 0,
-            likes: 0,
-            dislikes: 0,
+            likes: [],
+            dislikes: [],
             comments: []
         }
     });
 
-    if (!newMap) {
-        return res.status(400).json({ success: false, error: err })
+    // should labels be shown initially
+    if (body.template == "string" || body.template == "numerical") {
+        showLabels = true;
     }
 
-    newMap.save().then(() => {
-        return res.status(201).json({
-            successMessage: "Map Created",
-            id: newMap._id
+    if (!map) {
+        return sendError(res);
+    }
+
+    map.save()
+        .then(() => {
+            return res.status(201).json({ id: map._id })
         })
-    })
-    .catch(error => {
-        return res.status(400).json({
-            errorMessage: error
+        .catch((err) => {
+            console.log(err);
+            return sendError(res, "The map could not be saved and created.")
         })
-    })
 }
 
 getMaps = async (req, res) => {
@@ -152,65 +142,41 @@ getMaps = async (req, res) => {
     }
 }
 
-getCurrentMap = async (req, res) => {
-    console.log("Find map with id: " + JSON.stringify(req.params.id));
-
-    await Map.findById({ _id: req.params.id }).then( (map, err) => {
-        if (err) {
-            return res.status(400).json({ success: false, error: err });
-        }
-        return res.status(200).json({ success: true, map: map })
-
-    }).catch(err => console.log(err))
-}
-
 updateMap = async (req, res) => {
-    console.log("Updating map with id: " + JSON.stringify(req.params.id));
-
-    await Map.findById({_id: req.params.id}).then((map, err) => {
-        if (err) {
-            return res.status(400).json({ success: false, error: err});
-        }
-        else{
+    Map.findOne({ _id: req.params.id })
+        .then((map) => {
             map.publishedDate = req.body.map.publishedDate;
-            map.social = req.body.map.social;
-            // map.social.comments = req.body.map.social.comments;
             map.graphics.showLabels = req.body.map.graphics.showLabels;
             map.graphics.dataProperty = req.body.map.graphics.dataProperty;
+            
+            // TODO: Change social into its own API call.
+            map.social = req.body.map.social;
+            // map.social.comments = req.body.map.social.comments;
 
             map.save().then(() => {
-                return res.status(200).json({
-                    successMessage: "Map Updated",
-                    id: map._id
-                })
+                return res.status(200).json({ id: map._id })
             })
-                .catch(error => {
-                    return res.status(400).json({
-                        errorMessage: error
-                    })
-                })
-        }
-    }).catch(err => console.log(err))
+        })
+        .catch((err) => {
+            sendError(res, "There was an error updating the map.")
+        })
 }
 
 deleteMap = async (req, res) => {
-    console.log("delete map with id: " + JSON.stringify(req.params.id));
-    console.log("delete " + req.params.id);
-    await Map.deleteOne({ _id: req.params.id }).then((map, err) => {
-        if (err) {
-            return res.status(400).json({ success: false, error: err});
-        }
-        else {
-            console.log("delete map is successful. map with id: " + JSON.stringify(req.params.id));
-            return res.status(200).json({ success: true });
-        }
-    });
+    Map.deleteOne({ _id: req.params.id })
+        .then(() => {
+            return res.status(200);
+        })
+        .catch((err) => {
+            console.log(err);
+            return sendError(res, "The map could not be found and deleted.")
+        });
 }
 
 module.exports = {
-    createMap,
     getMaps,
-    getCurrentMap,
+    createMap,
+    getMap,
     updateMap,
     deleteMap
 };
