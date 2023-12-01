@@ -9,9 +9,9 @@ router.get("/", (req, res) => {
 });
 
 // API routes.
-router.get("/maps", auth.verifyToken, ApiController.getMaps);
+router.get("/maps", ApiController.getMaps);
 router.post("/map", auth.verifyToken, ApiController.createMap);
-router.get("/map/:id", auth.verifyToken, ApiController.getMap);
+router.get("/map/:id", ApiController.getMap);
 router.put("/map/:id", auth.verifyToken, ApiController.updateMap);
 router.delete("/map/:id", auth.verifyToken, ApiController.deleteMap);
 
