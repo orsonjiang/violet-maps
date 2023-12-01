@@ -2,13 +2,13 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import auths from '../../api/auth';
-import { setUser } from '../../actions/user';
+import auths from '../../../api/auth';
+import { setUser } from '../../../actions/user';
 
 import Navbar from './Navbar';
-import Home from '../AppPages/Home';
-import Map from '../AppPages/Map';
-import Edit from '../AppPages/Edit';
+import Home from '../Home';
+import Map from '../Map';
+import Edit from '../Edit';
 
 const AppWrapper = () => {
     const dispatch = useDispatch();

@@ -48,24 +48,10 @@ const Home = () => {
     closeMenus(ref);
 
     useEffect(() => {
-        dispatch(setCurrentMap(null));
         apis.getMaps(view, "", searchBy, user.username).then((res) => {
             dispatch(setMaps(res.data.list));
         })
-        if (view == "NONE") {
-            if (user.username == "") {
-                // dispatch(setView("EXPLORE"));
-            } else {
-                // dispatch(setView("HOME"));
-            }
-        }
     }, []);
-
-    useEffect(() => {
-        apis.getMaps(view, "", searchBy, user.username).then((res) => {
-            dispatch(setMaps(res.data.list))
-        })
-    }, [view]);
 
     return (
         <div className="my-6 mx-20">
@@ -74,10 +60,10 @@ const Home = () => {
             {currentModal == "DATA_PROPS" ?  <DataInfo view={"home"} containsInput={true}/> : ""}
             <div className='flex justify-between items-center'>
                 <div className="my-6 text-2xl font-semibold">
-                    {view == "HOME" ? "Your Library" : "All Maps"}
+                    {view == "home" ? "Your Library" : "All Maps"}
                 </div>
                 <div className='flex gap-3 items-center'>
-                    {view == "HOME" ?
+                    {view == "home" ?
                     <button className='h-fit py-2.5 px-4 rounded-lg text-white text-sm bg-indigo-400 hover:bg-indigo-500' onClick={openUploadModal}>
                         Create Map
                     </button> : null}

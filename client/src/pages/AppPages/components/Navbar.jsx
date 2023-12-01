@@ -2,11 +2,11 @@ import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
-import apis from '../../api/api';
-import auths from '../../api/auth';
-import { setUser } from '../../actions/user';
-import { setSearchBy, setSearchText } from '../../actions/home';
-import { setMaps } from '../../actions/map';
+import apis from '../../../api/api';
+import auths from '../../../api/auth';
+import { setUser } from '../../../actions/user';
+import { setSearchBy, setSearchText } from '../../../actions/home';
+import { setMaps } from '../../../actions/map';
 
 const Navbar = () => {
     const navigate = useNavigate();
