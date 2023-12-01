@@ -1,15 +1,15 @@
+import { useState, useEffect, useRef } from "react";
+import { useSelector, useDispatch } from 'react-redux';
+
+import apis from '../../../api/api';
+import { openModal } from '../../../actions/modal';
+import { setView } from '../../../actions/home';
+import { setMaps, setCurrentMap } from '../../../actions/map';
+
 import MapCard from './components/MapCard';
 import UploadMap from '../../components/Modals/UploadMap';
 import DataInfo from '../../components/Modals/DataInfo';
 import ChooseTemplate from '../../components/Modals/ChooseTemplate';
-import { useState, useEffect, useRef } from "react";
-import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
-// import store from '../../../store';
-import { openModal } from '../../../actions/modal';
-import { setView } from '../../../actions/home';
-import apis from '../../../api/api';
-import { setMaps, setCurrentMap } from '../../../actions/map';
 
 const Home = () => {
     const [menu, setMenu] = useState("none");

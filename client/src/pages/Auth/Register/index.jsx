@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
 import auth from '../../../api/auth';
@@ -5,10 +7,10 @@ import store from '../../../store';
 import { setUser } from '../../../actions/user';
 import Form from '../components/Form';
 import Field from '../components/Field';
-import { useState } from 'react';
 
 const Register = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [error, setError] = useState("");
 
     const handleRegister = async (e) => {
@@ -34,7 +36,7 @@ const Register = () => {
         });
 
         if (req.status === 200) {
-            store.dispatch(setUser(req.data));
+            dispatch(setUser(req.data));
             navigate("/app/home");
         } else {
             console.log(req.error);

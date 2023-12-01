@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import store from '../../store';
+
 import auths from '../../api/auth';
 import { setUser } from '../../actions/user';
 import { setView, setSearchBy, setSearchText } from '../../actions/home';
@@ -16,7 +16,7 @@ const Navbar = () => {
     const [text, setText] = useState("");
 
     const { user } = useSelector((state) => state.user);
-    const {view, searchBy} = useSelector((state) => state.home);
+    const { searchBy } = useSelector((state) => state.home);
 
     const handleClickView = (v) => {
         dispatch(setView(v));
@@ -30,7 +30,7 @@ const Navbar = () => {
     const handleLogout = async () => {
         const req = await auths.postLogout();
         if (req.status === 200) {
-            store.dispatch(setUser(req.data));
+            dispatch(setUser(req.data));
             navigate('/');
         } else {
             console.log(req.error);
