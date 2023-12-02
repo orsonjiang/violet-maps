@@ -1,6 +1,6 @@
 describe('create, read, update, and delete comment', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:5173/');
+    cy.visit('/');
   })
 
   describe('view splash screen', () => {
@@ -48,7 +48,7 @@ describe('create, read, update, and delete comment', () => {
   describe('visit explore' , () => {
     it('view explore screen from splash', () => {
       cy.contains('Continue as Guest').click();
-      cy.url().should('include', '/app/home');
+      cy.url().should('include', '/app/explore');
       cy.contains('All Maps');
       cy.contains('Sort By').click();
       cy.contains('Name');

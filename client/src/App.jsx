@@ -6,7 +6,7 @@ import Login from './pages/AuthPages/Login'
 import Register from './pages/AuthPages/Register'
 import RequestReset from './pages/AuthPages/RequestReset'
 import Reset from './pages/AuthPages/Reset'
-import AppWrapper from './pages/components/AppWrapper';
+import AppWrapper from './pages/AppPages/components/AppWrapper';
 
 function App() {
     return (
