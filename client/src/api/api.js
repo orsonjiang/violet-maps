@@ -8,12 +8,19 @@ const api = axios.create({
 })
 
 const getMaps = (view, searchText, searchBy, username) => {
-    return api.get(`/maps`, {
+    // switching back for now - maps wouldn't show up
+    return api.post(`/maps`, {
         view: view,
         searchText: searchText,
         searchBy: searchBy,
         username: username
     })
+    // return api.get(`/maps`, {
+    //     view: view,
+    //     searchText: searchText,
+    //     searchBy: searchBy,
+    //     username: username
+    // })
 }
 const postCreateMap = (data) => api.post("/map", data);
 const getCurrentMap = (id) => api.get(`/map/${id}`);

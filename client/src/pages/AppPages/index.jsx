@@ -13,7 +13,7 @@ import Home from './Home';
 import Explore from './Explore';
 import Map from './Map';
 import Edit from './Edit';
-import UploadMap from './Modals/UploadMap';
+import UploadMap from './components/Modals/UploadMap';
 
 const AppPages = () => {
     const dispatch = useDispatch();
@@ -38,6 +38,16 @@ const AppPages = () => {
             })
             .catch()
     }, []);
+
+    useEffect(() => {
+        console.log(view);
+        apis.getMaps(view, "", searchBy, user.username)
+            .then((res) => {
+                console.log(res.data.list);
+                dispatch(setMaps(res.data.list));
+            })
+            .catch()
+    }, [view]);
 
     const renderModal = {
         [ModalTypes.UPLOAD_MAP]: <UploadMap />

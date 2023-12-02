@@ -1,9 +1,9 @@
 import { useState, useRef } from "react";
-import { openModal } from "../../../actions/modal";
+import { openModal } from "../../../../actions/modal";
 import { useDispatch, useSelector } from 'react-redux';
 import * as shapefile from 'shapefile';
 import { kml } from '@tmcw/togeojson';
-import { createMap } from "../../../actions/map";
+import { createMap } from "../../../../actions/map";
 // import geobuf from "geobuf";
 // import Pbf from "pbf";
 
