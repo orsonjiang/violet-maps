@@ -111,7 +111,7 @@ getMaps = async (req, res) => {
     }
 
     // TODO: Change this functionality.
-    if (body.view === "HOME") {
+    if (body.view === "home") {
         if (body.searchBy == "Map Name") {
             await Map.find({ username: body.username, name: new RegExp(body.searchText, "i") })
                 .exec((err, maps) => {
@@ -125,7 +125,7 @@ getMaps = async (req, res) => {
         }
         
     }
-    else if (body.view === "EXPLORE") {
+    else if (body.view === "explore") {
         if (body.searchBy == "Map Name") {
             await Map.find({ publishedDate: { $ne: null }, name: new RegExp(body.searchText, "i") })
                 .exec((err, maps) => {
