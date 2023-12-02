@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "jsonwebtoken": "^9.0.2"
+    "jsonwebtoken": "^9.0.2",
+    "geobuf": "^3.0.2",
+    "pbf": "^3.2.1"
   }
 }
