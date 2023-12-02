@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from "react";
-import Modal from "../../../components/Modals/Modal";
+import Modal from "../Modals/Modal";
 import { useNavigate } from "react-router-dom";
-import apis from "../../../../api/api";
+import apis from "../../../api/api";
 import { useDispatch } from "react-redux";
-import { setCurrentMap } from "../../../../actions/map";
+import { setCurrentMap } from "../../../actions/map";
 
 const MapCard = ({ mapInfo }) => {
     const navigate = useNavigate();

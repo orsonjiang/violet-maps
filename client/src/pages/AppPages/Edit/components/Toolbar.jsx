@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { ChromePicker } from "react-color"
-import Modal from "../../../components/Modals/Modal";
-import Legend from "../../../components/Modals/Legend";
-import AddLayer from "../../../components/Modals/AddLayer";
+import Modal from "../../Modals/Modal";
+import Legend from "../../Modals/Legend";
+import AddLayer from "../../Modals/AddLayer";
 import { useSelector, useDispatch } from "react-redux";
 import { openModal } from "../../../../actions/modal";
 import apis from "../../../../api/api";
