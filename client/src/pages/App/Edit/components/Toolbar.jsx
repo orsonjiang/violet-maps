@@ -99,7 +99,7 @@ const Toolbar = () => {
     const selectModal = () => {
         if (currentModal == "TEXT_MODAL") {
             return (
-                <Modal title={"Add/Edit Label for Region"} description={"Adding value to data property: gdp_value"} inputText={"Enter Value"} containsInput={true} />
+                <Modal title={"Add/Edit Label for Region"} description={`Adding value to data property: ${currentMap.graphics.dataProperty}`} inputText={"Enter Value"} containsInput={true} /> // NEW CODE
             )
         }
         else if (currentModal == "ADD_DATA_PROP_MODAL") {
@@ -180,14 +180,6 @@ const Toolbar = () => {
             case "color":
                 break;
         }
-        apis.updateMap(currentMap._id, updates.current).then((res) => {
-            dispatch(updateMapInStore(updates.current))
-        }).catch((err) => {
-            console.log(err);
-        })
-    }
-    // NEW CODE - update database when color change is complete
-    const colorChangeComplete = () => {
         apis.updateMap(currentMap._id, updates.current).then((res) => {
             dispatch(updateMapInStore(updates.current))
         }).catch((err) => {

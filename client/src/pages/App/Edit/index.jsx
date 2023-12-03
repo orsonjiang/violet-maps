@@ -127,6 +127,10 @@ const EditMap = () => {
                 // const buffer = await blob.arrayBuffer();
                 // const arr = new Uint8Array(buffer)
                 var json = geobuf.decode(new Pbf(bufView));
+                // NEW CODE - replace original geojson features with our custom one
+                for (let i = 0; i < json.features.length; i++) {
+                    json.features[i].properties = currentMap.features[i].properties;
+                }
                 setGeojson(json);
                 return json;
             }
