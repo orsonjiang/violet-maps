@@ -149,6 +149,8 @@ const UploadMap = () => {
                 },
             }
             for (let i = 0; i < geojson.features.length; i++) {
+                // adding a new properties field called index so that I can more easily keep track of which feature im editing
+                geojson.features[i].properties.index = i; 
                 features.push({
                     properties: geojson.features[i].properties,
                     style: style

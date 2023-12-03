@@ -11,6 +11,7 @@ const initialState = {
         color: ""
     },
 	currentMap: null,
+    selectedFeature: null, // is set when user clicks on a feature, holds the index and color
     maps: []
 }
 

@@ -31,6 +31,45 @@ const EditMap = () => {
         dispatch(openModal(type));
     }
 
+    const increaseStroke = (e) => {
+        var layer = e.target;
+
+        // increase stroke weight to show that feature can be selected
+        layer.setStyle({
+            weight: 5,
+        })
+    }
+
+    const resetStroke = (e) => {
+        var layer = e.target;
+
+        // return to original stroke weight
+        layer.setStyle({
+            weight: 3,
+        })
+    }
+
+    const clickFeature = (e) => {
+        // zoom into feature
+        map.current.fitBounds(e.target.getBounds());
+
+    }
+
+    const onEachFeature = (feature, layer) => {
+        layer.on({
+            mouseover: increaseStroke,
+            mouseout: resetStroke,
+            click: clickFeature
+        })
+        if (currentMap.graphics.showLabels) {
+            layer.bindTooltip("" + feature.properties[currentMap.graphics.dataProperty], 
+                {
+                    permanent: true,
+                    direction: 'center',
+                })
+        }
+    }
+
     useEffect(() => {
         dispatch(setView("NONE"));
         if (currentMap == null) {
@@ -44,7 +83,6 @@ const EditMap = () => {
                 attribution:
                 '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
             }).addTo(map.current);
-
             var southWest = L.latLng(-90, -180);
             var northEast = L.latLng(90, 180);
             var bounds = L.latLngBounds(southWest, northEast);
@@ -89,24 +127,12 @@ const EditMap = () => {
                             fillColor: currentMap.features[geo.features.indexOf(feature)].style.fill,
                         }
                     },
-                    onEachFeature: (feature, layer) => {
-                        if (currentMap.graphics.showLabels) {
-                            layer.bindTooltip("" + feature.properties[currentMap.graphics.dataProperty], 
-                                {
-                                    permanent: true,
-                                    direction: 'center',
-                                })
-                        }
-                    }
+                    onEachFeature: onEachFeature
                 }).addTo(map.current);
                 // current map in the store would now have the map data in geojson
                 // dispatch(updateMapData(geojson));
             })
 
-            // console.log(map.current);
-            // dispatch(setLeafletMap(map.current));
-
-            // L.control.bigImage({ position: 'topright' }).addTo(map.current);
         }
     }, [])
 
@@ -114,9 +140,10 @@ const EditMap = () => {
         if (geojson != null) {
             map.current.eachLayer(function (layer) {
                 if (!layer.getAttribution()) {
-                map.current.removeLayer(layer);
+                    map.current.removeLayer(layer);
                 }
             });
+
             L.geoJSON(geojson, {
                 style: function (feature) {
                     return {
@@ -124,15 +151,7 @@ const EditMap = () => {
                         fillColor: currentMap.features[geojson.features.indexOf(feature)].style.fill,
                     }
                 },
-                onEachFeature: (feature, layer) => {
-                    if (currentMap.graphics.showLabels) {
-                        layer.bindTooltip("" + feature.properties[currentMap.graphics.dataProperty], 
-                            {
-                                permanent: true,
-                                direction: 'center',
-                            })
-                    }
-                }
+                onEachFeature: onEachFeature
             }).addTo(map.current);
         }
     }, [currentMap])
