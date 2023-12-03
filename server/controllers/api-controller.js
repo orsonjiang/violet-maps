@@ -1,216 +1,159 @@
-const Map = require("../models/MapSchema");
 var Pbf = require('pbf');
 var geobuf = require('geobuf');
+
+const Map = require("../models/Map");
+const MapGeometry = require("../models/MapGeometry");
+const MapProperties = require('../models/MapProperties');
+const MapGraphics = require("../models/MapGraphics");
+const { sendError } = require("../helpers");
+
+getMap = async (req, res) => {
+    Map.findOne({ _id: req.params.id })
+        .then((map) => {
+            return res.status(200).json({ map: map })
+        })
+        .catch(err => {
+            console.log(err);
+            return sendError(res, "The map could not be found.");
+        });
+}
 
 createMap = async (req, res) => {
     const body = req.body;
 
+    // TODO: Verify body and other body data.
     if (!body) {
-        return res.status(400).json({
-            success: false,
-            error: 'You must provide a map',
-        })
+        return sendError(res, "You must provide a map.");
     }
 
-    var buf = geobuf.encode(body.data, new Pbf());
+    // TODO: Add error checking.
 
-    // // going to compress
-    // const stream = new Blob([buf], {
-    //     type: "application/json",
-    // }).stream();
+    // MapGeometry
+    const geometry = new MapGeometry({
+        data: body.geometry
+    });
+    await mapGeometry.save();
 
-    // const compressed = stream.pipeThrough(new CompressionStream("gzip"));
+    // MapProperties
+    const properties = new MapProperties({
+        data: body.properties
+    });
+    await mapProperties.save();
 
-    // // create response
-    // const response = new Response(compressed);
-    // // Get response Blob
-    // const blob = await response.blob();
-    // // Get the ArrayBuffer
-    // const buffer = await blob.arrayBuffer();
+    // MapGraphics
+    const graphics = new MapGraphics(body.graphics);
+    await mapGraphics.save();
 
-    // const arr = new Uint8Array(buffer)
-
-    // should labels be shown initially
-    let showLabels = false;
-    if (body.template == "string" || body.template == "numerical") {
-        showLabels = true;
-    }
-
-    const newMap = new Map({
-        name: body.name,
-        username: body.username,
+    const map = new Map({
+        name: body.map.name,
+        owner: req.userId,
         tags: [],
-        publishedDate: null,
-        creationDate: new Date(),
-        data: buf,
-        features: body.features,
-        graphics: {
-            fontStyle: "Times New Roman",
-            fontSize: 12,
-            labelPosition: "Center",
-            dataProperty: body.dataProperty,
-            heatMap: {
-                dataProperty: "",
-            },
-            showLabels: showLabels,
-            bubbles: {
-                dataProperty: "",
-            },
-            legend: {
-                name: "",
-                position: "",
-                value: [],
-                visible: false
-            }
-        },
+        geometry: geometry._id,
+        properties: properties._id,
+        graphics: graphics._id,
         social: {
             views: 0,
-            likes: 0,
-            dislikes: 0,
+            likes: [],
+            dislikes: [],
             comments: []
         }
     });
 
-    if (!newMap) {
-        return res.status(400).json({ success: false, error: err })
+    if (!map) {
+        return sendError(res);
     }
 
-    newMap.save().then(() => {
-        return res.status(201).json({
-            successMessage: "Map Created",
-            id: newMap._id
+    map.save()
+        .then(() => {
+            return res.status(201).json({ id: map._id })
         })
-    })
-    .catch(error => {
-        return res.status(400).json({
-            errorMessage: error
+        .catch((err) => {
+            console.log(err);
+            return sendError(res, "The map could not be saved and created.")
         })
-    })
 }
 
 getMaps = async (req, res) => {
     let body = req.body;
-    const getMapList = (err, maps) => {
-        if (err) {
-            return res.status(400).json({ success: false, error: err })
-        }
-        if (!maps) {
-            return res
-                .status(404)
-                .json({ success: false, error: 'Maps not found' })
-        }
-        else {
-            // only grab the map data needed
-            let mapsList = [];
-            for (let i = 0; i < maps.length; i++) {
-                let map = {
-                    _id: maps[i]._id,
-                    name: maps[i].name,
-                    username: maps[i].username,
-                    tags: maps[i].tags,
-                    likes: maps[i].social.likes,
-                    dislikes: maps[i].social.dislikes,
-                    creationDate: maps[i].creationDate,
-                    publishedDate: maps[i].publishedDate
-                };
-                mapsList.push(map);
-            }
-            return res.status(200).json({ success: true, list: mapsList })
-        }
-    }
-    if (body.view === "HOME") {
-        if (body.searchBy == "Map Name") {
-            await Map.find({ username: body.username, name: new RegExp(body.searchText, "i") })
-                .exec((err, maps) => {
-                    getMapList(err, maps);
-                })
-        } else if (body.searchBy == "Map Properties") {
-            await Map.find({ username: body.username, tags: new RegExp(body.searchText, "i") })
-                .exec((err, maps) => {
-                    getMapList(err, maps);
-                })
-        }
+
+    const options = {};
+    const regSearch = new RegExp(body.searchText, "i");
+
+    switch (body.view) {
+        case "home":
+            options.owner = req.userId;
+            break;
         
+        case "explore":
+            options.publishedDate = { $ne: null };
+            break;
+    
+        default:
+            break;
     }
-    else if (body.view === "EXPLORE") {
-        if (body.searchBy == "Map Name") {
-            await Map.find({ publishedDate: { $ne: null }, name: new RegExp(body.searchText, "i") })
-                .exec((err, maps) => {
-                    getMapList(err, maps);
-                })
-        } else if (body.searchBy == "Username") {
-            await Map.find({ publishedDate: { $ne: null }, username: new RegExp(body.searchText, "i") })
-                .exec((err, maps) => {
-                    getMapList(err, maps);
-                })
-        } else if (body.searchBy == "Map Properties") {
-            await Map.find({ publishedDate: { $ne: null }, tags: new RegExp(body.searchText, "i") })
-                .exec((err, maps) => {
-                    getMapList(err, maps);
-                })
-        }
+
+    switch (body.searchBy) {
+        case "Map Name":
+            options.name = regSearch;
+            break;
+        
+        case "Username":
+            options.username = regSearch;
+            break;
+        
+        case "Map Properties":
+            options.tags = regSearch;
+            break;
+
+        default:
+            break;
     }
+
+    Map.find(options)
+        .then((maps) => {
+            return res.status(200).json({ maps: maps });
+        })
+        .catch((err) => {
+            return sendError(res, "There was an error retrieving maps.")
+        });
 }
 
-getCurrentMap = async (req, res) => {
-    console.log("Find map with id: " + JSON.stringify(req.params.id));
-
-    await Map.findById({ _id: req.params.id }).then( (map, err) => {
-        if (err) {
-            return res.status(400).json({ success: false, error: err });
-        }
-        return res.status(200).json({ success: true, map: map })
-
-    }).catch(err => console.log(err))
-}
-
+// TODO: Update.
 updateMap = async (req, res) => {
-    console.log("Updating map with id: " + JSON.stringify(req.params.id));
-
-    await Map.findById({_id: req.params.id}).then((map, err) => {
-        if (err) {
-            return res.status(400).json({ success: false, error: err});
-        }
-        else{
+    Map.findOne({ _id: req.params.id })
+        .then((map) => {
             map.publishedDate = req.body.map.publishedDate;
-            map.social = req.body.map.social;
-            // map.social.comments = req.body.map.social.comments;
             map.graphics.showLabels = req.body.map.graphics.showLabels;
             map.graphics.dataProperty = req.body.map.graphics.dataProperty;
 
+            // TODO: Change social into its own API call.
+            map.social = req.body.map.social;
+            // map.social.comments = req.body.map.social.comments;
+
             map.save().then(() => {
-                return res.status(200).json({
-                    successMessage: "Map Updated",
-                    id: map._id
-                })
+                return res.status(200).json({ id: map._id })
             })
-                .catch(error => {
-                    return res.status(400).json({
-                        errorMessage: error
-                    })
-                })
-        }
-    }).catch(err => console.log(err))
+        })
+        .catch((err) => {
+            return sendError(res, "There was an error updating the map.")
+        })
 }
 
 deleteMap = async (req, res) => {
-    console.log("delete map with id: " + JSON.stringify(req.params.id));
-    console.log("delete " + req.params.id);
-    await Map.deleteOne({ _id: req.params.id }).then((map, err) => {
-        if (err) {
-            return res.status(400).json({ success: false, error: err});
-        }
-        else {
-            console.log("delete map is successful. map with id: " + JSON.stringify(req.params.id));
-            return res.status(200).json({ success: true });
-        }
-    });
+    Map.deleteOne({ _id: req.params.id })
+        .then(() => {
+            return res.status(200);
+        })
+        .catch((err) => {
+            console.log(err);
+            return sendError(res, "The map could not be found and deleted.")
+        });
 }
 
 module.exports = {
-	createMap,
     getMaps,
-    getCurrentMap,
+    createMap,
+    getMap,
     updateMap,
     deleteMap
 };

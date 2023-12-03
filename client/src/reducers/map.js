@@ -10,22 +10,22 @@ const initialState = {
         dataProperty: "",
         color: ""
     },
-	currentMap: null,
+    currentMap: null,
     maps: []
 }
 
 const map = (state = initialState, action) => {
-	switch (action.type) {
-		case CREATE_MAP:
-			return {
-				...initialState,
+    switch (action.type) {
+        case CREATE_MAP:
+            return {
+                ...initialState,
                 newMap: {
                     ...initialState.newMap,
                     data: action.payload["data"],
                     features: action.payload["features"], 
                     username: action.payload["username"]
                 }
-			}
+            }
         case CREATE_MAP_TEMPLATE:
             return {
                 ...state,
@@ -78,9 +78,9 @@ const map = (state = initialState, action) => {
         //         ...state,
         //         exportType: action.payload
         //     }
-		default:
-			return state;
-	}
+        default:
+            return state;
+    }
 };
 
 export default map;

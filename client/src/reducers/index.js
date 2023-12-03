@@ -5,8 +5,8 @@ import map from './map';
 import home from './home'
 
 export default combineReducers({
-	user,
-	modal,
-	map,
-	home
+    user,
+    modal,
+    map,
+    home
 });

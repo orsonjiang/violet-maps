@@ -1,11 +1,6 @@
-import { OPEN_MODAL, CLOSE_MODAL } from "../action-types/modal-types";
+import { SET_MODAL } from "../action-types/modal-types";
 
 export const openModal = (data) => ({
-	type: OPEN_MODAL,
-	payload: data
-});
-
-export const closeModal = () => ({
-	type: CLOSE_MODAL,
-	payload: null
+    type: SET_MODAL,
+    payload: data
 });
