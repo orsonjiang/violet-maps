@@ -32,17 +32,17 @@ createMap = async (req, res) => {
     const geometry = new MapGeometry({
         data: body.geometry
     });
-    await mapGeometry.save();
+    await geometry.save();
 
     // MapProperties
     const properties = new MapProperties({
         data: body.properties
     });
-    await mapProperties.save();
+    await properties.save();
 
     // MapGraphics
     const graphics = new MapGraphics(body.graphics);
-    await mapGraphics.save();
+    await graphics.save();
 
     const map = new Map({
         name: body.map.name,
@@ -140,6 +140,7 @@ updateMap = async (req, res) => {
 }
 
 deleteMap = async (req, res) => {
+    console.log(req.params);
     Map.deleteOne({ _id: req.params.id })
         .then(() => {
             return res.status(200);

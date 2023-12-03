@@ -2,14 +2,14 @@ const request = require('supertest');
 
 const { app } = require('../../server/index');
 
-const User = require('../../server/models/UserSchema');
+const User = require('../../server/models/User');
 const bcrypt = require("../../server/node_modules/bcryptjs");
 const auth = require('../../server/auth/index');
 
 
 beforeEach(() => {
     jest.setTimeout(6000);
-    jest.mock('../../server/models/UserSchema');
+    jest.mock('../../server/models/User');
     jest.mock("../../server/node_modules/bcryptjs");
     jest.mock('../../server/auth/index');
 });
