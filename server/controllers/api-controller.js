@@ -29,20 +29,20 @@ createMap = async (req, res) => {
     // TODO: Add error checking.
 
     // MapGeometry
-    const mapGeometry = new MapGeometry({
+    const geometry = new MapGeometry({
         data: body.geometry
     });
-    const geometry = await mapGeometry.save();
+    await mapGeometry.save();
 
     // MapProperties
-    const mapProperties = new MapProperties({
+    const properties = new MapProperties({
         data: body.properties
     });
-    const properties = await mapProperties.save();
+    await mapProperties.save();
 
     // MapGraphics
-    const mapGraphics = new MapGraphics(body.graphics);
-    const graphics = await mapGraphics.save();
+    const graphics = new MapGraphics(body.graphics);
+    await mapGraphics.save();
 
     const map = new Map({
         name: body.map.name,
@@ -73,58 +73,49 @@ createMap = async (req, res) => {
         })
 }
 
-// TODO: Update.
 getMaps = async (req, res) => {
     let body = req.body;
 
-    const getMapList = (err, maps) => {
-        if (err) {
-            return res.status(400).json({ success: false, error: err })
-        }
-        if (!maps) {
-            return res
-                .status(404)
-                .json({ success: false, error: 'Maps not found' })
-        }
-        else {
-            // Only grab the map data needed.
-            let mapsList = [];
-            for (let i = 0; i < maps.length; i++) {
-                let map = {
-                    _id: maps[i]._id,
-                    name: maps[i].name,
-                    username: maps[i].username,
-                    tags: maps[i].tags,
-                    likes: maps[i].social.likes,
-                    dislikes: maps[i].social.dislikes,
-                    creationDate: maps[i].creationDate,
-                    publishedDate: maps[i].publishedDate
-                };
-                mapsList.push(map);
-            }
-            return res.status(200).json({ success: true, list: mapsList })
-        }
-    }
-
-    const regSearch = new RegExp(body.searchText, "i");
     const options = {};
+    const regSearch = new RegExp(body.searchText, "i");
 
-    // TODO: Change this functionality.
-    if (body.view === "home") {
-        options.username = body.username;
-    } else if (body.view === "explore") {
-        options.publishedDate = { $ne: null };
+    switch (body.view) {
+        case "home":
+            options.owner = req.userId;
+            break;
+        
+        case "explore":
+            options.publishedDate = { $ne: null };
+            break;
+    
+        default:
+            break;
     }
 
-    if (body.searchBy == "Map Name") {
-        options.name = regSearch;
-    } else if (body.searchBy == "Username") {
-        options.username = regSearch;
-    } else if (body.searchBy == "Map Properties") {
-        options.tags = regSearch;
+    switch (body.searchBy) {
+        case "Map Name":
+            options.name = regSearch;
+            break;
+        
+        case "Username":
+            options.username = regSearch;
+            break;
+        
+        case "Map Properties":
+            options.tags = regSearch;
+            break;
+
+        default:
+            break;
     }
 
-    Map.find(options, getMapList);
+    Map.find(options)
+        .then((maps) => {
+            return res.status(200).json({ maps: maps });
+        })
+        .catch((err) => {
+            return sendError(res, "There was an error retrieving maps.")
+        });
 }
 
 // TODO: Update.
@@ -144,7 +135,7 @@ updateMap = async (req, res) => {
             })
         })
         .catch((err) => {
-            sendError(res, "There was an error updating the map.")
+            return sendError(res, "There was an error updating the map.")
         })
 }
 
