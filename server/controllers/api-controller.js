@@ -20,42 +20,6 @@ getMap = async (req, res) => {
 
 createMap = async (req, res) => {
     const body = req.body;
-    // Example data sent from client used for testing.
-    // const body = {
-    //     map: {
-    //         name: "Map Name"
-    //     },
-    //     geometry: [
-    //         {
-    //             "type": "Polygon",
-    //             "coordinates": [
-    //                 [
-    //                     [100.0, 0.0],
-    //                     [101.0, 0.0],
-    //                     [101.0, 1.0],
-    //                     [100.0, 1.0],
-    //                     [100.0, 0.0]
-    //                 ]
-    //             ]
-    //         }
-    //     ],
-    //     properties: {
-    //         prop0: "value0",
-    //         prop1: { "this": "that" }
-    //     },
-    //     graphics: {
-    //         style: [],
-    //         label: {
-    //             showLabels: true,
-    //             fontStyle: "Times New Roman",
-    //             fontSize: 12,
-    //             position: "Center",
-    //         },
-    //         legend: {
-    //             visible: false
-    //         }
-    //     },
-    // };
 
     // TODO: Verify body and other body data.
     if (!body) {
