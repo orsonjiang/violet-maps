@@ -1,5 +1,5 @@
 const auth = require("../auth");
-const User = require("../models/UserSchema");
+const User = require("../models/User");
 const { sendError } = require("../helpers");
 
 const bcrypt = require("bcryptjs");
