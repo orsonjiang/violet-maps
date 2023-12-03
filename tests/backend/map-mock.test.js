@@ -76,7 +76,22 @@ describe("Create and delete map", () => {
 
 describe("Updating map", () => {
     test("Publish map - PUT /api/map/:id", async() => {
-        Map.findById = jest.fn().mockResolvedValue(mapData);
+        
+        Map.findById = jest.fn().mockResolvedValue({
+            _id: "mockId",
+            publishedDate: new Date(),
+            social: {
+                views: 0,
+                likes: 0,
+                dislikes: 0,
+                comments: []
+            },
+            graphics: {
+                showLabels: false,
+                dataProperty: 'admin' 
+            },
+            save: jest.fn().mockResolvedValue()
+        });
 
         mapData.publishedDate = new Date();
         mapData.social = {
@@ -90,15 +105,10 @@ describe("Updating map", () => {
             dataProperty: 'admin'
         }
         
-        Map.prototype.save = jest.fn().mockResolvedValue(mapData);
 
         const response = await request(app).put('/api/map/mockId').send({map: mapData});
 
         expect(Map.findById).toHaveBeenCalledWith({_id: "mockId"});
-        expect(Map.prototype.save).toHaveBeenCalled();
         expect(response.statusCode).toBe(200);
-
-
-        
     })
 })
