@@ -1,4 +1,4 @@
-import { CREATE_MAP, CREATE_MAP_PROPERTIES, CREATE_MAP_TEMPLATE, SET_MAPS, SET_CURRENT_MAP, UPDATE_MAP } from "../action-types/map-types";
+import { CREATE_MAP, CREATE_MAP_PROPERTIES, CREATE_MAP_TEMPLATE, SET_MAPS, SET_CURRENT_MAP, UPDATE_MAP, UPDATE_SELECTED_FEATURE } from "../action-types/map-types";
 
 const initialState = {
     newMap: {
@@ -11,7 +11,7 @@ const initialState = {
         color: ""
     },
 	currentMap: null,
-    selectedFeature: null, // is set when user clicks on a feature, holds the index and color
+    selectedFeature: null, // NEW CODE: is set when user clicks on a feature, holds the feature ref
     maps: []
 }
 
@@ -52,6 +52,11 @@ const map = (state = initialState, action) => {
             return {
                 ...state,
                 currentMap: action.payload
+            }
+        case UPDATE_SELECTED_FEATURE: // NEW CODE
+            return {
+                ...state,
+                selectedFeature: action.payload
             }
         // case UPDATE_MAP_DATA:
         //     return {

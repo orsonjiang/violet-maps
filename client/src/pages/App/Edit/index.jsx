@@ -1,18 +1,21 @@
 import { useState, useRef, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 import Modal from "../../components/Modals/Modal";
 import MapProps from "../../components/Modals/MapProps";
 import Toolbar from "./components/Toolbar";
 import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { useSelector, useDispatch } from "react-redux";
-import { openModal } from '../../../actions/modal';
+
 import geobuf from "geobuf";
 import Pbf from "pbf";
 // import { updateMapData } from "../../../actions/map";
+
 import { setView } from "../../../actions/home";
-// import "../../../dist/Leaflet.BigImage.min.css"
-// import "../../../dist/Leaflet.BigImage.min.js"
-import { useNavigate } from "react-router-dom";
+import { openModal } from '../../../actions/modal';
+import { updateSelectedFeature } from "../../../actions/map";
+
 
 const EditMap = () => {
     const map = useRef(null);
@@ -31,6 +34,7 @@ const EditMap = () => {
         dispatch(openModal(type));
     }
 
+    // NEW CODE
     const increaseStroke = (e) => {
         var layer = e.target;
 
@@ -40,6 +44,7 @@ const EditMap = () => {
         })
     }
 
+    // NEW CODE
     const resetStroke = (e) => {
         var layer = e.target;
 
@@ -49,12 +54,18 @@ const EditMap = () => {
         })
     }
 
+    // NEW CODE
     const clickFeature = (e) => {
         // zoom into feature
         map.current.fitBounds(e.target.getBounds());
-
+        
+        // set the selected feature in store
+        dispatch(updateSelectedFeature({
+            featureRef: e.target, // this has the index and the color
+        }));
     }
 
+    // NEW CODE
     const onEachFeature = (feature, layer) => {
         layer.on({
             mouseover: increaseStroke,
@@ -125,6 +136,7 @@ const EditMap = () => {
                         return {
                             color: currentMap.features[geo.features.indexOf(feature)].style.border,
                             fillColor: currentMap.features[geo.features.indexOf(feature)].style.fill,
+                            fillOpacity: 0.5 // NEW CODE
                         }
                     },
                     onEachFeature: onEachFeature
@@ -149,6 +161,7 @@ const EditMap = () => {
                     return {
                         color: currentMap.features[geojson.features.indexOf(feature)].style.border,
                         fillColor: currentMap.features[geojson.features.indexOf(feature)].style.fill,
+                        fillOpacity: 0.5 // NEW CODE
                     }
                 },
                 onEachFeature: onEachFeature

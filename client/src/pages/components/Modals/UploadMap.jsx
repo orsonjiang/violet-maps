@@ -140,7 +140,7 @@ const UploadMap = () => {
 
             let features = []
             let style = {
-                fill: "#E9D5FF",
+                fill: "#f3e8ff",
                 border: "#97a8fc",
                 bubble: { 
                     radius: 1,
@@ -149,7 +149,7 @@ const UploadMap = () => {
                 },
             }
             for (let i = 0; i < geojson.features.length; i++) {
-                // adding a new properties field called index so that I can more easily keep track of which feature im editing
+                // NEW CODE: adding a new properties field called index so that I can more easily keep track of which feature im editing
                 geojson.features[i].properties.index = i; 
                 features.push({
                     properties: geojson.features[i].properties,

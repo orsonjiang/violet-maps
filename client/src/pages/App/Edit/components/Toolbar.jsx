@@ -12,16 +12,17 @@ import { openModal } from "../../../../actions/modal";
 // import "../../../../dist/Leaflet.BigImage.min.js"
 // import { exportMap } from "../../../../actions/map.js";
 import apis from "../../../../api/api";
-import { updateMapInStore } from "../../../../actions/map";
+import { updateMapInStore, updateSelectedFeature } from "../../../../actions/map";
 
 const Toolbar = () => {
     const [menu, setMenu] = useState("none");
     const updates = useRef(null);
     const [dataPropList, setDataPropList] = useState([]);
+    const [c, setC] = useState(""); // NEW CODE: color
 
     const currentModal = useSelector((state) => state.modal.currentModal);
     // const map = useSelector((state) => state.map.leafletMap);
-    const currentMap = useSelector((state) => state.map.currentMap);
+    const {currentMap, selectedFeature}  = useSelector((state) => state.map); // NEW CODE
 
     const dispatch = useDispatch();
     // const exportMap = (type) => {
@@ -139,18 +140,54 @@ const Toolbar = () => {
     const ref = useRef(null);
     closeMenus(ref);
 
-    const toggleLabels = () => {
-        updates.current.graphics.showLabels = !updates.current.graphics.showLabels;
+    // NEW CODE
+    const clickRegionColor = () => {
+        const idx = selectedFeature.featureRef.feature.properties.index;
+        setMenu("regionColor"); // open color picker
+        setC(currentMap.features[idx].style.fill); // get initial color to display in color picker
+    }
 
+    // NEW CODE
+    const clickBorderColor = () => {
+        const idx = selectedFeature.featureRef.feature.properties.index;
+        setMenu("borderColor"); // open color picker
+        setC(currentMap.features[idx].style.border); // get initial color to display in color picker
+    }
+
+    // NEW CODE - update color of selected feature as user is dragging in the color picker
+    const handleColorChange = (color) => {
+        const idx = selectedFeature.featureRef.feature.properties.index;
+        if (menu == "borderColor") {
+            selectedFeature.featureRef.setStyle({color: color.hex}) // update in leaflet
+            updates.current.features[idx].style.border = color.hex; // update in copy of current map - not updating store directly
+            setC(color.hex); // so that the circle in the color picker moves
+        } else if (menu == "regionColor") {
+            selectedFeature.featureRef.setStyle({fillColor: color.hex}) // update in leaflet
+            updates.current.features[idx].style.fill = color.hex; // update in copy of current map - not updating store directly
+            setC(color.hex); // so that the circle in the color picker moves
+        }
+    }
+
+    // NEW CODE - generalized function to send updates to server
+    const sendUpdateToServer = (type, update=null) => {
+        switch(type) {
+            case "showLabels":
+                updates.current.graphics.showLabels = !updates.current.graphics.showLabels;
+                break;
+            case "changeDataProp":
+                updates.current.graphics.dataProperty = update;
+                break;
+            case "color":
+                break;
+        }
         apis.updateMap(currentMap._id, updates.current).then((res) => {
             dispatch(updateMapInStore(updates.current))
         }).catch((err) => {
             console.log(err);
         })
     }
-
-    const changeDataProp = (item) => {
-        updates.current.graphics.dataProperty = item;
+    // NEW CODE - update database when color change is complete
+    const colorChangeComplete = () => {
         apis.updateMap(currentMap._id, updates.current).then((res) => {
             dispatch(updateMapInStore(updates.current))
         }).catch((err) => {
@@ -259,7 +296,7 @@ const Toolbar = () => {
                         <li key={key}>
                             <button
                                 className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                                onClick={() => changeDataProp(item)}
+                                onClick={() => sendUpdateToServer("changeDataProp", item)}
                             >
                                 {item}
                             </button>
@@ -320,7 +357,7 @@ const Toolbar = () => {
                 {border}
                 <button
                     className="px-1 hover:bg-violet-100"
-                    onClick={toggleLabels}
+                    onClick={() => sendUpdateToServer("showLabels")}
                 >
                     {currentMap.graphics.showLabels ? "Hide Labels" : "Show Labels"}
                 </button>
@@ -365,22 +402,28 @@ const Toolbar = () => {
                 {border}
                 <div className="flex relative">
                     <button
-                        onClick={() => { setMenu("regionColor") }}
+                        onClick={clickRegionColor}
                         className="px-1 hover:bg-violet-100"
                     >
                         Region Color
                     </button>
-                    {menu == "regionColor" ? <div ref={ref} className="absolute left-[-5px] z-50 my-9"><ChromePicker /></div> : null}
+                    {menu == "regionColor" ? 
+                        <div ref={ref} className="absolute left-[-5px] z-50 my-9">
+                            <ChromePicker color={c} onChange={handleColorChange} onChangeComplete={ () => sendUpdateToServer("color") }/>
+                        </div> : null} {/*NEW CODE*/}
                 </div>
                 {border}
                 <div className="flex relative">
                     <button
-                        onClick={() => { setMenu("borderColor") }}
+                        onClick={clickBorderColor}
                         className="px-1 hover:bg-violet-100"
                     >
                         Border Color
                     </button>
-                    {menu == "borderColor" ? <div ref={ref} className="absolute left-[-5px] z-50 my-9"><ChromePicker /></div> : null}
+                    {menu == "borderColor" ? 
+                        <div ref={ref} className="absolute left-[-5px] z-50 my-9">
+                            <ChromePicker color={c} onChange={handleColorChange} onChangeComplete={ () => sendUpdateToServer("color")  }/>
+                        </div> : null} {/*NEW CODE*/}
                 </div>
                 {border}
                 <button className="px-1 hover:bg-violet-100" onClick={() => { openCurrentModal("LEGEND_MODAL") }}>Legend</button>

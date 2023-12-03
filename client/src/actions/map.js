@@ -1,4 +1,4 @@
-import { CREATE_MAP, CREATE_MAP_TEMPLATE, CREATE_MAP_PROPERTIES, SET_MAPS, SET_CURRENT_MAP, UPDATE_MAP} from "../action-types/map-types";
+import { CREATE_MAP, CREATE_MAP_TEMPLATE, CREATE_MAP_PROPERTIES, SET_MAPS, SET_CURRENT_MAP, UPDATE_MAP, UPDATE_SELECTED_FEATURE} from "../action-types/map-types";
 
 export const createMap = (data) => ({
 	type: CREATE_MAP,
@@ -23,6 +23,12 @@ export const setMaps = (data) => ({
 
 export const setCurrentMap = (data) => ({
 	type: SET_CURRENT_MAP,
+	payload: data
+});
+
+// NEW CODE
+export const updateSelectedFeature = (data) => ({
+	type: UPDATE_SELECTED_FEATURE,
 	payload: data
 });
 
