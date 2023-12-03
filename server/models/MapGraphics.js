@@ -13,15 +13,16 @@ const mapGraphicsSchema = new Schema({
 	}],
 	label: {
 		showLabels: { type: Boolean, required: true },
+		// TODO: Add more enums.
 		fontStyle: { type: String, required: true },
 		fontSize: { type: Number, required: true },
-		// TODO: Add enum to labelPosition.
-		position: { type: String, required: true },
+		// TODO: Add more enums.
+		position: { type: String, enum: ['Center'], required: true },
 	},
 	layers: {
 		dataProperty: {
-			key: { type: String, required: true },
-			value: { type: String, required: true }
+			key: { type: String },
+			value: { type: String }
 		},
 		heatMap: {
 			dataProperty: { type: String },

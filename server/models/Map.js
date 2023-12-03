@@ -8,7 +8,6 @@ const mapSchema = new Schema(
         name: { type: String, required: true },
         owner: { type: Schema.Types.ObjectId, required: true },
         tags: [String],
-        publishedDate: { type: Date, required: true },
         geometry: { type: Schema.Types.ObjectId, ref: "MapGeometry" },
         properties: { type: Schema.Types.ObjectId, ref: "MapProperties" },
         graphics: { type: Schema.Types.ObjectId, ref: "MapGraphics" },
