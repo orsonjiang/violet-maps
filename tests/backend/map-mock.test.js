@@ -3,15 +3,15 @@ const request = require('supertest');
 const { app } = require('../../server');
 
 const Map = require("../../server/models/MapSchema");
-var Pbf = require('pbf');
-var geobuf = require('geobuf');
+// var Pbf = require('../../server/node_modules/pbf');
+var geobuf = require('../../server/node_modules/geobuf');
 
 
 beforeEach(() => {
     jest.setTimeout(6000);
     jest.mock("../../server/models/MapSchema");
     // jest.mock("pbf");
-    jest.mock("geobuf");
+    jest.mock('../../server/node_modules/geobuf');
 });
 
 afterEach(() => {
@@ -45,12 +45,6 @@ const mapData = {
             value: [],
             visible: false
         }
-    },
-    social: {
-        views: 0,
-        likes: 0,
-        dislikes: 0,
-        comments: []
     }
 }
 
@@ -63,12 +57,48 @@ describe("Create and delete map", () => {
         const response = await request(app).post('/api/map').send(mapData);
 
         expect(Map.prototype.save).toHaveBeenCalled();
+        expect(geobuf.encode).toHaveBeenCalled();
         expect(response.statusCode).toBe(201);
         expect(response.body.successMessage).toBe("Map Created");
 
     })
 
     test("DELETE /api/map/:id", async() => {
+        Map.deleteOne = jest.fn().mockResolvedValue(true);
+
+        const response = await request(app).delete('/api/map/mockId').send(mapData);
+
+        expect(Map.deleteOne).toHaveBeenCalledWith({_id: "mockId"});
+        expect(response.statusCode).toBe(200);
+
+    })
+})
+
+describe("Updating map", () => {
+    test("Publish map - PUT /api/map/:id", async() => {
+        Map.findById = jest.fn().mockResolvedValue(mapData);
+
+        mapData.publishedDate = new Date();
+        mapData.social = {
+            views: 0,
+            likes: 0,
+            dislikes: 0,
+            comments: []
+        }   
+        mapData.graphics = {
+            showLabels: false,
+            dataProperty: 'admin'
+        }
+        
+        Map.prototype.save = jest.fn().mockResolvedValue(mapData);
+
+        const response = await request(app).put('/api/map/mockId').send({map: mapData});
+
+        expect(Map.findById).toHaveBeenCalledWith({_id: "mockId"});
+        expect(Map.prototype.save).toHaveBeenCalled();
+        expect(response.statusCode).toBe(200);
+
+
         
     })
 })
