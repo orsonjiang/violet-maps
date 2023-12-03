@@ -362,8 +362,6 @@ const Toolbar = () => {
                     {currentMap.graphics.showLabels ? "Hide Labels" : "Show Labels"}
                 </button>
                 {border}
-                <button className="px-1 hover:bg-violet-100" onClick={() => { openCurrentModal("TEXT_MODAL") }}>Add Text</button>
-                {border}
                 <div className="flex px-1 relative">
                     <button
                         onClick={() => { setMenu("fontStyle") }}
@@ -400,10 +398,18 @@ const Toolbar = () => {
                     {menu == "labelPosition" ? labelPositionMenu : null}
                 </div>
                 {border}
+                <button // NEW CODE - disable when there is no selected feature
+                    className={selectedFeature ? `px-1 hover:bg-violet-100` : `bg-gray-200 text-gray-500 cursor-not-allowed px-1`}
+                    disabled={selectedFeature ==  null} 
+                    onClick={() => { openCurrentModal("TEXT_MODAL") }}>
+                        Add Text
+                </button>
+                {border}
                 <div className="flex relative">
-                    <button
+                    <button // NEW CODE - disable when there is no selected feature
                         onClick={clickRegionColor}
-                        className="px-1 hover:bg-violet-100"
+                        className={selectedFeature ? `px-1 hover:bg-violet-100` : `bg-gray-200 text-gray-500 cursor-not-allowed px-1`}
+                        disabled={selectedFeature ==  null}
                     >
                         Region Color
                     </button>
@@ -414,9 +420,10 @@ const Toolbar = () => {
                 </div>
                 {border}
                 <div className="flex relative">
-                    <button
+                    <button // NEW CODE - disable when there is no selected feature
                         onClick={clickBorderColor}
-                        className="px-1 hover:bg-violet-100"
+                        className={selectedFeature ? `px-1 hover:bg-violet-100` : `bg-gray-200 text-gray-500 cursor-not-allowed px-1`}
+                        disabled={selectedFeature ==  null}
                     >
                         Border Color
                     </button>

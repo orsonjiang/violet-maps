@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import { openModal } from '../../../actions/modal';
 import { setView } from '../../../actions/home';
 import apis from '../../../api/api';
-import { setMaps, setCurrentMap } from '../../../actions/map';
+import { setMaps, setCurrentMap, updateSelectedFeature } from '../../../actions/map';
 
 const Home = () => {
     const [menu, setMenu] = useState("none");
@@ -46,6 +46,7 @@ const Home = () => {
 
     useEffect(() => {
         dispatch(setCurrentMap(null));
+        dispatch(updateSelectedFeature(null)); // NEW CODE - clear the selected feature when you return to home page
         apis.getMaps(view, "", searchBy, user.username).then((res) => {
             dispatch(setMaps(res.data.list));
         })
