@@ -42,6 +42,7 @@ describe('register an account', () => {
         cy.intercept('POST', '/auth/register', {});
         cy.get('#registerButton').click();
         cy.url().should('include', '/app/home');
-        cy.contains('All Maps');
+        cy.contains('Your Library');
+        cy.contains('Create Map');
     })
 })
