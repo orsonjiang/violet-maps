@@ -58,7 +58,11 @@ describe("Create and delete map", () => {
     })
 
     // test("DELETE /api/map/:id", async() => {
-    //     Map.deleteOne = jest.fn().mockResolvedValue(true);
+    //     // deleteOneAck = {
+    //     //     acknowledged: true,
+    //     //     deletedCount: 1,
+    //     // }
+    //     Map.deleteOne = jest.fn().mockReturnValue({acknowledge: true, deleteCount: 1});
 
     //     const response = await request(app).delete('/api/map/mockId').set("Authorization", "mockToken").send(mapData);
 
