@@ -1,7 +1,8 @@
-describe('register an account', () => {
+describe('register tests', () => {
     beforeEach(() => {
         cy.visit('/register');
-    })
+    });
+
     it('improper password input - passwords do not match', () => {
         cy.get('#firstName').type('Joe');
         cy.get('#lastName').type('Shmoe');
@@ -9,39 +10,84 @@ describe('register an account', () => {
         cy.get('#username').type('JoeShmoe-inator');
         cy.get('#password').type('JoeShmoe2023');
         cy.get('#confirmPassword').type('wrongpassword');
-        cy.intercept('POST', '/auth/register', {});
         cy.get('#registerButton').click();
+        // stays on the same page, unsuccessful register
         cy.url().should('include', '/register');
         cy.contains('Passwords are not the same.');
-        /*
-        cy.request('POST', 'http://localhost:5173/auth/register', {
-            email: "Joe.Shmoe@email.com",
-            firstName: "Joe",
-            lastName: "Shmoe",
-            password: "JoeShmoe2023",
-            username: "JoeShmoe-inator"
-        }).its('body').as('currentUser');
-        */
-        /*
-        cy.request('POST', '/register', {
-            firstName: 'joe',
-            lastName: 'shmoe',
-            email: 'joe.shmoe@email.com',
-            username: 'joeshmoe2023',
-            password: 'JoeShmoe2023',
-        })
-        */
-    })
-    it('successful sign up - leads to home screen', () => {
+    });
+
+    it('improper password input - password less than 8 chars', () => {
+        cy.get('#firstName').type('Joe');
+        cy.get('#lastName').type('Shmoe');
+        cy.get('#email').type('Joe.Shmoe1@email.com');
+        cy.get('#username').type('JoeShmoe-inator1');
+        cy.get('#password').type('Joe');
+        cy.get('#confirmPassword').type('Joe');
+        cy.get('#registerButton').click();
+        // stays on the same page, unsuccessful register
+        cy.url().should('include', '/register');
+        cy.contains('Please enter a password of at least 8 characters.');
+    });
+
+    it('improper input - missing field', () => {
+        cy.get('#firstName').clear();
+        cy.get('#lastName').type('Shmoe');
+        cy.get('#email').type('Joe.Shmoe2@email.com');
+        cy.get('#username').type('JoeShmoe-inator1');
+        cy.get('#password').type('JoeShmoe12');
+        cy.get('#confirmPassword').type('JoeShmoe12');
+        cy.get('#registerButton').click();
+        // stays on the same page, unsuccessful register
+        cy.url().should('include', '/register');
+    });
+
+    it('improper email input - email not formatted correctly', () => {
+        cy.get('#firstName').type('Joe');
+        cy.get('#lastName').type('Shmoe');
+        cy.get('#email').type('Joe.ShmoeATemail.com');
+        cy.get('#username').type('JoeShmoe');
+        cy.get('#password').type('JoeShmoe2023');
+        cy.get('#confirmPassword').type('JoeShmoe2023');
+        cy.get('#registerButton').click();
+        // stays on the same page, unsuccessful register
+        cy.url().should('include', '/register');
+    });
+
+    it('unsuccessful register - email already exists', () => {
         cy.get('#firstName').type('Joe');
         cy.get('#lastName').type('Shmoe');
         cy.get('#email').type('Joe.Shmoe@email.com');
+        cy.get('#username').type('JoeShmoe');
+        cy.get('#password').type('JoeShmoe2023');
+        cy.get('#confirmPassword').type('JoeShmoe2023');
+        cy.get('#registerButton').click();
+        // stays on the same page, unsuccessful register
+        cy.url().should('include', '/register');
+        cy.contains('An account with this email address already exists.');
+    });
+
+    it('unsuccessful register - username already exists', () => {
+        cy.get('#firstName').type('Joe');
+        cy.get('#lastName').type('Shmoe');
+        cy.get('#email').type('Joe.Shmoe2@email.com');
         cy.get('#username').type('JoeShmoe-inator');
         cy.get('#password').type('JoeShmoe2023');
         cy.get('#confirmPassword').type('JoeShmoe2023');
+        cy.get('#registerButton').click();
+        // stays on the same page, unsuccessful register
+        cy.url().should('include', '/register');
+        cy.contains('An account with this username already exists.');
+    });
+
+    it('successful register - goes to home page', () => {
+        cy.get('#firstName').type('new');
+        cy.get('#lastName').type('user');
+        cy.get('#email').type('new.user@email.com');
+        cy.get('#username').type('new-user-cypress');
+        cy.get('#password').type('password');
+        cy.get('#confirmPassword').type('password');
         cy.intercept('POST', '/auth/register', {});
         cy.get('#registerButton').click();
         cy.url().should('include', '/app/home');
-        cy.contains('All Maps');
-    })
+    });
 })
