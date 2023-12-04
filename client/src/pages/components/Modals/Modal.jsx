@@ -16,13 +16,19 @@ const Modal = ({title, description, inputText, containsInput, type}) => {
     const {currentMap, selectedFeature} = useSelector((state) => state.map); // NEW CODE
 
     const updates = useRef(null); // NEW CODE - holds the updates without touching the store directly
-    const [text, setText] = useState(currentMap.features[selectedFeature.featureRef.feature.properties.index].properties[currentMap.graphics.dataProperty]); // NEW CODE - for the text input, contains initial value
+    const [text, setText] = useState(""); // NEW CODE - for the text input
 
     // NEW CODE - sets up the updates object
     useEffect(() => {
         if (!updates.current) {
             updates.current = { ...currentMap };
             delete updates.current["data"];
+        }
+
+        switch(currentModal){
+            case "TEXT_MODAL": // set initial value for text input
+                setText(currentMap.features[selectedFeature.featureRef.feature.properties.index].properties[currentMap.graphics.dataProperty]); 
+                return;
         }
     }, [])
 
@@ -43,7 +49,18 @@ const Modal = ({title, description, inputText, containsInput, type}) => {
                 })
                 dispatch(closeModal());
                 return;
-
+            case "ADD_DATA_PROP_MODAL": // NEW CODE - adding a new data property to each feature
+                for (let i = 0; i < updates.current.features.length; i++) {
+                    updates.current.features[i].properties[text] = "---"; // the initial value for now
+                }
+                updates.current.graphics.dataProperty = text; // switch to this new data property
+                apis.updateMap(currentMap._id, updates.current).then((res) => {
+                    dispatch(updateMapInStore(updates.current));
+                }).catch((err) => {
+                    console.log(err);
+                })
+                dispatch(closeModal());
+                return;
             case 'PUBLISH_MODAL': // NEW CODE
                 updates.current.publishedDate = new Date(); 
 
