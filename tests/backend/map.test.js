@@ -19,12 +19,13 @@ jest.mock("../../server/models/MapGraphics");
 
 beforeEach(() => {
     jest.setTimeout(6000);
-   
+    jest.clearAllMocks(); 
 });
-
+/*
 afterEach(() => {
     jest.clearAllMocks();
 });
+*/
 
 const mapData = {
     _id: "mockId",
@@ -57,16 +58,15 @@ describe("Create and delete map", () => {
 
     })
 
-    // test("DELETE /api/map/:id", async() => {
-    //     Map.deleteOne = jest.fn().mockResolvedValue({ acknowledge: 1, deletedCount: 1 });
-
-    //     const response = await request(app).delete('/api/map/mockId').set("Authorization", "mockToken").send(mapData);
+    test("DELETE /api/map/:id", async() => {
+        Map.deleteOne.mockResolvedValue({ acknowledge: true, deletedCount: 1 });
+        const response = await request(app).delete('/api/map/mockId').set("Authorization", "mockToken").send({ _id: "mockId" });
         
-    //     expect(auth.verifyToken).toHaveBeenCalled();
-    //     expect(Map.deleteOne).toHaveBeenCalledWith({_id: "mockId"});
-    //     expect(response.statusCode).toBe(200);
+        expect(auth.verifyToken).toHaveBeenCalled();
+        expect(Map.deleteOne).toHaveBeenCalledWith({_id: "mockId"});
+        expect(response.statusCode).toBe(200);
 
-    // })
+    })
 })
 
 describe("Get map by ID", () => {
