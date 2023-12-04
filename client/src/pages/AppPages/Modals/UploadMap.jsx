@@ -1,22 +1,20 @@
 import { useState, useRef } from "react";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+
 import * as shapefile from 'shapefile';
 import { kml } from '@tmcw/togeojson';
-// import { createMap } from "../../../../actions/map";
-// import geobuf from "geobuf";
-// import Pbf from "pbf";
+
+import { setCreateMap } from '../../../actions/map'
+import Dialog from './components/Dialog';
 
 const UploadMap = () => {
-    const fileInput = useRef(null);
-    const [error, setError] = useState('');
-    const [geojson, setgeojson] = useState(null);
-    const [filename, setFilename] = useState('');
-
     const dispatch = useDispatch();
 
-    const closeUploadModal = () => {
-        // dispatch(closeModal());
-    }
+    const fileInput = useRef(null);
+    const [parsedFilename, setParsedFilename] = useState('');
+    const [filename, setFilename] = useState('');
+    const [geojson, setgeojson] = useState(null);
+    const [error, setError] = useState('');
 
     const handleClick = () => {
         fileInput.current.click();
@@ -25,6 +23,8 @@ const UploadMap = () => {
     const validExt = (file, expected) => {
         return file.substring(file.lastIndexOf('.')) === expected;
     };
+
+    const parseFilename = (s) => s.substring(0, s.indexOf(","));
 
     const readFileAsArrayBuffer = (file) => {
         return new Promise((resolve, reject) => {
@@ -57,6 +57,7 @@ const UploadMap = () => {
                 reader.onload = () => {
                     setgeojson(JSON.parse(reader.result));
                     setFilename(files[0].name);
+                    setParsedFilename(parseFilename(files[0].name))
                 };
             } else if (validExt(fileName, '.kml')) {
                 reader.readAsText(files[0]);
@@ -64,6 +65,7 @@ const UploadMap = () => {
                 reader.onload = () => {
                     setgeojson(kml(new DOMParser().parseFromString(reader.result, 'text/xml')));
                     setFilename(files[0].name);
+                    setParsedFilename(parseFilename(files[0].name))
                 };
             } else {
                 setError(
@@ -80,10 +82,12 @@ const UploadMap = () => {
                     shp = await readFileAsArrayBuffer(files[0]);
                     dbf = await readFileAsArrayBuffer(files[1]);
                     setFilename(files[0].name + ", " + files[1].name);
+                    setParsedFilename(parseFilename(files[0].name))
                 } else if (validExt(files[0].name, '.dbf') && validExt(files[1].name, '.shp')) {
                     shp = await readFileAsArrayBuffer(files[1]);
                     dbf = await readFileAsArrayBuffer(files[0]);
                     setFilename(files[0].name + ", " + files[1].name);
+                    setParsedFilename(parseFilename(files[1].name))
                 } else {
                     setError(
                         'The file formats of the two files you have uploaded are incorrect. One file should be a SHP file and one file should be a DBF file.'
@@ -103,55 +107,62 @@ const UploadMap = () => {
         }
     };
 
-    const user = useSelector((state)=> state.user.user);
-
-    const handleClickConfirm = async () => {
-        if (geojson == null) {
-            setError(
+    const handleConfirm = async () => {
+        if (geojson === null) {
+            return setError(
                 'Please upload a file :)'
             );
-        } else {
-            let features = []
-            let style = {
-                fill: "#E9D5FF",
-                border: "#97a8fc",
-                bubble: { 
-                    radius: 1,
-                    fill: "#E9D5FF",
-                    border: "#97a8fc",
-                },
-            }
-            for (let i = 0; i < geojson.features.length; i++) {
-                features.push({
-                    properties: geojson.features[i].properties,
-                    style: style
-                })
-            }
-            dispatch(createMap({
-                data: geojson,
-                features: features,
-                username: user.username
-            }));
-
-            dispatch(setModal("CHOOSE_TEMPLATE"));
         }
+
+        const geometry = [];
+        const properties = [];
+
+        for (let i = 0; i < geojson.features.length; i++) {
+            const feature = geojson.features[i];
+            geometry.push(feature.geometry);
+            properties.push(feature.properties);
+        }
+
+        dispatch(setCreateMap({
+            name: parsedFilename,
+            geometry: geometry,
+            properties: properties,
+            graphics: {
+                style: Array(geojson.features.length).fill({
+                    fill: "#E9D5FF",
+                    border: "#97A8FC",
+                    bubble: { 
+                        radius: 1,
+                        fill: "#E9D5FF",
+                        border: "#97A8FC",
+                    },
+                }),
+                label: {
+                    showLabels: true,
+                    fontStyle: "Times New Roman",
+                    fontSize: 12,
+                    position: "Center",
+                },
+                legend: {
+                    visible: false
+                },
+            },
+        }));
+        dispatch(setModal("CHOOSE_TEMPLATE"));
     }
 
     return (
         <div
-            id="popup-modal"
             tabIndex={-1}
             className="flex fixed z-50 bg-gray-800/[0.6] justify-center items-center w-full h-full inset-0 max-h-full"
         >
             <div className="relative w-full max-w-md max-h-md" >
                 <div className="relative bg-white rounded-lg shadow ">
                     <div className="p-2 md:mt-0 flex flex-col">
-                    
                         <div className="flex flex-col px-4 lg:py-0 space-y-5 my-3">
                             <h3 className="text-lg font-semibold  text-black text-left">
                                 Upload Map
                             </h3>
-                            
         
                             <div className="bg-purple-50 rounded-lg p-6 flex justify-center text-center text-[#938F99] border-dotted border-2 border-[#560BAD]">
                                 <div>
@@ -174,6 +185,7 @@ const UploadMap = () => {
                                     <p className="text-sm mt-1">.JSON, .GEOJSON, .SHP/.DBF, .KML</p>
                                 </div>
                             </div> 
+
                             {error != '' && geojson == null
                                 ? <p className="text-sm text-red-500">Error: {error}</p> 
                                 : null}
@@ -181,27 +193,7 @@ const UploadMap = () => {
                                 ? <p className="text-sm text-purple-500">Files Uploaded: {filename}</p> 
                                 : null}
 
-                            <div className='grid grid-cols-4 grid-row-1 my-4'>
-                                <div className='col-span-2 flex space-x-2 justify-end text-sm'>
-                                    <button
-                                        data-modal-hide="popup-modal"
-                                        type="button"
-                                        className="w-1/2 text-white bg-[#8187DC] rounded-full py-1.5 px-5 shadow-md text-center focus:outline-none focus:ring-2 focus:ring-purple-300 font-medium"
-                                        onClick={() => handleClickConfirm()}
-                                    >
-                                        Confirm
-                                    </button>
-                                    <button
-                                        data-modal-hide="popup-modal"
-                                        type="button"
-                                        className="w-1/2 text-[#686868] bg-[#D9D9D9] rounded-full py-1.5 px-5 shadow-md text-center focus:outline-none focus:ring-2 focus:ring-gray-500 font-medium"
-                                        onClick={closeUploadModal}
-                                    >
-                                        Cancel
-                                    </button>
-                                </div>
-                            </div> 
-                            
+                            <Dialog confirm={handleConfirm}/>
                         </div>
                     </div>
                 </div>
