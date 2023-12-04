@@ -13,7 +13,7 @@ import Home from './Home';
 import Explore from './Explore';
 import Map from './Map';
 import Edit from './Edit';
-import UploadMap from './Modals/UploadMap';
+import UploadMap from './components/Modals/UploadMap';
 
 const AppPages = () => {
     const dispatch = useDispatch();
