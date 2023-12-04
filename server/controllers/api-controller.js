@@ -8,7 +8,15 @@ const MapGraphics = require("../models/MapGraphics");
 const { sendError } = require("../helpers");
 
 getMap = async (req, res) => {
+    const body = req.body;
+
+    // TODO: Verify body and other body data.
+    if (!body) {
+        return sendError(res, "You must provide a map.");
+    }
+
     Map.findOne({ _id: req.params.id })
+        .populate(body.populate)
         .then((map) => {
             return res.status(200).json({ map: map })
         })
@@ -23,7 +31,7 @@ createMap = async (req, res) => {
 
     // TODO: Verify body and other body data.
     if (!body) {
-        return sendError(res, "You must provide a map.");
+        return sendError(res, "You must provide map data.");
     }
 
     // TODO: Add error checking.
@@ -32,17 +40,17 @@ createMap = async (req, res) => {
     const geometry = new MapGeometry({
         data: body.geometry
     });
-    await mapGeometry.save();
+    await geometry.save();
 
     // MapProperties
     const properties = new MapProperties({
         data: body.properties
     });
-    await mapProperties.save();
+    await properties.save();
 
     // MapGraphics
     const graphics = new MapGraphics(body.graphics);
-    await mapGraphics.save();
+    await graphics.save();
 
     const map = new Map({
         name: body.map.name,
@@ -74,12 +82,10 @@ createMap = async (req, res) => {
 }
 
 getMaps = async (req, res) => {
-    let body = req.body;
-
     const options = {};
-    const regSearch = new RegExp(body.searchText, "i");
+    const regSearch = new RegExp(req.params.searchText, "i");
 
-    switch (body.view) {
+    switch (req.params.view) {
         case "home":
             options.owner = req.userId;
             break;
@@ -92,16 +98,16 @@ getMaps = async (req, res) => {
             break;
     }
 
-    switch (body.searchBy) {
-        case "Map Name":
+    switch (req.params.searchBy) {
+        case "name":
             options.name = regSearch;
             break;
         
-        case "Username":
+        case "username":
             options.username = regSearch;
             break;
         
-        case "Map Properties":
+        case "properties":
             options.tags = regSearch;
             break;
 
@@ -120,23 +126,9 @@ getMaps = async (req, res) => {
 
 // TODO: Update.
 updateMap = async (req, res) => {
-    Map.findOne({ _id: req.params.id })
-        .then((map) => {
-            map.publishedDate = req.body.map.publishedDate;
-            map.graphics.showLabels = req.body.map.graphics.showLabels;
-            map.graphics.dataProperty = req.body.map.graphics.dataProperty;
-
-            // TODO: Change social into its own API call.
-            map.social = req.body.map.social;
-            // map.social.comments = req.body.map.social.comments;
-
-            map.save().then(() => {
-                return res.status(200).json({ id: map._id })
-            })
-        })
-        .catch((err) => {
-            return sendError(res, "There was an error updating the map.")
-        })
+    const body = req.body;
+    
+    return res.status(200).json({ id: "" })
 }
 
 deleteMap = async (req, res) => {

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const polygonSchema = new mongoose.Schema({
+const polygonSchema = new Schema({
 	type: {
 		type: String,
 		enum: ['Polygon'],
