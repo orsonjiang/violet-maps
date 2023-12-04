@@ -1,15 +1,16 @@
 import { useState, useEffect, useRef } from "react";
-import Modal from "../Modals/Modal";
-import { useNavigate } from "react-router-dom";
-import apis from "../../../api/api";
 import { useDispatch } from "react-redux";
-import { setCurrentMap } from "../../../actions/map";
+import { useNavigate } from "react-router-dom";
+
+import apis from "../../../api/api";
+import { setMap } from "../../../actions/map";
 
 const MapCard = ({ mapInfo }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const ref = useRef(null);
+
     const [menu, setMenu] = useState("none");
-    const [modal, setModal] = useState("");
 
     const closeMenus = (ref) => {
         useEffect(() => {
@@ -25,26 +26,13 @@ const MapCard = ({ mapInfo }) => {
         }, [ref])
     }
 
-    const openModal = (type) => {
-        if (modal){
-            setModal("");
-        }
-        if (type === "rename"){
-            setModal("rename");
-        }
-        else if (type === "fork"){
-            setModal("fork");
-        }
-    }
-
-    const ref = useRef(null);
     closeMenus(ref);
 
     const handleClickCard = () => {
-        apis.getCurrentMap(mapInfo._id).then((res) => {
-            dispatch(setCurrentMap(res.data.map));
+        apis.getMap(mapInfo._id).then((res) => {
+            dispatch(setMap(res.data.map));
             if (mapInfo.publishedDate == null) {
-                navigate("/app/editmap");
+                navigate("/app/edit");
             } else {
                 navigate("/app/map");
             }
@@ -52,22 +40,22 @@ const MapCard = ({ mapInfo }) => {
         
     }
     
-    const clickMenuMapCard = (event) => {
+    const handleMenuMapCard = (event) => {
         event.stopPropagation();
         setMenu("mapCard");
     }
 
     return (
         <div>
-            {modal === "rename" ? 
+            {/* {modal === "rename" ? 
                 <Modal title={"Rename Map?"} description={"Confirm by typing a name for the Map of Europe"} inputText={"Enter Map Name"} containsInput={true} /> : 
                 (modal === "fork" ? <Modal title={"Fork Map?"} description={"Confirm by typing a name for the Map of Europe"} inputText={"Enter Map Name"} containsInput={true} /> : "")
-            }
+            } */}
 
             <div onClick={handleClickCard} className={`p-1 pt-1 rounded-md h-full drop-shadow-sm ${mapInfo.publishedDate == null ? "border-2 border-violet-200 bg-white" : "border-2 border-indigo-300 bg-indigo-300/[0.9]"}`}>
                 <div className="relative">
                     <button 
-                        onClick={clickMenuMapCard}
+                        onClick={handleMenuMapCard}
                         className="absolute right-2"
                     >
                         <i className="fas fa-ellipsis-h w-3 mr-1 text-white"/>
@@ -84,7 +72,7 @@ const MapCard = ({ mapInfo }) => {
                                 <a
                                     href="#"
                                     className="block px-5 py-2 text-sm text-gray-700 hover:bg-gray-100 "
-                                    onClick={() => { openModal("fork") }}
+                                    onClick={() => { setModal("fork") }}
                                 >
                                     <i className="fa fa-code-fork mr-2" />
                                     Fork
@@ -94,7 +82,7 @@ const MapCard = ({ mapInfo }) => {
                                 <a
                                     href="#"
                                     className="block px-5 py-2 text-sm text-gray-700 hover:bg-gray-100 "
-                                    onClick={() => {openModal("rename")}}
+                                    onClick={() => {setModal("rename")}}
                                 >
                                         <i className="fa fa-edit mr-2" />
                                     Rename

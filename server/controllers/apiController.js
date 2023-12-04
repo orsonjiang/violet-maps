@@ -21,7 +21,7 @@ const getMaps = async (req, res) => {
             break;
     
         default:
-            break;
+            return sendError(res, "There was an error retrieving maps.")
     }
 
     switch (req.query.searchBy) {
@@ -38,7 +38,7 @@ const getMaps = async (req, res) => {
             break;
 
         default:
-            break;
+            return sendError(res, "There was an error retrieving maps.")
     }
 
     Map.find(options)

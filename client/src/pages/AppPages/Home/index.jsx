@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 
-import { openModal } from '../../../actions/modal';
+import { setModal } from '../../../actions/modal';
 import { ModalTypes } from '../../../constants';
 
 import TitleBar from '../components/TitleBar';
@@ -11,7 +11,7 @@ const Home = () => {
     const dispatch = useDispatch();
 
     const handleCreateMap = () => {
-        dispatch(openModal(ModalTypes.UPLOAD_MAP));
+        dispatch(setModal(ModalTypes.UPLOAD_MAP));
     };
 
     return (
