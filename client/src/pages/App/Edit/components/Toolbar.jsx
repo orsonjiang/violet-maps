@@ -173,6 +173,9 @@ const Toolbar = () => {
                     updates.current.graphics.fontSize--;
                 }
                 break;
+            case "changeLabelPosition":
+                updates.current.graphics.labelPosition = update;
+                break;
             case "color":
                 break;
         }
@@ -213,41 +216,27 @@ const Toolbar = () => {
         </div>
     )
 
+    // NEW CODE
+    const labelPositionOptions = ["center", "right", "left", "top", "bottom", "auto"];
     const labelPositionMenu = (
         <div
             ref={ref}
-            className="absolute overflow-y-auto max-h-44 w-40 left-[-5px] z-50 my-9 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow "
+            className="absolute overflow-y-auto max-h-44 w-36 left-[-5px] z-50 my-9 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow "
             id="user-dropdown"
         >
             <ul className="text-[13px] py-2" aria-labelledby="user-menu-button">
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        Center
-                    </button>
-                </li>
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        Right
-                    </button>
-                </li>
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        Left
-                    </button>
-                </li>
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        Top
-                    </button>
-                </li>
+                {labelPositionOptions.map((position, key) => {
+                    return (
+                        <li key={key}>
+                            <button
+                                className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100"
+                                onClick={() => sendUpdateToServer("changeLabelPosition", position)}
+                            >
+                                {position}
+                            </button>
+                        </li>
+                    )
+                })}
             </ul>
         </div>
     )

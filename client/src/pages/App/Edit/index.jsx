@@ -77,7 +77,7 @@ const EditMap = () => {
             layer.bindTooltip(`<div style='font-size: ${currentMap.graphics.fontSize}px'>` + feature.properties[currentMap.graphics.dataProperty] + "</div>", 
                 {
                     permanent: true,
-                    direction: 'center',
+                    direction: currentMap.graphics.labelPosition,
                     className: `bg-white border-transparent shadow-none ${currentMap.graphics.fontStyle}` // NEW CODE - tooltip styling
                 })
         }

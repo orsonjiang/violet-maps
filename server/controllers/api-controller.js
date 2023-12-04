@@ -47,7 +47,7 @@ createMap = async (req, res) => {
         graphics: {
             fontStyle: "font-sans",
             fontSize: 12,
-            labelPosition: "Center",
+            labelPosition: "center",
             dataProperty: body.dataProperty,
             choropleth: body.template == "choropleth" ? {dataProperty: body.dataProperty, color: body.color} : null, // NEW CODE
             heatMap: body.template == "heat" ? {dataProperty: body.dataProperty} : null, // NEW CODE
