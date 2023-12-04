@@ -72,14 +72,14 @@ const loginUser = async (req, res) => {
 		if (!existingUser) {
 			return sendError(res, "Wrong email or password provided.", 401);
 		}
-		console.log(existingUser);
-		console.log(password);
-		console.log(existingUser.passwordHash);
+		// console.log(existingUser);
+		// console.log(password);
+		// console.log(existingUser.passwordHash);
 		const passwordCorrect = await bcrypt.compare(
 			password,
 			existingUser.passwordHash
 		);
-		console.log(passwordCorrect);
+		//console.log(passwordCorrect);
 		if (!passwordCorrect) {
 			return sendError(res, "Wrong email or password provided.", 401);
 		}

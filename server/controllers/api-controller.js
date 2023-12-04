@@ -150,7 +150,7 @@ getMaps = async (req, res) => {
 }
 
 getCurrentMap = async (req, res) => {
-    console.log("Find map with id: " + JSON.stringify(req.params.id));
+    // console.log("Find map with id: " + JSON.stringify(req.params.id));
 
     await Map.findById({ _id: req.params.id }).then( (map, err) => {
         if (err) {
@@ -162,7 +162,7 @@ getCurrentMap = async (req, res) => {
 }
 
 updateMap = async (req, res) => {
-    console.log("Updating map with id: " + JSON.stringify(req.params.id));
+    // console.log("Updating map with id: " + JSON.stringify(req.params.id));
 
     await Map.findById({_id: req.params.id}).then((map, err) => {
         if (err) {
@@ -192,14 +192,14 @@ updateMap = async (req, res) => {
 }
 
 deleteMap = async (req, res) => {
-    console.log("delete map with id: " + JSON.stringify(req.params.id));
-    console.log("delete " + req.params.id);
+    // console.log("delete map with id: " + JSON.stringify(req.params.id));
+    // console.log("delete " + req.params.id);
     await Map.deleteOne({ _id: req.params.id }).then((map, err) => {
         if (err) {
             return res.status(400).json({ success: false, error: err});
         }
         else {
-            console.log("delete map is successful. map with id: " + JSON.stringify(req.params.id));
+            // console.log("delete map is successful. map with id: " + JSON.stringify(req.params.id));
             return res.status(200).json({ success: true });
         }
     });
