@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const ApiController = require("../controllers/api-controller");
+const ApiController = require("../controllers/apiController");
 const auth = require('../auth');
 
 // Test route.

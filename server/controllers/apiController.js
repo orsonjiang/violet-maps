@@ -7,26 +7,50 @@ const MapProperties = require('../models/MapProperties');
 const MapGraphics = require("../models/MapGraphics");
 const { sendError } = require("../helpers");
 
-getMap = async (req, res) => {
-    const body = req.body;
+const getMaps = async (req, res) => {
+    const options = {};
+    const regSearch = new RegExp(req.params.searchText, "i");
 
-    // TODO: Verify body and other body data.
-    if (!body) {
-        return sendError(res, "You must provide a map.");
+    switch (req.params.view) {
+        case "home":
+            options.owner = req.userId;
+            break;
+        
+        case "explore":
+            options.publishedDate = { $ne: null };
+            break;
+    
+        default:
+            break;
     }
 
-    Map.findOne({ _id: req.params.id })
-        .populate(body.populate)
-        .then((map) => {
-            return res.status(200).json({ map: map })
-        })
-        .catch(err => {
-            console.log(err);
-            return sendError(res, "The map could not be found.");
-        });
-}
+    switch (req.params.searchBy) {
+        case "name":
+            options.name = regSearch;
+            break;
+        
+        case "username":
+            options.username = regSearch;
+            break;
+        
+        case "properties":
+            options.tags = regSearch;
+            break;
 
-createMap = async (req, res) => {
+        default:
+            break;
+    }
+
+    Map.find(options)
+        .then((maps) => {
+            return res.status(200).json({ maps: maps });
+        })
+        .catch((err) => {
+            return sendError(res, "There was an error retrieving maps.")
+        });
+};
+
+const createMap = async (req, res) => {
     const body = req.body;
 
     // TODO: Verify body and other body data.
@@ -79,59 +103,35 @@ createMap = async (req, res) => {
             console.log(err);
             return sendError(res, "The map could not be saved and created.")
         })
-}
+};
 
-getMaps = async (req, res) => {
-    const options = {};
-    const regSearch = new RegExp(req.params.searchText, "i");
+const getMap = async (req, res) => {
+    const body = req.body;
 
-    switch (req.params.view) {
-        case "home":
-            options.owner = req.userId;
-            break;
-        
-        case "explore":
-            options.publishedDate = { $ne: null };
-            break;
-    
-        default:
-            break;
+    // TODO: Verify body and other body data.
+    if (!body) {
+        return sendError(res, "You must provide a map.");
     }
 
-    switch (req.params.searchBy) {
-        case "name":
-            options.name = regSearch;
-            break;
-        
-        case "username":
-            options.username = regSearch;
-            break;
-        
-        case "properties":
-            options.tags = regSearch;
-            break;
-
-        default:
-            break;
-    }
-
-    Map.find(options)
-        .then((maps) => {
-            return res.status(200).json({ maps: maps });
+    Map.findOne({ _id: req.params.id })
+        .populate(body.populate)
+        .then((map) => {
+            return res.status(200).json({ map: map })
         })
-        .catch((err) => {
-            return sendError(res, "There was an error retrieving maps.")
+        .catch(err => {
+            console.log(err);
+            return sendError(res, "The map could not be found.");
         });
-}
+};
 
 // TODO: Update.
-updateMap = async (req, res) => {
+const updateMap = async (req, res) => {
     const body = req.body;
     
     return res.status(200).json({ id: "" })
-}
+};
 
-deleteMap = async (req, res) => {
+const deleteMap = async (req, res) => {
     Map.deleteOne({ _id: req.params.id })
         .then(() => {
             return res.status(200);
@@ -140,7 +140,7 @@ deleteMap = async (req, res) => {
             console.log(err);
             return sendError(res, "The map could not be found and deleted.")
         });
-}
+};
 
 module.exports = {
     getMaps,
