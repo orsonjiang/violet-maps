@@ -9,9 +9,9 @@ const { sendError } = require("../helpers");
 
 const getMaps = async (req, res) => {
     const options = {};
-    const regSearch = new RegExp(req.params.searchText, "i");
+    const regSearch = new RegExp(req.query.searchText, "i");
 
-    switch (req.params.view) {
+    switch (req.query.view) {
         case "home":
             options.owner = req.userId;
             break;
@@ -24,7 +24,7 @@ const getMaps = async (req, res) => {
             break;
     }
 
-    switch (req.params.searchBy) {
+    switch (req.query.searchBy) {
         case "name":
             options.name = regSearch;
             break;
