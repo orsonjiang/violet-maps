@@ -1,11 +1,13 @@
 var Pbf = require('pbf');
 var geobuf = require('geobuf');
 
+const { findToken } = require("../auth");
+const { sendError } = require("../helpers");
+
 const Map = require("../models/Map");
 const MapGeometry = require("../models/MapGeometry");
 const MapProperties = require('../models/MapProperties');
 const MapGraphics = require("../models/MapGraphics");
-const { sendError } = require("../helpers");
 
 const getMaps = async (req, res) => {
     const options = {};
@@ -13,6 +15,8 @@ const getMaps = async (req, res) => {
 
     switch (req.query.view) {
         case "home":
+            const verify = findToken(req);
+            if (!verify) return res.status(200).json({ maps: [] })
             options.owner = req.userId;
             break;
         

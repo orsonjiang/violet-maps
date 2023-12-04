@@ -6,7 +6,7 @@ const verifyToken = (req, res, next) => {
     try {
         const token = req.cookies.token;
         if (!token) {
-            throw new Error();
+            throw new Error("Unauthorized");
         }
 
         const verified = jwt.verify(token, process.env.JWT_SECRET);
@@ -14,8 +14,19 @@ const verifyToken = (req, res, next) => {
 
         next?.();
     } catch (err) {
-        return sendError(res, "Unauthorized", 401);
+        return sendError(res, "Unauthorized.", 401);
     }
+};
+
+const findToken = (req) => {
+    const token = req.cookies.token;
+    if (!token) {
+        req.userId = null;
+        return;
+    }
+
+    const verified = jwt.verify(token, process.env.JWT_SECRET);
+    req.userId = verified.userId;
 };
 
 const signToken = (userId) => {
@@ -29,5 +40,6 @@ const signToken = (userId) => {
 
 module.exports = {
     verifyToken,
+    findToken,
     signToken,
 };

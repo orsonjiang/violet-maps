@@ -6,9 +6,8 @@ const bcrypt = require("bcryptjs");
 
 const loginUser = async (req, res) => {
     if (req.body && req.body.auto) {
-        const verify = auth.verifyToken(req, res);
-        // If verify failed (has returned something) skip the rest of the login process.
-        if (verify) return;
+        auth.findToken(req);
+        if (req.userId === null) return sendError(res, "Unauthorized.", 401);
 
         const loggedInUser = await User.findOne({ _id: req.userId });
         

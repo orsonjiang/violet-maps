@@ -22,19 +22,23 @@ const AppPages = () => {
 
     useEffect(() => {
         auths.postLogin({ auto: true })
-            .then(req => {
-                if (req.status === 200) {
-                    dispatch(setUser(req.data));
-                }
-            })
-            .catch()
+        .then(req => {
+            if (req.status === 200) {
+                dispatch(setUser(req.data));
+            }
+        })
+        .catch()
+    }, []);
+
+    useEffect(() => {
+
 
         apis.getMaps(view, searchBy, "")
             .then((res) => {
                 dispatch(setMaps(res.data.maps));
             })
             .catch()
-    }, []);
+    }, [view]);
 
     const renderView = {
         'home': <Home />,
