@@ -1,95 +1,42 @@
 describe('sign in tests', () => {
     beforeEach(() => {
-        cy.visit('/');
-    })
+        cy.visit('/login');
+    });
 
-    // describe('login', () => {
-    //     it('error message from invalid email input', () => {
-    //         cy.contains('Log In').click();
-    //         cy.get('#email').type('jane.doe@testemail.com');
-    //         cy.get('#password').type('Invalid Password');
-            
-    //         cy.intercept('POST', '/auth/login', {});
-    //         cy.contains('Log in').click();
-    //         cy.intercept("POST", "/api/maps", (req) => {
-    //             req.body = {
-    //                 searchBy: "Map Name",
-    //                 searchText: "",
-    //                 username: "",
-    //                 view: "EXPLORE"
-    //             }
-    //             req.continue()
-    //         })
-    //     })
-    // })
-
-    describe('invalid email as input', () => {
-        it('error message from invalid email input', () => {
-            cy.contains('Log In').click();
+    describe('non-existing email as input', () => {
+        it('error message from non-existing email input', () => {
             cy.get('#email').type('InvalidEmail@dne.com');
             cy.get('#password').type('Invalid Password');
             cy.contains('Log in').click();
             cy.url().should('include', '/login');
-        })
-    })
+            cy.contains('Wrong email or password provided.').should('exist');
+        });
+    });
 
     describe('invalid password, valid email', () => {
         it('error message from invalid password but valid email', () => {
-            cy.contains('Sign Up').click();
-            cy.get('#firstName').type('Joe');
-            cy.get('#lastName').type('Shmoe');
-            cy.get('#email').type('Joe.Shmoe@email.com');
-            cy.get('#username').type('JoeShmoe-inator');
-            cy.get('#password').type('JoeShmoe2023');
-            cy.get('#confirmPassword').type('JoeShmoe2023');
-            cy.intercept('POST', '/auth/register', {});
-            cy.get('#registerButton').click();
-            cy.url().should('include', '/app/home');
-            cy.get('#userAvatar').click();
-            cy.contains("Log In").click();
-            cy.url().should('include', '/login');
-            cy.get('#email').type('Joe.Shmoe@email.com');
-            cy.get('#password').type('InvalidPassword');
+            cy.get('#email').type('test.one@email.com');
+            cy.get('#password').type('Invalid Password');
             cy.contains('Log in').click();
             cy.url().should('include', '/login');
-        })
-    })
+            cy.contains('Wrong email or password provided.').should('exist');
+        });
+    });
+
     describe('valid login', () => {
-        it('log into an existing account', () => {
-            cy.contains('Log In').click();
+        it('successful log into an existing account', () => {
             cy.get('#email').type('test.one@email.com');
             cy.get('#password').type('testone123');
-            cy.intercept('POST', '/auth/login', {});
             cy.contains('Log in').click();
             cy.url().should('include', '/app/home');
             cy.contains('Sort By').click();
-            cy.contains('Creation Date')
-            cy.contains('Create Map');
-        })
-    })
-    /*
-    it('log in as valid user', () => {
-        cy.visit('/');
-        cy.contains('Sign Up').click();
-        cy.get('#firstName').type('Joe');
-        cy.get('#lastName').type('Shmoe');
-        cy.get('#email').type('Joe.Shmoe@email.com');
-        cy.get('#username').type('JoeShmoe-inator');
-        cy.get('#password').type('JoeShmoe2023');
-        cy.get('#confirmPassword').type('JoeShmoe2023');
-        cy.intercept('POST', '/auth/register', {});
-        cy.get('#registerButton').click();
-        cy.url().should('include', '/app/home');
-        cy.get('#userAvatar').click();
-        cy.contains("Log In").click();
-        cy.url().should('include', '/login');
-        cy.get('#email').type('Joe.Shmoe@email.com');
-        cy.get('#password').type('JoeShmoe2023');
-        cy.contains('Log in').click();
-        cy.url().should('include', '/app/home');
-        cy.contains('Your Library');
-        cy.contains('Map Name').click();
-        cy.contains('Map Properties');
-    })
-    */
-})
+            cy.contains('Creation Date').should('exist');
+            cy.contains('Create Map').should('exist');
+            cy.get('#userAvatar').click();
+            cy.contains('test.one@email.com').should('exist');
+            cy.contains('Log out').click();
+            cy.url().should('include', '/');
+            cy.contains("Don't have an account?").should('exist');
+        });
+    });
+});

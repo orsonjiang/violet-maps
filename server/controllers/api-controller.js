@@ -45,17 +45,14 @@ createMap = async (req, res) => {
         data: buf,
         features: body.features,
         graphics: {
-            fontStyle: "Times New Roman",
+            fontStyle: "font-sans",
             fontSize: 12,
-            labelPosition: "Center",
+            labelPosition: "center",
             dataProperty: body.dataProperty,
-            heatMap: {
-                dataProperty: "",
-            },
+            choropleth: body.template == "choropleth" ? {dataProperty: body.dataProperty, color: body.color} : null, // NEW CODE
+            heatMap: body.template == "heat" ? {dataProperty: body.dataProperty} : null, // NEW CODE
             showLabels: showLabels,
-            bubbles: {
-                dataProperty: "",
-            },
+            bubbles: body.template == "bubble" ? {dataProperty: body.dataProperty, color: body.color} : null, // NEW CODE
             legend: {
                 name: "",
                 position: "",
@@ -153,7 +150,7 @@ getMaps = async (req, res) => {
 }
 
 getCurrentMap = async (req, res) => {
-    console.log("Find map with id: " + JSON.stringify(req.params.id));
+    // console.log("Find map with id: " + JSON.stringify(req.params.id));
 
     await Map.findById({ _id: req.params.id }).then( (map, err) => {
         if (err) {
@@ -165,7 +162,7 @@ getCurrentMap = async (req, res) => {
 }
 
 updateMap = async (req, res) => {
-    console.log("Updating map with id: " + JSON.stringify(req.params.id));
+    // console.log("Updating map with id: " + JSON.stringify(req.params.id));
 
     await Map.findById({_id: req.params.id}).then((map, err) => {
         if (err) {
@@ -175,8 +172,9 @@ updateMap = async (req, res) => {
             map.publishedDate = req.body.map.publishedDate;
             map.social = req.body.map.social;
             // map.social.comments = req.body.map.social.comments;
-            map.graphics.showLabels = req.body.map.graphics.showLabels;
-            map.graphics.dataProperty = req.body.map.graphics.dataProperty;
+            map.graphics = req.body.map.graphics; // NEW CODE
+            // map.graphics.dataProperty = req.body.map.graphics.dataProperty;
+            map.features = req.body.map.features;
 
             map.save().then(() => {
                 return res.status(200).json({
@@ -194,14 +192,14 @@ updateMap = async (req, res) => {
 }
 
 deleteMap = async (req, res) => {
-    console.log("delete map with id: " + JSON.stringify(req.params.id));
-    console.log("delete " + req.params.id);
+    // console.log("delete map with id: " + JSON.stringify(req.params.id));
+    // console.log("delete " + req.params.id);
     await Map.deleteOne({ _id: req.params.id }).then((map, err) => {
         if (err) {
             return res.status(400).json({ success: false, error: err});
         }
         else {
-            console.log("delete map is successful. map with id: " + JSON.stringify(req.params.id));
+            // console.log("delete map is successful. map with id: " + JSON.stringify(req.params.id));
             return res.status(200).json({ success: true });
         }
     });

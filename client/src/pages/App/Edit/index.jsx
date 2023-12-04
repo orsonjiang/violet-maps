@@ -1,18 +1,22 @@
 import { useState, useRef, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 import Modal from "../../components/Modals/Modal";
 import MapProps from "../../components/Modals/MapProps";
 import Toolbar from "./components/Toolbar";
 import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { useSelector, useDispatch } from "react-redux";
-import { openModal } from '../../../actions/modal';
+import "../../../../choropleth.js";
+
 import geobuf from "geobuf";
 import Pbf from "pbf";
 // import { updateMapData } from "../../../actions/map";
+
 import { setView } from "../../../actions/home";
-// import "../../../dist/Leaflet.BigImage.min.css"
-// import "../../../dist/Leaflet.BigImage.min.js"
-import { useNavigate } from "react-router-dom";
+import { openModal } from '../../../actions/modal';
+import { updateSelectedFeature } from "../../../actions/map";
+
 
 const EditMap = () => {
     const map = useRef(null);
@@ -31,6 +35,54 @@ const EditMap = () => {
         dispatch(openModal(type));
     }
 
+    // NEW CODE
+    const increaseStroke = (e) => {
+        var layer = e.target;
+
+        // increase stroke weight to show that feature can be selected
+        layer.setStyle({
+            weight: 5,
+        })
+    }
+
+    // NEW CODE
+    const resetStroke = (e) => {
+        var layer = e.target;
+
+        // return to original stroke weight
+        layer.setStyle({
+            weight: 3,
+        })
+    }
+
+    // NEW CODE
+    const clickFeature = (e) => {
+        // zoom into feature
+        map.current.fitBounds(e.target.getBounds());
+        
+        // set the selected feature in store
+        dispatch(updateSelectedFeature({
+            featureRef: e.target, // this has the index and the color
+        }));
+    }
+
+    // NEW CODE
+    const onEachFeature = (feature, layer) => {
+        layer.on({
+            mouseover: increaseStroke,
+            mouseout: resetStroke,
+            click: clickFeature
+        })
+        if (currentMap.graphics.showLabels) {
+            layer.bindTooltip(`<div style='font-size: ${currentMap.graphics.fontSize}px'>` + feature.properties[currentMap.graphics.dataProperty] + "</div>", 
+                {
+                    permanent: true,
+                    direction: currentMap.graphics.labelPosition,
+                    className: `bg-white border-transparent shadow-none ${currentMap.graphics.fontStyle}` // NEW CODE - tooltip styling
+                })
+        }
+    }
+
     useEffect(() => {
         dispatch(setView("NONE"));
         if (currentMap == null) {
@@ -44,7 +96,6 @@ const EditMap = () => {
                 attribution:
                 '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
             }).addTo(map.current);
-
             var southWest = L.latLng(-90, -180);
             var northEast = L.latLng(90, 180);
             var bounds = L.latLngBounds(southWest, northEast);
@@ -53,7 +104,7 @@ const EditMap = () => {
             map.current.on('drag', function() {
                 map.current.panInsideBounds(bounds, { animate: false });
             });
-
+            
             // get the map data from the store and convert back to geojson
             const convertToGeoJSON = async () => {
                 //convert from base64 back to string
@@ -78,35 +129,40 @@ const EditMap = () => {
                 // const buffer = await blob.arrayBuffer();
                 // const arr = new Uint8Array(buffer)
                 var json = geobuf.decode(new Pbf(bufView));
+                // NEW CODE - replace original geojson features with our custom one
+                for (let i = 0; i < json.features.length; i++) {
+                    json.features[i].properties = currentMap.features[i].properties;
+                }
                 setGeojson(json);
                 return json;
             }
             convertToGeoJSON().then((geo) => {
+                if (currentMap.graphics.choropleth) { // NEW CODE: if there is a choropleth map, display this layer
+                    L.choropleth(geo, {
+                        valueProperty: currentMap.graphics.choropleth.dataProperty,
+                        scale: ['white', currentMap.graphics.choropleth.color],
+                        steps: 6,
+                        mode: 'q',
+                        style: {
+                            fillOpacity: 0.9
+                        },
+                      }).addTo(map.current)
+                }
+                
                 L.geoJSON(geo, {
                     style: function (feature) {
                         return {
                             color: currentMap.features[geo.features.indexOf(feature)].style.border,
                             fillColor: currentMap.features[geo.features.indexOf(feature)].style.fill,
+                            fillOpacity: 0.9 // NEW CODE
                         }
                     },
-                    onEachFeature: (feature, layer) => {
-                        if (currentMap.graphics.showLabels) {
-                            layer.bindTooltip("" + feature.properties[currentMap.graphics.dataProperty], 
-                                {
-                                    permanent: true,
-                                    direction: 'center',
-                                })
-                        }
-                    }
+                    onEachFeature: onEachFeature
                 }).addTo(map.current);
                 // current map in the store would now have the map data in geojson
                 // dispatch(updateMapData(geojson));
             })
 
-            // console.log(map.current);
-            // dispatch(setLeafletMap(map.current));
-
-            // L.control.bigImage({ position: 'topright' }).addTo(map.current);
         }
     }, [])
 
@@ -114,25 +170,29 @@ const EditMap = () => {
         if (geojson != null) {
             map.current.eachLayer(function (layer) {
                 if (!layer.getAttribution()) {
-                map.current.removeLayer(layer);
+                    map.current.removeLayer(layer);
                 }
             });
+            if (currentMap.graphics.choropleth) { // NEW CODE: if there is a choropleth map, display this layer
+                L.choropleth(geojson, {
+                    valueProperty: currentMap.graphics.choropleth.dataProperty,
+                    scale: ['white', currentMap.graphics.choropleth.color],
+                    steps: 6,
+                    mode: 'q',
+                    style: {
+                        fillOpacity: 0.9
+                    },
+                  }).addTo(map.current)
+            }
             L.geoJSON(geojson, {
                 style: function (feature) {
                     return {
                         color: currentMap.features[geojson.features.indexOf(feature)].style.border,
                         fillColor: currentMap.features[geojson.features.indexOf(feature)].style.fill,
+                        fillOpacity: 0.9 // NEW CODE
                     }
                 },
-                onEachFeature: (feature, layer) => {
-                    if (currentMap.graphics.showLabels) {
-                        layer.bindTooltip("" + feature.properties[currentMap.graphics.dataProperty], 
-                            {
-                                permanent: true,
-                                direction: 'center',
-                            })
-                    }
-                }
+                onEachFeature: onEachFeature
             }).addTo(map.current);
         }
     }, [currentMap])
@@ -157,9 +217,9 @@ const EditMap = () => {
                     <i className="fa fa-edit mr-2 text-xl text-indigo-500" />
                 </button>
             </div>
-            <div id="map" className="w-full h-[63vh] mt-[65px] !absolute"></div>
+            <div id="map" className="w-full h-[67vh] mt-[65px] !absolute"></div> {/* NEW CODE: made leaflet map container larger */}
             {currentMap ? <Toolbar /> : null}
-            <div className="relative top-[calc(63vh+75px)] z-[3000] flex gap-3 items-center mx-5 my-3">
+            <div className="relative top-[calc(67vh+75px)] z-[3000] flex gap-3 items-center mx-5 my-3"> {/* NEW CODE: made leaflet map container larger */}
                 {currentMap ? currentMap.tags.map((tag, key) => {
                     return (
                         <div key = {key} className="text-white bg-violet-400 hover:bg-violet-500 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 ">

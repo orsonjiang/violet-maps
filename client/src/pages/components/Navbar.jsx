@@ -30,7 +30,7 @@ const Navbar = () => {
     const handleLogout = async () => {
         const req = await auths.postLogout();
         if (req.status === 200) {
-            store.dispatch(setUser(req.body));
+            store.dispatch(setUser(req.data));
             navigate('/');
         } else {
             console.log(req.error);
@@ -79,7 +79,7 @@ const Navbar = () => {
                     <i id='home-icon' className={`fa fa-home text-xl ${view == "HOME" ? "text-white" : "text-violet-100"}`} />
                 </div>
                 <div onClick={() => handleClickView("EXPLORE")}>
-                    <i className={`fas fa-globe-americas text-xl ${view == "EXPLORE" ? "text-white" : "text-violet-100"}`} />
+                    <i id='explore-icon' className={`fas fa-globe-americas text-xl ${view == "EXPLORE" ? "text-white" : "text-violet-100"}`} />
                 </div>
                 {view != "NONE" ?
                 <div className="flex w-full">

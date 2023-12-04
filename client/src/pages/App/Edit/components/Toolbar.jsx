@@ -12,16 +12,17 @@ import { openModal } from "../../../../actions/modal";
 // import "../../../../dist/Leaflet.BigImage.min.js"
 // import { exportMap } from "../../../../actions/map.js";
 import apis from "../../../../api/api";
-import { updateMapInStore } from "../../../../actions/map";
+import { updateMapInStore, updateSelectedFeature } from "../../../../actions/map";
 
 const Toolbar = () => {
     const [menu, setMenu] = useState("none");
     const updates = useRef(null);
     const [dataPropList, setDataPropList] = useState([]);
+    const [c, setC] = useState(""); // NEW CODE: color
 
     const currentModal = useSelector((state) => state.modal.currentModal);
     // const map = useSelector((state) => state.map.leafletMap);
-    const currentMap = useSelector((state) => state.map.currentMap);
+    const {currentMap, selectedFeature}  = useSelector((state) => state.map); // NEW CODE
 
     const dispatch = useDispatch();
     // const exportMap = (type) => {
@@ -57,6 +58,9 @@ const Toolbar = () => {
             updates.current = { ...currentMap };
             delete updates.current["data"];
         }
+    }, []);
+
+    useEffect(() => { // NEW CODE: every time map is updated, we grab the most up to date data properties
         // get the data properties
         const list = []; // list of data props for user to choose
         if (currentMap.features.length > 0) { // does it have at least one feature?
@@ -69,27 +73,7 @@ const Toolbar = () => {
             }
         }
         setDataPropList(list);
-    }, [])
-
-    useEffect(() => {
-        if (!updates.current) {
-            updates.current = {...currentMap};
-            delete updates.current["data"];
-        }
-        // get the data properties
-        const list = []; // list of data props for user to choose
-        console.log(currentMap);
-        if (currentMap.features.length > 0) { // does it have at least one feature?
-            const props = currentMap.features[0]["properties"];
-            
-            for (const [key, value] of Object.entries(props)) {
-                if (typeof value == "number" || typeof value == "string") {
-                    list.push(key);
-                }
-            }
-        }
-        setDataPropList(list);
-    }, [])
+    }, [currentMap]);
 
     const openCurrentModal = (type) => {
         dispatch(openModal(type))
@@ -98,7 +82,7 @@ const Toolbar = () => {
     const selectModal = () => {
         if (currentModal == "TEXT_MODAL") {
             return (
-                <Modal title={"Add/Edit Label for Region"} description={"Adding value to data property: gdp_value"} inputText={"Enter Value"} containsInput={true} />
+                <Modal title={"Add/Edit Label for Region"} description={`Adding value to data property: ${currentMap.graphics.dataProperty}`} inputText={"Enter Value"} containsInput={true} /> // NEW CODE
             )
         }
         else if (currentModal == "ADD_DATA_PROP_MODAL") {
@@ -139,18 +123,62 @@ const Toolbar = () => {
     const ref = useRef(null);
     closeMenus(ref);
 
-    const toggleLabels = () => {
-        updates.current.graphics.showLabels = !updates.current.graphics.showLabels;
-
-        apis.updateMap(currentMap._id, updates.current).then((res) => {
-            dispatch(updateMapInStore(updates.current))
-        }).catch((err) => {
-            console.log(err);
-        })
+    // NEW CODE
+    const clickRegionColor = () => {
+        const idx = selectedFeature.featureRef.feature.properties.index;
+        setMenu("regionColor"); // open color picker
+        setC(currentMap.features[idx].style.fill); // get initial color to display in color picker
     }
 
-    const changeDataProp = (item) => {
-        updates.current.graphics.dataProperty = item;
+    // NEW CODE
+    const clickBorderColor = () => {
+        const idx = selectedFeature.featureRef.feature.properties.index;
+        setMenu("borderColor"); // open color picker
+        setC(currentMap.features[idx].style.border); // get initial color to display in color picker
+    }
+
+    // NEW CODE - update color of selected feature as user is dragging in the color picker
+    const handleColorChange = (color) => {
+        const idx = selectedFeature.featureRef.feature.properties.index;
+        if (menu == "borderColor") {
+            selectedFeature.featureRef.setStyle({color: color.hex}) // update in leaflet
+            updates.current.features[idx].style.border = color.hex; // update in copy of current map - not updating store directly
+            setC(color.hex); // so that the circle in the color picker moves
+        } else if (menu == "regionColor") {
+            selectedFeature.featureRef.setStyle({fillColor: color.hex}) // update in leaflet
+            updates.current.features[idx].style.fill = color.hex; // update in copy of current map - not updating store directly
+            setC(color.hex); // so that the circle in the color picker moves
+        }
+    }
+
+    // NEW CODE - generalized function to send updates to server
+    const sendUpdateToServer = (type, update=null) => {
+        switch(type) {
+            case "showLabels":
+                updates.current.graphics.showLabels = !updates.current.graphics.showLabels;
+                break;
+            case "changeDataProp":
+                updates.current.graphics.dataProperty = update;
+                break;
+            case "changeFontStyle":
+                updates.current.graphics.fontStyle = update;
+                break;
+            case "incFontSize":
+                if (updates.current.graphics.fontSize < 25) { // font size can't go above 25
+                    updates.current.graphics.fontSize++;
+                }
+                break;
+            case "decFontSize":
+                if (updates.current.graphics.fontSize > 5) { // font size can't go below 5
+                    updates.current.graphics.fontSize--;
+                }
+                break;
+            case "changeLabelPosition":
+                updates.current.graphics.labelPosition = update;
+                break;
+            case "color":
+                break;
+        }
         apis.updateMap(currentMap._id, updates.current).then((res) => {
             dispatch(updateMapInStore(updates.current))
         }).catch((err) => {
@@ -162,6 +190,8 @@ const Toolbar = () => {
         <div className="w-0.5 h-6 bg-gray-100 mx-1"></div>
     );
 
+    // NEW CODE - changed font options
+    const fontOptions = ["font-sans", "font-serif", "font-mono"]
     const fontStyleMenu = (
         <div
             ref={ref}
@@ -169,80 +199,44 @@ const Toolbar = () => {
             id="user-dropdown"
         >
             <ul className="text-[13px] py-2" aria-labelledby="user-menu-button">
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        Arial
-                    </button>
-                </li>
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        Times New Roman
-                    </button>
-                </li>
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        Helvetica
-                    </button>
-                </li>
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        Poppins
-                    </button>
-                </li>
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        Verdana
-                    </button>
-                </li>
+                {fontOptions.map((font, key) => {
+                    return (
+                        <li key={key}>
+                            <button
+                                className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
+                                onClick={() => sendUpdateToServer("changeFontStyle", font)}
+                            >
+                                {font}
+                            </button>
+                        </li>
+                    )
+                })}
+                
             </ul>
         </div>
     )
 
+    // NEW CODE
+    const labelPositionOptions = ["center", "right", "left", "top", "bottom", "auto"];
     const labelPositionMenu = (
         <div
             ref={ref}
-            className="absolute overflow-y-auto max-h-44 w-40 left-[-5px] z-50 my-9 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow "
+            className="absolute overflow-y-auto max-h-44 w-36 left-[-5px] z-50 my-9 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow "
             id="user-dropdown"
         >
             <ul className="text-[13px] py-2" aria-labelledby="user-menu-button">
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        Center
-                    </button>
-                </li>
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        Right
-                    </button>
-                </li>
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        Left
-                    </button>
-                </li>
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        Top
-                    </button>
-                </li>
+                {labelPositionOptions.map((position, key) => {
+                    return (
+                        <li key={key}>
+                            <button
+                                className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100"
+                                onClick={() => sendUpdateToServer("changeLabelPosition", position)}
+                            >
+                                {position}
+                            </button>
+                        </li>
+                    )
+                })}
             </ul>
         </div>
     )
@@ -259,7 +253,7 @@ const Toolbar = () => {
                         <li key={key}>
                             <button
                                 className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                                onClick={() => changeDataProp(item)}
+                                onClick={() => sendUpdateToServer("changeDataProp", item)}
                             >
                                 {item}
                             </button>
@@ -320,12 +314,10 @@ const Toolbar = () => {
                 {border}
                 <button
                     className="px-1 hover:bg-violet-100"
-                    onClick={toggleLabels}
+                    onClick={() => sendUpdateToServer("showLabels")}
                 >
                     {currentMap.graphics.showLabels ? "Hide Labels" : "Show Labels"}
                 </button>
-                {border}
-                <button className="px-1 hover:bg-violet-100" onClick={() => { openCurrentModal("TEXT_MODAL") }}>Add Text</button>
                 {border}
                 <div className="flex px-1 relative">
                     <button
@@ -339,7 +331,9 @@ const Toolbar = () => {
                     {menu == "fontStyle" ? fontStyleMenu : null}
                 </div>
                 {border}
-                <button className="px-1" >
+                <button 
+                    className="px-1" 
+                    onClick={() => sendUpdateToServer("decFontSize")}> {/*NEW CODE*/}
                     <i className="fa-solid fa-minus"></i>
                 </button>
                 <input
@@ -348,7 +342,9 @@ const Toolbar = () => {
                     maxLength={2}
                     className="w-6 text-center"
                 />
-                <button className="px-1">
+                <button 
+                    className="px-1"
+                    onClick={() => sendUpdateToServer("incFontSize")}> {/*NEW CODE*/}
                     <i className="fa-solid fa-plus"></i>
                 </button>
                 {border}
@@ -363,24 +359,39 @@ const Toolbar = () => {
                     {menu == "labelPosition" ? labelPositionMenu : null}
                 </div>
                 {border}
+                <button // NEW CODE - disable when there is no selected feature
+                    className={selectedFeature ? `px-1 hover:bg-violet-100` : `bg-gray-200 text-gray-500 cursor-not-allowed px-1`}
+                    disabled={selectedFeature ==  null} 
+                    onClick={() => { openCurrentModal("TEXT_MODAL") }}>
+                        Add Text
+                </button>
+                {border}
                 <div className="flex relative">
-                    <button
-                        onClick={() => { setMenu("regionColor") }}
-                        className="px-1 hover:bg-violet-100"
+                    <button // NEW CODE - disable when there is no selected feature
+                        onClick={clickRegionColor}
+                        className={selectedFeature ? `px-1 hover:bg-violet-100` : `bg-gray-200 text-gray-500 cursor-not-allowed px-1`}
+                        disabled={selectedFeature ==  null}
                     >
                         Region Color
                     </button>
-                    {menu == "regionColor" ? <div ref={ref} className="absolute left-[-5px] z-50 my-9"><ChromePicker /></div> : null}
+                    {menu == "regionColor" ? 
+                        <div ref={ref} className="absolute left-[-5px] z-50 my-9">
+                            <ChromePicker color={c} onChange={handleColorChange} onChangeComplete={ () => sendUpdateToServer("color") }/>
+                        </div> : null} {/*NEW CODE*/}
                 </div>
                 {border}
                 <div className="flex relative">
-                    <button
-                        onClick={() => { setMenu("borderColor") }}
-                        className="px-1 hover:bg-violet-100"
+                    <button // NEW CODE - disable when there is no selected feature
+                        onClick={clickBorderColor}
+                        className={selectedFeature ? `px-1 hover:bg-violet-100` : `bg-gray-200 text-gray-500 cursor-not-allowed px-1`}
+                        disabled={selectedFeature ==  null}
                     >
                         Border Color
                     </button>
-                    {menu == "borderColor" ? <div ref={ref} className="absolute left-[-5px] z-50 my-9"><ChromePicker /></div> : null}
+                    {menu == "borderColor" ? 
+                        <div ref={ref} className="absolute left-[-5px] z-50 my-9">
+                            <ChromePicker color={c} onChange={handleColorChange} onChangeComplete={ () => sendUpdateToServer("color")  }/>
+                        </div> : null} {/*NEW CODE*/}
                 </div>
                 {border}
                 <button className="px-1 hover:bg-violet-100" onClick={() => { openCurrentModal("LEGEND_MODAL") }}>Legend</button>

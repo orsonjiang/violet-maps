@@ -1,82 +1,63 @@
-describe('create, read, update, and delete comment', () => {
-  beforeEach(() => {
-    cy.visit('http://localhost:5173/');
-  })
+describe('layout tests', () => {
+	beforeEach(() => {
+		cy.visit('/');
+	});
 
-  describe('view splash screen', () => {
-    it('can view splash screen', () => {
-      cy.contains('Violet Maps');
-      cy.contains('Log In');
-      cy.contains('Continue as Guest');
-    })
-  })
+	describe('view splash screen', () => {
+		it('can view splash screen', () => {
+			cy.contains('Violet Maps').should('exist');
+			cy.contains('Log In').should('exist');
+			cy.contains('Continue as Guest').should('exist');
+		});
+	});
 
-  describe('view sign up screen', () => {
-    it('click and view sign up screen', () => {
-      cy.contains('Sign Up').click();
-      cy.contains('Create your new account');
-      cy.contains('Sign Up');
-      cy.url().should('include', 'register');
-    })
-  })
+	describe('view sign up screen', () => {
+		it('click and view sign up screen', () => {
+			cy.contains('Sign Up').click();
+			cy.contains('Create your new account').should('exist');
+			cy.contains('Sign Up').should('exist');
+			cy.url().should('include', '/register');
+		});
+	});
 
-  describe('view log in screen', () => {
-    it('click and view log in screen', () => {
-      cy.contains('Log In').click();
-      cy.contains('Sign in to your account');
-      cy.contains('Forgot password?');
-      cy.url().should('include', '/login');
-    })
-  })
+	describe('view log in screen', () => {
+		it('click and view log in screen', () => {
+			cy.contains('Log In').click();
+			cy.contains('Sign in to your account').should('exist');
+			cy.contains('Forgot password?').should('exist');
+			cy.url().should('include', '/login');
+		});
+	});
 
-  describe('request reset password', () => {
-    it('click and view login then request reset password screen', () => {
-      cy.contains('Log In').click();
-      cy.contains('Forgot password?').click();
-      cy.contains('Reset your password');
-      cy.url().should('include', '/requestReset');
-    })
-  })
+	describe('visit explore' , () => {
+		it('view explore screen from splash as guest', () => {
+			cy.contains('Continue as Guest').click();
+			cy.url().should('include', '/app/home');
+			cy.contains('All Maps').should('exist');
+			cy.contains('Sort By').click();
+			cy.contains('Name').should('exist');
+		});
+	});
 
-  describe('reset password', () => {
-    it('view reset password screen', () => {
-      cy.visit('http://localhost:5173/reset/');
-      cy.get('input').should('have.length', 2);
-    })
-  })
-
-  describe('visit explore' , () => {
-    it('view explore screen from splash', () => {
-      cy.contains('Continue as Guest').click();
-      cy.url().should('include', '/app/home');
-      cy.contains('All Maps');
-      cy.contains('Sort By').click();
-      cy.contains('Name');
-    })
-  })
-
-  // describe('visit selected map page', () => {
-  //   it('view the selected map screen', () => {
-  //     cy.contains('Continue as Guest').click();
-  //     cy.url().should('include', '/app/home');
-  //     cy.contains('Choropleth Map').click();
-  //     cy.contains('Choropleth Map');
-  //     // cy.contains('America');
-  //   })
-  // })
-  /*
-  describe('visit selected map page', () => {
-    it('view the selected map screen', () => {
-      cy.contains('Continue as Guest').click();
-      cy.url().should('include', '/app/home');
-      cy.contains('This is one great map').click();
-      cy.url().should('include', '/app/map');
-      cy.contains('great');
-      cy.contains('Export').click();
-      cy.contains('JSON');
-      cy.contains('0 Comments');
-    })
-  })
-  */
+	describe('visit selected map page', () => {
+		it('view the selected map screen', () => {
+			cy.login("test.one@email.com", "testone123");
+        	cy.get('#explore-icon').click();
+			cy.wait(450);
+			cy.contains('North America Test-S').click();
+			cy.contains('North America Test-S').should('exist');
+			cy.url().should('include', '/app/map');
+			cy.contains('No tags').should('exist');
+		});
+	});
   
-})
+	describe('visit home', () => {
+		it('view home screen from splash as logged-in user', () => {
+			cy.login("test.one@email.com", "testone123");
+			cy.contains('North America Test-S').should('exist');
+			cy.contains('Choropleth map - 12042023').should('exist');
+			cy.contains('Create Map').click();
+			cy.contains('Cancel').should('exist');
+		});
+	});
+});
