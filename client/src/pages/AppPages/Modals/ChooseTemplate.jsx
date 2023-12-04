@@ -1,38 +1,34 @@
-import { useState } from "react";
-import { useDispatch } from 'react-redux';
-import { createMapTemplate } from "../../../actions/map";
-// import { setModal, closeModal } from "../../../actions/modal";
+import { useDispatch, useSelector } from 'react-redux';
+
+import { setModal } from "../../../actions/modal";
+import { setTemplate } from "../../../actions/newMap";
+
+import Dialog from './components/Dialog';
 
 const ChooseTemplate = () => {
-    const [template, setTemplate] = useState("");
+    const dispatch = useDispatch()
+
+    const { template } = useSelector((state) => state.map.createMap)
 
     const chooseTemplate = (t) => {
+        // TODO: Add enums.
         setTemplate(t);
     }
 
-    const dispatch = useDispatch()
-
-    const handleClickConfirm = () => {
-        dispatch(createMapTemplate(template));
-        dispatch(setModal("DATA_PROPS"));
-    }
-
-    const closeTemplateModal = () => {
-//         dispatch(closeModal());
+    const handleConfirm = () => {
+        dispatch(setModal("SET_DATA"));
     }
 
     const selected = "text-left p-2 pt-2 rounded-md bg-indigo-200 h-full border-[1px] border-[#B998EE] drop-shadow-lg";
     const unselected = "text-left p-2 pt-2 rounded-md bg-white h-full border-[1px] border-[#B998EE] drop-shadow-lg";
     return (
         <div
-            id="popup-modal"
             tabIndex={-1}
             className="flex fixed z-50 bg-gray-800/[0.6] justify-center items-center w-full h-full inset-0 max-h-full"
         >
             <div className="relative w-full max-w-3xl max-h-md" >
                 <div className="relative bg-white rounded-lg shadow ">
                     <div className="p-2 md:mt-0 flex flex-col">
-
                         <div className="flex flex-col px-4 lg:py-0 space-y-5 my-3">
                             <h3 className="text-lg font-semibold  text-black text-left">
                                 Choose Template
@@ -90,26 +86,7 @@ const ChooseTemplate = () => {
                         <div className="text-sm font-semibold mt-2">Bubble Map</div>
                     </button>
                 </div>
-                <div className='flex m-4 pb-4'>
-                    <div className='flex space-x-2 justify-end text-sm'>
-                        <button
-                            data-modal-hide="popup-modal"
-                            type="button"
-                            className="w-1/2 text-white bg-[#8187DC] rounded-full py-1.5 px-5 shadow-md text-center focus:outline-none focus:ring-2 focus:ring-purple-300 font-medium"
-                            onClick={() => handleClickConfirm()}
-                        >
-                            Confirm
-                        </button>
-                        <button
-                            data-modal-hide="popup-modal"
-                            type="button"
-                            className="w-1/2 text-[#686868] bg-[#D9D9D9] rounded-full py-1.5 px-5 shadow-md text-center focus:outline-none focus:ring-2 focus:ring-gray-500 font-medium"
-                            onClick={() => closeTemplateModal()}
-                        >
-                            Cancel
-                        </button>
-                    </div>
-                </div> 
+                <Dialog confirm={handleConfirm}/>
             </div>
         </div>
     </div>

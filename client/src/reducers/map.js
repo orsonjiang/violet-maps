@@ -3,11 +3,12 @@ import { mapTypes } from "../actionTypes";
 const initialState = {
     map: null,
     maps: [],
-    newMap: {
+    createMap: {
         name: "",
         geometry: {},
         properties: {},
         graphics: {},
+        template: '',
     }
 }
 
@@ -28,7 +29,16 @@ const map = (state = initialState, action) => {
         case mapTypes.SET_CREATE_MAP:
             return {
                 ...state,
-                newMap: action.payload
+                createMap: action.payload
+            }
+        
+        case mapTypes.SET_TEMPLATE:
+            return {
+                ...state,
+                createMap: {
+                    ...state.createMap,
+                    template: action.payload
+                }
             }
 
         default:

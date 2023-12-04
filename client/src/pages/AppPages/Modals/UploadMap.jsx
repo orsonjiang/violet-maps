@@ -4,7 +4,10 @@ import { useDispatch } from 'react-redux';
 import * as shapefile from 'shapefile';
 import { kml } from '@tmcw/togeojson';
 
-import { setCreateMap } from '../../../actions/map'
+import { ModalTypes } from "../../../constants";
+import { setNewMap } from "../../../actions/newMap";
+import { setModal } from "../../../actions/modal";
+
 import Dialog from './components/Dialog';
 
 const UploadMap = () => {
@@ -123,7 +126,7 @@ const UploadMap = () => {
             properties.push(feature.properties);
         }
 
-        dispatch(setCreateMap({
+        dispatch(setNewMap({
             name: parsedFilename,
             geometry: geometry,
             properties: properties,
@@ -148,7 +151,7 @@ const UploadMap = () => {
                 },
             },
         }));
-        dispatch(setModal("CHOOSE_TEMPLATE"));
+        dispatch(setModal(ModalTypes.CHOOSE_TEMPLATE));
     }
 
     return (

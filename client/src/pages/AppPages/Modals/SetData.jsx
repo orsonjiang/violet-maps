@@ -1,18 +1,50 @@
 import { useState, useEffect, useRef } from "react";
-import { ChromePicker } from "react-color"
 import { useSelector, useDispatch } from 'react-redux';
-import { createMapProperties, setCurrentMap } from "../../../actions/map";
-// import { closeModal } from "../../../actions/modal";
-import apis from "../../../api/api";
 import { useNavigate } from 'react-router-dom';
+import { ChromePicker } from "react-color"
 
-const DataInfo = ({view}) => {
+import { setName, setColor } from "../../../actions/newMap";
+import { setMap } from "../../../actions/map";
+import apis from "../../../api/api";
+import { closeModal } from "../../../helpers";
+
+import Dialog from "./components/Dialog";
+
+const SetData = () => {
+    const dispatch = useDispatch()
     const navigate = useNavigate();
+    const ref = useRef(null);
+    
     const [menu, setMenu] = useState("none");
     const [dataPropList, setDataPropList] = useState([]);
-    const [dataProp, setDataProp] = useState("N/A");
-    const [name, setName] = useState("");
-    const [color, setColor] = useState("#D8B4FE");
+    const { newMap } = useSelector((state)=> state.newMap);
+
+    useEffect(()=> {
+        const list = []; // list of data props for user to choose
+        for (const [key, value] of Object.entries(createMap.properties)) {
+            switch (createMap.template) {
+                case "string":
+                    if (typeof value == "string") {
+                        list.push(key);
+                    }
+                    break;
+
+                case "":
+                    if (typeof value == "number" || typeof value == "string") {
+                        list.push(key);
+                    }
+                    break;
+                
+                default:
+                    if (typeof value == "number") {
+                        list.push(key);
+                    }
+                    break;
+            }
+        }
+
+        setDataPropList(list);
+    }, [])
 
     const closeMenus = (ref) => {
         useEffect(() => {
@@ -27,51 +59,27 @@ const DataInfo = ({view}) => {
             };
         }, [ref])
     }
-
-    const ref = useRef(null);
     closeMenus(ref);
 
-    const newMap = useSelector((state)=> state.map.newMap);
-
-    useEffect(()=> {
-        const list = []; // list of data props for user to choose
-        if (newMap.features.length > 0) { // does it have at least one feature?
-            const props = newMap.features[0].properties;
-            if (newMap.template == "string") {
-                for (const [key, value] of Object.entries(props)) {
-                    if (typeof value == "string") {
-                        list.push(key);
-                    }
-                }
-            } else if (newMap.template == "") {
-                for (const [key, value] of Object.entries(props)) {
-                    if (typeof value == "number" || typeof value == "string") {
-                        list.push(key);
-                    }
-                }
-            } else { // the rest of the templates need numerical data
-                for (const [key, value] of Object.entries(props)) {
-                    if (typeof value == "number") {
-                        list.push(key);
-                    }
-                }
-            }
-        }
-        setDataPropList(list);
-        if (list.length > 0) {
-            setDataProp(list[0]);
-        }
-    }, [])
-
     const handleNameChange = (event) => {
-        setName(event.target.value);
+        dispatch(setName(event.target.value));
     }
 
     const handleColorChange = (color) => {
-        setColor(color.hex);
+        dispatch(setColor(color.hex));
     }
 
-    const dataPropsMenu = (
+    const handleConfirm = () => {
+        apis.createMap(newMap).then((res) => {
+            apis.getMap(res.data.id, ['geometry', 'graphics']).then((res1) => {
+                dispatch(setMap(res1.data.map));
+                navigate("/app/edit");
+            }).catch((err)=> console.log(err));
+        }).catch((err)=> console.log(err))
+        closeModal();
+    }
+
+    const DataPropsMenu = (
         <div
             id="sort-by-dropdown"
             ref={ref}
@@ -98,35 +106,8 @@ const DataInfo = ({view}) => {
         </div>
     )
 
-    const dispatch = useDispatch()
-
-    useEffect(() => {
-        if (newMap.name != "") {
-            apis.postCreateMap(newMap).then((res) => {
-                apis.getCurrentMap(res.data.id).then((res1) => {
-                    dispatch(setCurrentMap(res1.data.map));
-                    navigate("/app/editmap");
-                }).catch((err)=> console.log(err));
-            }).catch((err)=> console.log(err));
-//             dispatch(closeModal());
-        }
-    }, [newMap.name])
-
-    const handleClickConfirm = () => {
-        dispatch(createMapProperties({
-            name: name,
-            dataProperty: dataProp,
-            color: color
-        }));
-    }
-
-    const closeDataInfoModal = () => {
-//         dispatch(closeModal());
-    }
-
     return (
         <div
-            id="popup-modal"
             tabIndex={-1}
             className="flex fixed z-50 bg-gray-800/[0.6] justify-center items-center w-full h-full inset-0 max-h-full"
         >
@@ -135,8 +116,8 @@ const DataInfo = ({view}) => {
                     <div className="p-2 md:mt-0 flex flex-col">
                         <div className="flex flex-col px-6 space-y-4 my-3">
                             <h3 className="text-lg font-semibold text-black flex items-center gap-3">
-                                Enter Data Info
-                                <div className="text-xs font-medium text-indigo-400">chosen template: {newMap.template == "" ? "blank" : newMap.template}</div>
+                                Finalize Map Info
+                                <div className="text-xs font-medium text-indigo-400">Chosen Template: {newMap.template == "" ? "blank" : newMap.template}</div>
                             </h3>
 
                             <div className="bg-purple-50 rounded-lg p-6 space-y-4">
@@ -172,7 +153,7 @@ const DataInfo = ({view}) => {
                                                 />
                                             </svg>
                                         </button>
-                                        {menu == "dataProps" ? dataPropsMenu : null}
+                                        {menu == "dataProps" ? DataPropsMenu : null}
                                     </div>
                                 </div> : null}
                         
@@ -188,26 +169,7 @@ const DataInfo = ({view}) => {
                                 </div> : null}
                           
                             </div>
-                            <div className='grid grid-cols-4 grid-row-1 py-1'>
-                                <div className='col-span-2 flex space-x-2 justify-end text-sm'>
-                                    <button
-                                        data-modal-hide="popup-modal"
-                                        type="button"
-                                        className="w-1/2 text-white bg-[#8187DC] rounded-full py-1.5 px-5 shadow-md text-center focus:outline-none focus:ring-2 focus:ring-purple-300 font-medium"
-                                        onClick={handleClickConfirm}
-                                    >
-                                        Confirm
-                                    </button>
-                                    <button
-                                        data-modal-hide="popup-modal"
-                                        type="button"
-                                        className="w-1/2 text-[#686868] bg-gray-200 rounded-full py-1.5 px-5 shadow-md text-center focus:outline-none focus:ring-2 focus:ring-gray-500 font-medium"
-                                        onClick={closeDataInfoModal}
-                                    >
-                                        Cancel
-                                    </button>
-                                </div>
-                            </div>
+                            <Dialog confirm={handleConfirm}/>
                         </div>
                     </div>
                 </div>
@@ -216,4 +178,4 @@ const DataInfo = ({view}) => {
     );
 };
 
-export default DataInfo;
+export default SetData;

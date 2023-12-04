@@ -1,3 +1,4 @@
 export const mapTypes = {
-	SET_MAPS: "SET_MAPS",
+	SET_MAP: "SET_MAP",
+	SET_MAPS: "SET_MAPS"
 };

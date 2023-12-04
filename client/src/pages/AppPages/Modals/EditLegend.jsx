@@ -1,16 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import { ChromePicker } from "react-color"
-import { useDispatch } from "react-redux";
-// import { closeModal } from "../../../actions/modal";
+
+import Dialog from "./components/Dialog";
 
 const Legend = () => {
+    const ref = useRef(null);
+
     const [menu, setMenu] = useState("none");
-
-    const dispatch = useDispatch()
-
-    const closeCurrentModal = () => {
-//         dispatch(closeModal());
-    }
 
     const closeMenus = (ref) => {
         useEffect(() => {
@@ -25,11 +21,9 @@ const Legend = () => {
             };
         }, [ref])
     }
-
-    const ref = useRef(null);
     closeMenus(ref);
 
-    const legendData = [
+    const LegendData = [
         {
             color: "#ED91C4",
             description: "< 1000"
@@ -44,7 +38,7 @@ const Legend = () => {
         }
     ]
 
-    const legendPositionMenu = (
+    const LegendPositionMenu = (
         <div
             id="sort-by-dropdown"
             ref={ref}
@@ -108,7 +102,7 @@ const Legend = () => {
                                 <input type="text" placeholder="Name your legend" className="rounded-lg p-1.5 px-3 bg-gray-100 w-full" />
                             </div>
                             <div className="text-[14px] bg-purple-100 rounded-lg py-3 px-6 justify-center">
-                                {legendData.map((row, index) => {
+                                {LegendData.map((row, index) => {
                                     return (
                                         <div key={index}>
                                             <ol className="list-decimal list-inside my-3">
@@ -156,27 +150,10 @@ const Legend = () => {
                                             />
                                         </svg>
                                     </button>
-                                    {menu == "position" ? legendPositionMenu : null}
+                                    {menu == "position" ? LegendPositionMenu : null}
                                 </div>
                             </div>
-                            <div className='grid grid-cols-4 grid-row-1 py-1'>
-                                <div className='col-span-2 flex space-x-2 justify-end text-sm'>
-                                    <button
-                                        data-modal-hide="popup-modal"
-                                        type="button"
-                                        className="w-1/2 text-white bg-accent rounded-full py-1.5 px-5 shadow-md text-center focus:outline-none focus:ring-2 focus:ring-purple-300 font-medium"
-                                    >
-                                        Confirm
-                                    </button>
-                                    <button
-                                        data-modal-hide="popup-modal"
-                                        type="button"
-                                        className="w-1/2 text-[#686868] bg-gray-200 rounded-full py-1.5 px-5 shadow-md text-center focus:outline-none focus:ring-2 focus:ring-gray-500 font-medium" onClick={closeCurrentModal}
-                                    >
-                                        Cancel
-                                    </button>
-                                </div>
-                            </div>
+                            <Dialog />
                         </div>
                     </div>
                 </div>
