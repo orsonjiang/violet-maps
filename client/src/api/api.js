@@ -1,5 +1,5 @@
 import axios from "axios";
-import qs from "query-string";
+import { options } from "../../../server/routes/apiRouter";
 
 axios.defaults.withCredentials = true;
 
@@ -7,16 +7,24 @@ const api = axios.create({
     baseURL: `${import.meta.env.VITE_SERVER_URL}/api`
 })
 
-const getMaps = (view, searchText, searchBy, username) => {
-    return api.get(`/maps`, {
-        view: view,
-        searchText: searchText,
-        searchBy: searchBy,
-        username: username
-    })
-}
-const postCreateMap = (data) => api.post("/map", data);
-const getCurrentMap = (id) => api.get(`/map/${id}`);
+const getMaps = (view, searchBy, searchText) => {
+    const options = {
+        params: {
+            view: view,
+            searchBy: searchBy,
+            searchText: searchText,
+        }
+    };
+
+    return api.get("/maps", {}, options);
+};
+const createMap = (data) => api.post("/map", data);
+const getMap = (id, populate) => {
+    options = {
+        params: populate
+    }
+    return api.get(`/map/${id}`, {}, options)
+};
 const updateMap = (id, data) => {
     return api.put(`/map/${id}`, {
         map: data
@@ -25,9 +33,9 @@ const updateMap = (id, data) => {
 const deleteMap = (id) => api.delete(`/map/${id}`);
 
 const apis = {
-    postCreateMap,
-    getCurrentMap,
     getMaps,
+    createMap,
+    getMap,
     updateMap,
     deleteMap
 };
