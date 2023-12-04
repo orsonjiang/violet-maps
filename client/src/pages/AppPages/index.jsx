@@ -13,7 +13,9 @@ import Home from './Home';
 import Explore from './Explore';
 import Map from './Map';
 import Edit from './Edit';
-import UploadMap from './components/Modals/UploadMap';
+import UploadMap from './Modals/UploadMap';
+import ChooseTemplate from './Modals/ChooseTemplate';
+import SetData from './Modals/SetData';
 
 const AppPages = () => {
     const dispatch = useDispatch();
@@ -40,7 +42,9 @@ const AppPages = () => {
     }, []);
 
     const renderModal = {
-        [ModalTypes.UPLOAD_MAP]: <UploadMap />
+        [ModalTypes.UPLOAD_MAP]: <UploadMap />,
+        [ModalTypes.CHOOSE_TEMPLATE]: <ChooseTemplate />,
+        [ModalTypes.SET_DATA]: <SetData />
     };
 
     const renderView = {
