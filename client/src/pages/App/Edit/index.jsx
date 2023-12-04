@@ -78,6 +78,7 @@ const EditMap = () => {
                 {
                     permanent: true,
                     direction: 'center',
+                    className: `bg-white border-transparent shadow-none text-[12px] ${currentMap.graphics.fontStyle}` // NEW CODE - tooltip styling
                 })
         }
     }
@@ -103,7 +104,7 @@ const EditMap = () => {
             map.current.on('drag', function() {
                 map.current.panInsideBounds(bounds, { animate: false });
             });
-
+            
             // get the map data from the store and convert back to geojson
             const convertToGeoJSON = async () => {
                 //convert from base64 back to string

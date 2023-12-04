@@ -160,6 +160,9 @@ const Toolbar = () => {
             case "changeDataProp":
                 updates.current.graphics.dataProperty = update;
                 break;
+            case "changeFontStyle":
+                updates.current.graphics.fontStyle = update;
+                break;
             case "color":
                 break;
         }
@@ -174,6 +177,8 @@ const Toolbar = () => {
         <div className="w-0.5 h-6 bg-gray-100 mx-1"></div>
     );
 
+    // NEW CODE - changed font options
+    const fontOptions = ["font-sans", "font-serif", "font-mono"]
     const fontStyleMenu = (
         <div
             ref={ref}
@@ -181,41 +186,19 @@ const Toolbar = () => {
             id="user-dropdown"
         >
             <ul className="text-[13px] py-2" aria-labelledby="user-menu-button">
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        Arial
-                    </button>
-                </li>
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        Times New Roman
-                    </button>
-                </li>
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        Helvetica
-                    </button>
-                </li>
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        Poppins
-                    </button>
-                </li>
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        Verdana
-                    </button>
-                </li>
+                {fontOptions.map((font, key) => {
+                    return (
+                        <li key={key}>
+                            <button
+                                className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
+                                onClick={() => sendUpdateToServer("changeFontStyle", font)}
+                            >
+                                {font}
+                            </button>
+                        </li>
+                    )
+                })}
+                
             </ul>
         </div>
     )

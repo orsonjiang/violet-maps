@@ -45,7 +45,7 @@ createMap = async (req, res) => {
         data: buf,
         features: body.features,
         graphics: {
-            fontStyle: "Times New Roman",
+            fontStyle: "font-sans",
             fontSize: 12,
             labelPosition: "Center",
             dataProperty: body.dataProperty,
@@ -172,8 +172,8 @@ updateMap = async (req, res) => {
             map.publishedDate = req.body.map.publishedDate;
             map.social = req.body.map.social;
             // map.social.comments = req.body.map.social.comments;
-            map.graphics.showLabels = req.body.map.graphics.showLabels;
-            map.graphics.dataProperty = req.body.map.graphics.dataProperty;
+            map.graphics = req.body.map.graphics; // NEW CODE
+            // map.graphics.dataProperty = req.body.map.graphics.dataProperty;
             map.features = req.body.map.features;
 
             map.save().then(() => {
