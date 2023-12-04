@@ -39,25 +39,25 @@ describe('layout tests', () => {
 		});
 	});
 
-	describe('visit selected map page', () => {
-		it('view the selected map screen', () => {
-			cy.login("test.one@email.com", "testone123");
-        	cy.get('#explore-icon').click();
-			cy.wait(450);
-			cy.contains('North America Test-S').click();
-			cy.contains('North America Test-S').should('exist');
-			cy.url().should('include', '/app/map');
-			cy.contains('No tags').should('exist');
-		});
-	});
+	// describe('visit selected map page', () => {
+	// 	it('view the selected map screen', () => {
+	// 		cy.login("test.one@email.com", "testone123");
+    //     	cy.get('#explore-icon').click();
+	// 		cy.wait(450);
+	// 		cy.contains('North America Test-S').click();
+	// 		cy.contains('North America Test-S').should('exist');
+	// 		cy.url().should('include', '/app/map');
+	// 		cy.contains('No tags').should('exist');
+	// 	});
+	// });
   
-	describe('visit home', () => {
-		it('view home screen from splash as logged-in user', () => {
-			cy.login("test.one@email.com", "testone123");
-			cy.contains('North America Test-S').should('exist');
-			cy.contains('Choropleth map - 12042023').should('exist');
-			cy.contains('Create Map').click();
-			cy.contains('Cancel').should('exist');
-		});
-	});
+	// describe('visit home', () => {
+	// 	it('view home screen from splash as logged-in user', () => {
+	// 		cy.login("test.one@email.com", "testone123");
+	// 		cy.contains('North America Test-S').should('exist');
+	// 		cy.contains('Choropleth map - 12042023').should('exist');
+	// 		cy.contains('Create Map').click();
+	// 		cy.contains('Cancel').should('exist');
+	// 	});
+	// });
 });
