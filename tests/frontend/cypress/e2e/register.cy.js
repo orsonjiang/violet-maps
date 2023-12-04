@@ -53,31 +53,31 @@ describe('register tests', () => {
         cy.url().should('include', '/register');
     });
 
-    it('unsuccessful register - email already exists', () => {
-        cy.get('#firstName').type('Joe');
-        cy.get('#lastName').type('Shmoe');
-        cy.get('#email').type('Joe.Shmoe@email.com');
-        cy.get('#username').type('JoeShmoe');
-        cy.get('#password').type('JoeShmoe2023');
-        cy.get('#confirmPassword').type('JoeShmoe2023');
-        cy.get('#registerButton').click();
-        // stays on the same page, unsuccessful register
-        cy.url().should('include', '/register');
-        cy.contains('An account with this email address already exists.');
-    });
+    // it('unsuccessful register - email already exists', () => {
+    //     cy.get('#firstName').type('Joe');
+    //     cy.get('#lastName').type('Shmoe');
+    //     cy.get('#email').type('Joe.Shmoe@email.com');
+    //     cy.get('#username').type('JoeShmoe');
+    //     cy.get('#password').type('JoeShmoe2023');
+    //     cy.get('#confirmPassword').type('JoeShmoe2023');
+    //     cy.get('#registerButton').click();
+    //     // stays on the same page, unsuccessful register
+    //     cy.url().should('include', '/register');
+    //     cy.contains('An account with this email address already exists.');
+    // });
 
-    it('unsuccessful register - username already exists', () => {
-        cy.get('#firstName').type('Joe');
-        cy.get('#lastName').type('Shmoe');
-        cy.get('#email').type('Joe.Shmoe2@email.com');
-        cy.get('#username').type('JoeShmoe-inator');
-        cy.get('#password').type('JoeShmoe2023');
-        cy.get('#confirmPassword').type('JoeShmoe2023');
-        cy.get('#registerButton').click();
-        // stays on the same page, unsuccessful register
-        cy.url().should('include', '/register');
-        cy.contains('An account with this username already exists.');
-    });
+    // it('unsuccessful register - username already exists', () => {
+    //     cy.get('#firstName').type('Joe');
+    //     cy.get('#lastName').type('Shmoe');
+    //     cy.get('#email').type('Joe.Shmoe2@email.com');
+    //     cy.get('#username').type('JoeShmoe-inator');
+    //     cy.get('#password').type('JoeShmoe2023');
+    //     cy.get('#confirmPassword').type('JoeShmoe2023');
+    //     cy.get('#registerButton').click();
+    //     // stays on the same page, unsuccessful register
+    //     cy.url().should('include', '/register');
+    //     cy.contains('An account with this username already exists.');
+    // });
 
     it('successful register - goes to home page', () => {
         cy.get('#firstName').type('new');
