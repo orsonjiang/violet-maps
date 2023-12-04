@@ -163,6 +163,16 @@ const Toolbar = () => {
             case "changeFontStyle":
                 updates.current.graphics.fontStyle = update;
                 break;
+            case "incFontSize":
+                if (updates.current.graphics.fontSize < 25) { // font size can't go above 25
+                    updates.current.graphics.fontSize++;
+                }
+                break;
+            case "decFontSize":
+                if (updates.current.graphics.fontSize > 5) { // font size can't go below 5
+                    updates.current.graphics.fontSize--;
+                }
+                break;
             case "color":
                 break;
         }
@@ -332,7 +342,9 @@ const Toolbar = () => {
                     {menu == "fontStyle" ? fontStyleMenu : null}
                 </div>
                 {border}
-                <button className="px-1" >
+                <button 
+                    className="px-1" 
+                    onClick={() => sendUpdateToServer("decFontSize")}> {/*NEW CODE*/}
                     <i className="fa-solid fa-minus"></i>
                 </button>
                 <input
@@ -341,7 +353,9 @@ const Toolbar = () => {
                     maxLength={2}
                     className="w-6 text-center"
                 />
-                <button className="px-1">
+                <button 
+                    className="px-1"
+                    onClick={() => sendUpdateToServer("incFontSize")}> {/*NEW CODE*/}
                     <i className="fa-solid fa-plus"></i>
                 </button>
                 {border}
