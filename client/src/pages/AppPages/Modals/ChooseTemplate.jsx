@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from 'react-redux';
 import { createMapTemplate } from "../../../actions/map";
-// import { openModal, closeModal } from "../../../actions/modal";
+// import { setModal, closeModal } from "../../../actions/modal";
 
 const ChooseTemplate = () => {
     const [template, setTemplate] = useState("");
@@ -14,7 +14,7 @@ const ChooseTemplate = () => {
 
     const handleClickConfirm = () => {
         dispatch(createMapTemplate(template));
-        dispatch(openModal("DATA_PROPS"));
+        dispatch(setModal("DATA_PROPS"));
     }
 
     const closeTemplateModal = () => {

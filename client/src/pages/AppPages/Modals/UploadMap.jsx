@@ -133,7 +133,7 @@ const UploadMap = () => {
                 username: user.username
             }));
 
-            dispatch(openModal("CHOOSE_TEMPLATE"));
+            dispatch(setModal("CHOOSE_TEMPLATE"));
         }
     }
 
@@ -180,6 +180,7 @@ const UploadMap = () => {
                             {geojson != null 
                                 ? <p className="text-sm text-purple-500">Files Uploaded: {filename}</p> 
                                 : null}
+
                             <div className='grid grid-cols-4 grid-row-1 my-4'>
                                 <div className='col-span-2 flex space-x-2 justify-end text-sm'>
                                     <button
