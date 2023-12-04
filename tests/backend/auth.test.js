@@ -1,115 +1,154 @@
-// const request = require('supertest');
+const request = require('supertest');
 
-// const { app, db } = require('../../server');
-// const { User } = require('../../server/models/UserSchema');
+const { app } = require('../../server/index');
 
-// // jest.mock("axios");
+const User = require('../../server/models/User');
+const bcrypt = require("../../server/node_modules/bcryptjs");
+const auth = require('../../server/auth/index');
 
-// afterAll(() => {
-//     db.close();
-// })
+jest.mock('../../server/models/User');
+jest.mock("../../server/node_modules/bcryptjs");
+jest.mock('../../server/auth/index');
 
-// jest.mock("../../server/models/UserSchema.js", () => ({
-//     ...jest.requireActual("../../server/models/UserSchema.js"),
-//     findOne: jest.fn(),
-//     create: jest.fn().mockImplementation((...args) => {
-//         return {
-//             _id: "someUserId",
-//             username: args[0].username,
-//             email: args[0].email
-//         }
-//     })
-// }));
+beforeEach(() => {
+    jest.setTimeout(6000);
+});
 
-// jest.mock("bcryptjs", () => ({
-//     compare: jest.fn().mockImplementation(() => true),
-//     genSalt: jest.fn(),
-//     hash: jest.fn()
-// }));
+afterEach(() => {
+    jest.clearAllMocks();
+});
 
-// jest.mock("jsonwebtoken", () => ({
-//     sign: jest.fn().mockImplementation(() => "mockToken"),
-// }));
+describe('erroneous testing - POST /auth/register', () => {
+    test('should fail due to missing field', async () => {
+        const userData = {
+            firstName: 'test',
+            lastName: 'user',
+            email: 'test.user@email.com',
+            username: 'testuser01',
+            password: '',
+        };
 
-// describe("register a mock user", () => {
-//     test("POST /auth/register", async () => {
+        User.prototype.save = jest.fn().mockResolvedValue(null);
 
-//     })
-// })
+        const response = await request(app).post('/auth/register').send(userData);
 
-// // describe("register users", () => {
-// //     test("POST /auth/register", async () => {
-// //         return request(app).post("/auth/register").send({
-// //             firstName: "Jane",
-// //             lastName: "Doe",
-// //             email: "jane.doe@testemail.com",
-// //             username: "janedoe",
-// //             password: "password123", 
-// //         }).expect(200)
-// //     })
-// // })
+        expect(response.statusCode).toBe(400);
+        expect(response.body.error).toEqual(
+            'Please enter all required fields.'
+        );
+    });
+    test('should fail due to password being less than 8 characters', async () => {
+        const userData = {
+            firstName: 'test',
+            lastName: 'user',
+            email: 'test.user@email.com',
+            username: 'wrong',
+            password: 'wrong',
+        };
 
-// // describe("login user", () => {
-// //     /*
-// //     expected 200 "OK", got 400 "Bad Request"
-    
-// //     test("POST /auth/login", async () => {
-// //         return request(app).post("/auth/login").send({
-// //             email: "jane.doe@testemail.com",
-// //             password: "password123"
-// //         }).expect(200).then((res) => {
-// //             console.log(res.body)
-// //         })
-// //     })
-// //     */
-// //     test("login credentials are wrong", async () => {
-// //         return request(app).post("/auth/login").send({
-// //             email: "jane.doe@testemail.com",
-// //             password: "password"
-// //         }).expect(401).then((res) => {
-// //             expect(res.body.error).toEqual("Wrong email or password provided.")
-// //         })
-// //     })
+        User.prototype.save = jest.fn().mockResolvedValue(null);
 
-// //     test("user does not exist", async () => {
-// //         return request(app).post("/auth/login").send({
-// //             email: "fake.user@email.com",
-// //             password: "password123"
-// //         }).expect(401).then((res) => {
-// //             expect(res.body.error).toEqual("Wrong email or password provided.")
-// //         })
-// //     })
+        const response = await request(app).post('/auth/register').send(userData);
 
-// //     test("fields are blank", async () => {
-// //         return request(app).post("/auth/login").send({
-// //         }).expect(400).then((res) => {
-// //             expect(res.body.error).toEqual("Please enter all required fields.")
-// //         })
-// //     })
+        expect(response.statusCode).toBe(400);
+        expect(response.body.error).toEqual(
+            'Please enter a password of at least 8 characters.'
+        );
+    });
 
-// // })
+    test("should fail login because user does not exist", async() => {
+        const userData = {
+            email: 'test.user@email.com',
+            password: "testpassword"
+        };
 
-// // describe('successfully register the user to database', () => {
-// //     it("Should successfully register the user", async () => {
-// //         const response = await request(app).post("/auth/register").send({
-// //             firstName: 'Danny',
-// //             lastName: 'Shmanny',
-// //             email: 'Danny.Shmanny@email.com',
-// //             username: 'DanTheShman',
-// //             passwordHash: 'password'
-// //         })
-// //         expect(response.status).toEqual(200)
-// //     });
-// //     /*
-// //     it('user should be registered and added to db', async () => {
-// //         const response = await request(app).post('/auth/register').send({
-// //             firstName: 'Danny',
-// //             lastName: 'Shmanny',
-// //             email: 'Danny.Shmanny@email.com',
-// //             username: 'DanTheShman',
-// //             passwordHash: 'password'
-// //         });
-// //         expect(response.status).toBe(200)
-// //     });
-// //     */
-// // });
+        User.findOne = jest.fn().mockResolvedValue(false);
+        
+        const response = await request(app).post('/auth/login').send(userData);
+
+        expect(User.findOne).toHaveBeenCalled();
+        expect(User.findOne).toHaveBeenCalledWith({ email: "test.user@email.com" });
+
+        expect(response.statusCode).toBe(401); 
+    })
+});
+
+describe('successful register and login user', () => {
+    test('POST /auth/register', async () => {
+        const userData = {
+            firstName: 'test',
+            lastName: 'user',
+            email: 'test.user@email.com',
+            username: 'testuser01',
+            password: 'testpassword',
+        };
+
+        const savedUser = {
+            _id: "mockId",
+            username: userData.username,
+            firstName: userData.firstName,
+            lastName: userData.lastName,
+            email: userData.email,
+        };
+
+        User.prototype.save = jest.fn().mockResolvedValue(savedUser);
+
+        const response = await request(app).post('/auth/register').send(userData);
+
+        expect(response.statusCode).toBe(200);
+        expect(response.body.user).toEqual({
+            _id: "mockId",
+            username: userData.username,
+            firstName: userData.firstName,
+            lastName: userData.lastName,
+            email: userData.email,
+        });
+    });
+
+    test('POST /auth/login', async () => {
+        // mock registered user
+        const registeredUser = {
+            _id: "mockId",
+            username: 'testuser01',
+            firstName: 'test',
+            lastName: 'user',
+            email: 'test.user@email.com',
+            passwordHash: "mockPasswordHash"
+        };
+
+        const userData = {
+            email: 'test.user@email.com',
+            password: "testpassword"
+        };
+
+        User.findOne = jest.fn().mockResolvedValue(registeredUser);
+        bcrypt.compare = jest.fn().mockResolvedValue(true);
+        auth.signToken = jest.fn().mockReturnValue("mockToken");
+
+        const response = await request(app).post('/auth/login').send(userData);
+
+        expect(User.findOne).toHaveBeenCalled();
+        expect(User.findOne).toHaveBeenCalledWith({ email: "test.user@email.com" });
+        expect(bcrypt.compare).toHaveBeenCalled();
+
+        expect(response.statusCode).toBe(200);
+        expect(response.body.user).toEqual({
+            _id: "mockId",
+            username: 'testuser01',
+            firstName: 'test',
+            lastName: 'user',
+            email: 'test.user@email.com',
+        });
+
+
+    })
+})
+
+describe("Logout user", () => {
+    test("POST /logout", async() => {
+
+        const response = await request(app).post("/auth/logout").send();
+
+        expect(response.statusCode).toBe(200);
+    })
+})
