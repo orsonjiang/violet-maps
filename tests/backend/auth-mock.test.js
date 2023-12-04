@@ -6,12 +6,12 @@ const User = require('../../server/models/User');
 const bcrypt = require("../../server/node_modules/bcryptjs");
 const auth = require('../../server/auth/index');
 
+jest.mock('../../server/models/User');
+jest.mock("../../server/node_modules/bcryptjs");
+jest.mock('../../server/auth/index');
 
 beforeEach(() => {
     jest.setTimeout(6000);
-    jest.mock('../../server/models/User');
-    jest.mock("../../server/node_modules/bcryptjs");
-    jest.mock('../../server/auth/index');
 });
 
 afterEach(() => {
@@ -54,6 +54,22 @@ describe('erroneous testing - POST /auth/register', () => {
         expect(response.body.error).toEqual(
             'Please enter a password of at least 8 characters.'
         );
+    });
+
+    test("should fail login because user does not exist", async() => {
+        const userData = {
+            email: 'test.user@email.com',
+            password: "testpassword"
+        };
+
+        User.findOne = jest.fn().mockResolvedValue(false);
+        
+        const response = await request(app).post('/auth/login').send(userData);
+
+        expect(User.findOne).toHaveBeenCalled();
+        expect(User.findOne).toHaveBeenCalledWith({ email: "test.user@email.com" });
+
+        expect(response.statusCode).toBe(401); 
     })
 });
 
@@ -125,5 +141,14 @@ describe('successful register and login user', () => {
         });
 
 
+    })
+})
+
+describe("Logout user", () => {
+    test("POST /logout", async() => {
+
+        const response = await request(app).post("/auth/logout").send();
+
+        expect(response.statusCode).toBe(200);
     })
 })
