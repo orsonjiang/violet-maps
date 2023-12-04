@@ -74,11 +74,11 @@ const EditMap = () => {
             click: clickFeature
         })
         if (currentMap.graphics.showLabels) {
-            layer.bindTooltip("" + feature.properties[currentMap.graphics.dataProperty], 
+            layer.bindTooltip(`<div style='font-size: ${currentMap.graphics.fontSize}px'>` + feature.properties[currentMap.graphics.dataProperty] + "</div>", 
                 {
                     permanent: true,
-                    direction: 'center',
-                    className: `bg-white border-transparent shadow-none text-[12px] ${currentMap.graphics.fontStyle}` // NEW CODE - tooltip styling
+                    direction: currentMap.graphics.labelPosition,
+                    className: `bg-white border-transparent shadow-none ${currentMap.graphics.fontStyle}` // NEW CODE - tooltip styling
                 })
         }
     }
