@@ -1,9 +1,8 @@
 import { useState, useRef } from "react";
-import { openModal } from "../../../actions/modal";
 import { useDispatch, useSelector } from 'react-redux';
 import * as shapefile from 'shapefile';
 import { kml } from '@tmcw/togeojson';
-import { createMap } from "../../../actions/map";
+// import { createMap } from "../../../../actions/map";
 // import geobuf from "geobuf";
 // import Pbf from "pbf";
 
@@ -16,7 +15,7 @@ const UploadMap = () => {
     const dispatch = useDispatch();
 
     const closeUploadModal = () => {
-//         // dispatch(closeModal());
+        // dispatch(closeModal());
     }
 
     const handleClick = () => {
@@ -112,32 +111,6 @@ const UploadMap = () => {
                 'Please upload a file :)'
             );
         } else {
-
-            // create blob from json, then transform to readable stream
-            // const stream = new Blob([JSON.stringify(geojson)], {
-            //     type: 'application/json',
-            // }).stream();
-
-            // gzip compression
-            // const compressed = stream.pipeThrough(new CompressionStream("gzip"));
-
-            // create response
-            // const response = new Response(compressed);
-            // Get response Blob
-            // const blob = await response.blob();
-            // Get the ArrayBuffer
-            // const buffer = geobuf.encode(geojson, new Pbf());
-
-            // const buffer = await blob.arrayBuffer();
-            // const blobtext = await blob.text();
-            // console.log(typeof blobtext);
-
-            // convert to base64 encoded string
-            // const str = new Uint8Array(buffer).reduce((acc, i) => acc += String.fromCharCode.apply(null, [i]), '');
-            // console.log(str);
-            // const base64 = btoa(new Uint8Array(buffer).reduce((acc, i) => acc += String.fromCharCode.apply(null, [i]), ''));
-            // console.log(base64);
-
             let features = []
             let style = {
                 fill: "#E9D5FF",

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import apis from "../../../api/api";
+import apis from "../../../../api/api";
 import { useNavigate } from 'react-router-dom';
 
 const Modal = ({title, description, inputText, containsInput, type}) => {
