@@ -1,5 +1,4 @@
 import axios from "axios";
-import { options } from "../../../server/routes/apiRouter";
 
 axios.defaults.withCredentials = true;
 
@@ -16,7 +15,7 @@ const getMaps = (view, searchBy, searchText) => {
         }
     };
 
-    return api.get("/maps", {}, options);
+    return api.get("/maps", options);
 };
 const createMap = (data) => api.post("/map", data);
 const getMap = (id, populate) => {

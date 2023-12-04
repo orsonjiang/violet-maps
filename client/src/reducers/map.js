@@ -17,13 +17,13 @@ const map = (state = initialState, action) => {
         case mapTypes.SET_MAP:
             return {
                 ...state,
-                map: action.payload.map
+                map: action.payload
             }
 
         case mapTypes.SET_MAPS:
             return {
                 ...state,
-                maps: action.payload.maps
+                maps: action.payload
             }
 
         case mapTypes.SET_CREATE_MAP:

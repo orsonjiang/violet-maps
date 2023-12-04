@@ -6,24 +6,19 @@ import apis from '../../api/api';
 import auths from '../../api/auth';
 import { setUser } from '../../actions/user';
 import { setMaps } from '../../actions/map';
-import { ModalTypes } from '../../constants';
 
 import Navbar from './components/Navbar';
 import Home from './Home';
 import Explore from './Explore';
 import Map from './Map';
 import Edit from './Edit';
-import UploadMap from './Modals/UploadMap';
-import ChooseTemplate from './Modals/ChooseTemplate';
-import SetData from './Modals/SetData';
+import Modals from './Modals'
 
 const AppPages = () => {
     const dispatch = useDispatch();
 
     const { view } = useParams();
-    const { searchBy } = useSelector((state) => state.home);
-    const { user } = useSelector((state) => state.user);
-    const { modal } = useSelector((state) => state.modal);
+    const { searchBy } = useSelector((state) => state.collate);
 
     useEffect(() => {
         auths.postLogin({ auto: true })
@@ -34,18 +29,12 @@ const AppPages = () => {
             })
             .catch()
 
-        apis.getMaps(view, "", searchBy, user.username)
+        apis.getMaps(view, searchBy, "")
             .then((res) => {
-                dispatch(setMaps(res.data.list));
+                dispatch(setMaps(res.data.maps));
             })
             .catch()
     }, []);
-
-    const renderModal = {
-        [ModalTypes.UPLOAD_MAP]: <UploadMap />,
-        [ModalTypes.CHOOSE_TEMPLATE]: <ChooseTemplate />,
-        [ModalTypes.SET_DATA]: <SetData />
-    };
 
     const renderView = {
         'home': <Home />,
@@ -56,7 +45,7 @@ const AppPages = () => {
 
     return (
         <div>
-            {renderModal[modal]}
+            <Modals />
             <Navbar />
             <div className="py-4 px-16">
                 {renderView[view]}

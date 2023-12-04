@@ -1,7 +1,7 @@
 import { collateTypes } from "../actionTypes";
 
 const initialState = {
-    searchBy: "Map Name",
+    searchBy: "name",
     searchText: "",
     sortBy: "",
 }
