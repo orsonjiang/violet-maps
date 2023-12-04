@@ -74,12 +74,17 @@ const MapSchema = new Schema(
             fontSize: { type: Number, required: true },
             labelPosition: { type: String, required: true },
             dataProperty: { type: String, required: true },
+            choropleth: { // NEW CODE
+                dataProperty: {type: String},
+                color: {type: String},
+            },
             heatMap: {
                 dataProperty: { type: String },
             },
             showLabels: { type: Boolean, required: true },
             bubbles: {
                 dataProperty: {type: String},
+                color: {type: String}, // NEW CODE
             },
             legend: {
                 name: { type: String },

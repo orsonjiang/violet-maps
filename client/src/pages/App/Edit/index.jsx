@@ -7,6 +7,7 @@ import MapProps from "../../components/Modals/MapProps";
 import Toolbar from "./components/Toolbar";
 import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import "../../../../choropleth.js";
 
 import geobuf from "geobuf";
 import Pbf from "pbf";
@@ -135,12 +136,24 @@ const EditMap = () => {
                 return json;
             }
             convertToGeoJSON().then((geo) => {
+                if (currentMap.graphics.choropleth) { // NEW CODE: if there is a choropleth map, display this layer
+                    L.choropleth(geo, {
+                        valueProperty: currentMap.graphics.choropleth.dataProperty,
+                        scale: ['white', currentMap.graphics.choropleth.color],
+                        steps: 6,
+                        mode: 'q',
+                        style: {
+                            fillOpacity: 0.9
+                        },
+                      }).addTo(map.current)
+                }
+                
                 L.geoJSON(geo, {
                     style: function (feature) {
                         return {
                             color: currentMap.features[geo.features.indexOf(feature)].style.border,
                             fillColor: currentMap.features[geo.features.indexOf(feature)].style.fill,
-                            fillOpacity: 0.5 // NEW CODE
+                            fillOpacity: 0.9 // NEW CODE
                         }
                     },
                     onEachFeature: onEachFeature
@@ -159,13 +172,23 @@ const EditMap = () => {
                     map.current.removeLayer(layer);
                 }
             });
-
+            if (currentMap.graphics.choropleth) { // NEW CODE: if there is a choropleth map, display this layer
+                L.choropleth(geojson, {
+                    valueProperty: currentMap.graphics.choropleth.dataProperty,
+                    scale: ['white', currentMap.graphics.choropleth.color],
+                    steps: 6,
+                    mode: 'q',
+                    style: {
+                        fillOpacity: 0.9
+                    },
+                  }).addTo(map.current)
+            }
             L.geoJSON(geojson, {
                 style: function (feature) {
                     return {
                         color: currentMap.features[geojson.features.indexOf(feature)].style.border,
                         fillColor: currentMap.features[geojson.features.indexOf(feature)].style.fill,
-                        fillOpacity: 0.5 // NEW CODE
+                        fillOpacity: 0.9 // NEW CODE
                     }
                 },
                 onEachFeature: onEachFeature

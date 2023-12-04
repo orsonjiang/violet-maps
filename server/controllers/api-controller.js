@@ -49,13 +49,10 @@ createMap = async (req, res) => {
             fontSize: 12,
             labelPosition: "Center",
             dataProperty: body.dataProperty,
-            heatMap: {
-                dataProperty: "",
-            },
+            choropleth: body.template == "choropleth" ? {dataProperty: body.dataProperty, color: body.color} : null, // NEW CODE
+            heatMap: body.template == "heat" ? {dataProperty: body.dataProperty} : null, // NEW CODE
             showLabels: showLabels,
-            bubbles: {
-                dataProperty: "",
-            },
+            bubbles: body.template == "bubble" ? {dataProperty: body.dataProperty, color: body.color} : null, // NEW CODE
             legend: {
                 name: "",
                 position: "",

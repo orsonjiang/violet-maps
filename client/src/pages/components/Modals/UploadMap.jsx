@@ -140,7 +140,7 @@ const UploadMap = () => {
 
             let features = []
             let style = {
-                fill: "#f3e8ff",
+                fill: "#f3e8ff00", // NEW CODE
                 border: "#97a8fc",
                 bubble: { 
                     radius: 1,
