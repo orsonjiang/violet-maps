@@ -31,8 +31,6 @@ const AppPages = () => {
     }, []);
 
     useEffect(() => {
-
-
         apis.getMaps(view, searchBy, "")
             .then((res) => {
                 dispatch(setMaps(res.data.maps));

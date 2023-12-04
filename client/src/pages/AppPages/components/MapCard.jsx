@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import apis from "../../../api/api";
 import { setMap } from "../../../actions/map";
 
+// TODO: Make menu work.
 const MapCard = ({ mapInfo }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -47,11 +48,6 @@ const MapCard = ({ mapInfo }) => {
 
     return (
         <div>
-            {/* {modal === "rename" ? 
-                <Modal title={"Rename Map?"} description={"Confirm by typing a name for the Map of Europe"} inputText={"Enter Map Name"} containsInput={true} /> : 
-                (modal === "fork" ? <Modal title={"Fork Map?"} description={"Confirm by typing a name for the Map of Europe"} inputText={"Enter Map Name"} containsInput={true} /> : "")
-            } */}
-
             <div onClick={handleClickCard} className={`p-1 pt-1 rounded-md h-full drop-shadow-sm ${mapInfo.publishedDate == null ? "border-2 border-violet-200 bg-white" : "border-2 border-indigo-300 bg-indigo-300/[0.9]"}`}>
                 <div className="relative">
                     <button 
