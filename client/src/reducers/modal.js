@@ -1,4 +1,4 @@
-import { SET_MODAL } from "../action-types/modal-types";
+import { modalTypes } from "../actionTypes/modalTypes";
 import { ModalTypes } from "../constants";
 
 const initialState = {
@@ -7,7 +7,7 @@ const initialState = {
 
 const modal = (state = initialState, action)=> {
     switch(action.type) {
-        case SET_MODAL:
+        case modalTypes.SET_MODAL:
             return {
                 modal: action.payload
             }

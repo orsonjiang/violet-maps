@@ -1,6 +1,6 @@
-import { SET_MODAL } from "../actionTypes/modalTypes";
+import { modalTypes } from "../actionTypes";
 
 export const openModal = (data) => ({
-    type: SET_MODAL,
+    type: modalTypes.SET_MODAL,
     payload: data
 });
