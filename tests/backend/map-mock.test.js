@@ -153,3 +153,4 @@ describe("Updating map - PUT /api/map/:id", () => {
     })
 
 })
+
