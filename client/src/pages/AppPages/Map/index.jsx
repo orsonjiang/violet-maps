@@ -1,5 +1,5 @@
 import CommentCard from "./components/CommentCard";
-import Modal from "../../components/Modals/Modal";
+import Modal from "../Modals/Modal.jsx";
 import { useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { openModal } from "../../../actions/modal";

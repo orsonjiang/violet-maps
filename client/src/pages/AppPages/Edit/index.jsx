@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
-import Modal from "../../components/Modals/Modal";
-import MapProps from "../../components/Modals/MapProps";
+import Modal from "../Modals/Modal";
+import MapProps from "../Modals/MapProps";
 import Toolbar from "./components/Toolbar";
 import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';

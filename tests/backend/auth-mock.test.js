@@ -1,22 +1,15 @@
 const request = require('supertest');
 
-const User = require('../../server/models/UserSchema');
+const User = require('../../server/models/User');
 const bcrypt = require("../../server/node_modules/bcryptjs");
-// const jwt = require("jsonwebtoken");
-const mongoose = require("mongoose")
 const auth = require('../../server/auth/index');
 
 
-jest.mock('../../server/auth/index');
-jest.mock('../../server/models/UserSchema');
-jest.mock("../../server/node_modules/bcryptjs");
-bcrypt.compare.mockResolvedValue(true);
-const { app, db } = require('../../server/index');
-
-
-//jest.mock('jsonwebtoken');
-afterAll(() => {
-    db.close();
+beforeEach(() => {
+    jest.setTimeout(6000);
+    jest.mock('../../server/models/User');
+    jest.mock("../../server/node_modules/bcryptjs");
+    jest.mock('../../server/auth/index');
 });
 afterEach(() => {
     jest.clearAllMocks();
