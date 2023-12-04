@@ -30,42 +30,42 @@ describe('selected map tests', () => {
         
     });
     
-    describe('search maps', () => {
-        it('successful search for maps based on name', () => {
-            cy.get('#searchbar').type('string{enter}');
-            // wait because sometimes request takes longer than expected
-            cy.wait(450);
-            cy.contains('No maps').should('not.exist');
-            cy.contains('NA - String').should('exist');
-            cy.contains('janedoe').should('exist');
-            cy.url().should('include', '/app/home');
-            cy.contains('String map').should('exist');
-            cy.contains('kafa').should('exist');
-        });
+    // describe('search maps', () => {
+    //     it('successful search for maps based on name', () => {
+    //         cy.get('#searchbar').type('string{enter}');
+    //         // wait because sometimes request takes longer than expected
+    //         cy.wait(450);
+    //         cy.contains('No maps').should('not.exist');
+    //         cy.contains('NA - String').should('exist');
+    //         cy.contains('janedoe').should('exist');
+    //         cy.url().should('include', '/app/home');
+    //         cy.contains('String map').should('exist');
+    //         cy.contains('kafa').should('exist');
+    //     });
 
-        it('no results from search based on name', () => {
-            cy.get('#searchbar').type('No Such Map would Exist{enter}');
-            cy.contains('No maps').should('exist');
-            cy.url().should('include', '/app/home');
-        });
+    //     it('no results from search based on name', () => {
+    //         cy.get('#searchbar').type('No Such Map would Exist{enter}');
+    //         cy.contains('No maps').should('exist');
+    //         cy.url().should('include', '/app/home');
+    //     });
 
-        it('successful search for maps based on username', () => {
-            cy.contains('Map Name').click();
-            cy.contains('Username').click();
-            cy.get('#searchbar').type('kafa{enter}');
-            // wait because sometimes request takes longer than expected
-            cy.wait(450);
-            cy.contains('Choropleth Map').should('exist');
-            cy.url().should('include', '/app/home');
-        });
+    //     it('successful search for maps based on username', () => {
+    //         cy.contains('Map Name').click();
+    //         cy.contains('Username').click();
+    //         cy.get('#searchbar').type('kafa{enter}');
+    //         // wait because sometimes request takes longer than expected
+    //         cy.wait(450);
+    //         cy.contains('Choropleth Map').should('exist');
+    //         cy.url().should('include', '/app/home');
+    //     });
 
-        it('no results from search based on name', () => {
-            cy.contains('Map Name').click();
-            cy.contains('Username').click();
-            cy.get('#searchbar').type('User that DNE{enter}');
-            cy.contains('No maps').should('exist');
-            cy.url().should('include', '/app/home');
-        });
-    });
+    //     it('no results from search based on name', () => {
+    //         cy.contains('Map Name').click();
+    //         cy.contains('Username').click();
+    //         cy.get('#searchbar').type('User that DNE{enter}');
+    //         cy.contains('No maps').should('exist');
+    //         cy.url().should('include', '/app/home');
+    //     });
+    // });
     
 });

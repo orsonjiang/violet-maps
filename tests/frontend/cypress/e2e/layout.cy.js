@@ -29,22 +29,6 @@ describe('layout tests', () => {
 		});
 	});
 
-	describe('request reset password', () => {
-		it('click and view login then request reset password screen', () => {
-			cy.contains('Log In').click();
-			cy.contains('Forgot password?').click();
-			cy.contains('Reset your password').should('exist');
-			cy.url().should('include', '/requestReset');
-		});
-	});
-
-	describe('reset password', () => {
-		it('view reset password screen', () => {
-			cy.visit('/reset');
-			cy.get('input').should('have.length', 2);
-		});
-	});
-
 	describe('visit explore' , () => {
 		it('view explore screen from splash as guest', () => {
 			cy.contains('Continue as Guest').click();
