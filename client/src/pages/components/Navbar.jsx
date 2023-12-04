@@ -30,7 +30,7 @@ const Navbar = () => {
     const handleLogout = async () => {
         const req = await auths.postLogout();
         if (req.status === 200) {
-            store.dispatch(setUser(req.body));
+            store.dispatch(setUser(req.data));
             navigate('/');
         } else {
             console.log(req.error);
