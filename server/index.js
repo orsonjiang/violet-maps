@@ -12,7 +12,7 @@ const app = express();
 // SETUP THE MIDDLEWARE
 // TODO: Remove this.
 // app.use(express.urlencoded({ extended: true, limit: '200mb' }))
-app.use(express.urlencoded())
+app.use(express.urlencoded({ extended: true }))
 app.use(cors({
     origin: [process.env.CLIENT_URL],
     credentials: true
