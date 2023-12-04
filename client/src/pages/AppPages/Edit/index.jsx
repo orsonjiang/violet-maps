@@ -1,11 +1,11 @@
 import { useState, useRef, useEffect } from "react";
-import Modal from "../Modals/Modal";
-import MapProps from "../Modals/MapProps";
+// import Modal from "../Components/Modals/Modal";
+// import MapProps from "../Components/Modals/MapProps";
 import Toolbar from "./components/Toolbar";
 import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useSelector, useDispatch } from "react-redux";
-import { openModal } from '../../../actions/modal';
+import { setModal } from '../../../actions/modal';
 import geobuf from "geobuf";
 import Pbf from "pbf";
 // import { updateMapData } from "../../../actions/map";
@@ -26,7 +26,7 @@ const EditMap = () => {
     const dispatch = useDispatch();
 
     const openCurrentModal = (type) => {
-        dispatch(openModal(type));
+        dispatch(setModal(type));
     }
 
     useEffect(() => {

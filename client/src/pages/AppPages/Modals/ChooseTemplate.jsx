@@ -8,11 +8,11 @@ import Dialog from './components/Dialog';
 const ChooseTemplate = () => {
     const dispatch = useDispatch()
 
-    const { template } = useSelector((state) => state.map.createMap)
+    const { template } = useSelector((state) => state.newMap)
 
     const chooseTemplate = (t) => {
         // TODO: Add enums.
-        setTemplate(t);
+        dispatch(setTemplate(t));
     }
 
     const handleConfirm = () => {

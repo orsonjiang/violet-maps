@@ -1,12 +1,12 @@
 import CommentCard from "./components/CommentCard";
-import Modal from "../Modals/Modal.jsx";
+// import Modal from "../components/Modals/Modal.jsx";
 import { useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux";
-import { openModal } from "../../../actions/modal";
+import { setModal } from "../../../actions/modal";
 import * as L from 'leaflet';
 // import "../../../dist/leaflet.browser.print.min.js"
 // import { setView } from "../../../actions/home";
-import { updateMapInStore } from "../../../actions/map.js";
+// import { updateMapInStore } from "../../../actions/map.js";
 import apis from "../../../api/api.js";
 import { useNavigate } from "react-router-dom";
 import geobuf from "geobuf";
@@ -19,14 +19,15 @@ const Map = () => {
     const [text, setText] = useState("");
 
     const currentModal = useSelector((state) => state.modal.currentModal);
-    const currentMap = useSelector((state) => state.map.currentMap);
+    const mapObject = useSelector((state) => state.map);
+    const currentMap = mapObject.map;
     const { user } = useSelector((state) => state.user);
 
 
     const dispatch = useDispatch();
 
     const openCurrentModal = (type) => {
-        dispatch(openModal(type))
+        dispatch(setModal(type))
     }
 
     const handleInteraction = (type) => {
@@ -42,7 +43,7 @@ const Map = () => {
 
         apis.updateMap(currentMap._id, updates).then((res) => {
             console.log(res);
-            dispatch(updateMapInStore(updates))
+            // dispatch(updateMapInStore(updates))
         }).catch((err) => {
             console.log(err);
         })
@@ -76,7 +77,7 @@ const Map = () => {
             
             apis.updateMap(currentMap._id, updates).then((res) => {
                 console.log(res);
-                dispatch(updateMapInStore(updates))
+                // dispatch(updateMapInStore(updates))
                 ref.current.value = "";
             }).catch((err) => {
                 console.log(err);

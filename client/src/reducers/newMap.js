@@ -8,7 +8,7 @@ const initialState = {
 	template: '',
 }
 
-const map = (state = initialState, action) => {
+const newMap = (state = initialState, action) => {
     switch (action.type) {
         case newMapTypes.SET_NEW_MAP:
             return {
@@ -42,4 +42,4 @@ const map = (state = initialState, action) => {
     }
 };
 
-export default map;
+export default newMap;

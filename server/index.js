@@ -10,16 +10,12 @@ const PORT = process.env.PORT || 8080;
 const app = express();
 
 // SETUP THE MIDDLEWARE
-// TODO: Remove this.
-// app.use(express.urlencoded({ extended: true, limit: '200mb' }))
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: true, limit: '200mb' }))
 app.use(cors({
     origin: [process.env.CLIENT_URL],
     credentials: true
 }))
-// TODO: Remove this.
-// app.use(express.json({ limit: '200mb' }));
-app.use(express.json());
+app.use(express.json({ limit: '200mb' }));
 app.use(cookieParser());
 
 // SETUP OUR OWN ROUTERS AS MIDDLEWARE

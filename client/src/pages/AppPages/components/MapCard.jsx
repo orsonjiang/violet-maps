@@ -32,10 +32,11 @@ const MapCard = ({ mapInfo }) => {
     const handleClickCard = () => {
         apis.getMap(mapInfo._id).then((res) => {
             dispatch(setMap(res.data.map));
-            if (mapInfo.publishedDate == null) {
-                navigate("/app/edit");
-            } else {
+            console.log(mapInfo)
+            if (mapInfo.soical.publishedDate) {
                 navigate("/app/map");
+            } else {
+                navigate("/app/edit");
             }
         }).catch((err)=> console.log(err));
         

@@ -17,29 +17,33 @@ const SetData = () => {
     
     const [menu, setMenu] = useState("none");
     const [dataPropList, setDataPropList] = useState([]);
-    const { newMap } = useSelector((state)=> state.newMap);
+    const [dataProp, setDataProp] = useState("N/A");
+    const newMap = useSelector((state)=> state.newMap);
+    const { template, properties } = newMap;
 
     useEffect(()=> {
         const list = []; // list of data props for user to choose
-        for (const [key, value] of Object.entries(createMap.properties)) {
-            switch (createMap.template) {
-                case "string":
-                    if (typeof value == "string") {
-                        list.push(key);
-                    }
-                    break;
-
-                case "":
-                    if (typeof value == "number" || typeof value == "string") {
-                        list.push(key);
-                    }
-                    break;
-                
-                default:
-                    if (typeof value == "number") {
-                        list.push(key);
-                    }
-                    break;
+        for (const property of properties) {
+            for (const [key, value] of Object.entries(property)) {
+                switch (template) {
+                    case "string":
+                        if (typeof value == "string") {
+                            list.push(key);
+                        }
+                        break;
+    
+                    case "":
+                        if (typeof value == "number" || typeof value == "string") {
+                            list.push(key);
+                        }
+                        break;
+                    
+                    default:
+                        if (typeof value == "number") {
+                            list.push(key);
+                        }
+                        break;
+                }
             }
         }
 
@@ -117,7 +121,7 @@ const SetData = () => {
                         <div className="flex flex-col px-6 space-y-4 my-3">
                             <h3 className="text-lg font-semibold text-black flex items-center gap-3">
                                 Finalize Map Info
-                                <div className="text-xs font-medium text-indigo-400">Chosen Template: {newMap.template == "" ? "blank" : newMap.template}</div>
+                                <div className="text-xs font-medium text-indigo-400">Chosen Template: {template == "" ? "blank" : template}</div>
                             </h3>
 
                             <div className="bg-purple-50 rounded-lg p-6 space-y-4">
@@ -125,7 +129,7 @@ const SetData = () => {
                                     Name:
                                     <input type="text" onChange={handleNameChange} placeholder="Name your map" className="rounded-lg p-1.5 px-3 bg-white w-full" />
                                 </div> 
-                                {newMap.template != "" ?
+                                {template != "" ?
                                 <div className="text-sm flex gap-3 items-center justify-between">
                                     Data Property:
                                     <div className="relative">
@@ -157,7 +161,7 @@ const SetData = () => {
                                     </div>
                                 </div> : null}
                         
-                                {newMap.template == "bubble" || newMap.template == "choropleth" ? 
+                                {template == "bubble" || template == "choropleth" ? 
                                 <div className="flex gap-4 items-center mb-3 justify-between text-sm">
                                     Select Color: 
                                     <div className="flex relative">
