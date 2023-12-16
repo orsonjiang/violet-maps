@@ -25,19 +25,22 @@ const Tags = () => {
         if (event.code === "Enter"){
             console.log(text);
 
-            const updates = { ...currentMap };
-            delete updates["data"];
+            if (text !== "") {
+                const updates = { ...currentMap };
+                delete updates["data"];
 
-            updates.tags.push(text);
-            console.log(updates);
+                updates.tags.push(text);
+                console.log(updates);
 
-            apis.updateMap(currentMap._id, updates).then((res) => {
-                console.log(res);
-                dispatch(updateMapInStore(updates))
-            }).catch((err) => {
-                console.log(err);
-            })
+                apis.updateMap(currentMap._id, updates).then((res) => {
+                    console.log(res);
+                    dispatch(updateMapInStore(updates))
+                }).catch((err) => {
+                    console.log(err);
+                })
+            }
 
+            setText("");
             setInputBox(false);
         }
     }
@@ -52,20 +55,23 @@ const Tags = () => {
     const handleEditTag = (event) => {
         if (event.code === "Enter") {
             console.log(text);
+            if (text !== "") {
 
-            const updates = { ...currentMap };
-            delete updates["data"];
+                const updates = { ...currentMap };
+                delete updates["data"];
 
-            updates.tags[currKey] = text;
-            console.log(updates);
+                updates.tags[currKey] = text;
+                console.log(updates);
 
-            apis.updateMap(currentMap._id, updates).then((res) => {
-                console.log(res);
-                dispatch(updateMapInStore(updates))
-            }).catch((err) => {
-                console.log(err);
-            })
+                apis.updateMap(currentMap._id, updates).then((res) => {
+                    console.log(res);
+                    dispatch(updateMapInStore(updates))
+                }).catch((err) => {
+                    console.log(err);
+                })
+            }
 
+            setText("");
             setCurrKey(null);
         }
     }
@@ -75,7 +81,7 @@ const Tags = () => {
             {
                 currentMap? currentMap.tags.map((tag, key) => {
                     return (
-                        <div key={key} className="text-white bg-violet-400 hover:bg-violet-500 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 " onClick={() => handleOpenEdit(event, key)}>
+                        <div key={key} className="text-white bg-violet-400 hover:bg-violet-500 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 flex" onClick={() => handleOpenEdit(event, key)}>
                            {/* {tag}  */}
                             {key === currKey ? <input
                                 type="search"
@@ -86,6 +92,7 @@ const Tags = () => {
                                 onChange={handleUpdateText}
                                 onKeyDown={handleEditTag}
                             /> : tag}
+                            {/* <div className="hover:pl-1.5 opacity-0 hover:opacity-100">X</div> */}
                         </div>
                     )
                 }) : null}
