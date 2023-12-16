@@ -1,9 +1,6 @@
-import { useDispatch } from 'react-redux';
-
 import { setModal } from '../actions/modal';
 import { ModalTypes } from '../constants';
 
-export const closeModal = () => {
-	const dispatch = useDispatch();
+export const closeModal = (dispatch) => {
 	dispatch(setModal(ModalTypes.NONE));
 };

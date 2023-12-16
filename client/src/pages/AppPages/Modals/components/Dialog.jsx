@@ -1,10 +1,13 @@
+import { useDispatch } from 'react-redux';
 import { closeModal } from '../../../../helpers';
 
 import Button from './Button';
 
 const Dialog = ({ confirm, cancel }) => {
+    const dispatch = useDispatch()
+
     const handleConfirm = confirm;
-    const handleCancel = cancel ? cancel : closeModal;
+    const handleCancel = cancel ? cancel : () => closeModal(dispatch);
 
     return (
         <div className="grid grid-cols-4 grid-row-1 py-1">

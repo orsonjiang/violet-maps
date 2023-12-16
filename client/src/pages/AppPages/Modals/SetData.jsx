@@ -80,7 +80,7 @@ const SetData = () => {
                 navigate("/app/edit");
             }).catch((err)=> console.log(err));
         }).catch((err)=> console.log(err))
-        closeModal();
+        closeModal(dispatch);
     }
 
     const DataPropsMenu = (
