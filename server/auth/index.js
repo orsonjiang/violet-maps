@@ -20,13 +20,15 @@ const verifyToken = (req, res, next) => {
 
 const findToken = (req) => {
     const token = req.cookies.token;
+    console.log(token)
     if (!token) {
         req.userId = null;
-        return;
+        return false;
     }
 
     const verified = jwt.verify(token, process.env.JWT_SECRET);
     req.userId = verified.userId;
+    return true;
 };
 
 const signToken = (userId) => {

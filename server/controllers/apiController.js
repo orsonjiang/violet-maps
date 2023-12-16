@@ -5,18 +5,19 @@ const { findToken } = require("../auth");
 const { sendError } = require("../helpers");
 
 const Map = require("../models/Map");
-const MapGeometry = require("../models/MapGeometry");
+const MapGeometries = require("../models/MapGeometries");
 const MapProperties = require('../models/MapProperties');
 const MapGraphics = require("../models/MapGraphics");
 
 const getMaps = async (req, res) => {
+    console.log("getMaps")
     const options = {};
     const regSearch = new RegExp(req.query.searchText, "i");
 
     switch (req.query.view) {
         case "home":
             const verify = findToken(req);
-            if (!verify) return res.status(200).json({ maps: [] })
+            if (!verify) return sendError(res, "You are not logged in to view the home screen.")
             options.owner = req.userId;
             break;
         
@@ -64,11 +65,11 @@ const createMap = async (req, res) => {
 
     // TODO: Add error checking.
 
-    // MapGeometry
-    const geometry = new MapGeometry({
+    // MapGeometries
+    const geometries = new MapGeometries({
         data: body.geometry
     });
-    await geometry.save();
+    await geometries.save();
 
     // MapProperties
     const properties = new MapProperties({
@@ -81,10 +82,10 @@ const createMap = async (req, res) => {
     await graphics.save();
 
     const map = new Map({
-        name: body.map.name,
+        name: body.name,
         owner: req.userId,
         tags: [],
-        geometry: geometry._id,
+        geometry: geometries._id,
         properties: properties._id,
         graphics: graphics._id,
         social: {
