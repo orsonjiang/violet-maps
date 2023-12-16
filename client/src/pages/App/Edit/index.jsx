@@ -5,6 +5,9 @@ import { useNavigate } from "react-router-dom";
 import Modal from "../../components/Modals/Modal";
 import MapProps from "../../components/Modals/MapProps";
 import Toolbar from "./components/Toolbar";
+import Tags from "./components/Tags.jsx";
+
+// Leaflet Map libraries
 import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import "../../../../choropleth.js";
@@ -245,7 +248,7 @@ const EditMap = () => {
             <div id="map" className="w-full h-[67vh] mt-[65px] !absolute"></div> {/* NEW CODE: made leaflet map container larger */}
             {currentMap ? <Toolbar leafletMap={map.current}/> : null}
             <div className="relative top-[calc(67vh+75px)] z-[3000] flex gap-3 items-center mx-5 my-3"> {/* NEW CODE: made leaflet map container larger */}
-                {currentMap ? currentMap.tags.map((tag, key) => {
+                {/* {currentMap ? currentMap.tags.map((tag, key) => {
                     return (
                         <div key = {key} className="text-white bg-violet-400 hover:bg-violet-500 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 ">
                             {tag}
@@ -255,7 +258,8 @@ const EditMap = () => {
                 {currentMap && currentMap.tags.length == 0 ? <div className="text-gray-400">No tags</div> : null}
                 <button onClick={() => { openCurrentModal("MAP_PROPS_MODAL")}}>
                     <i className="fa-solid fa-plus"></i>
-                </button>
+                </button> */}
+                <Tags />
             </div>
             {currentModal ? selectModal() : ""}
             {/* {exportType ? exportCurrentMap() : ""} */}
