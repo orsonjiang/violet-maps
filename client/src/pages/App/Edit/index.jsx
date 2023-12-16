@@ -8,6 +8,7 @@ import Toolbar from "./components/Toolbar";
 import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import "../../../../choropleth.js";
+import easyPrint from "leaflet-easyprint";
 
 import geobuf from "geobuf";
 import Pbf from "pbf";
@@ -82,6 +83,19 @@ const EditMap = () => {
                 })
         }
     }
+
+    // NEW CODE 
+    // const printMap = () => {
+    //     L.easyPrint({
+    //         title: 'Print Map',
+    //         position: 'topright',
+    //         sizeModes: ['A4Portrait', 'A4Landscape'],
+    //         exportOnly: true,
+    //         filename: currentMap.name,
+    //         hidden: true,
+    //         hideControlContainer: true
+    //     }).addTo(map.current);
+    // }
 
     useEffect(() => {
         dispatch(setView("NONE"));
@@ -162,7 +176,18 @@ const EditMap = () => {
                 // current map in the store would now have the map data in geojson
                 // dispatch(updateMapData(geojson));
             })
-
+            
+            // printMap();
+            // L.easyPrint({
+            //     title: 'Print Map',
+            //     position: 'topright',
+            //     sizeModes: ['A4Portrait'],
+            //     exportOnly: true,
+            //     filename: currentMap.name,
+            //     hidden: false,
+            //     hideControlContainer: true
+            // }).addTo(map.current);
+            // console.log(map.current);
         }
     }, [])
 
@@ -218,7 +243,7 @@ const EditMap = () => {
                 </button>
             </div>
             <div id="map" className="w-full h-[67vh] mt-[65px] !absolute"></div> {/* NEW CODE: made leaflet map container larger */}
-            {currentMap ? <Toolbar /> : null}
+            {currentMap ? <Toolbar leafletMap={map.current}/> : null}
             <div className="relative top-[calc(67vh+75px)] z-[3000] flex gap-3 items-center mx-5 my-3"> {/* NEW CODE: made leaflet map container larger */}
                 {currentMap ? currentMap.tags.map((tag, key) => {
                     return (

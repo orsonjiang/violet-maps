@@ -37,27 +37,10 @@ export const updateSelectedFeature = (data) => ({
 // 	payload: data
 // });
 
-// export const publishMap = (data) => ({
-// 	type: PUBLISH_MAP,
-// 	payload: data
-// })
 
-// export const addComment = (data) => ({
-// 	type: ADD_COMMENT,
-// 	payload: data
-// });
 
 export const updateMapInStore = (data) => ({
 	type: UPDATE_MAP,
 	payload: data
 });
 
-export const exportMap = (data) => ({
-	type: EXPORT_MAP,
-	payload: data
-});
-
-export const setLeafletMap = (data) => ({
-	type: SET_LEAFLET_MAP,
-	payload: data
-})

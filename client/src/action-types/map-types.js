@@ -13,10 +13,6 @@ export const UPDATE_SELECTED_FEATURE = "UPDATE_SELECTED_FEATURE"; // NEW CODE: u
 // after you get the current map, you have to convert the map data back to geojson
 // export const UPDATE_MAP_DATA = "UPDATE_MAP_DATA";
 
-// export const PUBLISH_MAP = "PUBLISH_MAP";
-// export const ADD_COMMENT = "ADD_COMMENT";
 export const UPDATE_MAP = "UPDATE_MAP";
 
-export const EXPORT_MAP = "EXPORT_MAP";
 
-export const SET_LEAFLET_MAP = "SET_LEAFLET_MAP";

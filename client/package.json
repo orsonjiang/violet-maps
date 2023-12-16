@@ -23,6 +23,7 @@
     "geobuf": "^3.0.2",
     "leaflet": "^1.9.4",
     "leaflet-choropleth": "^1.1.4",
+    "leaflet-easyprint": "^2.1.9",
     "leaflet.bigimage": "^1.0.1",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",

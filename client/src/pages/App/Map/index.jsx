@@ -163,6 +163,21 @@ const Map = () => {
     const ref = useRef(null);
     closeMenus(ref);
 
+
+    const printMap = () => {
+        const printPlugin =
+            L.easyPrint({
+                title: 'Print Map',
+                sizeModes: ['A4Landscape'],
+                exportOnly: true,
+                filename: currentMap.name,
+                hidden: true,
+                hideControlContainer: true
+            }).addTo(map.current);
+
+        printPlugin.printMap('A4Landscape page', currentMap.name)
+    }
+
     const exportMenu = (
         <div
             ref={ref}
@@ -172,7 +187,7 @@ const Map = () => {
             <ul className="py-2" aria-labelledby="user-menu-button">
                 <li>
                     <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
+                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 " onClick={printMap}
                     >
                         PNG
                     </button>

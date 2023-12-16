@@ -5,53 +5,21 @@ import Legend from "../../../components/Modals/Legend";
 import AddLayer from "../../../components/Modals/AddLayer";
 import { useSelector, useDispatch } from "react-redux";
 import { openModal } from "../../../../actions/modal";
-// import * as L from 'leaflet';
-// import "../../../../dist/leaflet.browser.print.min.js"
-// import domtoimage from 'dom-to-image'
-// import "../../../../dist/Leaflet.BigImage.min.css"
-// import "../../../../dist/Leaflet.BigImage.min.js"
-// import { exportMap } from "../../../../actions/map.js";
 import apis from "../../../../api/api";
 import { updateMapInStore, updateSelectedFeature } from "../../../../actions/map";
+import easyPrint from "leaflet-easyprint";
 
-const Toolbar = () => {
+const Toolbar = ({ leafletMap }) => {
     const [menu, setMenu] = useState("none");
     const updates = useRef(null);
     const [dataPropList, setDataPropList] = useState([]);
     const [c, setC] = useState(""); // NEW CODE: color
 
     const currentModal = useSelector((state) => state.modal.currentModal);
-    // const map = useSelector((state) => state.map.leafletMap);
     const {currentMap, selectedFeature}  = useSelector((state) => state.map); // NEW CODE
 
     const dispatch = useDispatch();
-    // const exportMap = (type) => {
-    //     console.log(map);
 
-    //     var saveAsImage = function () {
-    //         return domtoimage.toPng(document.body)
-    //             .then(function (dataUrl) {
-    //                 var link = document.createElement('a');
-    //                 link.download = map.printControl.options.documentTitle || "exportedMap" + '.png';
-    //                 link.href = dataUrl;
-    //                 link.click();
-    //             });
-    //     }
-
-    //     L.control.browserPrint({
-    //         documentTitle: "printImage",
-    //         printModes: [
-    //             L.BrowserPrint.Mode.Auto("Download PNG"),
-    //         ],
-    //         printFunction: saveAsImage
-    //     }).addTo(map); 
-
-    //     // L.control.bigImage({ position: 'topright' }).addTo(map.data);
-    //     // console.log(map.data);
-
-
-
-    // }
 
     useEffect(() => {
         if (!updates.current) {
@@ -73,6 +41,7 @@ const Toolbar = () => {
             }
         }
         setDataPropList(list);
+   
     }, [currentMap]);
 
     const openCurrentModal = (type) => {
@@ -269,6 +238,32 @@ const Toolbar = () => {
         </div>
     )
 
+    // NEW CODE 
+    // const printPlugin =
+    //     L.easyPrint({
+    //         title: 'Print Map',
+    //         position: 'topright',
+    //         sizeModes: ['A4Portrait'],
+    //         exportOnly: true,
+    //         filename: currentMap.name,
+    //         hidden: true,
+    //         hideControlContainer: true
+    //     }).addTo(leafletMap);
+
+    const printMap = () => {
+        const printPlugin =
+            L.easyPrint({
+                title: 'Print Map',
+                sizeModes: ['A4Landscape'],
+                exportOnly: true,
+                filename: currentMap.name,
+                hidden: true,
+                hideControlContainer: true
+            }).addTo(leafletMap);
+
+        printPlugin.printMap('A4Landscape page', currentMap.name)
+    }
+
     const exportMenu = (
         <div
             ref={ref}
@@ -278,7 +273,7 @@ const Toolbar = () => {
             <ul className="text-[13px] py-2" aria-labelledby="user-menu-button">
                 <li>
                     <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
+                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 " onClick={printMap}
                     >
                         PNG
                     </button>
