@@ -10,7 +10,6 @@ const MapProperties = require('../models/MapProperties');
 const MapGraphics = require("../models/MapGraphics");
 
 const getMaps = async (req, res) => {
-    console.log("getMaps")
     const options = {};
     const regSearch = new RegExp(req.query.searchText, "i");
 

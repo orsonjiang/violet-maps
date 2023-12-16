@@ -20,7 +20,6 @@ const verifyToken = (req, res, next) => {
 
 const findToken = (req) => {
     const token = req.cookies.token;
-    console.log(token)
     if (!token) {
         req.userId = null;
         return false;
