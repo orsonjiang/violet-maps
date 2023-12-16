@@ -65,10 +65,10 @@ const createMap = async (req, res) => {
     // TODO: Add error checking.
 
     // MapGeometries
-    const geometries = new MapGeometries({
+    const geometry = new MapGeometries({
         data: body.geometry
     });
-    await geometries.save();
+    await geometry.save();
 
     // MapProperties
     const properties = new MapProperties({
@@ -84,7 +84,7 @@ const createMap = async (req, res) => {
         name: body.name,
         owner: req.userId,
         tags: [],
-        geometry: geometries._id,
+        geometry: geometry._id,
         properties: properties._id,
         graphics: graphics._id,
         social: {
@@ -110,15 +110,8 @@ const createMap = async (req, res) => {
 };
 
 const getMap = async (req, res) => {
-    const body = req.body;
-
-    // TODO: Verify body and other body data.
-    if (!body) {
-        return sendError(res, "You must provide a map.");
-    }
-
     Map.findOne({ _id: req.params.id })
-        .populate(body.populate)
+        .populate(req.query.populate)
         .then((map) => {
             return res.status(200).json({ map: map })
         })

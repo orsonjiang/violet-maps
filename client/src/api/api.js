@@ -20,9 +20,11 @@ const getMaps = (view, searchBy, searchText) => {
 const createMap = (data) => api.post("/map", data);
 const getMap = (id, populate) => {
     const options = {
-        params: populate
+        params: {
+            populate: populate
+        }
     }
-    return api.get(`/map/${id}`, {}, options)
+    return api.get(`/map/${id}`, options)
 };
 const updateMap = (id, data) => {
     return api.put(`/map/${id}`, {

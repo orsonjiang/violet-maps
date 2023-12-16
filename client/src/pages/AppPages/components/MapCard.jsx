@@ -30,10 +30,9 @@ const MapCard = ({ mapInfo }) => {
     closeMenus(ref);
 
     const handleClickCard = () => {
-        apis.getMap(mapInfo._id).then((res) => {
+        apis.getMap(mapInfo._id, ['owner', 'geometry', 'properties', 'graphics']).then((res) => {
             dispatch(setMap(res.data.map));
-            console.log(mapInfo)
-            if (mapInfo.soical.publishedDate) {
+            if (mapInfo.social.publishedDate) {
                 navigate("/app/map");
             } else {
                 navigate("/app/edit");
