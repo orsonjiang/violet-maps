@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { updateMapInStore } from "../../../../actions/map.js";
@@ -7,6 +7,7 @@ import apis from "../../../../api/api.js";
 const Tags = () => {
     const [text, setText] = useState("");
     const [inputBox, setInputBox] = useState(false);
+    const [currKey, setCurrKey] = useState(null);
 
     const currentMap = useSelector((state) => state.map.currentMap);
 
@@ -41,9 +42,31 @@ const Tags = () => {
         }
     }
 
-    const handleEditTag = (event, key) => {
+    const handleOpenEdit = (event, key) => {
         if (event.detail == 2) {
             console.log(key);
+            setCurrKey(key);
+        }
+    }
+
+    const handleEditTag = (event) => {
+        if (event.code === "Enter") {
+            console.log(text);
+
+            const updates = { ...currentMap };
+            delete updates["data"];
+
+            updates.tags[currKey] = text;
+            console.log(updates);
+
+            apis.updateMap(currentMap._id, updates).then((res) => {
+                console.log(res);
+                dispatch(updateMapInStore(updates))
+            }).catch((err) => {
+                console.log(err);
+            })
+
+            setCurrKey(null);
         }
     }
 
@@ -52,8 +75,17 @@ const Tags = () => {
             {
                 currentMap? currentMap.tags.map((tag, key) => {
                     return (
-                        <div key={key} className="text-white bg-violet-400 hover:bg-violet-500 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 " onClick={() => handleEditTag(event, key)}>
-                           {tag} 
+                        <div key={key} className="text-white bg-violet-400 hover:bg-violet-500 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 " onClick={() => handleOpenEdit(event, key)}>
+                           {/* {tag}  */}
+                            {key === currKey ? <input
+                                type="search"
+                                id="tagInput"
+                                className= "text-black rounded-full text-center"
+                                defaultValue={tag}
+                                required=""
+                                onChange={handleUpdateText}
+                                onKeyDown={handleEditTag}
+                            /> : tag}
                         </div>
                     )
                 }) : null}

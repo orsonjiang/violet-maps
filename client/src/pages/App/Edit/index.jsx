@@ -87,18 +87,6 @@ const EditMap = () => {
         }
     }
 
-    // NEW CODE 
-    // const printMap = () => {
-    //     L.easyPrint({
-    //         title: 'Print Map',
-    //         position: 'topright',
-    //         sizeModes: ['A4Portrait', 'A4Landscape'],
-    //         exportOnly: true,
-    //         filename: currentMap.name,
-    //         hidden: true,
-    //         hideControlContainer: true
-    //     }).addTo(map.current);
-    // }
 
     useEffect(() => {
         dispatch(setView("NONE"));
@@ -180,17 +168,6 @@ const EditMap = () => {
                 // dispatch(updateMapData(geojson));
             })
             
-            // printMap();
-            // L.easyPrint({
-            //     title: 'Print Map',
-            //     position: 'topright',
-            //     sizeModes: ['A4Portrait'],
-            //     exportOnly: true,
-            //     filename: currentMap.name,
-            //     hidden: false,
-            //     hideControlContainer: true
-            // }).addTo(map.current);
-            // console.log(map.current);
         }
     }, [])
 
@@ -248,21 +225,9 @@ const EditMap = () => {
             <div id="map" className="w-full h-[67vh] mt-[65px] !absolute"></div> {/* NEW CODE: made leaflet map container larger */}
             {currentMap ? <Toolbar leafletMap={map.current}/> : null}
             <div className="relative top-[calc(67vh+75px)] z-[3000] flex gap-3 items-center mx-5 my-3"> {/* NEW CODE: made leaflet map container larger */}
-                {/* {currentMap ? currentMap.tags.map((tag, key) => {
-                    return (
-                        <div key = {key} className="text-white bg-violet-400 hover:bg-violet-500 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 ">
-                            {tag}
-                        </div>
-                    )
-                }) : null}
-                {currentMap && currentMap.tags.length == 0 ? <div className="text-gray-400">No tags</div> : null}
-                <button onClick={() => { openCurrentModal("MAP_PROPS_MODAL")}}>
-                    <i className="fa-solid fa-plus"></i>
-                </button> */}
                 <Tags />
             </div>
             {currentModal ? selectModal() : ""}
-            {/* {exportType ? exportCurrentMap() : ""} */}
         </div>
     );
 };

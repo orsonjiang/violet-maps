@@ -169,9 +169,9 @@ updateMap = async (req, res) => {
             return res.status(400).json({ success: false, error: err});
         }
         else{
+            map.tags = req.body.map.tags;
             map.publishedDate = req.body.map.publishedDate;
             map.social = req.body.map.social;
-            // map.social.comments = req.body.map.social.comments;
             map.graphics = req.body.map.graphics; // NEW CODE
             // map.graphics.dataProperty = req.body.map.graphics.dataProperty;
             map.features = req.body.map.features;
