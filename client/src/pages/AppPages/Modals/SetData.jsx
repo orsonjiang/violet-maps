@@ -75,7 +75,7 @@ const SetData = () => {
                 placeholder={'Map Name'}
                 onChange={handleNameChange}
             />
-            <Input
+            {/* <Input
                 type={InputTypes.DROP_DOWN}
                 title={'Data Property: '}
                 onClick={() => {}}
@@ -85,7 +85,7 @@ const SetData = () => {
                 type={InputTypes.COLOR}
                 title={'Select Color: '}
                 onClick={() => {}}
-            />
+            /> */}
         </Modal>
     );
 };
