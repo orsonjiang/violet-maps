@@ -11,7 +11,7 @@ import Tags from "./components/Tags.jsx";
 import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import "../../../../choropleth.js";
-import easyPrint from "leaflet-easyprint";
+import domtoimage from "dom-to-image";
 
 import geobuf from "geobuf";
 import Pbf from "pbf";
@@ -24,13 +24,13 @@ import { updateSelectedFeature } from "../../../actions/map";
 
 const EditMap = () => {
     const map = useRef(null);
+    const mapContainer = useRef(null);
     const navigate = useNavigate();
 
     const [geojson, setGeojson] = useState(null);
 
     const currentModal = useSelector((state) => state.modal.currentModal);
     const currentMap = useSelector((state) => state.map.currentMap);
-    // const exportType = useSelector((state) => state.map.exportType);
     const user = useSelector((state) => state.user.user);
 
     const dispatch = useDispatch();
@@ -213,6 +213,27 @@ const EditMap = () => {
         }
     }
 
+    // NEW CODE: export map as png or jpg
+    const handlePrintMap = (type) => {
+
+        const options = {
+            filter: (node) => {
+                return !(node.classList.contains("leaflet-control-container")) // remove leaflet zoom toolbar from image
+            }
+        }
+
+        domtoimage.toBlob(mapContainer.current, options)
+            .then((blob) => {
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = 'map_image.' + type.toLowerCase();
+                link.click();
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+
 
     return (
         <div className="text-[13px]">
@@ -222,8 +243,8 @@ const EditMap = () => {
                     <i className="fa fa-edit mr-2 text-xl text-indigo-500" />
                 </button>
             </div>
-            <div id="map" className="w-full h-[67vh] mt-[65px] !absolute"></div> {/* NEW CODE: made leaflet map container larger */}
-            {currentMap ? <Toolbar leafletMap={map.current}/> : null}
+            <div id="map" ref={mapContainer} className="w-full h-[67vh] mt-[65px] !absolute"></div> {/* NEW CODE: made leaflet map container larger */}
+            {currentMap ? <Toolbar onExportClick={handlePrintMap}/> : null}
             <div className="relative top-[calc(67vh+75px)] z-[3000] flex gap-3 items-center mx-5 my-3"> {/* NEW CODE: made leaflet map container larger */}
                 <Tags />
             </div>

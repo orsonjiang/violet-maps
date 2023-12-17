@@ -7,9 +7,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { openModal } from "../../../../actions/modal";
 import apis from "../../../../api/api";
 import { updateMapInStore, updateSelectedFeature } from "../../../../actions/map";
-import easyPrint from "leaflet-easyprint";
 
-const Toolbar = ({ leafletMap }) => {
+const Toolbar = ({ onExportClick }) => {
     const [menu, setMenu] = useState("none");
     const updates = useRef(null);
     const [dataPropList, setDataPropList] = useState([]);
@@ -238,30 +237,9 @@ const Toolbar = ({ leafletMap }) => {
         </div>
     )
 
-    // NEW CODE 
-    // const printPlugin =
-    //     L.easyPrint({
-    //         title: 'Print Map',
-    //         position: 'topright',
-    //         sizeModes: ['A4Portrait'],
-    //         exportOnly: true,
-    //         filename: currentMap.name,
-    //         hidden: true,
-    //         hideControlContainer: true
-    //     }).addTo(leafletMap);
 
-    const printMap = () => {
-        const printPlugin =
-            L.easyPrint({
-                title: 'Print Map',
-                sizeModes: ['A4Landscape'],
-                exportOnly: true,
-                filename: currentMap.name,
-                hidden: true,
-                hideControlContainer: true
-            }).addTo(leafletMap);
-
-        printPlugin.printMap('A4Landscape page', currentMap.name)
+    const printMap = (type) => {
+        onExportClick(type);
     }
 
     const exportMenu = (
@@ -273,14 +251,14 @@ const Toolbar = ({ leafletMap }) => {
             <ul className="text-[13px] py-2" aria-labelledby="user-menu-button">
                 <li>
                     <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 " onClick={printMap}
+                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 " onClick={() => printMap("PNG")}
                     >
                         PNG
                     </button>
                 </li>
                 <li>
                     <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
+                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 " onClick={() => printMap("JPG")}
                     >
                         JPG
                     </button>
