@@ -124,9 +124,28 @@ const getMap = async (req, res) => {
 // TODO: Update.
 const updateMap = async (req, res) => {
     const body = req.body;
-    
-    return res.status(200).json({ id: "" })
-};
+
+    // TODO: Verify body and other body data.
+    if (!body) {
+        return sendError(res, "You must provide map data.");
+    }
+
+    Map.findOne({ _id: req.params.id })
+        .then((map) => {
+            MapGraphics.findOneAndUpdate({ _id: map.graphics }, body.graphics)
+                .then(() => {
+                    return res.status(204).json({ id: map._id })
+                })
+                .catch((err) => {
+                    console.log(err);
+                    return sendError(res, "The map could not be updated.")
+                })
+        })
+        .catch(err => {
+            console.log(err);
+            return sendError(res, "The map could not be found.");
+        });
+    };
 
 const deleteMap = async (req, res) => {
     Map.deleteOne({ _id: req.params.id })
