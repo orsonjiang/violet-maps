@@ -1,12 +1,14 @@
 import { useState, useEffect, useRef } from "react";
-import { ChromePicker } from "react-color"
-import Modal from "../../Modals/Modal";
-import Legend from "../../Modals/Legend";
-import AddLayer from "../../Modals/AddLayer";
 import { useSelector, useDispatch } from "react-redux";
-import { openModal } from "../../../../actions/modal";
+import { ChromePicker } from "react-color"
+
+// import { setModal } from "../../../../actions/modal";
 import apis from "../../../../api/api";
-import { updateMapInStore } from "../../../../actions/map";
+// import { updateMapInStore } from "../../../../actions/map";
+
+// import Modal from "../../Components/Modals/Modal";
+// import Legend from "../../Components/Modals/Legend";
+// import AddLayer from "../../Components/Modals/AddLayer";
 
 const Toolbar = () => {
     const [menu, setMenu] = useState("none");
@@ -58,34 +60,34 @@ const Toolbar = () => {
     }, [])
 
     const openCurrentModal = (type) => {
-        dispatch(openModal(type))
+        // dispatch(setModal(type))
     }
 
     const selectModal = () => {
-        if (currentModal == "TEXT_MODAL") {
-            return (
-                <Modal title={"Add/Edit Label for Region"} description={"Adding value to data property: gdp_value"} inputText={"Enter Value"} containsInput={true} />
-            )
-        }
-        else if (currentModal == "ADD_DATA_PROP_MODAL") {
-            return (
-                <Modal title={"Add New Data Property"} description={"Enter a name for your property"} inputText={"Enter Name"} containsInput={true} />
-            )
-        }
-        else if (currentModal == "DELETE_MAP") {
-            return (
-                <Modal title={"Delete Map?"} description={"Please confirm that you want to delete the map."} containsInput={false} />
-            )
-        }
-        else if (currentModal == "PUBLISH_MODAL") {
-            return (<Modal title={"Publish Map?"} description={"Please confirm that you want to publish this map."} containsInput={false} />);
-        }
-        else if (currentModal == "LEGEND_MODAL") {
-            return (<Legend />)
-        }
-        else if (currentModal == "ADD_LAYER") {
-            return (<AddLayer view={"edit"} containsInput={false} />)
-        }
+        // if (currentModal == "TEXT_MODAL") {
+        //     return (
+        //         <Modal title={"Add/Edit Label for Region"} description={"Adding value to data property: gdp_value"} inputText={"Enter Value"} containsInput={true} />
+        //     )
+        // }
+        // else if (currentModal == "ADD_DATA_PROP_MODAL") {
+        //     return (
+        //         <Modal title={"Add New Data Property"} description={"Enter a name for your property"} inputText={"Enter Name"} containsInput={true} />
+        //     )
+        // }
+        // else if (currentModal == "DELETE_MAP") {
+        //     return (
+        //         <Modal title={"Delete Map?"} description={"Please confirm that you want to delete the map."} containsInput={false} />
+        //     )
+        // }
+        // else if (currentModal == "PUBLISH_MODAL") {
+        //     return (<Modal title={"Publish Map?"} description={"Please confirm that you want to publish this map."} containsInput={false} />);
+        // }
+        // else if (currentModal == "LEGEND_MODAL") {
+        //     return (<Legend />)
+        // }
+        // else if (currentModal == "ADD_LAYER") {
+        //     return (<AddLayer view={"edit"} containsInput={false} />)
+        // }
     }
 
     const closeMenus = (ref) => {
@@ -109,7 +111,7 @@ const Toolbar = () => {
         updates.current.graphics.showLabels = !updates.current.graphics.showLabels;
 
         apis.updateMap(currentMap._id, updates.current).then((res) => {
-            dispatch(updateMapInStore(updates.current))
+            // dispatch(updateMapInStore(updates.current))
         }).catch((err) => {
             console.log(err);
         })
@@ -118,7 +120,7 @@ const Toolbar = () => {
     const changeDataProp = (item) => {
         updates.current.graphics.dataProperty = item;
         apis.updateMap(currentMap._id, updates.current).then((res) => {
-            dispatch(updateMapInStore(updates.current))
+            // dispatch(updateMapInStore(updates.current))
         }).catch((err) => {
             console.log(err);
         })

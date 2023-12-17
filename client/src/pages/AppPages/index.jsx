@@ -6,42 +6,37 @@ import apis from '../../api/api';
 import auths from '../../api/auth';
 import { setUser } from '../../actions/user';
 import { setMaps } from '../../actions/map';
-import { ModalTypes } from '../../constants';
 
 import Navbar from './components/Navbar';
 import Home from './Home';
 import Explore from './Explore';
 import Map from './Map';
 import Edit from './Edit';
-import UploadMap from './Modals/UploadMap';
+import Modals from './Modals'
 
 const AppPages = () => {
     const dispatch = useDispatch();
 
     const { view } = useParams();
-    const { searchBy } = useSelector((state) => state.home);
-    const { user } = useSelector((state) => state.user);
-    const { modal } = useSelector((state) => state.modal);
+    const { searchBy } = useSelector((state) => state.collate);
 
     useEffect(() => {
         auths.postLogin({ auto: true })
-            .then(req => {
-                if (req.status === 200) {
-                    dispatch(setUser(req.data));
-                }
-            })
-            .catch()
-
-        apis.getMaps(view, "", searchBy, user.username)
-            .then((res) => {
-                dispatch(setMaps(res.data.list));
-            })
-            .catch()
+        .then(req => {
+            if (req.status === 200) {
+                dispatch(setUser(req.data));
+            }
+        })
+        .catch()
     }, []);
 
-    const renderModal = {
-        [ModalTypes.UPLOAD_MAP]: <UploadMap />
-    };
+    useEffect(() => {
+        apis.getMaps(view, searchBy, "")
+            .then((res) => {
+                dispatch(setMaps(res.data.maps));
+            })
+            .catch()
+    }, [view]);
 
     const renderView = {
         'home': <Home />,
@@ -52,7 +47,7 @@ const AppPages = () => {
 
     return (
         <div>
-            {renderModal[modal]}
+            <Modals />
             <Navbar />
             <div className="py-4 px-16">
                 {renderView[view]}

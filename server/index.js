@@ -9,8 +9,6 @@ dotenv.config();
 const PORT = process.env.PORT || 8080;
 const app = express();
 
-// TODO: Investigate limit.
-
 // SETUP THE MIDDLEWARE
 app.use(express.urlencoded({ extended: true, limit: '200mb' }))
 app.use(cors({
@@ -21,10 +19,10 @@ app.use(express.json({ limit: '200mb' }));
 app.use(cookieParser());
 
 // SETUP OUR OWN ROUTERS AS MIDDLEWARE
-const authRouter = require('./routes/auth-router')
+const authRouter = require('./routes/authRouter')
 app.use('/auth', authRouter)
 
-const apiRouter = require('./routes/api-router')
+const apiRouter = require('./routes/apiRouter')
 app.use('/api', apiRouter)
 
 // INITIALIZE OUR DATABASE OBJECT
