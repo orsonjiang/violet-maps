@@ -18,17 +18,17 @@ const mapGraphicsSchema = new Schema({
 		fontSize: { type: Number, required: true },
 		// TODO: Add more enums.
 		position: { type: String, enum: ['Center'], required: true },
-	dataProperty: { type: String },
+		property: { type: String },
 	},
 	heat: {
-		dataProperty: { type: String },
+		property: { type: String },
 	},
 	bubble: {
-		dataProperty: { type: String },
+		property: { type: String },
 		color: { type: String }
 	},
 	choropleth: {
-		dataProperty: { type: String },
+		property: { type: String },
 		color: { type: String }
 	},
 	legend: {
