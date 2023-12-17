@@ -18,35 +18,27 @@ const SetData = () => {
     const navigate = useNavigate();
 
     const newMap = useSelector((state) => state.newMap);
-    const [propertiesList, setPropertiesList] = useState([]);
+    const { template, properties } = newMap;
 
-    useEffect(() => {
-        const list = []; // List of data props for user to choose from.
+    const filteredList = () => {
+        if (!properties.length) return [];
 
-        const { template, properties } = newMap;
-        for (const property of properties) {
-            for (const [key, value] of Object.entries(property)) {
-                switch (template) {
-                    case TemplateTypes.STRING:
-                        if (typeof value == 'string') {
-                            list.push(key);
-                        }
-                        break;
+        Object.filter = (obj, predicate) => 
+            Object.keys(obj)
+                .filter( key => predicate(obj[key]) )
+                .reduce( (res, key) => (res[key] = obj[key], res), {} );
 
-                    case TemplateTypes.BLANK:
-                        break;
+        const unfiltered = properties[0];
 
-                    default:
-                        if (typeof value == 'number') {
-                            list.push(key);
-                        }
-                        break;
-                }
-            }
+        switch (template) {
+            case TemplateTypes.STRING:
+                return Object.keys(Object.filter(unfiltered, value => typeof value === 'string'))
+            case TemplateTypes.BLANK:
+                return Object.keys(properties[0]);
+            default:
+                return Object.keys(Object.filter(unfiltered, value => typeof value === 'number'))
         }
-
-        setPropertiesList(list);
-    }, []);
+    }
 
     const handleConfirm = () => {
         apis.createMap(newMap)
@@ -67,7 +59,7 @@ const SetData = () => {
 
     const PropertyField = (
         <Input title={'Data Property: '}>
-            <DropDown list={propertiesList} handleItem={handleSelectProperty} type={MenuTypes.FINALIZE_DROP_DOWN}/>
+            <DropDown list={filteredList()} handleItem={handleSelectProperty} type={MenuTypes.FINALIZE_DROP_DOWN}/>
         </Input>
     );
 

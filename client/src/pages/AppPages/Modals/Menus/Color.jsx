@@ -22,6 +22,7 @@ const Color = ({ type }) => {
     };
 
 	const Exp = (
+        <Menu>
         <div className="absolute z-50 my-2">
             <ChromePicker
                 color={color}
@@ -30,11 +31,11 @@ const Color = ({ type }) => {
                 onChangeComplete={handleColorChangeComplete}
             />
         </div>
+        </Menu>
     );
         
     return (
-        <Menu>
-        <div className="relative">
+        <div className="w-3/5 relative">
             <button
                 style={{ backgroundColor: `${color}` }}
                 className={`flex justify-between w-full whitespace-nowrap items-center py-4 px-3 font-medium text-center text-white rounded-lg focus:outline-none relative`}
@@ -48,7 +49,6 @@ const Color = ({ type }) => {
             ></button>
             {menu == type ? Exp : ''}
         </div>
-        </Menu>
     );
 };
 
