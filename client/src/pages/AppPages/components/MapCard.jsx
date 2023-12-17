@@ -1,14 +1,9 @@
 import { useState, useEffect, useRef } from "react";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import apis from "../../../api/api";
-import { setMap } from "../../../actions/map";
-
 // TODO: Make menu work.
-const MapCard = ({ mapInfo }) => {
+const MapCard = ({ map }) => {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
     const ref = useRef(null);
 
     const [menu, setMenu] = useState("none");
@@ -30,15 +25,11 @@ const MapCard = ({ mapInfo }) => {
     closeMenus(ref);
 
     const handleClickCard = () => {
-        apis.getMap(mapInfo._id, ['owner', 'geometry', 'properties', 'graphics']).then((res) => {
-            dispatch(setMap(res.data.map));
-            if (mapInfo.social.publishedDate) {
-                navigate("/app/map");
-            } else {
-                navigate("/app/edit");
-            }
-        }).catch((err)=> console.log(err));
-        
+        if (map.social.publishedDate) {
+            navigate(`/app/map/${map._id}`);
+        } else {
+            navigate(`/app/edit/${map._id}`);
+        }
     }
     
     const handleMenuMapCard = (event) => {
@@ -48,7 +39,7 @@ const MapCard = ({ mapInfo }) => {
 
     return (
         <div>
-            <div onClick={handleClickCard} className={`p-1 pt-1 rounded-md h-full drop-shadow-sm ${mapInfo.publishedDate == null ? "border-2 border-violet-200 bg-white" : "border-2 border-indigo-300 bg-indigo-300/[0.9]"}`}>
+            <div onClick={handleClickCard} className={`p-1 pt-1 rounded-md h-full drop-shadow-sm ${map.social.publishedDate == null ? "border-2 border-violet-200 bg-white" : "border-2 border-indigo-300 bg-indigo-300/[0.9]"}`}>
                 <div className="relative">
                     <button 
                         onClick={handleMenuMapCard}
@@ -94,16 +85,16 @@ const MapCard = ({ mapInfo }) => {
                     className="rounded-md w-full"
                 />
                 <div className="mx-3 mt-3">
-                    <div className={`${mapInfo.publishedDate == null ? "black" : "text-white font-medium"}`}>
-                        {mapInfo.name}
+                    <div className={`${map.publishedDate == null ? "black" : "text-white font-medium"}`}>
+                        {map.name}
                     </div>
-                    <div className={`text-[13px] pt-1 ${mapInfo.publishedDate == null ? "text-violet-400" : "text-white font-medium"}`}>
-                        {mapInfo.username}
+                    <div className={`text-[13px] pt-1 ${map.publishedDate == null ? "text-violet-400" : "text-white font-medium"}`}>
+                        {map.username}
                     </div>
                     <div className="flex mt-3 pb-4 gap-2 overflow-x-auto">
-                        {mapInfo.tags.length != 0 ? mapInfo.tags.map((tag, index) => {
-                            return (<div key={index} className={`text-xs ${mapInfo.publishedDate == null? "bg-violet-200" : "bg-white/[0.8]"} w-fit py-1 px-2 rounded-full`}>{tag}</div>)
-                        }) : <div className={`text-xs ${mapInfo.publishedDate == null ? "text-gray-300" : "text-white/[0.6]"}`}>No tags</div>}
+                        {map.tags.length != 0 ? map.tags.map((tag, index) => {
+                            return (<div key={index} className={`text-xs ${map.publishedDate == null? "bg-violet-200" : "bg-white/[0.8]"} w-fit py-1 px-2 rounded-full`}>{tag}</div>)
+                        }) : <div className={`text-xs ${map.publishedDate == null ? "text-gray-300" : "text-white/[0.6]"}`}>No tags</div>}
                     </div>
                 </div>
             </div>

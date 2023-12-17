@@ -1,55 +1,64 @@
 import { useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
 import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+
+import apis from '../../../api/api';
+import { setMap } from '../../../actions/map';
 
 import Toolbar from './components/Toolbar';
 
 const EditMap = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     
+    const { id } = useParams();
     const map = useRef(null);
     const storeMap = useSelector((state) => state.map.map);
 
-    const addJson = (mapobj, map) => {
-        for (let i = 0; i < map.geometry.data.length; i++) {
-            const feature = {
-                type: 'Feature',
-                properties: map.properties.data[i],
-                geometry: map.geometry.data[i],
-                index: i,
-            };
-            
-            L.geoJSON(feature, {
-                style: (feature) => {
-                    const style = map.graphics.style[feature.index];
-                    return {
-                        color: style.border,
-                        fillColor: style.fill,
-                    };
-                },
-                onEachFeature: (feature, layer) => {
-                    const label = map.graphics.label;
-                    const property = map.properties.data[feature.index];
-                    if (label.showLabels) {
-                        layer.bindTooltip("" + property[label.dataProperty], {
-                            permanent: true,
-                            direction: label.position
-                        });
-                    }
-                }
-            }).addTo(mapobj);
+    useEffect(() => {
+        if (!storeMap) {
+            apis.getMap(id, ['owner', 'geometry', 'properties', 'graphics']).then((res) => {
+                dispatch(setMap(res.data.map));
+    
+            }).catch((err)=> console.log(err));
         }
-    };
+    }, []);
 
     useEffect(() => {
-        // TODO: Fix this.
-        if (storeMap == null) {
-            navigate('/app/home');
-        }
+        const addJson = (mapobj, map) => {
+            for (let i = 0; i < map.geometry.data.length; i++) {
+                const feature = {
+                    type: 'Feature',
+                    properties: map.properties.data[i],
+                    geometry: map.geometry.data[i],
+                    index: i,
+                };
+                
+                L.geoJSON(feature, {
+                    style: (feature) => {
+                        const style = map.graphics.style[feature.index];
+                        return {
+                            color: style.border,
+                            fillColor: style.fill,
+                        };
+                    },
+                    onEachFeature: (feature, layer) => {
+                        const label = map.graphics.label;
+                        const property = map.properties.data[feature.index];
+                        if (label.showLabels) {
+                            layer.bindTooltip("" + property[label.dataProperty], {
+                                permanent: true,
+                                direction: label.position
+                            });
+                        }
+                    }
+                }).addTo(mapobj);
+            }
+        };
 
-        if (!map.current) {
+        if (storeMap && !map.current) {
             map.current = L.map('map', { preferCanvas: true }).setView(
                 [39.74739, -105],
                 2
@@ -69,18 +78,16 @@ const EditMap = () => {
             map.current.on('drag', function () {
                 map.current.panInsideBounds(bounds, { animate: false });
             });
-
-            if (storeMap) {
-                addJson(map.current, storeMap);
-            }
         }
-    }, []);
 
-    useEffect(() => {
-        if (map.current) {
+        if (storeMap && map.current) {
             addJson(map.current, storeMap);
         }
     }, [storeMap])
+
+    if (!storeMap) {
+        return (<div>Loading Map...</div>);
+    }
 
     return (
         <div className="text-[13px]">
