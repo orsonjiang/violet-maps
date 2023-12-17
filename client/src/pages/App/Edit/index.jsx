@@ -96,7 +96,7 @@ const EditMap = () => {
         }
         if (!map.current) {
 
-            map.current = L.map('map', {preferCanvas: true}).setView([39.74739, -105], 2);
+            map.current = L.map('map').setView([39.74739, -105], 2); // NEW CODE - removed preferCanvas
 
             L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,
@@ -112,6 +112,16 @@ const EditMap = () => {
             map.current.on('drag', function() {
                 map.current.panInsideBounds(bounds, { animate: false });
             });
+
+            // NEW CODE - panes to help preserve layer order when you use the layer control
+            map.current.createPane('0');
+            map.current.createPane('1');
+            map.current.createPane('2');
+            map.current.createPane('3');
+            map.current.getPane('0').style.zIndex = 200;
+            map.current.getPane('1').style.zIndex = 250;
+            map.current.getPane('2').style.zIndex = 300;
+            map.current.getPane('3').style.zIndex = 350;
             
             // get the map data from the store and convert back to geojson
             const convertToGeoJSON = async () => {
@@ -132,8 +142,10 @@ const EditMap = () => {
                 return json;
             }
             convertToGeoJSON().then((geo) => {
+                var overlays = {}; // NEW CODE - keeps track of the overlay layers
+
                 if (currentMap.graphics.choropleth) { // NEW CODE: if there is a choropleth map, display this layer
-                    L.choropleth(geo, {
+                    const choropleth = L.choropleth(geo, {
                         valueProperty: currentMap.graphics.choropleth.dataProperty,
                         scale: ['white', currentMap.graphics.choropleth.color],
                         steps: 6,
@@ -141,10 +153,12 @@ const EditMap = () => {
                         style: {
                             fillOpacity: 0.9
                         },
+                        pane: '0'
                       }).addTo(map.current)
+                    overlays["Hide/Show Choropleth"] = choropleth;
                 }
 
-                L.geoJSON(geo, {
+                const edits = L.geoJSON(geo, {
                     style: function (feature) {
                         return {
                             color: currentMap.features[geo.features.indexOf(feature)].style.border,
@@ -152,16 +166,18 @@ const EditMap = () => {
                             fillOpacity: 0.9 // NEW CODE
                         }
                     },
-                    onEachFeature: onEachFeature
+                    onEachFeature: onEachFeature,
+                    pane: '1'
                 }).addTo(map.current);
-                var overlays = {}; // NEW CODE - keeps track of the overlay layers
+                overlays["Hide/Show Your Edits"] = edits;
+
                 if (currentMap.graphics.heatMap) { // NEW CODE: (HEAT) if there is a heat map, display this layer
                     const points = []
                     for (let i = 0; i < geo.features.length; i++) {
                         const point = centroid(geo.features[i]); // get the center coordinates of polygon
                         points.push([point.geometry.coordinates[1], point.geometry.coordinates[0], geo.features[i].properties[currentMap.graphics.dataProperty]]); // heat map will update based on selected data property
                     }
-                    const heat = L.heatLayer(points, {radius: 27, minOpacity: 0.55, gradient: {0.4: 'blue', 0.6: 'lime', 1: 'red'}}).addTo(map.current);
+                    const heat = L.heatLayer(points, {pane: '2', radius: 27, minOpacity: 0.55, gradient: {0.4: 'blue', 0.6: 'lime', 1: 'red'}}).addTo(map.current);
                     overlays["Hide/Show Heat Map"] = heat // add heat layer to overlays object
                 }
                 if (currentMap.graphics.bubbles) { // NEW CODE: (BUBBLE) if there is a bubble map, display this layer
@@ -179,10 +195,11 @@ const EditMap = () => {
                         const point = centroid(geo.features[i]); // get the center coordinates of polygon
                         circles.push(L.circleMarker([point.geometry.coordinates[1], point.geometry.coordinates[0]], {
                             radius: (geo.features[i].properties[currentMap.graphics.dataProperty] * 20) / max,
-                            color: currentMap.graphics.bubbles.color
+                            color: currentMap.graphics.bubbles.color,
+                            fillOpacity: 0.3
                         }));
                     }
-                    var bubble = L.layerGroup(circles).addTo(map.current); // put all the circles in one layer so i can easily hide/show all of them at once
+                    var bubble = L.layerGroup(circles, {pane: '3'}).addTo(map.current); // put all the circles in one layer so i can easily hide/show all of them at once
                     overlays["Hide/Show Bubbles"] = bubble // add bubble layer to overlays object
                 }
 
@@ -202,8 +219,9 @@ const EditMap = () => {
             });
             layerControl.remove(map.current); // NEW CODE - removing old layer control
 
+            var overlays = {}; // NEW CODE - keeps track of the overlay layers
             if (currentMap.graphics.choropleth) { // NEW CODE: if there is a choropleth map, display this layer
-                L.choropleth(geojson, {
+                const choropleth = L.choropleth(geojson, {
                     valueProperty: currentMap.graphics.choropleth.dataProperty,
                     scale: ['white', currentMap.graphics.choropleth.color],
                     steps: 6,
@@ -211,10 +229,12 @@ const EditMap = () => {
                     style: {
                         fillOpacity: 0.9
                     },
+                    pane: '0'
                   }).addTo(map.current)
+                overlays["Hide/Show Choropleth"] = choropleth;
             }
 
-            L.geoJSON(geojson, {
+            const edits = L.geoJSON(geojson, {
                 style: function (feature) {
                     return {
                         color: currentMap.features[geojson.features.indexOf(feature)].style.border,
@@ -222,17 +242,18 @@ const EditMap = () => {
                         fillOpacity: 0.9 // NEW CODE
                     }
                 },
-                onEachFeature: onEachFeature
+                onEachFeature: onEachFeature,
+                pane: '1'
             }).addTo(map.current);
+            overlays["Hide/Show Your Edits"] = edits;
 
-            var overlays = {}; // NEW CODE - keeps track of the overlay layers
             if (currentMap.graphics.heatMap) { // NEW CODE: (HEAT) if there is a heat map, display this layer
                 const points = []
                 for (let i = 0; i < geojson.features.length; i++) {
                     const point = centroid(geojson.features[i]); // get the center coordinates of polygon
                     points.push([point.geometry.coordinates[1], point.geometry.coordinates[0], geojson.features[i].properties[currentMap.graphics.dataProperty]]); // heat map will update based on selected data property
                 }
-                const heat = L.heatLayer(points, {radius: 27, minOpacity: 0.55, gradient: {0.4: 'blue', 0.6: 'lime', 1: 'red'}}).addTo(map.current);
+                const heat = L.heatLayer(points, {pane: '2', radius: 27, minOpacity: 0.55, gradient: {0.4: 'blue', 0.6: 'lime', 1: 'red'}}).addTo(map.current);
                 overlays["Hide/Show Heat Map"] = heat // add heat layer to overlays object
             }
 
@@ -251,10 +272,11 @@ const EditMap = () => {
                     const point = centroid(geojson.features[i]); // get the center coordinates of polygon
                     circles.push(L.circleMarker([point.geometry.coordinates[1], point.geometry.coordinates[0]], {
                         radius: (geojson.features[i].properties[currentMap.graphics.dataProperty] * 20) / max,
-                        color: currentMap.graphics.bubbles.color
+                        color: currentMap.graphics.bubbles.color,
+                        fillOpacity: 0.5
                     }));
                 }
-                var bubble = L.layerGroup(circles).addTo(map.current); // put all the circles in one layer so i can easily hide/show all of them at once
+                var bubble = L.layerGroup(circles, {pane: '3'}).addTo(map.current); // put all the circles in one layer so i can easily hide/show all of them at once
                 overlays["Hide/Show Bubbles"] = bubble // add bubble layer to overlays object
             }
         

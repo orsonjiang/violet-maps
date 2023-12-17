@@ -269,6 +269,8 @@ const Toolbar = () => {
         </div>
     )
 
+    // NEW CODE
+    const exportOptions = ["PNG", "JPG", "JSON"];
     const exportMenu = (
         <div
             ref={ref}
@@ -276,27 +278,15 @@ const Toolbar = () => {
             id="user-dropdown"
         >
             <ul className="text-[13px] py-2" aria-labelledby="user-menu-button">
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        PNG
-                    </button>
-                </li>
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        JPG
-                    </button>
-                </li>
-                <li>
-                    <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 "
-                    >
-                        JSON
-                    </button>
-                </li>
+                {exportOptions.map((item, key) => {
+                    return (
+                        <li key={key}>
+                            <button className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100">
+                                {item}
+                            </button>
+                        </li>
+                    )
+                })}
             </ul>
         </div>
     )
@@ -408,12 +398,12 @@ const Toolbar = () => {
                 </div>
                 {border}
                 <button className="px-1 hover:bg-violet-100" onClick={() => { openCurrentModal("ADD_LAYER") }}>
-                    <i className="fa-solid fa-plus mr-1.5"></i>
+                    {currentMap.graphics.bubbles ? <i className="fa-solid fa-minus mr-1.5"></i> : <i className="fa-solid fa-plus mr-1.5"></i>}{/* NEW CODE: minus or plus sign based on if bubbles are added*/}
                     Bubbles
                 </button>
                 {border}
                 <button className="px-1 hover:bg-violet-100" onClick={() => { openCurrentModal("ADD_LAYER") }}>
-                    <i className="fa-solid fa-plus mr-1.5"></i>
+                    {currentMap.graphics.heatMap ? <i className="fa-solid fa-minus mr-1.5"></i> : <i className="fa-solid fa-plus mr-1.5"></i>}{/* NEW CODE: minus or plus sign based on if heat map is added*/}
                     Heat Map
                 </button>
                 {border}
