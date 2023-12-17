@@ -69,6 +69,9 @@ const EditMap = () => {
         }
 
         if (map && refmap.current) {
+            apis.updateMap(id, map.graphics)
+                .catch((err) => console.log(err));
+
             for (let i = 0; i < map.geometry.data.length; i++) {
                 const feature = {
                     type: 'Feature',
