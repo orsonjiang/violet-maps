@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { setTemplate } from "../../../../actions/newMap";
 
-const Template = ({type, children}) => {
+const Template = ({type, image, children}) => {
 	const dispatch = useDispatch();
 
     const { template } = useSelector((state) => state.newMap);
@@ -21,7 +21,7 @@ const Template = ({type, children}) => {
             className={`${template == type ? selected : unselected}`}
         >
             <img
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/A_large_blank_world_map_with_oceans_marked_in_blue.PNG/640px-A_large_blank_world_map_with_oceans_marked_in_blue.PNG"
+                src={image}
                 alt="map-image"
                 className="border-[1px] border-[#B998EE]"
             />
