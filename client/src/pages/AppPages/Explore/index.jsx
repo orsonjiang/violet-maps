@@ -4,7 +4,7 @@ import TitleBar from '../components/TitleBar';
 
 const Explore = () => {
     return (
-        <div>
+        <div className='px-16'>
             <TitleBar title={'All Maps'}>
                 <SortBy />
             </TitleBar>

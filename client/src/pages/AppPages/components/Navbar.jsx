@@ -6,7 +6,7 @@ import apis from '../../../api/api';
 import auths from '../../../api/auth';
 import { setUser } from '../../../actions/user';
 import { setSearchBy, setSearchText } from '../../../actions/collate';
-import { setMaps } from '../../../actions/map';
+import { setMaps } from '../../../actions/maps';
 import { SearchByTypes } from '../../../constants';
 
 const Navbar = () => {

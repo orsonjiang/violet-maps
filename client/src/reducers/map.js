@@ -2,7 +2,9 @@ import { mapTypes } from "../actionTypes";
 
 const initialState = {
     map: null,
-    maps: [],
+    showLabel: {
+        a: false
+    }
 }
 
 const map = (state = initialState, action) => {
@@ -13,11 +15,20 @@ const map = (state = initialState, action) => {
                 map: action.payload
             }
 
-        case mapTypes.SET_MAPS:
+        case mapTypes.TOGGLE_LABEL:
             return {
                 ...state,
-                maps: action.payload
-            }
+                map: {
+                    ...state.map,
+                    graphics: {
+                        ...state.map.graphics,
+                        label: {
+                            ...state.map.graphics.label,
+                            showLabels: !state.map.graphics.label.showLabels
+                        }
+                    }
+                }
+            };
 
         default:
             return state;

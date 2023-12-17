@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
+import { ActionCreators } from 'redux-undo';
 import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
@@ -12,32 +13,33 @@ import Toolbar from './components/Toolbar';
 const EditMap = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    
+
+    const refmap = useRef(null);
     const { id } = useParams();
-    const map = useRef(null);
-    const storeMap = useSelector((state) => state.map.map);
+    const { map } = useSelector((state) => state.map.present);
+
+    const MAP_URL = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
 
     const clearMap = () => {
-        if (map.current) {
-            map.current.eachLayer((layer) => {
-                map.current.removeLayer(layer);
+        if (refmap.current) {
+            refmap.current.eachLayer((layer) => {
+                if (!layer._url && layer._url !== MAP_URL) {
+                    refmap.current.removeLayer(layer);
+                }
             });
-
-            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 19,
-                attribution:
-                    '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-            }).addTo(map.current);
         }
-    }
+    };
 
     useEffect(() => {
         clearMap();
-
-        if (!storeMap || storeMap._id !== id) {
-            apis.getMap(id, ['owner', 'geometry', 'properties', 'graphics']).then((res) => {
-                dispatch(setMap(res.data.map));
-            }).catch((err)=> console.log(err));
+        if (!map || map._id !== id) {
+            apis.getMap(id, ['owner', 'geometry', 'properties', 'graphics'])
+                .then((res) => {
+                    dispatch(setMap(res.data.map));
+                    dispatch(ActionCreators.clearHistory())
+                })
+                .catch((err) => console.log(err));
+            
         }
     }, []);
 
@@ -50,7 +52,7 @@ const EditMap = () => {
                     geometry: map.geometry.data[i],
                     index: i,
                 };
-                
+
                 L.geoJSON(feature, {
                     style: (feature) => {
                         const style = map.graphics.style[feature.index];
@@ -63,87 +65,90 @@ const EditMap = () => {
                         const label = map.graphics.label;
                         const property = map.properties.data[feature.index];
                         if (label.showLabels) {
-                            layer.bindTooltip("" + property[label.property], {
+                            layer.bindTooltip('' + property[label.property], {
                                 permanent: true,
-                                direction: label.position
+                                direction: label.position,
                             });
                         }
-                    }
+                    },
                 }).addTo(mapobj);
             }
         };
 
         clearMap();
 
-        if (storeMap && !map.current) {
-            map.current = L.map('map', { preferCanvas: true }).setView(
+        if (map && !refmap.current) {
+            refmap.current = L.map('map', { preferCanvas: true }).setView(
                 [39.74739, -105],
                 2
             );
 
-            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            L.tileLayer(MAP_URL, {
+                minZoom: 3,
                 maxZoom: 19,
-                attribution:
-                    '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-            }).addTo(map.current);
+            }).addTo(refmap.current);
 
             var southWest = L.latLng(-90, -180);
             var northEast = L.latLng(90, 180);
             var bounds = L.latLngBounds(southWest, northEast);
 
-            map.current.setMaxBounds(bounds);
-            map.current.on('drag', function () {
-                map.current.panInsideBounds(bounds, { animate: false });
+            refmap.current.setMaxBounds(bounds);
+            refmap.current.on('drag', function () {
+                refmap.current.panInsideBounds(bounds, { animate: false });
             });
         }
 
-        if (storeMap && map.current) {
-            addJson(map.current, storeMap);
+        if (map && refmap.current) {
+            addJson(refmap.current, map);
         }
-    }, [storeMap])
+    }, [map]);
 
-    if (!storeMap) {
-        return (<div>Loading Map...</div>);
+    if (!map) {
+        return <div>Loading Map...</div>;
     }
 
     return (
-        <div className="text-[13px]">
-            <div className="flex gap-4 mt-5 mb-2 text-2xl font-bold justify-center items-center">
-                {storeMap ? storeMap.name : '---'}
-                <button
-                    onClick={() => {
-                        openCurrentModal('RENAME_MAP');
-                    }}
-                >
-                    <i className="fa fa-edit mr-2 text-xl text-indigo-500" />
-                </button>
+        <div className="text-sm">
+            <div className="flex px-2 gap-4 mb-2 text-2xl font-bold justify-between items-center">
+                <div></div>
+                <div className='flex gap-2'>
+                    {map ? map.name : '---'}
+                    <button
+                        onClick={() => {
+                            openCurrentModal('RENAME_MAP');
+                        }}
+                    >
+                        <i className="fa fa-edit mr-2 text-xl text-indigo-500" />
+                    </button>
+                </div>
+
+                <div className="flex gap-3 items-center mx-5 text-sm">
+                    {map
+                        ? map.tags.map((tag, key) => {
+                              return (
+                                  <div
+                                      key={key}
+                                      className="text-white bg-violet-400 hover:bg-violet-500 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 "
+                                  >
+                                      {tag}
+                                  </div>
+                              );
+                          })
+                        : null}
+                    {map && map.tags.length == 0 ? (
+                        <div className="text-gray-400">No tags</div>
+                    ) : null}
+                    <button
+                        onClick={() => {
+                            openCurrentModal('MAP_PROPS_MODAL');
+                        }}
+                    >
+                        <i className="fa-solid fa-plus"></i>
+                    </button>
+                </div>
             </div>
-            <div id="map" className="w-full h-[63vh] mt-[65px] !absolute"></div>
-            {/* {storeMap ? <Toolbar /> : null} */}
-            <div className="relative top-[calc(63vh+75px)] z-[3000] flex gap-3 items-center mx-5 my-3">
-                {storeMap
-                    ? storeMap.tags.map((tag, key) => {
-                          return (
-                              <div
-                                  key={key}
-                                  className="text-white bg-violet-400 hover:bg-violet-500 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 "
-                              >
-                                  {tag}
-                              </div>
-                          );
-                      })
-                    : null}
-                {storeMap && storeMap.tags.length == 0 ? (
-                    <div className="text-gray-400">No tags</div>
-                ) : null}
-                <button
-                    onClick={() => {
-                        openCurrentModal('MAP_PROPS_MODAL');
-                    }}
-                >
-                    <i className="fa-solid fa-plus"></i>
-                </button>
-            </div>
+            <div id="map" className="w-full h-[77vh] mt-[65px] !absolute"></div>
+            {map ? <Toolbar /> : null}
         </div>
     );
 };

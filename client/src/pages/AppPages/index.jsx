@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import apis from '../../api/api';
 import auths from '../../api/auth';
 import { setUser } from '../../actions/user';
-import { setMaps } from '../../actions/map';
+import { setMaps } from '../../actions/maps';
 
 import Navbar from './components/Navbar';
 import Home from './Home';
@@ -49,7 +49,7 @@ const AppPages = () => {
         <div>
             <Modals />
             <Navbar />
-            <div className="py-4 px-16">
+            <div className="py-4">
                 {renderView[view]}
             </div>
         </div>

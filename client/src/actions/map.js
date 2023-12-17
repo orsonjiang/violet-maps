@@ -5,7 +5,6 @@ export const setMap = (data) => ({
     payload: data
 });
 
-export const setMaps = (data) => ({
-    type: mapTypes.SET_MAPS,
-    payload: data
+export const toggleLabel = () => ({
+    type: mapTypes.TOGGLE_LABEL,
 });
