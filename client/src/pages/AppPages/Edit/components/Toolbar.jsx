@@ -16,7 +16,7 @@ const Toolbar = () => {
     const tools = [
         <UndoRedo />,
         <Label />,
-        // <Font />,
+        <Font />,
         // <FontSize />,
         // <Position />,
         // <Text />,
@@ -30,7 +30,7 @@ const Toolbar = () => {
     ];
 
     return (
-        <div className="flex flex-wrap bg-white p-2 px-4 mx-5 my-2 justify-between rounded-lg border border-violet-200 drop-shadow-sm">
+        <div className="flex flex-wrap bg-white p-2 px-4 mx-5 my-2 justify-between rounded-lg border border-violet-200 drop-shadow-sm text-neutral-800 align-middle">
             {tools.map((tool, index) => {
                 return [
                     // If the element isn't the first one add a border before it.

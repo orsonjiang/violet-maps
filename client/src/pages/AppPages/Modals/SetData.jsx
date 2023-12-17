@@ -10,8 +10,8 @@ import apis from '../../../api/api';
 import Modal from './Modal';
 import Input from './components/Input';
 import TextField from './components/TextField';
-import DropDown from './Menus/DropDown';
-import Color from './Menus/Color';
+import ModalDropDown from '../Menus/ModalDropDown';
+import Color from '../Menus/Color';
 
 const SetData = () => {
     const dispatch = useDispatch();
@@ -59,7 +59,7 @@ const SetData = () => {
 
     const PropertyField = (
         <Input title={'Data Property: '}>
-            <DropDown list={filteredList()} handleItem={handleSelectProperty} type={MenuTypes.FINALIZE_DROP_DOWN}/>
+            <ModalDropDown list={filteredList()} handleItem={handleSelectProperty} type={MenuTypes.FINALIZE_DROP_DOWN}/>
         </Input>
     );
 

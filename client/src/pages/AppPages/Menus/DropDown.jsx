@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 
-import { setMenu } from '../../../../actions/menu';
-import { MenuTypes } from '../../../../constants';
+import { setMenu } from '../../../actions/menu';
+import { MenuTypes } from '../../../constants';
 import { useState } from 'react';
 import Menu from './Menu';
 

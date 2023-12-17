@@ -1,4 +1,4 @@
-import { menuTypes} from "../actionTypes";
+import { menuTypes } from "../actionTypes";
 
 export const setMenu = (data) => ({
     type: menuTypes.SET_MENU,
