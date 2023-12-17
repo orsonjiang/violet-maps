@@ -15,6 +15,11 @@ export const setName = (data) => ({
     payload: data
 });
 
+export const setProperty = (data) => ({
+    type: newMapTypes.SET_PROPERTY,
+    payload: data
+});
+
 export const setColor = (data) => ({
     type: newMapTypes.SET_COLOR,
     payload: data

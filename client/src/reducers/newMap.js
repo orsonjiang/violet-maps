@@ -1,14 +1,16 @@
 import { newMapTypes } from "../actionTypes";
+import { TemplateTypes } from "../constants";
 
 const initialState = {
 	name: "",
 	geometry: {},
 	properties: {},
 	graphics: {},
-	template: '',
+	template: TemplateTypes.BLANK,
 }
 
 const newMap = (state = initialState, action) => {
+	const graphics = state.graphics;
     switch (action.type) {
         case newMapTypes.SET_NEW_MAP:
             return {
@@ -27,10 +29,22 @@ const newMap = (state = initialState, action) => {
 				...state,
 				name: action.payload,
 			}
+		
+		case newMapTypes.SET_PROPERTY:
+			const propertyKey = state.template === TemplateTypes.NUMERICAL || state.template === TemplateTypes.STRING ? "label" : state.template.toLowerCase();
+			if (!graphics[propertyKey]) graphics[propertyKey] = {};
+			if (propertyKey === "label") graphics[propertyKey]['showLabels'] = true;
+			graphics[propertyKey]['property'] = action.payload;
+
+			return {
+				...state,
+				graphics: graphics,
+			}
 
 		case newMapTypes.SET_COLOR:
-			const graphics = state.graphics;
-			graphics[state.template]['color'] = action.payload;
+			const colorKey = state.template.toLowerCase();
+			if (!graphics[colorKey]) graphics[colorKey] = {};
+			graphics[colorKey]['color'] = action.payload;
 
 			return {
 				...state,

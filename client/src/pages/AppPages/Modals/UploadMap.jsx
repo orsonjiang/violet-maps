@@ -153,7 +153,7 @@ const UploadMap = () => {
                         },
                     }),
                     label: {
-                        showLabels: true,
+                        showLabels: false,
                         fontStyle: 'Times New Roman',
                         fontSize: 12,
                         position: 'Center',

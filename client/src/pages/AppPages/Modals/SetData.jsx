@@ -2,40 +2,38 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { setName } from '../../../actions/newMap';
+import { setName, setProperty } from '../../../actions/newMap';
 import { closeModal } from '../../../helpers';
+import { InputTypes, TemplateTypes } from '../../../constants';
 import apis from '../../../api/api';
 
 import Modal from './Modal';
 import Input from './components/Input';
-import { InputTypes } from '../../../constants';
+import TextField from './components/TextField';
+import DropDown from './Menus/DropDown';
+import Color from './Menus/Color';
 
 const SetData = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const newMap = useSelector((state) => state.newMap);
-    const [propertiesList, setPropertiesList] = useState();
-    const { template, properties } = newMap;
+    const [propertiesList, setPropertiesList] = useState([]);
 
     useEffect(() => {
         const list = []; // List of data props for user to choose from.
+
+        const { template, properties } = newMap;
         for (const property of properties) {
             for (const [key, value] of Object.entries(property)) {
                 switch (template) {
-                    case 'string':
+                    case TemplateTypes.STRING:
                         if (typeof value == 'string') {
                             list.push(key);
                         }
                         break;
 
-                    case '':
-                        if (
-                            typeof value == 'number' ||
-                            typeof value == 'string'
-                        ) {
-                            list.push(key);
-                        }
+                    case TemplateTypes.BLANK:
                         break;
 
                     default:
@@ -63,29 +61,36 @@ const SetData = () => {
         dispatch(setName(event.target.value));
     };
 
+    const handleSelectProperty = (item) => {
+        dispatch(setProperty(item));
+    };
+
+    const PropertyField = (
+        <Input title={'Data Property: '}>
+            <DropDown list={propertiesList} handleItem={handleSelectProperty} />
+        </Input>
+    );
+
+    const ColorField = (
+        <Input title={'Color Property: '}>
+            <Color />
+        </Input>
+    );
+
     return (
         <Modal
             title={'Finalize Map Info'}
             confirm={handleConfirm}
             fields={true}
         >
-            <Input
-                type={InputTypes.TEXT}
-                title={'Name: '}
-                placeholder={'Map Name'}
-                onChange={handleNameChange}
-            />
-            {/* <Input
-                type={InputTypes.DROP_DOWN}
-                title={'Data Property: '}
-                onClick={() => {}}
-                list={propertiesList}
-            />
-            <Input
-                type={InputTypes.COLOR}
-                title={'Select Color: '}
-                onClick={() => {}}
-            /> */}
+            <Input title={'Name: '}>
+                <TextField
+                    placeholder={'Map Name'}
+                    onChange={handleNameChange}
+                />
+            </Input>
+            {newMap.template !== TemplateTypes.BLANK ? PropertyField : ''}
+            {newMap.template === TemplateTypes.CHOROPLETH || newMap.template === TemplateTypes.BUBBLE ? ColorField : ''}
         </Modal>
     );
 };

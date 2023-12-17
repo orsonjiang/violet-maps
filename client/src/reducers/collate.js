@@ -7,7 +7,7 @@ const initialState = {
 }
 
 const collate = (state = initialState, action)=> {
-    switch(action.type) {
+    switch (action.type) {
         case collateTypes.SET_SEARCH_BY:
             return {
                 ...state,

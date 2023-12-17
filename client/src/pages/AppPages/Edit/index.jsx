@@ -17,11 +17,26 @@ const EditMap = () => {
     const map = useRef(null);
     const storeMap = useSelector((state) => state.map.map);
 
+    const clearMap = () => {
+        if (map.current) {
+            map.current.eachLayer((layer) => {
+                map.current.removeLayer(layer);
+            });
+
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution:
+                    '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+            }).addTo(map.current);
+        }
+    }
+
     useEffect(() => {
-        if (!storeMap) {
+        clearMap();
+
+        if (!storeMap || storeMap._id !== id) {
             apis.getMap(id, ['owner', 'geometry', 'properties', 'graphics']).then((res) => {
                 dispatch(setMap(res.data.map));
-    
             }).catch((err)=> console.log(err));
         }
     }, []);
@@ -48,7 +63,7 @@ const EditMap = () => {
                         const label = map.graphics.label;
                         const property = map.properties.data[feature.index];
                         if (label.showLabels) {
-                            layer.bindTooltip("" + property[label.dataProperty], {
+                            layer.bindTooltip("" + property[label.property], {
                                 permanent: true,
                                 direction: label.position
                             });
@@ -57,6 +72,8 @@ const EditMap = () => {
                 }).addTo(mapobj);
             }
         };
+
+        clearMap();
 
         if (storeMap && !map.current) {
             map.current = L.map('map', { preferCanvas: true }).setView(
