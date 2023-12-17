@@ -32,6 +32,7 @@ const EditMap = () => {
 
     useEffect(() => {
         clearMap();
+
         if (!map || map._id !== id) {
             apis.getMap(id, ['owner', 'geometry', 'properties', 'graphics'])
                 .then((res) => {
@@ -44,7 +45,30 @@ const EditMap = () => {
     }, []);
 
     useEffect(() => {
-        const addJson = (mapobj, map) => {
+        clearMap();
+
+        if (map && !refmap.current) {
+            refmap.current = L.map('map', { preferCanvas: true }).setView(
+                [39.74739, -105],
+                2
+            );
+
+            L.tileLayer(MAP_URL, {
+                minZoom: 3,
+                maxZoom: 19,
+            }).addTo(refmap.current);
+
+            var southWest = L.latLng(-90, -180);
+            var northEast = L.latLng(90, 180);
+            var bounds = L.latLngBounds(southWest, northEast);
+
+            refmap.current.setMaxBounds(bounds);
+            refmap.current.on('drag', function () {
+                refmap.current.panInsideBounds(bounds, { animate: false });
+            });
+        }
+
+        if (map && refmap.current) {
             for (let i = 0; i < map.geometry.data.length; i++) {
                 const feature = {
                     type: 'Feature',
@@ -71,35 +95,8 @@ const EditMap = () => {
                             });
                         }
                     },
-                }).addTo(mapobj);
+                }).addTo(refmap.current);
             }
-        };
-
-        clearMap();
-
-        if (map && !refmap.current) {
-            refmap.current = L.map('map', { preferCanvas: true }).setView(
-                [39.74739, -105],
-                2
-            );
-
-            L.tileLayer(MAP_URL, {
-                minZoom: 3,
-                maxZoom: 19,
-            }).addTo(refmap.current);
-
-            var southWest = L.latLng(-90, -180);
-            var northEast = L.latLng(90, 180);
-            var bounds = L.latLngBounds(southWest, northEast);
-
-            refmap.current.setMaxBounds(bounds);
-            refmap.current.on('drag', function () {
-                refmap.current.panInsideBounds(bounds, { animate: false });
-            });
-        }
-
-        if (map && refmap.current) {
-            addJson(refmap.current, map);
         }
     }, [map]);
 
