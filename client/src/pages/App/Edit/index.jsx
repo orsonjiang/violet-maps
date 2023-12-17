@@ -27,6 +27,7 @@ const EditMap = () => {
     const map = useRef(null);
     const navigate = useNavigate();
 
+    const [layerControl, setLayerControl] = useState(null); // NEW CODE - keeping track of the layer control so that I can delete it later
     const [geojson, setGeojson] = useState(null);
 
     const currentModal = useSelector((state) => state.modal.currentModal);
@@ -142,7 +143,7 @@ const EditMap = () => {
                         },
                       }).addTo(map.current)
                 }
-                
+
                 L.geoJSON(geo, {
                     style: function (feature) {
                         return {
@@ -153,15 +154,20 @@ const EditMap = () => {
                     },
                     onEachFeature: onEachFeature
                 }).addTo(map.current);
+
+                var overlays = {}; // NEW CODE - keeps track of the overlay layers
                 if (currentMap.graphics.heatMap) { // NEW CODE: (HEAT) if there is a heat map, display this layer
                     const points = []
                     for (let i = 0; i < geo.features.length; i++) {
                         const point = centroid(geo.features[i]); // get the center coordinates of polygon
                         points.push([point.geometry.coordinates[1], point.geometry.coordinates[0], geo.features[i].properties[currentMap.graphics.dataProperty]]); // heat map will update based on selected data property
                     }
-                    L.heatLayer(points, {radius: 30, minOpacity: 0.55, gradient: {0.4: 'blue', 0.6: 'lime', 1: 'red'}}).addTo(map.current);
+                    const heat = L.heatLayer(points, {radius: 27, minOpacity: 0.55, gradient: {0.4: 'blue', 0.6: 'lime', 1: 'red'}}).addTo(map.current);
+                    overlays["heat"] = heat // add heat layer to overlays object
                 }
-                
+
+                const c = L.control.layers({}, overlays, {collapsed: false}).addTo(map.current); // NEW CODE - layer control so that users can edit underneath the heat and bubble map             
+                setLayerControl(c); // NEW CODE: ref to layer control so that I can delete it later
             })
 
         }
@@ -174,6 +180,8 @@ const EditMap = () => {
                     map.current.removeLayer(layer);
                 }
             });
+            layerControl.remove(map.current); // NEW CODE - removing old layer control
+
             if (currentMap.graphics.choropleth) { // NEW CODE: if there is a choropleth map, display this layer
                 L.choropleth(geojson, {
                     valueProperty: currentMap.graphics.choropleth.dataProperty,
@@ -197,15 +205,19 @@ const EditMap = () => {
                 onEachFeature: onEachFeature
             }).addTo(map.current);
 
+            var overlays = {}; // NEW CODE - keeps track of the overlay layers
             if (currentMap.graphics.heatMap) { // NEW CODE: (HEAT) if there is a heat map, display this layer
                 const points = []
                 for (let i = 0; i < geojson.features.length; i++) {
                     const point = centroid(geojson.features[i]); // get the center coordinates of polygon
                     points.push([point.geometry.coordinates[1], point.geometry.coordinates[0], geojson.features[i].properties[currentMap.graphics.dataProperty]]); // heat map will update based on selected data property
                 }
-                L.heatLayer(points, {radius: 30, minOpacity: 0.55, gradient: {0.4: 'blue', 0.6: 'lime', 1: 'red'}}).addTo(map.current);
+                const heat = L.heatLayer(points, {radius: 27, minOpacity: 0.55, gradient: {0.4: 'blue', 0.6: 'lime', 1: 'red'}}).addTo(map.current);
+                overlays["heat"] = heat // add heat layer to overlays object
             }
             
+            const c = L.control.layers({}, overlays, {collapsed: false}).addTo(map.current); // NEW CODE - layer control so that users can edit underneath the heat and bubble map   
+            setLayerControl(c);                 
         }
     }, [currentMap])
 
