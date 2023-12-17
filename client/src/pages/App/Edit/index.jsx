@@ -226,7 +226,7 @@ const EditMap = () => {
             .then((blob) => {
                 const link = document.createElement('a');
                 link.href = URL.createObjectURL(blob);
-                link.download = 'map_image.' + type.toLowerCase();
+                link.download = currentMap.name + type.toLowerCase();
                 link.click();
             })
             .catch((err) => {
