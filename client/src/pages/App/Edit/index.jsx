@@ -154,7 +154,6 @@ const EditMap = () => {
                     },
                     onEachFeature: onEachFeature
                 }).addTo(map.current);
-
                 var overlays = {}; // NEW CODE - keeps track of the overlay layers
                 if (currentMap.graphics.heatMap) { // NEW CODE: (HEAT) if there is a heat map, display this layer
                     const points = []
@@ -163,7 +162,28 @@ const EditMap = () => {
                         points.push([point.geometry.coordinates[1], point.geometry.coordinates[0], geo.features[i].properties[currentMap.graphics.dataProperty]]); // heat map will update based on selected data property
                     }
                     const heat = L.heatLayer(points, {radius: 27, minOpacity: 0.55, gradient: {0.4: 'blue', 0.6: 'lime', 1: 'red'}}).addTo(map.current);
-                    overlays["heat"] = heat // add heat layer to overlays object
+                    overlays["Hide/Show Heat Map"] = heat // add heat layer to overlays object
+                }
+                if (currentMap.graphics.bubbles) { // NEW CODE: (BUBBLE) if there is a bubble map, display this layer
+                    let max = geo.features[0].properties[currentMap.graphics.dataProperty]; // finding the max value for the selected data property
+                    let val = max; // temp value
+                    for (let i = 0; i < geo.features.length; i++) { // finding max
+                        val = geo.features[i].properties[currentMap.graphics.dataProperty];
+                        if (val > max) {
+                            max = val;
+                        }
+                    }
+                    
+                    const circles = []
+                    for (let i = 0; i < geo.features.length; i++) {
+                        const point = centroid(geo.features[i]); // get the center coordinates of polygon
+                        circles.push(L.circleMarker([point.geometry.coordinates[1], point.geometry.coordinates[0]], {
+                            radius: (geo.features[i].properties[currentMap.graphics.dataProperty] * 20) / max,
+                            color: currentMap.graphics.bubbles.color
+                        }));
+                    }
+                    var bubble = L.layerGroup(circles).addTo(map.current); // put all the circles in one layer so i can easily hide/show all of them at once
+                    overlays["Hide/Show Bubbles"] = bubble // add bubble layer to overlays object
                 }
 
                 const c = L.control.layers({}, overlays, {collapsed: false}).addTo(map.current); // NEW CODE - layer control so that users can edit underneath the heat and bubble map             
@@ -213,9 +233,31 @@ const EditMap = () => {
                     points.push([point.geometry.coordinates[1], point.geometry.coordinates[0], geojson.features[i].properties[currentMap.graphics.dataProperty]]); // heat map will update based on selected data property
                 }
                 const heat = L.heatLayer(points, {radius: 27, minOpacity: 0.55, gradient: {0.4: 'blue', 0.6: 'lime', 1: 'red'}}).addTo(map.current);
-                overlays["heat"] = heat // add heat layer to overlays object
+                overlays["Hide/Show Heat Map"] = heat // add heat layer to overlays object
             }
-            
+
+            if (currentMap.graphics.bubbles) { // NEW CODE: (BUBBLE) if there is a bubble map, display this layer
+                let max = geojson.features[0].properties[currentMap.graphics.dataProperty]; // finding the max value for the selected data property
+                let val = max; // temp value
+                for (let i = 0; i < geojson.features.length; i++) { // finding max
+                    val = geojson.features[i].properties[currentMap.graphics.dataProperty];
+                    if (val > max) {
+                        max = val;
+                    }
+                }
+                
+                const circles = []
+                for (let i = 0; i < geojson.features.length; i++) {
+                    const point = centroid(geojson.features[i]); // get the center coordinates of polygon
+                    circles.push(L.circleMarker([point.geometry.coordinates[1], point.geometry.coordinates[0]], {
+                        radius: (geojson.features[i].properties[currentMap.graphics.dataProperty] * 20) / max,
+                        color: currentMap.graphics.bubbles.color
+                    }));
+                }
+                var bubble = L.layerGroup(circles).addTo(map.current); // put all the circles in one layer so i can easily hide/show all of them at once
+                overlays["Hide/Show Bubbles"] = bubble // add bubble layer to overlays object
+            }
+        
             const c = L.control.layers({}, overlays, {collapsed: false}).addTo(map.current); // NEW CODE - layer control so that users can edit underneath the heat and bubble map   
             setLayerControl(c);                 
         }
