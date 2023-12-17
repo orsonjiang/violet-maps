@@ -5,8 +5,9 @@ import { ChromePicker } from "react-color";
 import { setMenu } from "../../../../actions/menu";
 import { MenuTypes } from "../../../../constants";
 import { setColor } from "../../../../actions/newMap";
+import Menu from './Menu';
 
-const Color = () => {
+const Color = ({ type }) => {
 	const dispatch = useDispatch();
 
     const { menu } = useSelector((state) => state.menu);
@@ -20,7 +21,7 @@ const Color = () => {
         dispatch(setColor(color.hex));
     };
 
-	const Menu = (
+	const Exp = (
         <div className="absolute z-50 my-2">
             <ChromePicker
                 color={color}
@@ -32,20 +33,22 @@ const Color = () => {
     );
         
     return (
-        <div className="grow relative">
+        <Menu>
+        <div className="relative">
             <button
                 style={{ backgroundColor: `${color}` }}
                 className={`flex justify-between w-full whitespace-nowrap items-center py-4 px-3 font-medium text-center text-white rounded-lg focus:outline-none relative`}
                 onClick={() => {
-                    if (menu === MenuTypes.COLOR) {
+                    if (menu === type) {
                         dispatch(setMenu(MenuTypes.NONE));
                     } else {
-                        dispatch(setMenu(MenuTypes.COLOR));
+                        dispatch(setMenu(type));
                     }
                 }}
             ></button>
-            {menu == MenuTypes.COLOR ? Menu : ''}
+            {menu == type ? Exp : ''}
         </div>
+        </Menu>
     );
 };
 

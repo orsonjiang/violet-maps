@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { setName, setProperty } from '../../../actions/newMap';
 import { closeModal } from '../../../helpers';
-import { InputTypes, TemplateTypes } from '../../../constants';
+import { InputTypes, MenuTypes, TemplateTypes } from '../../../constants';
 import apis from '../../../api/api';
 
 import Modal from './Modal';
@@ -67,12 +67,12 @@ const SetData = () => {
 
     const PropertyField = (
         <Input title={'Data Property: '}>
-            <DropDown list={propertiesList} handleItem={handleSelectProperty} />
+            <DropDown list={propertiesList} handleItem={handleSelectProperty} type={MenuTypes.FINALIZE_DROP_DOWN}/>
         </Input>
     );
 
     const ColorField = (
-        <Input title={'Color Property: '}>
+        <Input title={'Color Property: '}  type={MenuTypes.FINALIZE_COLOR}>
             <Color />
         </Input>
     );
