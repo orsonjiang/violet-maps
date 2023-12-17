@@ -5,9 +5,14 @@ import { useNavigate } from "react-router-dom";
 import Modal from "../../components/Modals/Modal";
 import MapProps from "../../components/Modals/MapProps";
 import Toolbar from "./components/Toolbar";
+
 import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import "../../../../choropleth.js";
+
+// NEW CODE - plugins
+import "../../../../choropleth.js"; // choropleth plugin
+import "../../../../leaflet-heat.js"; // (HEAT) heatmap plugin
+import centroid from "@turf/centroid"; // calculate center point
 
 import geobuf from "geobuf";
 import Pbf from "pbf";
@@ -89,6 +94,7 @@ const EditMap = () => {
             navigate("/app/home"); // for now
         }
         if (!map.current) {
+
             map.current = L.map('map', {preferCanvas: true}).setView([39.74739, -105], 2);
 
             L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -96,6 +102,7 @@ const EditMap = () => {
                 attribution:
                 '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
             }).addTo(map.current);
+
             var southWest = L.latLng(-90, -180);
             var northEast = L.latLng(90, 180);
             var bounds = L.latLngBounds(southWest, northEast);
@@ -115,19 +122,6 @@ const EditMap = () => {
                     bufView[i] = str.charCodeAt(i);
                 }
 
-                // const stream = new Blob([buf], {
-                //     type: "application/json",
-                // }).stream();
-
-                // // decompress
-                // const decompress = stream.pipeThrough(
-                //     new DecompressionStream("gzip")
-                // );
-
-                // const resp = await new Response(decompress);
-                // const blob = await resp.blob();
-                // const buffer = await blob.arrayBuffer();
-                // const arr = new Uint8Array(buffer)
                 var json = geobuf.decode(new Pbf(bufView));
                 // NEW CODE - replace original geojson features with our custom one
                 for (let i = 0; i < json.features.length; i++) {
@@ -159,8 +153,15 @@ const EditMap = () => {
                     },
                     onEachFeature: onEachFeature
                 }).addTo(map.current);
-                // current map in the store would now have the map data in geojson
-                // dispatch(updateMapData(geojson));
+                if (currentMap.graphics.heatMap) { // NEW CODE: (HEAT) if there is a heat map, display this layer
+                    const points = []
+                    for (let i = 0; i < geo.features.length; i++) {
+                        const point = centroid(geo.features[i]); // get the center coordinates of polygon
+                        points.push([point.geometry.coordinates[1], point.geometry.coordinates[0], geo.features[i].properties[currentMap.graphics.dataProperty]]); // heat map will update based on selected data property
+                    }
+                    L.heatLayer(points, {radius: 30, minOpacity: 0.55, gradient: {0.4: 'blue', 0.6: 'lime', 1: 'red'}}).addTo(map.current);
+                }
+                
             })
 
         }
@@ -184,6 +185,7 @@ const EditMap = () => {
                     },
                   }).addTo(map.current)
             }
+
             L.geoJSON(geojson, {
                 style: function (feature) {
                     return {
@@ -194,6 +196,16 @@ const EditMap = () => {
                 },
                 onEachFeature: onEachFeature
             }).addTo(map.current);
+
+            if (currentMap.graphics.heatMap) { // NEW CODE: (HEAT) if there is a heat map, display this layer
+                const points = []
+                for (let i = 0; i < geojson.features.length; i++) {
+                    const point = centroid(geojson.features[i]); // get the center coordinates of polygon
+                    points.push([point.geometry.coordinates[1], point.geometry.coordinates[0], geojson.features[i].properties[currentMap.graphics.dataProperty]]); // heat map will update based on selected data property
+                }
+                L.heatLayer(points, {radius: 30, minOpacity: 0.55, gradient: {0.4: 'blue', 0.6: 'lime', 1: 'red'}}).addTo(map.current);
+            }
+            
         }
     }, [currentMap])
 
