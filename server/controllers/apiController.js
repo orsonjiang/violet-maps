@@ -157,7 +157,7 @@ const updateMap = async (req, res) => {
 const deleteMap = async (req, res) => {
     Map.deleteOne({ _id: req.params.id })
         .then(() => {
-            return res.status(200);
+            return res.status(200).json({ id: req.params })
         })
         .catch((err) => {
             console.log(err);

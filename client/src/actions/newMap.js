@@ -15,7 +15,7 @@ export const setName = (data) => ({
     payload: data
 });
 
-export const setProperty = (data) => ({
+export const setNewProperty = (data) => ({
     type: newMapTypes.SET_PROPERTY,
     payload: data
 });

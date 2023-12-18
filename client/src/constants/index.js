@@ -3,6 +3,7 @@ import { MenuTypes } from "./MenuTypes";
 import { ModalTypes } from "./ModalTypes";
 import { SearchByTypes } from "./SearchByTypes";
 import { TemplateTypes } from "./TemplateTypes";
+import { SortByTypes } from "./SortByTypes";
 
 export {
 	InputTypes,
@@ -10,4 +11,5 @@ export {
 	ModalTypes,
 	SearchByTypes,
 	TemplateTypes,
+	SortByTypes,
 };

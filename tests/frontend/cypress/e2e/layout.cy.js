@@ -1,6 +1,6 @@
 describe('view site layout', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:5173/');
+    cy.visit('/');
   })
 
   describe('view splash screen', () => {

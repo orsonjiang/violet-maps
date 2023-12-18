@@ -8,4 +8,5 @@ export const mapTypes = {
 	SET_TEXT: "SET_TEXT",
 	SET_FILL: "SET_FILL",
 	SET_BORDER: "SET_BORDER",
+	SET_PROPERTY: "SET_PROPERTY",
 };

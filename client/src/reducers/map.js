@@ -1,4 +1,4 @@
-import { mapTypes, mapsTypes } from "../actionTypes";
+import { mapTypes } from "../actionTypes";
 
 const initialState = {
     map: null,
@@ -106,6 +106,21 @@ const map = (state = initialState, action) => {
                 ...state,
                 map: {
                     ...newMap
+                }
+            };
+        
+        case mapTypes.SET_PROPERTY:
+            return {
+                ...state,
+                map: {
+                    ...state.map,
+                    graphics: {
+                        ...state.map.graphics,
+                        label: {
+                            ...state.map.graphics.label,
+                            property: action.payload
+                        }
+                    }
                 }
             };
 

@@ -4,9 +4,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ActionCreators } from 'redux-undo';
 import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import 'leaflet-choropleth/dist/choropleth';
 
 import apis from '../../../api/api';
 import { setMap, setRegion } from '../../../actions/map';
+import { convert } from '../../../helpers';
 
 const EditMap = () => {
     const navigate = useNavigate();
@@ -92,56 +94,62 @@ const EditMap = () => {
             refmap.current.fitBounds(target.getBounds());
 
             // set the selected feature in store
-            dispatch(setRegion(target))
+            dispatch(setRegion(target));
         };
 
         if (map && refmap.current) {
             apis.updateMap(id, {
                 graphics: map.graphics,
-                properties: map.properties
+                properties: map.properties,
             }).catch((err) => console.log(err));
 
-            for (let i = 0; i < map.geometry.data.length; i++) {
-                const feature = {
-                    type: 'Feature',
-                    properties: map.properties.data[i],
-                    geometry: map.geometry.data[i],
-                    index: i,
-                };
+            const geojson = convert(map);
 
-                L.geoJSON(feature, {
-                    style: (feature) => {
-                        const style = map.graphics.style[feature.index];
-                        return {
-                            color: style.border,
-                            fillColor: style.fill,
-                        };
-                    },
-                    onEachFeature: (feature, layer) => {
-                        const label = map.graphics.label;
-                        const property = map.properties.data[feature.index];
-
-                        layer.on({
-                            mouseover: increaseStroke,
-                            mouseout: resetStroke,
-                            click: clickFeature,
-                        });
-
-                        if (label.showLabels) {
-                            layer.bindTooltip(
-                                `<div style="font-size: ${label.fontSize}px"> ${
-                                    property[label.property]
-                                } </div>`,
-                                {
-                                    permanent: true,
-                                    direction: label.position,
-                                    className: `bg-white border-transparent shadow-none ${label.fontStyle}`,
-                                }
-                            );
-                        }
+            if (map.graphics.choropleth) {
+                // NEW CODE: if there is a choropleth map, display this layer
+                L.choropleth(geojson, {
+                    valueProperty: map.graphics.choropleth.property,
+                    scale: ['white', map.graphics.choropleth.color],
+                    steps: 6,
+                    mode: 'q',
+                    style: {
+                        fillOpacity: 0.9,
                     },
                 }).addTo(refmap.current);
             }
+
+            L.geoJSON(geojson, {
+                style: (feature) => {
+                    const style = map.graphics.style[feature.index];
+                    return {
+                        color: style.border,
+                        fillColor: style.fill,
+                    };
+                },
+                onEachFeature: (feature, layer) => {
+                    const label = map.graphics.label;
+                    const property = map.properties.data[feature.index];
+
+                    layer.on({
+                        mouseover: increaseStroke,
+                        mouseout: resetStroke,
+                        click: clickFeature,
+                    });
+
+                    if (label.showLabels) {
+                        layer.bindTooltip(
+                            `<div style="font-size: ${label.fontSize}px"> ${
+                                property[label.property]
+                            } </div>`,
+                            {
+                                permanent: true,
+                                direction: label.position,
+                                className: `bg-white border-transparent shadow-none ${label.fontStyle}`,
+                            }
+                        );
+                    }
+                },
+            }).addTo(refmap.current);
         }
     }, [map]);
 
@@ -178,10 +186,10 @@ const EditMap = () => {
                 </div>
             </div> */}
             <div className="flex grow">
-                    <div
-                        id="map"
-                        className="w-full leaflet-container leaflet-touch leaflet-retina leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
-                    ></div>
+                <div
+                    id="map"
+                    className="w-full leaflet-container leaflet-touch leaflet-retina leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
+                ></div>
             </div>
         </div>
     );
