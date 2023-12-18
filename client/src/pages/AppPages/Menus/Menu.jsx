@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { MenuTypes } from "../../../../constants";
-import { setMenu } from "../../../../actions/menu";
+import { MenuTypes } from "../../../constants";
+import { setMenu } from "../../../actions/menu";
 
 const Menu = ({children}) => {
 	const dispatch = useDispatch();
@@ -28,7 +28,7 @@ const Menu = ({children}) => {
     closeMenus(ref);
 
 	return (
-		<div ref={ref} className="">
+		<div ref={ref}>
 			{children}
 		</div>
 	);

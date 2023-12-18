@@ -117,7 +117,7 @@ const Legend = () => {
                                 })}
                                 <div className="flex gap-4 items-center mb-3">
                                     <div className="flex relative">
-                                        <button onClick={() => { setMenu("color") }} className={`w-8 h-8 bg-white`}></button>
+                                        <button onClick={() => { setMenu("color") }} className={`w-7 h-8 bg-white`}></button>
                                         {menu == "color" ? <div ref={ref} className="absolute left-[-3px] z-50 my-10"><ChromePicker /></div> : null}
                                     </div>
                                     <input type="text" placeholder="Description" className="rounded-lg p-1.5 px-3 w-full" />

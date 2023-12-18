@@ -1,11 +1,12 @@
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { setMenu } from '../../../../actions/menu';
-import { MenuTypes } from '../../../../constants';
-import { useState } from 'react';
+import { setMenu } from '../../../actions/menu';
+import { MenuTypes } from '../../../constants';
+
 import Menu from './Menu';
 
-const DropDown = ({ type, list, handleItem }) => {
+const ModalDropDown = ({ type, list, handleItem }) => {
     const dispatch = useDispatch();
 
     const { menu } = useSelector((state) => state.menu);
@@ -56,4 +57,4 @@ const DropDown = ({ type, list, handleItem }) => {
     );
 };
 
-export default DropDown;
+export default ModalDropDown;

@@ -1,6 +1,6 @@
 const SiteWrapper = ({children}) => {
     return (
-        <div className='flex-col bg-gray-50 min-h-screen w-auto'>
+        <div className='flex flex-col bg-gray-50 h-screen'>
             {children}
         </div>
     )

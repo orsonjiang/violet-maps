@@ -1,17 +1,16 @@
-import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { setName, setProperty } from '../../../actions/newMap';
 import { closeModal } from '../../../helpers';
-import { InputTypes, MenuTypes, TemplateTypes } from '../../../constants';
+import { MenuTypes, TemplateTypes } from '../../../constants';
 import apis from '../../../api/api';
 
 import Modal from './Modal';
 import Input from './components/Input';
 import TextField from './components/TextField';
-import DropDown from './Menus/DropDown';
-import Color from './Menus/Color';
+import ModalDropDown from '../Menus/ModalDropDown';
+import ModalColor from '../Menus/ModalColor';
 
 const SetData = () => {
     const dispatch = useDispatch();
@@ -59,13 +58,13 @@ const SetData = () => {
 
     const PropertyField = (
         <Input title={'Data Property: '}>
-            <DropDown list={filteredList()} handleItem={handleSelectProperty} type={MenuTypes.FINALIZE_DROP_DOWN}/>
+            <ModalDropDown list={filteredList()} handleItem={handleSelectProperty} type={MenuTypes.FINALIZE_DROP_DOWN}/>
         </Input>
     );
 
     const ColorField = (
         <Input title={'Color Property: '}  type={MenuTypes.FINALIZE_COLOR}>
-            <Color />
+            <ModalColor />
         </Input>
     );
 

@@ -2,23 +2,23 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ChromePicker } from "react-color";
 
-import { setMenu } from "../../../../actions/menu";
-import { MenuTypes } from "../../../../constants";
-import { setColor } from "../../../../actions/newMap";
+import { setMenu } from "../../../actions/menu";
+import { MenuTypes } from "../../../constants";
+
 import Menu from './Menu';
 
-const Color = ({ type }) => {
+const Color = ({ children, type, oldColor, handleColor, disabled }) => {
 	const dispatch = useDispatch();
 
     const { menu } = useSelector((state) => state.menu);
-    const [color, setColorState] = useState("#8187DC");
+    const [color, setColor] = useState(oldColor);
 
     const handleColorChange = (color) => {
-        setColorState(color.hex);
+        setColor(color.hex);
     };
 
     const handleColorChangeComplete = (color) => {
-        dispatch(setColor(color.hex));
+        handleColor(color.hex);
     };
 
 	const Exp = (
@@ -35,10 +35,10 @@ const Color = ({ type }) => {
     );
         
     return (
-        <div className="w-3/5 relative">
+        <>
             <button
-                style={{ backgroundColor: `${color}` }}
-                className={`flex justify-between w-full whitespace-nowrap items-center py-4 px-3 font-medium text-center text-white rounded-lg focus:outline-none relative`}
+                disabled={disabled}
+                className={`px-1 disabled:opacity-20 disabled:bg-inherit hover:bg-gray-200 rounded-full w-7`}
                 onClick={() => {
                     if (menu === type) {
                         dispatch(setMenu(MenuTypes.NONE));
@@ -46,9 +46,11 @@ const Color = ({ type }) => {
                         dispatch(setMenu(type));
                     }
                 }}
-            ></button>
+            >
+                {children}
+            </button>
             {menu == type ? Exp : ''}
-        </div>
+        </>
     );
 };
 
