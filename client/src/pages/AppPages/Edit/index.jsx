@@ -5,6 +5,8 @@ import { ActionCreators } from 'redux-undo';
 import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-choropleth/dist/choropleth';
+import centroid from "@turf/centroid"; // calculate center point
+import "../../../plugins/leaflet-heat";
 
 import apis from '../../../api/api';
 import { setMap, setRegion } from '../../../actions/map';
@@ -15,6 +17,8 @@ const EditMap = () => {
     const dispatch = useDispatch();
 
     const refmap = useRef(null);
+    const layerControl = useRef(null); // keeping track of the layer control so that I can delete it later
+    const legendControl = useRef(null); // keeping track of legend so that I can delete later
     const { id } = useParams();
     const { map } = useSelector((state) => state.map.present);
 
@@ -28,6 +32,8 @@ const EditMap = () => {
                 }
             });
         }
+        if (layerControl.current) layerControl.current.remove(refmap.current); // removing old layer control
+        if (legendControl.current) legendControl.current.remove(refmap.current); // removing old legend control
     };
 
     useEffect(() => {
@@ -49,7 +55,7 @@ const EditMap = () => {
 
         // Init Map
         if (map && !refmap.current) {
-            refmap.current = L.map('map', { preferCanvas: true }).setView(
+            refmap.current = L.map('map').setView(
                 [39.74739, -105],
                 2
             );
@@ -67,6 +73,16 @@ const EditMap = () => {
             refmap.current.on('drag', function () {
                 refmap.current.panInsideBounds(bounds, { animate: false });
             });
+
+            // panes to help preserve layer order when you use the layer control
+            refmap.current.createPane('0');
+            refmap.current.createPane('1');
+            refmap.current.createPane('2');
+            refmap.current.createPane('3');
+            refmap.current.getPane('0').style.zIndex = 200;
+            refmap.current.getPane('1').style.zIndex = 250;
+            refmap.current.getPane('2').style.zIndex = 300;
+            refmap.current.getPane('3').style.zIndex = 350;
         }
 
         // Edit Map
@@ -105,9 +121,10 @@ const EditMap = () => {
 
             const geojson = convert(map);
 
-            if (map.graphics.choropleth) {
-                // NEW CODE: if there is a choropleth map, display this layer
-                L.choropleth(geojson, {
+            var overlays = {}; // keeps track of the overlay layers (for layer control)
+
+            if (map.graphics.choropleth) { // if there is a choropleth map, display this layer
+                const choropleth = L.choropleth(geojson, {
                     valueProperty: map.graphics.choropleth.property,
                     scale: ['white', map.graphics.choropleth.color],
                     steps: 6,
@@ -115,21 +132,47 @@ const EditMap = () => {
                     style: {
                         fillOpacity: 0.9,
                     },
+                    pane: '0'
                 }).addTo(refmap.current);
+                overlays["Hide/Show Choropleth"] = choropleth;
+
+                if (map.graphics.legend.visible) { // auto generated choropleth legend
+                    var legend = L.control({position: map.graphics.legend.position});
+                    legend.onAdd = function (m) {
+                        const div = L.DomUtil.create('div', 'legend');
+                        const colors = choropleth.options.colors;
+                        const limits = choropleth.options.limits;
+                        div.style = 'background: rgba(255, 255, 255, .8); padding: 10px;'
+                        div.innerHTML = map.graphics.legend.name ? `<h2 style="font-weight: 500; font-size: 1.1em; padding-bottom: 10px;">${map.graphics.legend.name}</h2>` : '';
+
+                        for (var i = 0; i < colors.length; i++) {
+                            div.innerHTML +=
+                                '<div style="display: flex; align-items: center; gap: 10px;">' +
+                                    `<div style="width: 25px; height: 25px; background:${colors[i]}"></div> ` + 
+                                    `<div>< ${limits[i].toFixed(2)}</div>` +
+                                '</div>';
+                        }
+                        return div;
+                    };
+                    
+                    legend.addTo(refmap.current);
+                    legendControl.current = legend;
+                }
             }
 
-            L.geoJSON(geojson, {
+            const geo = L.geoJSON(geojson, {
                 style: (feature) => {
-                    const style = map.graphics.style[feature.index];
+                    const style = map.graphics.style[feature.properties.index];
                     return {
                         color: style.border,
                         fillColor: style.fill,
+                        fillOpacity: 0.8
                     };
                 },
                 onEachFeature: (feature, layer) => {
                     const label = map.graphics.label;
-                    const property = map.properties.data[feature.index];
-
+                    const property = map.properties.data[feature.properties.index];
+   
                     layer.on({
                         mouseover: increaseStroke,
                         mouseout: resetStroke,
@@ -149,7 +192,46 @@ const EditMap = () => {
                         );
                     }
                 },
+                pane: '1'
             }).addTo(refmap.current);
+            
+            overlays["Hide/Show Your Edits"] = geo;
+
+            const featurePropArr = map.properties.data;
+            if (map.graphics.heat) { // if there is a heat map, display this layer
+                const heatProperty = map.graphics.heat.property;
+                const points = []
+                for (let i = 0; i < map.geometry.data.length; i++) {
+                    const point = centroid(map.geometry.data[i]); // get the center coordinates of polygon
+                    points.push([point.geometry.coordinates[1], point.geometry.coordinates[0], featurePropArr[i][heatProperty]]); // heat map will update based on selected data property
+                }
+                const heat = L.heatLayer(points, {pane: '2', radius: 30, minOpacity: 0.55}).addTo(refmap.current);
+                overlays["Hide/Show Heat Map"] = heat // add heat layer to overlays object
+            }
+
+            if (map.graphics.bubble) { // if there is a bubble map, display this layer
+                const bubbleProperty = map.graphics.bubble.property;
+                let max = featurePropArr[0][bubbleProperty]; // finding the max value
+                let val = max; // temp value
+                for (let i = 0; i < featurePropArr.length; i++) { // finding max
+                    val = featurePropArr[i][bubbleProperty];
+                    if (val > max) max = val;
+                }
+                
+                const circles = []
+                for (let i = 0; i < map.geometry.data.length; i++) {
+                    const point = centroid(map.geometry.data[i]); // get the center coordinates of polygon
+                    circles.push(L.circleMarker([point.geometry.coordinates[1], point.geometry.coordinates[0]], {
+                        radius: (featurePropArr[i][bubbleProperty] * 30) / max,
+                        color: map.graphics.bubble.color,
+                        fillOpacity: 0.3
+                    }));
+                }
+                var bubble = L.layerGroup(circles, {pane: '3'}).addTo(refmap.current); // put all the circles in one layer so i can easily hide/show all of them at once
+                overlays["Hide/Show Bubbles"] = bubble // add bubble layer to overlays object
+            }
+            const c = L.control.layers({}, overlays, {collapsed: false, position: 'bottomright'}).addTo(refmap.current);
+            layerControl.current = c; // ref to layer control so that I can delete it later
         }
     }, [map]);
 
@@ -159,32 +241,6 @@ const EditMap = () => {
 
     return (
         <div className="flex flex-col grow text-sm">
-            {/* <div className="flex px-2 gap-4 mb-2 text-2xl font-bold justify-between items-center">
-                <div className="flex gap-3 items-center mx-5 text-sm">
-                    {map
-                        ? map.tags.map((tag, key) => {
-                              return (
-                                  <div
-                                      key={key}
-                                      className="text-white bg-violet-400 hover:bg-violet-500 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 "
-                                  >
-                                      {tag}
-                                  </div>
-                              );
-                          })
-                        : null}
-                    {map && map.tags.length == 0 ? (
-                        <div className="text-gray-400">No tags</div>
-                    ) : null}
-                    <button
-                        onClick={() => {
-                            openCurrentModal('MAP_PROPS_MODAL');
-                        }}
-                    >
-                        <i className="fa-solid fa-plus"></i>
-                    </button>
-                </div>
-            </div> */}
             <div className="flex grow">
                 <div
                     id="map"

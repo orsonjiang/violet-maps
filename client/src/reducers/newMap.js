@@ -14,7 +14,7 @@ const newMap = (state = initialState, action) => {
     switch (action.type) {
         case newMapTypes.SET_NEW_MAP:
             return {
-                ...state,
+				...initialState,
                 ...action.payload,
             }
 		
@@ -35,6 +35,7 @@ const newMap = (state = initialState, action) => {
 			if (!graphics[propertyKey]) graphics[propertyKey] = {};
 			if (propertyKey === "label") graphics[propertyKey]['showLabels'] = true;
 			graphics[propertyKey]['property'] = action.payload;
+			if (propertyKey === "choropleth") graphics.legend.visible = true;
 
 			return {
 				...state,

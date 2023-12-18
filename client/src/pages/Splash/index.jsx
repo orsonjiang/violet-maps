@@ -7,10 +7,9 @@ const Splash = () => {
                 <div className="w-full p-10 bg-violet-400/[0.6] flex flex-col items-center justify-center">
                     <div className="font-bold text-5xl my-5 text-white">Violet Maps</div>
                     <div className="text-lg min-w-xl text-violet-50">
-                        Connect with other map enthusiasts around you on Violet
-                        Maps.
+                        Connect with other map enthusiasts around you on Violet Maps.
                     </div>
-                    <div className="max-w-xl text-lg font-normal text-violet-500 my-10 bg-white/[0.7] rounded-lg px-12 py-9">
+                    <div className="max-w-xl text-md font-normal text-violet-500 my-10 bg-white/[0.7] rounded-lg px-12 py-9">
                         <ul className="list-disc">
                             <li >Customize your own maps</li>
                             <li>Add custom labels</li>

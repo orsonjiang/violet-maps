@@ -1,7 +1,7 @@
 import Dialog from './components/Dialog';
 
 const Modal = ({ title, fields, children, maxWidthSize, confirm }) => {
-    const maxWidth = maxWidthSize ? 'max-w-' + maxWidthSize : 'max-w-md';
+    const maxWidth = maxWidthSize ? maxWidthSize : 'max-w-md';
 
     return (
         <div

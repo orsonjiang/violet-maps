@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { setMenu } from '../../../actions/menu';
@@ -6,15 +6,22 @@ import { MenuTypes } from '../../../constants';
 
 import Menu from './Menu';
 
-const ModalDropDown = ({ type, list, handleItem }) => {
+const ModalDropDown = ({ type, list, currentItem, handleItem }) => {
     const dispatch = useDispatch();
 
     const { menu } = useSelector((state) => state.menu);
-    const [item, setItem] = useState('');
+    const [item, setItem] = useState(currentItem ? currentItem : '');
+
+    useEffect(() => {
+        if (!currentItem && list.length > 0 ) {
+            setItem(list[0]);
+            handleItem(list[0]);
+        }
+    }, [])
 
     const Exp = (
         <Menu>
-            <div className="absolute right-0 my-2 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-full">
+            <div className="absolute right-0 my-2 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow">
                 <ul className="overflow-y-auto max-h-48 py-2 text-sm text-gray-700">
                     {list.map((item, index) => {
                         return (
@@ -38,9 +45,9 @@ const ModalDropDown = ({ type, list, handleItem }) => {
     );
 
     return (
-        <div className="w-3/5 relative">
+        <div className="flex gap-2 relative">
             <button
-                className="flex justify-between w-full whitespace-nowrap items-center py-2 px-3 font-medium text-center text-white bg-violet-400 rounded-lg hover:bg-violet-500 focus:outline-none relative"
+                className="flex justify-between whitespace-nowrap items-center py-2 px-3 font-medium text-center text-white bg-violet-400 rounded-lg hover:bg-violet-500 focus:outline-none relative"
                 onClick={() => {
                     if (menu === type) {
                         dispatch(setMenu(MenuTypes.NONE));

@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 
 import * as shapefile from 'shapefile';
 import { kml } from '@tmcw/togeojson';
+import simplifyGeojson from 'simplify-geojson';
 
 import { ModalTypes } from '../../../constants';
 import { setNewMap } from '../../../actions/newMap';
@@ -27,7 +28,7 @@ const UploadMap = () => {
         return file.substring(file.lastIndexOf('.')) === expected;
     };
 
-    const parseFilename = (s) => s.substring(0, s.indexOf(','));
+    const parseFilename = (s) => s.substring(0, s.indexOf('.'));
 
     const readFileAsArrayBuffer = (file) => {
         return new Promise((resolve, reject) => {
@@ -128,11 +129,12 @@ const UploadMap = () => {
             return setError('Please upload a file :)');
         }
 
+        const simplified = simplifyGeojson(geojson, 0.005);
         const geometry = [];
         const properties = [];
 
-        for (let i = 0; i < geojson.features.length; i++) {
-            const feature = geojson.features[i];
+        for (let i = 0; i < simplified.features.length; i++) {
+            const feature = simplified.features[i];
             geometry.push(feature.geometry);
             properties.push(feature.properties);
         }
@@ -143,9 +145,9 @@ const UploadMap = () => {
                 geometry: geometry,
                 properties: properties,
                 graphics: {
-                    style: Array(geojson.features.length).fill({
-                        fill: '#E9D5FF',
-                        border: '#97A8FC',
+                    style: Array(simplified.features.length).fill({
+                        fill: '#f3e8ff00',
+                        border: '#97a8fc',
                         bubble: {
                             radius: 1,
                             fill: '#E9D5FF',
@@ -159,7 +161,9 @@ const UploadMap = () => {
                         position: 'center',
                     },
                     legend: {
-                        visible: false,
+                        name: "",
+				        position: "bottomleft",
+				        visible: false
                     },
                 },
             })

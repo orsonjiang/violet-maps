@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ChromePicker } from "react-color";
 
@@ -13,6 +13,10 @@ const ModalColor = ({ type }) => {
 
     const { menu } = useSelector((state) => state.menu);
     const [color, setColorState] = useState("#8187DC");
+
+    useEffect(() => {
+        dispatch(setColor("#8187DC")); // set default color
+    }, [])
 
     const handleColorChange = (color) => {
         setColorState(color.hex);
@@ -36,10 +40,10 @@ const ModalColor = ({ type }) => {
     );
         
     return (
-        <div className="w-3/5 relative">
+        <div className="relative">
             <button
                 style={{ backgroundColor: `${color}` }}
-                className={`flex justify-between w-full whitespace-nowrap items-center py-4 px-3 font-medium text-center text-white rounded-lg focus:outline-none relative`}
+                className={`flex justify-between w-8 h-8 whitespace-nowrap items-center py-4 px-3 font-medium text-center text-white rounded-lg focus:outline-none relative`}
                 onClick={() => {
                     if (menu === type) {
                         dispatch(setMenu(MenuTypes.NONE));

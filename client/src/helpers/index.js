@@ -15,12 +15,16 @@ export const convert = (map) => {
     for (let i = 0; i < map.geometry.data.length; i++) {
         const feature = {
             type: 'Feature',
-            properties: map.properties.data[i],
+            properties: {
+                index: i,
+                ...map.properties.data[i],
+            },
             geometry: map.geometry.data[i],
-            index: i
         }
         geojson.features.push(feature);
     }
 
     return geojson;
 };
+
+export const capitalize = (s) => s[0].toUpperCase() + s.slice(1).toLowerCase();
