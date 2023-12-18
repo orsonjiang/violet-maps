@@ -15,7 +15,7 @@ const SetText = () => {
     const oldName = () => {
         if (!region) return '';
 
-        const index = region.feature.index;
+        const index = region.feature.properties.index;
         return map.properties.data[index][map.graphics.label.property];
     }
 

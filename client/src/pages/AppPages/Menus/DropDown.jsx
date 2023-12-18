@@ -14,8 +14,8 @@ const DropDown = ({ type, list, currentItem, handleItem }) => {
 
     const Exp = (
         <Menu>
-            <div className="absolute right-0 my-2 bg-white divide-y divide-gray-100 rounded-lg shadow">
-                <ul className="overflow-y-auto max-h-48 py-2 text-sm text-gray-700">
+            <div className="absolute left-0 my-2 bg-white divide-y divide-gray-100 rounded-lg shadow">
+                <ul className="overflow-y-auto max-h-40 py-2 text-sm text-gray-700">
                     {list.map((item, index) => {
                         const selectedClass = item === currentItem ? ' bg-gray-200' : '';
 
@@ -27,7 +27,7 @@ const DropDown = ({ type, list, currentItem, handleItem }) => {
                                         setItem(item);
                                         dispatch(setMenu(MenuTypes.NONE));
                                     }}
-                                    className={"inline-flex w-full px-4 py-2 hover:bg-gray-400" + selectedClass}
+                                    className={"inline-flex w-full px-4 py-2 hover:bg-gray-300" + selectedClass}
                                 >
                                     {item}
                                 </button>
@@ -42,7 +42,7 @@ const DropDown = ({ type, list, currentItem, handleItem }) => {
 	return (
         <div className="relative">
             <button
-                className="flex gap-2 justify-between whitespace-nowrap items-center py-1 px-3 font-medium text-center bg-gray-200 rounded-lg hover:bg-gray-400 focus:outline-none relative text-ellipsis"
+                className="flex gap-2 justify-between whitespace-nowrap items-center py-1 px-3 font-medium text-center bg-gray-200 rounded-lg hover:bg-gray-300 focus:outline-none relative text-ellipsis"
                 onClick={() => {
                     if (menu === type) {
                         dispatch(setMenu(MenuTypes.NONE));

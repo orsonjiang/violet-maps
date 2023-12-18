@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { setName, setNewProperty } from '../../../actions/newMap';
-import { closeModal } from '../../../helpers';
+import { capitalize, closeModal } from '../../../helpers';
 import { MenuTypes, TemplateTypes } from '../../../constants';
 import apis from '../../../api/api';
 
@@ -17,7 +17,7 @@ const SetData = () => {
     const navigate = useNavigate();
 
     const newMap = useSelector((state) => state.newMap);
-    const { template, properties } = newMap;
+    const { name, template, properties } = newMap;
 
     const filteredList = () => {
         if (!properties.length) return [];
@@ -63,20 +63,21 @@ const SetData = () => {
     );
 
     const ColorField = (
-        <Input title={'Color Property: '}  type={MenuTypes.FINALIZE_COLOR}>
+        <Input title={'Color Property: '} type={MenuTypes.FINALIZE_COLOR}>
             <ModalColor />
         </Input>
     );
 
     return (
         <Modal
-            title={'Finalize Map Info'}
+            title={<div className='flex items-center gap-3 align-bottom'>Finalize Map Info <div className="flex text-xs font-medium text-indigo-500 align-bottom h-full">Template: {capitalize(template)}</div></div>}
             confirm={handleConfirm}
             fields={true}
         >
             <Input title={'Name: '}>
                 <TextField
                     placeholder={'Map Name'}
+                    value = {name}
                     onChange={handleNameChange}
                 />
             </Input>

@@ -14,7 +14,7 @@ const newMap = (state = initialState, action) => {
     switch (action.type) {
         case newMapTypes.SET_NEW_MAP:
             return {
-                ...state,
+				...initialState,
                 ...action.payload,
             }
 		
@@ -31,10 +31,14 @@ const newMap = (state = initialState, action) => {
 			}
 		
 		case newMapTypes.SET_PROPERTY:
-			const propertyKey = state.template === TemplateTypes.NUMERICAL || state.template === TemplateTypes.STRING ? "label" : state.template.toLowerCase();
-			if (!graphics[propertyKey]) graphics[propertyKey] = {};
+			if (state.template === TemplateTypes.NUMERICAL || state.template === TemplateTypes.STRING) {
+				const propertyKey = state.template.toLowerCase();
+				if (!graphics[propertyKey]) graphics[propertyKey] = {};
+				graphics[propertyKey]['property'] = action.payload;
+
+				if (propertyKey === "choropleth") graphics.legend.visible = true;
+			}
 			if (propertyKey === "label") graphics[propertyKey]['showLabels'] = true;
-			graphics[propertyKey]['property'] = action.payload;
 
 			return {
 				...state,

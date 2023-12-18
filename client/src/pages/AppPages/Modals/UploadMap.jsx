@@ -27,7 +27,7 @@ const UploadMap = () => {
         return file.substring(file.lastIndexOf('.')) === expected;
     };
 
-    const parseFilename = (s) => s.substring(0, s.indexOf(','));
+    const parseFilename = (s) => s.substring(0, s.indexOf('.'));
 
     const readFileAsArrayBuffer = (file) => {
         return new Promise((resolve, reject) => {
@@ -144,8 +144,8 @@ const UploadMap = () => {
                 properties: properties,
                 graphics: {
                     style: Array(geojson.features.length).fill({
-                        fill: '#E9D5FF',
-                        border: '#97A8FC',
+                        fill: '#f3e8ff00',
+                        border: '#97a8fc',
                         bubble: {
                             radius: 1,
                             fill: '#E9D5FF',
@@ -159,7 +159,9 @@ const UploadMap = () => {
                         position: 'center',
                     },
                     legend: {
-                        visible: false,
+                        name: "",
+				        position: "bottomleft",
+				        visible: false
                     },
                 },
             })
