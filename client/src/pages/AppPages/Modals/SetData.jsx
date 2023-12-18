@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { setName, setProperty } from '../../../actions/newMap';
+import { setName, setNewProperty } from '../../../actions/newMap';
 import { closeModal } from '../../../helpers';
 import { MenuTypes, TemplateTypes } from '../../../constants';
 import apis from '../../../api/api';
@@ -53,7 +53,7 @@ const SetData = () => {
     };
 
     const handleSelectProperty = (item) => {
-        dispatch(setProperty(item));
+        dispatch(setNewProperty(item));
     };
 
     const PropertyField = (

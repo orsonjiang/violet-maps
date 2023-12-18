@@ -1,4 +1,4 @@
-import { mapTypes, mapsTypes } from "../actionTypes";
+import { mapTypes } from "../actionTypes";
 
 const initialState = {
     map: null,
