@@ -125,7 +125,7 @@ const EditMap = () => {
 
             if (map.graphics.choropleth) { // if there is a choropleth map, display this layer
                 const choropleth = L.choropleth(geojson, {
-                    valueProperty: map.graphics.choropleth.property,
+                    valueProperty: map.graphics.label.property,
                     scale: ['white', map.graphics.choropleth.color],
                     steps: 6,
                     mode: 'q',
@@ -199,7 +199,7 @@ const EditMap = () => {
 
             const featurePropArr = map.properties.data;
             if (map.graphics.heat) { // if there is a heat map, display this layer
-                const heatProperty = map.graphics.heat.property;
+                const heatProperty = map.graphics.label.property;
                 const points = []
                 for (let i = 0; i < map.geometry.data.length; i++) {
                     const point = centroid(map.geometry.data[i]); // get the center coordinates of polygon
@@ -210,7 +210,7 @@ const EditMap = () => {
             }
 
             if (map.graphics.bubble) { // if there is a bubble map, display this layer
-                const bubbleProperty = map.graphics.bubble.property;
+                const bubbleProperty = map.graphics.label.property;
                 let max = featurePropArr[0][bubbleProperty]; // finding the max value
                 let val = max; // temp value
                 for (let i = 0; i < featurePropArr.length; i++) { // finding max
