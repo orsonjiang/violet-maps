@@ -20,6 +20,7 @@
     "@tmcw/togeojson": "^5.8.1",
     "@turf/centroid": "^6.5.0",
     "axios": "^1.6.0",
+    "dom-to-image": "^2.6.0",
     "geobuf": "^3.0.2",
     "leaflet": "^1.9.4",
     "leaflet-choropleth": "^1.1.4",
@@ -32,7 +33,8 @@
     "react-redux": "^8.1.3",
     "react-router-dom": "^6.15.0",
     "redux-undo": "^1.1.0",
-    "shapefile": "^0.6.6"
+    "shapefile": "^0.6.6",
+    "simplify-geojson": "^1.0.5"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

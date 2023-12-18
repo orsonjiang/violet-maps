@@ -2,17 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const mapGeometriesSchema = new Schema({
-	data: [{
-		type: {
-			type: String,
-			enum: ['Polygon', 'MultiPolygon'],
-			required: true
-		},
-		coordinates: {
-			type: [[[]]],
-			required: true
-		}
-	}]
+	data: [{ type: Object, required: true }]
 },
 	{ timestamps: true }
 );

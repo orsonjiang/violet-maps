@@ -5,6 +5,11 @@ export const setMap = (data) => ({
     payload: data
 });
 
+export const setMapContainer = (data) => ({
+    type: mapTypes.SET_MAP_CONTAINER,
+    payload: data
+});
+
 export const setRegion = (data) => ({
     type: mapTypes.SET_REGION,
     payload: data
@@ -66,5 +71,10 @@ export const removeTemplateLayer = (data) => ({
 
 export const addTemplateLayer = (data) => ({
     type: mapTypes.ADD_TEMPLATE_LAYER,
+	payload: data
+});
+
+export const setImage = (data) => ({
+    type: mapTypes.SET_IMAGE,
     payload: data
 });

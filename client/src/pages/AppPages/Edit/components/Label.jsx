@@ -14,7 +14,7 @@ const Label = () => {
             className={"px-1 hover:bg-gray-200 rounded-full w-7 " + classColor}
             onClick={() => dispatch(toggleLabel())}
         >
-                <i className="fa-solid fa-tag"></i>
+            <i className="fa-solid fa-tag"></i>
         </button>
     );
 };

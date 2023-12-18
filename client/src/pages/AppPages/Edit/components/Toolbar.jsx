@@ -14,6 +14,7 @@ import Choropleth from './Choropleth';
 import Heat from './Heat';
 import Bubble from './Bubble';
 import External from './External';
+import Thumbnail from './Thumbnail';
 
 
 const Toolbar = () => {
@@ -32,6 +33,7 @@ const Toolbar = () => {
         <Heat />,
         <Bubble />,
         // <External />,
+        <Thumbnail />,
     ];
 
     return (
