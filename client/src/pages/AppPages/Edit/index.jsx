@@ -5,6 +5,7 @@ import { ActionCreators } from 'redux-undo';
 import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-choropleth/dist/choropleth';
+import centroid from "@turf/centroid"; // calculate center point
 
 import apis from '../../../api/api';
 import { setMap, setRegion } from '../../../actions/map';
@@ -105,9 +106,7 @@ const EditMap = () => {
 
             const geojson = convert(map);
 
-            if (map.graphics.choropleth) {
-                // NEW CODE: if there is a choropleth map, display this layer
-                console.log(map.graphics.choropleth);
+            if (map.graphics.choropleth) { // if there is a choropleth map, display this layer
                 L.choropleth(geojson, {
                     valueProperty: map.graphics.choropleth.property,
                     scale: ['white', map.graphics.choropleth.color],
@@ -151,6 +150,28 @@ const EditMap = () => {
                     }
                 },
             }).addTo(refmap.current);
+
+            if (map.graphics.bubble) { // if there is a bubble map, display this layer
+                const bubbleProperty = map.graphics.bubble.property;
+                const featurePropArr = map.properties.data;
+                let max = featurePropArr[0][bubbleProperty]; // finding the max value
+                let val = max; // temp value
+                for (let i = 0; i < featurePropArr.length; i++) { // finding max
+                    val = featurePropArr[i][bubbleProperty];
+                    if (val > max) max = val;
+                }
+                
+                const circles = []
+                for (let i = 0; i < map.geometry.data.length; i++) {
+                    const point = centroid(map.geometry.data[i]); // get the center coordinates of polygon
+                    circles.push(L.circleMarker([point.geometry.coordinates[1], point.geometry.coordinates[0]], {
+                        radius: (featurePropArr[i][bubbleProperty] * 30) / max,
+                        color: map.graphics.bubble.color,
+                        fillOpacity: 0.3
+                    }));
+                }
+                L.layerGroup(circles).addTo(refmap.current); // put all the circles in one layer so i can easily hide/show all of them at once
+            }
         }
     }, [map]);
 

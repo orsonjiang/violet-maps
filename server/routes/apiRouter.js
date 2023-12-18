@@ -9,9 +9,7 @@ router.get("/", (req, res) => {
 });
 
 // API routes.
-// switching for now - maps wouldn't show up
-router.post("/maps", ApiController.getMaps);
-// router.get("/maps", ApiController.getMaps);
+router.get("/maps", ApiController.getMaps);
 router.post("/map", auth.verifyToken, ApiController.createMap);
 router.get("/map/:id", ApiController.getMap);
 router.put("/map/:id", auth.verifyToken, ApiController.updateMap);
