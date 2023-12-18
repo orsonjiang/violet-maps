@@ -70,7 +70,7 @@ const SetData = () => {
 
     return (
         <Modal
-            title={'Finalize Map Info'}
+            title={<div className='flex items-center gap-3'>Finalize Map Info <div className="text-xs font-medium text-indigo-500">chosen template: {template}</div></div>}
             confirm={handleConfirm}
             fields={true}
         >
