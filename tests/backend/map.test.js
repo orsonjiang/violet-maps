@@ -11,14 +11,14 @@ const MapGraphics = require("../../server/models/MapGraphics");
 jest.mock("../../server/auth", () => ({
     verifyToken: jest.fn((req, res, next) => next())
 }));
-jest.mock("../../server/models/Map");
-jest.mock("../../server/models/MapGeometries");
-jest.mock('../../server/models/MapProperties');
-jest.mock("../../server/models/MapGraphics");
+
+// jest.mock("../../server/models/Map");
+// jest.mock("../../server/models/MapGeometries");
+// jest.mock('../../server/models/MapProperties');
+// jest.mock("../../server/models/MapGraphics");
 
 beforeEach(() => {
     jest.setTimeout(6000);
-    jest.clearAllMocks(); 
 });
 /*
 afterEach(() => {
@@ -42,31 +42,91 @@ const mapData = {
     }
 };
 
+
+const mapSaveSpy = jest.spyOn(Map.prototype, "save")
+const mapGeometriesSaveSpy = jest.spyOn(MapGeometries.prototype, "save");
+const mapPropertiesSaveSpy = jest.spyOn(MapProperties.prototype, "save");
+const mapGraphicsSaveSpy = jest.spyOn(MapGraphics.prototype, "save");
+const deleteOneSpy = jest.spyOn(Map, 'deleteOne');
+const findOneSpy = jest.spyOn(Map, 'findOne');
+
+
 describe("Create and delete map", () => {
     test("POST /api/map", async() => {
-        Map.prototype.save = jest.fn().mockResolvedValue(mapData);
-        MapGeometries.prototype.save = jest.fn().mockResolvedValue(mapData);
-        MapProperties.prototype.save = jest.fn().mockResolvedValue(mapData);
-        MapGraphics.prototype.save = jest.fn().mockResolvedValue(mapData);
+        mapSaveSpy.mockResolvedValue(mapData);
+        mapGeometriesSaveSpy.mockResolvedValue(mapData);mapPropertiesSaveSpy.mockResolvedValue(mapData);mapGraphicsSaveSpy.mockResolvedValue(mapData);
 
         const response = await request(app).post('/api/map').set("Authorization", "mockToken").send({map: mapData});
 
         expect(auth.verifyToken).toHaveBeenCalled();
-        expect(Map.prototype.save).toHaveBeenCalled();
+        expect(mapSaveSpy).toHaveBeenCalled();
+        expect(mapGeometriesSaveSpy).toHaveBeenCalled();
+        expect(mapPropertiesSaveSpy).toHaveBeenCalled();
+        expect(mapGraphicsSaveSpy).toHaveBeenCalled();
         expect(response.statusCode).toBe(201);
 
     });
 
-    test("DELETE /api/map/:id", async() => {
-        Map.deleteOne.mockResolvedValue({ acknowledge: true, deletedCount: 1 });
+    test("DELETE /api/map/:id - SUCCESS", async() => {
+        deleteOneSpy.mockResolvedValue({ acknowledge: true, deletedCount: 1});
+
         const response = await request(app).delete('/api/map/mockId').set("Authorization", "mockToken").send({ _id: "mockId" });
-        
-        expect(auth.verifyToken).toHaveBeenCalled();
-        expect(Map.deleteOne).toHaveBeenCalledWith({_id: "mockId"});
+
         expect(response.statusCode).toBe(200);
+        expect(deleteOneSpy).toHaveBeenCalledWith({ _id: "mockId" });
 
     });
+
+    test("DELETE /api/map/:id - FAIL", async () => {
+        deleteOneSpy.mockRejectedValue({ error: "The map could not be found." });
+
+        const response = await request(app).delete('/api/map/nonexistentId').set("Authorization", "mockToken").send({ _id: "nonexistentId" });
+
+        expect(response.statusCode).toBe(400);
+        expect(deleteOneSpy).toHaveBeenCalledWith({ _id: "nonexistentId" });
+
+    });
+
 });
+
+describe("Get map by ID", () => {
+    test("GET /api/map/:id - SUCCESS", async () => {
+        // Calling populate on the returned query from findOne
+        findOneSpy.mockReturnValue({
+            populate: jest.fn().mockResolvedValue(mapData)
+        });
+
+        // Sending a query to add the query parameters to the GET request 
+        const response = await request(app).get("/api/map/mockId").query({ populate: ["mockPopulateValue"] });
+
+        expect(response.statusCode).toBe(200);
+        expect(findOneSpy).toHaveBeenCalledWith({ _id: "mockId" });
+
+    });
+
+    test("GET /api/map/:id - FAIL", async () => {
+        // Calling populate on the returned query from findOne
+        findOneSpy.mockReturnValue({
+            populate: jest.fn().mockRejectedValue({error: "The map could not be found."})
+        });
+
+        // Sending a query to add the query parameters to the GET request 
+        const response = await request(app).get("/api/map/nonexistentId").query({ populate: ["mockPopulateValue"] });
+
+        expect(response.statusCode).toBe(400);
+        expect(findOneSpy).toHaveBeenCalledWith({ _id: "nonexistentId" });
+
+    });
+
+});
+
+describe("Updating map - PUT /api/map/:id", () => {
+    test("")
+})
+
+
+
+
 /*
 
 These tests are failing! TODO: fix them up!
