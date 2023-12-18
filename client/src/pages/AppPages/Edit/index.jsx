@@ -18,6 +18,8 @@ const EditMap = () => {
     const { id } = useParams();
     const { map } = useSelector((state) => state.map.present);
 
+    const geojson = convert(map);
+
     const MAP_URL = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
 
     const clearMap = () => {
@@ -96,8 +98,6 @@ const EditMap = () => {
             // set the selected feature in store
             dispatch(setRegion(target));
         };
-
-        const geojson = convert(map);
 
         if (map && refmap.current) {
             apis.updateMap(id, {
