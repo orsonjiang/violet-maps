@@ -6,17 +6,10 @@ const User = require('../../server/models/User');
 const bcrypt = require("../../server/node_modules/bcryptjs");
 const auth = require('../../server/auth/index');
 
-// jest.mock('../../server/models/User');
-// jest.mock("../../server/node_modules/bcryptjs");
-// jest.mock('../../server/auth/index');
-
 beforeEach(() => {
     jest.setTimeout(6000);
 });
 
-// afterEach(() => {
-//     jest.clearAllMocks();
-// });
 
 describe('erroneous testing - POST /auth/register', () => {
     test('should fail due to missing field', async () => {
@@ -126,9 +119,6 @@ describe('successful register and login user', () => {
         const findOneSpy = jest.spyOn(User, "findOne").mockResolvedValue(registeredUser);
         const bcryptCompareSpy = jest.spyOn(bcrypt, "compare").mockResolvedValue(true);
         const authSignTokenSpy = jest.spyOn(auth, "signToken").mockReturnValue("mockToken");
-        // User.findOne = jest.fn().mockResolvedValue(registeredUser);
-        // bcrypt.compare = jest.fn().mockResolvedValue(true);
-        // auth.signToken = jest.fn().mockReturnValue("mockToken");
 
         const response = await request(app).post('/auth/login').send(userData);
 

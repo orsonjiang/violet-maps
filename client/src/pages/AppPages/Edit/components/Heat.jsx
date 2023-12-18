@@ -6,6 +6,7 @@ const Heat = () => {
                     onClick={() => {
                         openCurrentModal('ADD_LAYER');
                     }}
+                    title="Add Heat"
                 >
                     <i className="fa-solid fa-plus mr-1.5"></i>
                     Heat Map

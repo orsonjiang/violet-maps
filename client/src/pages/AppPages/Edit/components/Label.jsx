@@ -13,6 +13,7 @@ const Label = () => {
         <button
             className={"px-1 hover:bg-gray-200 rounded-full w-7 " + classColor}
             onClick={() => dispatch(toggleLabel())}
+            title="Toggle Labels"
         >
             <i className="fa-solid fa-tag"></i>
         </button>

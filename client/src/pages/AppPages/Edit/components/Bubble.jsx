@@ -6,6 +6,7 @@ const Bubble = () => {
                     onClick={() => {
                         openCurrentModal('ADD_LAYER');
                     }}
+                    title="Add Bubbles"
                 >
                     <i className="fa-solid fa-plus mr-1.5"></i>
                     Bubbles
