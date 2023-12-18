@@ -9,7 +9,6 @@ import apis from '../../../api/api';
 import { setMap } from '../../../actions/map';
 
 import Toolbar from './components/Toolbar';
-import Menu from '../Menus/Menu';
 
 const EditMap = () => {
     const navigate = useNavigate();
@@ -91,9 +90,10 @@ const EditMap = () => {
                         const label = map.graphics.label;
                         const property = map.properties.data[feature.index];
                         if (label.showLabels) {
-                            layer.bindTooltip('' + property[label.property], {
+                            layer.bindTooltip(`<div style="font-size: ${label.fontSize}px"> ${property[label.property]} </div>`, {
                                 permanent: true,
                                 direction: label.position,
+                                className: `bg-white border-transparent shadow-none ${label.fontStyle}`
                             });
                         }
                     },
@@ -107,7 +107,7 @@ const EditMap = () => {
     }
 
     return (
-        <div className="text-sm">
+        <div className="flex flex-col text-sm">
             <div className="flex px-2 gap-4 mb-2 text-2xl font-bold justify-between items-center">
                 <div></div>
                 <div className="flex gap-2">
@@ -149,7 +149,7 @@ const EditMap = () => {
             {map ? <Toolbar /> : null}
             <div
                 id="map"
-                className="grow h-[77vh] w-full !absolute leaflet-container leaflet-touch leaflet-retina leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom z-50"
+                className="grow h-[77vh] w-full leaflet-container leaflet-touch leaflet-retina leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom z-50"
             ></div>
         </div>
     );

@@ -28,7 +28,7 @@ const Menu = ({children}) => {
     closeMenus(ref);
 
 	return (
-		<div ref={ref} className="z-[500]">
+		<div ref={ref}>
 			{children}
 		</div>
 	);

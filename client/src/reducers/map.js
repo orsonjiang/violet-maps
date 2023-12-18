@@ -45,6 +45,21 @@ const map = (state = initialState, action) => {
                 }
             };
 
+        case mapTypes.SET_FONT_SIZE:
+            return {
+                ...state,
+                map: {
+                    ...state.map,
+                    graphics: {
+                        ...state.map.graphics,
+                        label: {
+                            ...state.map.graphics.label,
+                            fontSize: action.payload
+                        }
+                    }
+                }
+            };
+
         default:
             return state;
     }
