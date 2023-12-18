@@ -144,8 +144,8 @@ const UploadMap = () => {
                 properties: properties,
                 graphics: {
                     style: Array(geojson.features.length).fill({
-                        fill: '#E9D5FF',
-                        border: '#97A8FC',
+                        fill: '#f3e8ff00',
+                        border: '#97a8fc',
                         bubble: {
                             radius: 1,
                             fill: '#E9D5FF',

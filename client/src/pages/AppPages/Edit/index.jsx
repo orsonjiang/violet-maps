@@ -141,6 +141,7 @@ const EditMap = () => {
                     return {
                         color: style.border,
                         fillColor: style.fill,
+                        fillOpacity: 0.8
                     };
                 },
                 onEachFeature: (feature, layer) => {
