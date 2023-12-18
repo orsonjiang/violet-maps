@@ -3,6 +3,7 @@ import { mapTypes } from "../actionTypes";
 const initialState = {
     map: null,
     region: null,
+    newTemplateLayer: null // hold the template when you add a layer
 }
 
 const map = (state = initialState, action) => {
@@ -136,7 +137,20 @@ const map = (state = initialState, action) => {
                     }
                 }
             };
+        case mapTypes.SET_TEMPLATE_LAYER:
+            return {
+                ...state,
+                newTemplateLayer: action.payload
+            }
 
+        case mapTypes.REMOVE_TEMPLATE_LAYER:
+            delete newMap.graphics[action.payload];
+            return {
+                ...state,
+                map: {
+                    ...newMap
+                }
+            }
         default:
             return state;
     }

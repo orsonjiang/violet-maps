@@ -53,3 +53,13 @@ export const setLegend = (data) => ({
     type: mapTypes.SET_LEGEND,
     payload: data
 });
+
+export const setTemplateLayer = (data) => ({
+    type: mapTypes.SET_TEMPLATE_LAYER,
+    payload: data
+});
+
+export const removeTemplateLayer = (data) => ({
+    type: mapTypes.REMOVE_TEMPLATE_LAYER,
+    payload: data
+});

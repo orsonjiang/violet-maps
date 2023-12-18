@@ -10,9 +10,11 @@ import Region from './Region';
 import Border from './Border';
 import Legend from './Legend';
 import Property from './Property';
-import Bubble from './Bubble';
+import Choropleth from './Choropleth';
 import Heat from './Heat';
+import Bubble from './Bubble';
 import External from './External';
+
 
 const Toolbar = () => {
     const tools = [
@@ -24,10 +26,11 @@ const Toolbar = () => {
         <Text />,
         <Region />,
         <Border />,
-        <Legend />,
         <Property />,
-        // <Bubble />,
-        // <Heat />,
+        <Legend />,
+        <Choropleth />,
+        <Heat />,
+        <Bubble />,
         // <External />,
     ];
 
