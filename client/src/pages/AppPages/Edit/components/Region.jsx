@@ -1,33 +1,21 @@
+import { useDispatch, useSelector } from 'react-redux';
+
+import { MenuTypes } from '../../../../constants';
+import { setFill } from '../../../../actions/map';
+
+import Color from '../../Menus/Color';
+
 const Region = () => {
-	return (
-		<div>
-			                <div className="flex relative">
-                    <button // NEW CODE - disable when there is no selected feature
-                        onClick={clickRegionColor}
-                        className={
-                            selectedFeature
-                                ? `px-1 hover:bg-violet-100`
-                                : `bg-gray-200 text-gray-500 cursor-not-allowed px-1`
-                        }
-                        disabled={selectedFeature == null}
-                    >
-                        Region Color
-                    </button>
-                    {menu == 'regionColor' ? (
-                        <div className="absolute left-[-5px] z-50 my-9">
-                            <ChromePicker
-                                color={c}
-                                onChange={handleColorChange}
-                                onChangeComplete={() =>
-                                    sendUpdateToServer('color')
-                                }
-                            />
-                        </div>
-                    ) : null}{' '}
-                    {/*NEW CODE*/}
-                </div>
-		</div>
-	);
+    const dispatch = useDispatch();
+
+    const { map, region } = useSelector((state) => state.map.present);
+    const index = region ? region.feature.index : 0;
+
+    return [
+        <Color key={'edit-fill'} disabled={!region} type={MenuTypes.SET_FILL} color={map.graphics.style[index].fill} handleColor={(color) => dispatch(setFill(color))}>
+            <i className="fa-solid fa-fill-drip"></i>
+        </Color>
+    ];
 };
 
 export default Region;

@@ -21,6 +21,7 @@
     "axios": "^1.6.0",
     "geobuf": "^3.0.2",
     "leaflet": "^1.9.4",
+    "leaflet-choropleth": "^1.1.4",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
     "pbf": "^3.2.1",

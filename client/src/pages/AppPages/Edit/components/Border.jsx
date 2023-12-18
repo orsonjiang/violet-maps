@@ -1,33 +1,21 @@
+import { useDispatch, useSelector } from 'react-redux';
+
+import { MenuTypes } from '../../../../constants';
+import { setBorder } from '../../../../actions/map';
+
+import Color from '../../Menus/Color';
+
 const Border = () => {
-	return (
-		<div>
-			                <div className="flex relative">
-                    <button // NEW CODE - disable when there is no selected feature
-                        onClick={clickBorderColor}
-                        className={
-                            selectedFeature
-                                ? `px-1 hover:bg-violet-100`
-                                : `bg-gray-200 text-gray-500 cursor-not-allowed px-1`
-                        }
-                        disabled={selectedFeature == null}
-                    >
-                        Border Color
-                    </button>
-                    {menu == 'borderColor' ? (
-                        <div className="absolute left-[-5px] z-50 my-9">
-                            <ChromePicker
-                                color={c}
-                                onChange={handleColorChange}
-                                onChangeComplete={() =>
-                                    sendUpdateToServer('color')
-                                }
-                            />
-                        </div>
-                    ) : null}{' '}
-                    {/*NEW CODE*/}
-                </div>
-		</div>
-	);
+    const dispatch = useDispatch();
+
+    const { map, region } = useSelector((state) => state.map.present);
+    const index = region ? region.feature.index : 0;
+
+    return [
+        <Color key={'edit-fill'} disabled={!region} type={MenuTypes.SET_BORDER} color={map.graphics.style[index].border} handleColor={(color) => dispatch(setBorder(color))}>
+            <i className="fa-solid fa-border-top-left"></i>
+        </Color>
+    ];
 };
 
 export default Border;

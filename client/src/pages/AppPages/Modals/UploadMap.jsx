@@ -154,9 +154,9 @@ const UploadMap = () => {
                     }),
                     label: {
                         showLabels: false,
-                        fontStyle: 'Times New Roman',
+                        fontStyle: 'font-sans',
                         fontSize: 12,
-                        position: 'Center',
+                        position: 'center',
                     },
                     legend: {
                         visible: false,

@@ -134,7 +134,14 @@ const updateMap = async (req, res) => {
         .then((map) => {
             MapGraphics.findOneAndUpdate({ _id: map.graphics }, body.graphics)
                 .then(() => {
-                    return res.status(204).json({ id: map._id })
+                    MapProperties.findOneAndUpdate({ _id: map.properties }, body.properties)
+                        .then(() => {
+                            return res.status(204).json({ id: map._id })
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                            return sendError(res, "The map could not be updated.")
+                        })
                 })
                 .catch((err) => {
                     console.log(err);

@@ -141,7 +141,7 @@ const AddLayer = ({ view, containsInput }) => {
                                             onClick={() => {
                                                 setMenu('color');
                                             }}
-                                            className={`w-8 h-8 bg-purple-300`}
+                                            className={`w-7 h-8 bg-purple-300`}
                                         ></button>
                                         {menu == 'color' ? (
                                             <div

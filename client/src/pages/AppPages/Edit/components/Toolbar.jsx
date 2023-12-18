@@ -20,10 +20,10 @@ const Toolbar = () => {
         <Label />,
         <Font />,
         <FontSize />,
-        // <Position />,
+        <Position />,
         <Text />,
-        // <Region />,
-        // <Border />,
+        <Region />,
+        <Border />,
         // <Legend />,
         // <Property />,
         // <Bubble />,
@@ -32,7 +32,7 @@ const Toolbar = () => {
     ];
 
     return (
-        <div className="flex grow bg-white px-4 py-1 justify-between rounded-lg border border-violet-200 drop-shadow-sm text-neutral-800 align-middle" style={{ zIndex: 1000 }}>
+        <div className="flex grow bg-white px-4 py-1 justify-between rounded-lg border border-violet-200 drop-shadow-sm text-neutral-800 align-middle z-[550]">
             {tools.map((tool, index) => {
                 return [
                     // If the element isn't the first one add a border before it.
@@ -53,17 +53,17 @@ const Toolbar = () => {
 
 const ToolbarWrapper = () => {
     const { map } = useSelector((state) => state.map.present);
+    if (!map) return <div></div>;
     const mapName = (map && map.name.length > 15) ? map.name.slice(0, 15) + "..." : map.name;
 
     return(
-        <div className='flex grow'>
-            <div className="flex gap-2 items-center text-lg font-medium w-48 mr-2 justify-between">
+        <div className='flex grow text-sm gap-2'>
+            <div className="flex gap-2 items-center text-lg font-medium w-48 bg-white px-4 py-1 justify-between rounded-lg border border-violet-200 drop-shadow-sm text-neutral-800 align-middle">
                 {mapName}
-                <i className="fa fa-edit mr-2 text-xl text-indigo-500" 
+                <i className="fa fa-edit text-xl text-indigo-500" 
                     onClick={() => openCurrentModal('RENAME_MAP')}
                 />
             </div>
-
             <Toolbar />
         </div>
     )
