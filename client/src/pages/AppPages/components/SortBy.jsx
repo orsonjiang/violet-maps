@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setMaps } from '../../../actions/maps';
+import { SortByTypes } from '../../../constants';
+import { setSortBy } from '../../../actions/collate';
 
 const SortBy = () => {
     // Kevin - new code
@@ -8,9 +10,17 @@ const SortBy = () => {
     const dispatch = useDispatch();
     const ref = useRef(null);
     const [menu, setMenu] = useState('none');
-
+    const { sortBy } = useSelector((state) => state.collate);
+    
+    let tag = "";
+    if (!sortBy) {
+        tag = "Sort By";
+    } else {
+        tag = SortByTypes[sortBy];
+    };
     
     const handleClickSortBy = (s) => {
+        dispatch(setSortBy(s));
         handleSort(s, maps);
     }
     
@@ -73,7 +83,7 @@ const SortBy = () => {
                     setMenu('sortBy');
                 }}
             >
-                Sort By
+                {tag}
                 <svg
                     className="w-2.5 h-2.5 ms-2.5"
                     aria-hidden="true"
