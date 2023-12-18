@@ -21,8 +21,7 @@
     "geobuf": "^3.0.2",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^6.8.2",
-    "pbf": "^3.2.1",
-    "qs": "^6.11.0"
+    "pbf": "^3.2.1"
   },
   "devDependencies": {
     "cypress": "^13.4.0"

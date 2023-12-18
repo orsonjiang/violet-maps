@@ -1,4 +1,4 @@
-import { SET_USER } from "../action-types/user-types";
+import { userTypes } from '../actionTypes';
 
 const initialState = {
     user: {
@@ -12,7 +12,7 @@ const initialState = {
 
 const user = (state = initialState, action) => {
     switch (action.type) {
-        case SET_USER:
+        case userTypes.SET_USER:
             return {
                 ...state,
                 ...action.payload

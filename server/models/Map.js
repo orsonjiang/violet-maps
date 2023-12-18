@@ -6,9 +6,9 @@ const socialSchema = require("./socialSchema");
 const mapSchema = new Schema(
     {
         name: { type: String, required: true },
-        owner: { type: Schema.Types.ObjectId, required: true },
+        owner: { type: Schema.Types.ObjectId, ref: "User", required: true },
         tags: [String],
-        geometry: { type: Schema.Types.ObjectId, ref: "MapGeometry" },
+        geometry: { type: Schema.Types.ObjectId, ref: "MapGeometries" },
         properties: { type: Schema.Types.ObjectId, ref: "MapProperties" },
         graphics: { type: Schema.Types.ObjectId, ref: "MapGraphics" },
         social: socialSchema,

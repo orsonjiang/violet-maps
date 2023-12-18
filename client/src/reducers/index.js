@@ -1,12 +1,20 @@
 import { combineReducers } from 'redux';
-import user from './user'
-import modal from './modal';
+import undoable from 'redux-undo';
+
+import collate from './collate';
 import map from './map';
-import home from './home'
+import maps from './maps';
+import menu from './menu';
+import modal from './modal';
+import newMap from './newMap';
+import user from './user'
 
 export default combineReducers({
-    user,
+    collate,
+    map: undoable(map),
+    maps,
+    menu,
     modal,
-    map,
-    home
+    newMap,
+    user,
 });

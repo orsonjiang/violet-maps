@@ -1,177 +1,152 @@
-import { useState, useRef, useEffect } from "react";
-import Modal from "../components/Modals/Modal";
-import MapProps from "../components/Modals/MapProps";
-import Toolbar from "./components/Toolbar";
+import { useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import { ActionCreators } from 'redux-undo';
 import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { useSelector, useDispatch } from "react-redux";
-import { openModal } from '../../../actions/modal';
-import geobuf from "geobuf";
-import Pbf from "pbf";
-// import { updateMapData } from "../../../actions/map";
-// import { setView } from "../../../actions/home";
-import { useNavigate } from "react-router-dom";
+
+import apis from '../../../api/api';
+import { setMap } from '../../../actions/map';
+
+import Toolbar from './components/Toolbar';
 
 const EditMap = () => {
-    const map = useRef(null);
     const navigate = useNavigate();
-
-    const [geojson, setGeojson] = useState(null);
-
-    const currentModal = useSelector((state) => state.modal.currentModal);
-    const currentMap = useSelector((state) => state.map.currentMap);
-    // const exportType = useSelector((state) => state.map.exportType);
-    const user = useSelector((state) => state.user.user);
-
     const dispatch = useDispatch();
 
-    const openCurrentModal = (type) => {
-        dispatch(openModal(type));
-    }
+    const refmap = useRef(null);
+    const { id } = useParams();
+    const { map } = useSelector((state) => state.map.present);
+
+    const MAP_URL = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+
+    const clearMap = () => {
+        if (refmap.current) {
+            refmap.current.eachLayer((layer) => {
+                if (!layer._url && layer._url !== MAP_URL) {
+                    refmap.current.removeLayer(layer);
+                }
+            });
+        }
+    };
 
     useEffect(() => {
-        // dispatch(setView("NONE"));
-        if (currentMap == null) {
-            navigate("/app/home"); // for now
-        }
-        if (!map.current) {
-            map.current = L.map('map', {preferCanvas: true}).setView([39.74739, -105], 2);
+        clearMap();
 
-            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        if (!map || map._id !== id) {
+            apis.getMap(id, ['owner', 'geometry', 'properties', 'graphics'])
+                .then((res) => {
+                    dispatch(setMap(res.data.map));
+                    dispatch(ActionCreators.clearHistory());
+                })
+                .catch((err) => console.log(err));
+        }
+    }, []);
+
+    useEffect(() => {
+        clearMap();
+
+        if (map && !refmap.current) {
+            refmap.current = L.map('map', { preferCanvas: true }).setView(
+                [39.74739, -105],
+                2
+            );
+
+            L.tileLayer(MAP_URL, {
+                minZoom: 3,
                 maxZoom: 19,
-                attribution:
-                '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-            }).addTo(map.current);
+            }).addTo(refmap.current);
 
             var southWest = L.latLng(-90, -180);
             var northEast = L.latLng(90, 180);
             var bounds = L.latLngBounds(southWest, northEast);
 
-            map.current.setMaxBounds(bounds);
-            map.current.on('drag', function() {
-                map.current.panInsideBounds(bounds, { animate: false });
+            refmap.current.setMaxBounds(bounds);
+            refmap.current.on('drag', function () {
+                refmap.current.panInsideBounds(bounds, { animate: false });
             });
+        }
 
-            // get the map data from the store and convert back to geojson
-            const convertToGeoJSON = async () => {
-                //convert from base64 back to string
-                let str = atob(currentMap.data);
-                let buf = new ArrayBuffer(str.length);
-                let bufView = new Uint8Array(buf);
-                for (var i=0; i<str.length; i++) {
-                    bufView[i] = str.charCodeAt(i);
-                }
+        if (map && refmap.current) {
+            apis.updateMap(id, map.graphics).catch((err) => console.log(err));
 
-                // const stream = new Blob([buf], {
-                //     type: "application/json",
-                // }).stream();
+            for (let i = 0; i < map.geometry.data.length; i++) {
+                const feature = {
+                    type: 'Feature',
+                    properties: map.properties.data[i],
+                    geometry: map.geometry.data[i],
+                    index: i,
+                };
 
-                // // decompress
-                // const decompress = stream.pipeThrough(
-                //     new DecompressionStream("gzip")
-                // );
-
-                // const resp = await new Response(decompress);
-                // const blob = await resp.blob();
-                // const buffer = await blob.arrayBuffer();
-                // const arr = new Uint8Array(buffer)
-                var json = geobuf.decode(new Pbf(bufView));
-                setGeojson(json);
-                return json;
-            }
-            convertToGeoJSON().then((geo) => {
-                L.geoJSON(geo, {
-                    style: function (feature) {
+                L.geoJSON(feature, {
+                    style: (feature) => {
+                        const style = map.graphics.style[feature.index];
                         return {
-                            color: currentMap.features[geo.features.indexOf(feature)].style.border,
-                            fillColor: currentMap.features[geo.features.indexOf(feature)].style.fill,
-                        }
+                            color: style.border,
+                            fillColor: style.fill,
+                        };
                     },
                     onEachFeature: (feature, layer) => {
-                        if (currentMap.graphics.showLabels) {
-                            layer.bindTooltip("" + feature.properties[currentMap.graphics.dataProperty], 
+                        const label = map.graphics.label;
+                        const property = map.properties.data[feature.index];
+                        if (label.showLabels) {
+                            layer.bindTooltip(
+                                `<div style="font-size: ${label.fontSize}px"> ${
+                                    property[label.property]
+                                } </div>`,
                                 {
                                     permanent: true,
-                                    direction: 'center',
-                                })
+                                    direction: label.position,
+                                    className: `bg-white border-transparent shadow-none ${label.fontStyle}`,
+                                }
+                            );
                         }
-                    }
-                }).addTo(map.current);
-                // current map in the store would now have the map data in geojson
-                // dispatch(updateMapData(geojson));
-            })
-
-            // console.log(map.current);
-            // dispatch(setLeafletMap(map.current));
-
-            // L.control.bigImage({ position: 'topright' }).addTo(map.current);
+                    },
+                }).addTo(refmap.current);
+            }
         }
-    }, [])
+    }, [map]);
 
-    useEffect(() => {
-        if (geojson != null) {
-            map.current.eachLayer(function (layer) {
-                if (!layer.getAttribution()) {
-                map.current.removeLayer(layer);
-                }
-            });
-            L.geoJSON(geojson, {
-                style: function (feature) {
-                    return {
-                        color: currentMap.features[geojson.features.indexOf(feature)].style.border,
-                        fillColor: currentMap.features[geojson.features.indexOf(feature)].style.fill,
-                    }
-                },
-                onEachFeature: (feature, layer) => {
-                    if (currentMap.graphics.showLabels) {
-                        layer.bindTooltip("" + feature.properties[currentMap.graphics.dataProperty], 
-                            {
-                                permanent: true,
-                                direction: 'center',
-                            })
-                    }
-                }
-            }).addTo(map.current);
-        }
-    }, [currentMap])
-
-
-    const selectModal = () => {
-        if (currentModal == "MAP_PROPS_MODAL"){
-            return ( <MapProps /> );
-        }
-        else if (currentModal == "RENAME_MAP"){
-            return (<Modal title={"Rename Map?"} description={"Write a new name for the Map of Europe"} inputText={"Enter Map Name"} containsInput={true} />);
-
-        }
+    if (!map) {
+        return <div>Loading Map...</div>;
     }
 
-
     return (
-        <div className="text-[13px]">
-            <div className="flex gap-4 mt-5 mb-2 text-2xl font-bold justify-center items-center">
-                {currentMap ? currentMap.name : "---"}
-                <button onClick={() => { openCurrentModal("RENAME_MAP")}}>
-                    <i className="fa fa-edit mr-2 text-xl text-indigo-500" />
-                </button>
+        <div className="flex flex-col grow text-sm">
+            <div className="flex px-2 gap-4 mb-2 text-2xl font-bold justify-between items-center">
+                <div className="flex gap-3 items-center mx-5 text-sm">
+                    {map
+                        ? map.tags.map((tag, key) => {
+                              return (
+                                  <div
+                                      key={key}
+                                      className="text-white bg-violet-400 hover:bg-violet-500 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 "
+                                  >
+                                      {tag}
+                                  </div>
+                              );
+                          })
+                        : null}
+                    {map && map.tags.length == 0 ? (
+                        <div className="text-gray-400">No tags</div>
+                    ) : null}
+                    <button
+                        onClick={() => {
+                            openCurrentModal('MAP_PROPS_MODAL');
+                        }}
+                    >
+                        <i className="fa-solid fa-plus"></i>
+                    </button>
+                </div>
             </div>
-            <div id="map" className="w-full h-[63vh] mt-[65px] !absolute"></div>
-            {currentMap ? <Toolbar /> : null}
-            <div className="relative top-[calc(63vh+75px)] z-[3000] flex gap-3 items-center mx-5 my-3">
-                {currentMap ? currentMap.tags.map((tag, key) => {
-                    return (
-                        <div key = {key} className="text-white bg-violet-400 hover:bg-violet-500 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 ">
-                            {tag}
-                        </div>
-                    )
-                }) : null}
-                {currentMap && currentMap.tags.length == 0 ? <div className="text-gray-400">No tags</div> : null}
-                <button onClick={() => { openCurrentModal("MAP_PROPS_MODAL")}}>
-                    <i className="fa-solid fa-plus"></i>
-                </button>
+            <div className="flex flex-col grow">
+                <div className='flex grow'>
+                    <div
+                        id="map"
+                        className="w-full leaflet-container leaflet-touch leaflet-retina leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
+                    ></div>
+                </div>
             </div>
-            {currentModal ? selectModal() : ""}
-            {/* {exportType ? exportCurrentMap() : ""} */}
         </div>
     );
 };

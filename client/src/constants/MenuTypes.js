@@ -1,0 +1,6 @@
+export const MenuTypes = {
+	NONE: "",
+	FINALIZE_DROP_DOWN: "FINALIZE_DROP_DOWN",
+	FINALIZE_COLOR: "FINALIZE_COLOR",
+	SET_FONT: "SET_FONT",
+};
