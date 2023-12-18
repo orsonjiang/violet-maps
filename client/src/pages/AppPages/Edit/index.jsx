@@ -6,6 +6,7 @@ import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-choropleth/dist/choropleth';
 import centroid from "@turf/centroid"; // calculate center point
+import "../../../plugins/leaflet-heat";
 
 import apis from '../../../api/api';
 import { setMap, setRegion } from '../../../actions/map';
@@ -151,9 +152,19 @@ const EditMap = () => {
                 },
             }).addTo(refmap.current);
 
+            const featurePropArr = map.properties.data;
+            if (map.graphics.heat) { // if there is a heat map, display this layer
+                const heatProperty = map.graphics.heat.property;
+                const points = []
+                for (let i = 0; i < map.geometry.data.length; i++) {
+                    const point = centroid(map.geometry.data[i]); // get the center coordinates of polygon
+                    points.push([point.geometry.coordinates[1], point.geometry.coordinates[0], featurePropArr[i][heatProperty]]); // heat map will update based on selected data property
+                }
+                L.heatLayer(points, {radius: 30, minOpacity: 0.55}).addTo(refmap.current);
+            }
+
             if (map.graphics.bubble) { // if there is a bubble map, display this layer
                 const bubbleProperty = map.graphics.bubble.property;
-                const featurePropArr = map.properties.data;
                 let max = featurePropArr[0][bubbleProperty]; // finding the max value
                 let val = max; // temp value
                 for (let i = 0; i < featurePropArr.length; i++) { // finding max
