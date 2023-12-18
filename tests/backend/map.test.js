@@ -120,10 +120,30 @@ describe("Get map by ID", () => {
 
 });
 
-describe("Updating map - PUT /api/map/:id", () => {
-    test("")
-})
+// describe("Updating map - PUT /api/map/:id", () => {
+//     test("Updating a graphics field - labels", async() => {
+//         const mockGraphics = {
+//             style: [],
+//             label: {
+//                 showLabels: true, 
+//                 fontStyle: "Times New Roman",
+//                 fontSize: 18,
+//                 position: "right",
+//             },
+//             legend: {
+//                 visible: false
+//             }
+//         }
 
+//         const mockProperties = {
+//             data: ""
+//         }
+
+//         findOneSpy.mockResolvedValue(mapData);
+        
+//         const findOneAndUpdateSpy = jest.spyOn(MapGraphics, "findOneAndUpdate").mockResolvedValue(mapData);
+//     })
+// })
 
 
 
