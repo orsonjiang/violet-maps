@@ -1,15 +1,18 @@
+import { useDispatch } from 'react-redux';
+
+import { setModal } from '../../../../actions/modal';
+import { ModalTypes } from '../../../../constants';
+
 const Legend = () => {
+    const dispatch = useDispatch();
+    
 	return (
-		<div>
-			                <button
-                    className="px-1 hover:bg-violet-100"
-                    onClick={() => {
-                        openCurrentModal('LEGEND_MODAL');
-                    }}
-                >
-                    Legend
-                </button>
-		</div>
+        <button
+            className="px-2 hover:bg-gray-200 rounded-full"
+            onClick={() => dispatch(setModal(ModalTypes.LEGEND))}
+        >
+            Legend
+        </button>
 	);
 };
 

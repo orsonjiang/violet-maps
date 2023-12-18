@@ -24,7 +24,7 @@ const Toolbar = () => {
         <Text />,
         <Region />,
         <Border />,
-        // <Legend />,
+        <Legend />,
         <Property />,
         // <Bubble />,
         // <Heat />,

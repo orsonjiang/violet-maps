@@ -18,6 +18,7 @@ const EditMap = () => {
 
     const refmap = useRef(null);
     const layerControl = useRef(null); // keeping track of the layer control so that I can delete it later
+    const legendControl = useRef(null); // keeping track of legend so that I can delete later
     const { id } = useParams();
     const { map } = useSelector((state) => state.map.present);
 
@@ -32,6 +33,7 @@ const EditMap = () => {
             });
         }
         if (layerControl.current) layerControl.current.remove(refmap.current); // removing old layer control
+        if (legendControl.current) legendControl.current.remove(refmap.current); // removing old legend control
     };
 
     useEffect(() => {
@@ -133,6 +135,27 @@ const EditMap = () => {
                     pane: '0'
                 }).addTo(refmap.current);
                 overlays["Hide/Show Choropleth"] = choropleth;
+
+                var legend = L.control({position: 'bottomleft'});
+                legend.onAdd = function (map) {
+
+                    var div = L.DomUtil.create('div', 'legend'),
+                        colors = choropleth.options.colors,
+                        limits = choropleth.options.limits;
+                    div.style = 'background: rgba(255, 255, 255, .8); padding: 10px;'
+                    for (var i = 0; i < colors.length; i++) {
+                        div.innerHTML +=
+                            '<div style="display: flex; align-items: center; gap: 10px;">' +
+                                `<div style="width: 25px; height: 25px; background:${colors[i]}"></div> ` + 
+                                `<div>< ${limits[i].toFixed(2)}</div>` +
+                            '</div>';
+                    }
+                
+                    return div;
+                };
+                
+                legend.addTo(refmap.current);
+                legendControl.current = legend;
             }
 
             const geo = L.geoJSON(geojson, {
