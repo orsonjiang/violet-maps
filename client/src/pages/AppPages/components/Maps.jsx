@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import MapCard from "./MapCard";
 
 const Maps = () => {
-    const { maps } = useSelector((state)=> state.map);
+    const { maps } = useSelector((state)=> state.maps);
 
     if (!maps.length) {
         // TODO: Make no map graphics.

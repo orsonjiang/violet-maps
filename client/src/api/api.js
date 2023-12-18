@@ -27,9 +27,7 @@ const getMap = (id, populate) => {
     return api.get(`/map/${id}`, options)
 };
 const updateMap = (id, data) => {
-    return api.put(`/map/${id}`, {
-        map: data
-    })
+    return api.put(`/map/${id}`, data)
 }
 const deleteMap = (id) => api.delete(`/map/${id}`);
 
