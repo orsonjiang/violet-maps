@@ -10,7 +10,7 @@ const ModalDropDown = ({ type, list, handleItem }) => {
     const dispatch = useDispatch();
 
     const { menu } = useSelector((state) => state.menu);
-    const [item, setItem] = useState('');
+    const [item, setItem] = useState(list.length > 0 ? list[0] : '');
 
     const Exp = (
         <Menu>

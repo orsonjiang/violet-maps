@@ -36,10 +36,10 @@ const ModalColor = ({ type }) => {
     );
         
     return (
-        <div className="w-3/5 relative">
+        <div className="relative">
             <button
                 style={{ backgroundColor: `${color}` }}
-                className={`flex justify-between w-full whitespace-nowrap items-center py-4 px-3 font-medium text-center text-white rounded-lg focus:outline-none relative`}
+                className={`flex justify-between w-8 h-8 whitespace-nowrap items-center py-4 px-3 font-medium text-center text-white rounded-lg focus:outline-none relative`}
                 onClick={() => {
                     if (menu === type) {
                         dispatch(setMenu(MenuTypes.NONE));

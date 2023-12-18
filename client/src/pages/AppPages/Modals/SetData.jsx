@@ -63,7 +63,7 @@ const SetData = () => {
     );
 
     const ColorField = (
-        <Input title={'Color Property: '}  type={MenuTypes.FINALIZE_COLOR}>
+        <Input title={'Color Property: '} type={MenuTypes.FINALIZE_COLOR}>
             <ModalColor />
         </Input>
     );
