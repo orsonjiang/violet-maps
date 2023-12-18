@@ -204,7 +204,7 @@ const EditMap = () => {
                 var bubble = L.layerGroup(circles, {pane: '3'}).addTo(refmap.current); // put all the circles in one layer so i can easily hide/show all of them at once
                 overlays["Hide/Show Bubbles"] = bubble // add bubble layer to overlays object
             }
-            const c = L.control.layers({}, overlays, {collapsed: false}).addTo(refmap.current);
+            const c = L.control.layers({}, overlays, {collapsed: false, position: 'bottomright'}).addTo(refmap.current);
             layerControl.current = c; // ref to layer control so that I can delete it later
         }
     }, [map]);

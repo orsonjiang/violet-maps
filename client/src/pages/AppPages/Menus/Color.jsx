@@ -23,7 +23,7 @@ const Color = ({ children, type, oldColor, handleColor, disabled }) => {
 
 	const Exp = (
         <Menu>
-        <div className="absolute z-50 my-2">
+        <div className="absolute z-50 right-[-10px] my-9">
             <ChromePicker
                 color={color}
                 disableAlpha={true}
@@ -35,7 +35,7 @@ const Color = ({ children, type, oldColor, handleColor, disabled }) => {
     );
         
     return (
-        <>
+        <div className="flex relative">
             <button
                 disabled={disabled}
                 className={`px-1 disabled:opacity-20 disabled:bg-inherit hover:bg-gray-200 rounded-full w-7`}
@@ -50,7 +50,7 @@ const Color = ({ children, type, oldColor, handleColor, disabled }) => {
                 {children}
             </button>
             {menu == type ? Exp : ''}
-        </>
+        </div>
     );
 };
 
