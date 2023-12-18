@@ -48,3 +48,8 @@ export const setProperty = (data) => ({
     type: mapTypes.SET_PROPERTY,
     payload: data
 });
+
+export const setLegend= (data) => ({
+    type: mapTypes.SET_LEGEND,
+    payload: data
+});

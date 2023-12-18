@@ -159,7 +159,9 @@ const UploadMap = () => {
                         position: 'center',
                     },
                     legend: {
-                        visible: false,
+                        name: "",
+				        position: "bottomleft",
+				        visible: false
                     },
                 },
             })

@@ -36,6 +36,7 @@ const newMap = (state = initialState, action) => {
 			if (propertyKey === "label") graphics[propertyKey]['showLabels'] = true;
 			graphics[propertyKey]['property'] = action.payload;
 			graphics['label']['property'] = action.payload;
+			if (propertyKey === "choropleth") graphics.legend.visible = true;
 
 			return {
 				...state,

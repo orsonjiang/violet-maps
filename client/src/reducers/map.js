@@ -123,6 +123,19 @@ const map = (state = initialState, action) => {
                     }
                 }
             };
+        case mapTypes.SET_LEGEND:
+            return {
+                ...state,
+                map: {
+                    ...state.map,
+                    graphics: {
+                        ...state.map.graphics,
+                        legend: {
+                            ...action.payload
+                        }
+                    }
+                }
+            };
 
         default:
             return state;

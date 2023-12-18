@@ -136,26 +136,29 @@ const EditMap = () => {
                 }).addTo(refmap.current);
                 overlays["Hide/Show Choropleth"] = choropleth;
 
-                var legend = L.control({position: 'bottomleft'});
-                legend.onAdd = function (map) {
+                if (map.graphics.legend.visible) { // auto generated choropleth legend
+                    var legend = L.control({position: map.graphics.legend.position});
+                    legend.onAdd = function (m) {
 
-                    var div = L.DomUtil.create('div', 'legend'),
-                        colors = choropleth.options.colors,
-                        limits = choropleth.options.limits;
-                    div.style = 'background: rgba(255, 255, 255, .8); padding: 10px;'
-                    for (var i = 0; i < colors.length; i++) {
-                        div.innerHTML +=
-                            '<div style="display: flex; align-items: center; gap: 10px;">' +
-                                `<div style="width: 25px; height: 25px; background:${colors[i]}"></div> ` + 
-                                `<div>< ${limits[i].toFixed(2)}</div>` +
-                            '</div>';
-                    }
-                
-                    return div;
-                };
-                
-                legend.addTo(refmap.current);
-                legendControl.current = legend;
+                        var div = L.DomUtil.create('div', 'legend'),
+                            colors = choropleth.options.colors,
+                            limits = choropleth.options.limits;
+                        div.style = 'background: rgba(255, 255, 255, .8); padding: 10px;'
+                        {map.graphics.legend.name != "" ? div.innerHTML += `<h2 style="font-weight: 500; font-size: 1.1em; padding-bottom: 10px;">${map.graphics.legend.name}</h2>` : null}
+                        for (var i = 0; i < colors.length; i++) {
+                            div.innerHTML +=
+                                '<div style="display: flex; align-items: center; gap: 10px;">' +
+                                    `<div style="width: 25px; height: 25px; background:${colors[i]}"></div> ` + 
+                                    `<div>< ${limits[i].toFixed(2)}</div>` +
+                                '</div>';
+                        }
+                    
+                        return div;
+                    };
+                    
+                    legend.addTo(refmap.current);
+                    legendControl.current = legend;
+                }
             }
 
             const geo = L.geoJSON(geojson, {

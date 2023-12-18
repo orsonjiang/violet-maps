@@ -6,7 +6,7 @@ import { MenuTypes } from '../../../constants';
 
 import Menu from './Menu';
 
-const ModalDropDown = ({ type, list, handleItem }) => {
+const ModalDropDown = ({ type, list, currentItem, handleItem }) => {
     const dispatch = useDispatch();
 
     const { menu } = useSelector((state) => state.menu);
@@ -16,6 +16,9 @@ const ModalDropDown = ({ type, list, handleItem }) => {
         if (list.length > 0) {
             setItem(list[0]);
             handleItem(list[0]);
+        }
+        if (currentItem) {
+            setItem(currentItem);
         }
     }, [])
 
