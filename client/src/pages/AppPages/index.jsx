@@ -46,11 +46,11 @@ const AppPages = () => {
     };
 
     return (
-        <div>
+        <>
             <Modals />
             <Navbar />
             {renderView[view]}
-        </div>
+        </>
     );
 };
 

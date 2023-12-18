@@ -10,10 +10,10 @@ const UndoRedo = () => {
     const canRedo = future.length > 0;
 
     return [
-        <button key={'undo'} disabled={!canUndo} className="px-1 disabled:opacity-20 hover:bg-gray-200 rounded-full w-6" onClick={() => dispatch(ActionCreators.undo())}>
+        <button key={'undo'} disabled={!canUndo} className="px-1 disabled:opacity-20 disabled:bg-inherit hover:bg-gray-200 rounded-full w-6" onClick={() => dispatch(ActionCreators.undo())}>
             <i className="fa-solid fa-rotate-left"></i>
         </button>,
-        <button  key={'redo'} disabled={!canRedo} className="px-1 disabled:opacity-20 hover:bg-gray-200 rounded-full w-6" onClick={() => dispatch(ActionCreators.redo())}>
+        <button  key={'redo'} disabled={!canRedo} className="px-1 disabled:opacity-20 disabled:bg-inherit hover:bg-gray-200 rounded-full w-6" onClick={() => dispatch(ActionCreators.redo())}>
             <i className="fa-solid fa-rotate-right"></i>
         </button>,
     ];

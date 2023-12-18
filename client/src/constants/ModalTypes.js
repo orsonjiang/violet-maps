@@ -3,4 +3,5 @@ export const ModalTypes = {
 	UPLOAD_MAP: "UPLOAD_MAP",
 	CHOOSE_TEMPLATE: "CHOOSE_TEMPLATE",
 	SET_DATA: "SET_DATA",
+	SET_TEXT: "SET_TEXT",
 };

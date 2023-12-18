@@ -19,7 +19,7 @@ const Toolbar = () => {
         <Font />,
         <FontSize />,
         // <Position />,
-        // <Text />,
+        <Text />,
         // <Region />,
         // <Border />,
         // <Legend />,
