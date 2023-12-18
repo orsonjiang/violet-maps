@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { setName, setNewProperty } from '../../../actions/newMap';
-import { closeModal } from '../../../helpers';
+import { capitalize, closeModal } from '../../../helpers';
 import { MenuTypes, TemplateTypes } from '../../../constants';
 import apis from '../../../api/api';
 
@@ -70,7 +70,7 @@ const SetData = () => {
 
     return (
         <Modal
-            title={<div className='flex items-center gap-3'>Finalize Map Info <div className="text-xs font-medium text-indigo-500">chosen template: {template}</div></div>}
+            title={<div className='flex items-center gap-3 align-bottom'>Finalize Map Info <div className="flex text-xs font-medium text-indigo-500 align-bottom h-full">Template: {capitalize(template)}</div></div>}
             confirm={handleConfirm}
             fields={true}
         >

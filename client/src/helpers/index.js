@@ -26,3 +26,5 @@ export const convert = (map) => {
 
     return geojson;
 };
+
+export const capitalize = (s) => s[0].toUpperCase() + s.slice(1).toLowerCase();
