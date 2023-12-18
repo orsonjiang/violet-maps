@@ -65,7 +65,8 @@ createMap = async (req, res) => {
             likes: 0,
             dislikes: 0,
             comments: []
-        }
+        }, 
+        imageFile: null // NEW CODE - EXPORT MAP
     });
 
     if (!newMap) {
@@ -108,7 +109,8 @@ getMaps = async (req, res) => {
                     likes: maps[i].social.likes,
                     dislikes: maps[i].social.dislikes,
                     creationDate: maps[i].creationDate,
-                    publishedDate: maps[i].publishedDate
+                    publishedDate: maps[i].publishedDate,
+                    imageFile: maps[i].imageFile // NEW CODE - EXPORT MAP
                 };
                 mapsList.push(map);
             }
@@ -175,6 +177,9 @@ updateMap = async (req, res) => {
             map.graphics = req.body.map.graphics; // NEW CODE
             // map.graphics.dataProperty = req.body.map.graphics.dataProperty;
             map.features = req.body.map.features;
+
+            // NEW CODE - EXPORT MAP
+            map.imageFile = req.body.map.imageFile;
 
             map.save().then(() => {
                 return res.status(200).json({

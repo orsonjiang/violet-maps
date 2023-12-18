@@ -8,7 +8,8 @@ const initialState = {
         username: "",
         template: "",
         dataProperty: "",
-        color: ""
+        color: "",
+        imageFile: null // NEW CODE - EXPORT MAP
     },
 	currentMap: null,
     selectedFeature: null, // NEW CODE: is set when user clicks on a feature, holds the feature ref

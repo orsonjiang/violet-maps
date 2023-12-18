@@ -159,7 +159,8 @@ const UploadMap = () => {
             dispatch(createMap({
                 data: geojson,
                 features: features,
-                username: user.username
+                username: user.username,
+                imageFile: null
             }));
 
             dispatch(openModal("CHOOSE_TEMPLATE"));

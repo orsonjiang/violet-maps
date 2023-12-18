@@ -20,7 +20,9 @@ import Pbf from "pbf";
 import { setView } from "../../../actions/home";
 import { openModal } from '../../../actions/modal';
 import { updateSelectedFeature } from "../../../actions/map";
+import { updateMapInStore } from "../../../actions/map";
 
+import apis from "../../../api/api.js";
 
 const EditMap = () => {
     const map = useRef(null);
@@ -167,8 +169,9 @@ const EditMap = () => {
                 // current map in the store would now have the map data in geojson
                 // dispatch(updateMapData(geojson));
             })
-            
+
         }
+
     }, [])
 
     useEffect(() => {
@@ -199,7 +202,9 @@ const EditMap = () => {
                 },
                 onEachFeature: onEachFeature
             }).addTo(map.current);
+
         }
+
     }, [currentMap])
 
 
@@ -213,25 +218,40 @@ const EditMap = () => {
         }
     }
 
-    // NEW CODE: export map as png or jpg
-    const handlePrintMap = (type) => {
+    // NEW CODE - EXPORT MAP
+    const handlePrintMap = (type, download) => {
 
         const options = {
             filter: (node) => {
+                console.log(node.classList);
                 return !(node.classList.contains("leaflet-control-container")) // remove leaflet zoom toolbar from image
-            }
+            },
+            width: mapContainer.current.clientWidth * 1,
+            height: mapContainer.current.clientHeight * 1.5
         }
 
-        domtoimage.toBlob(mapContainer.current, options)
-            .then((blob) => {
-                const link = document.createElement('a');
-                link.href = URL.createObjectURL(blob);
-                link.download = currentMap.name + type.toLowerCase();
-                link.click();
+        domtoimage.toPng(mapContainer.current, options)
+            .then((dataUrl) => {
+                if (download) {
+                    const link = document.createElement('a');
+                    link.href = dataUrl;
+                    link.download = `${currentMap.name}.${type.toLowerCase()}`;
+                    link.click();
+                }
+                else{
+                    const updates = { ...currentMap };
+                    delete updates["data"];
+
+                    updates.imageFile = dataUrl;
+                    console.log(updates);
+                    apis.updateMap(currentMap._id, updates).then((res) => {
+                        console.log(res);
+                        dispatch(updateMapInStore(updates))
+                    }).catch((err) => {
+                        console.log(err);
+                    })
+                }
             })
-            .catch((err) => {
-                console.log(err);
-            });
     }
 
 
@@ -244,10 +264,15 @@ const EditMap = () => {
                 </button>
             </div>
             <div id="map" ref={mapContainer} className="w-full h-[67vh] mt-[65px] !absolute"></div> {/* NEW CODE: made leaflet map container larger */}
-            {currentMap ? <Toolbar onExportClick={handlePrintMap}/> : null}
-            <div className="relative top-[calc(67vh+75px)] z-[3000] flex gap-3 items-center mx-5 my-3"> {/* NEW CODE: made leaflet map container larger */}
+            {currentMap ? <Toolbar exportMap={handlePrintMap}/> : null}
+            <div className="relative top-[calc(67vh+75px)] z-[3000] gap-3 flex justify-between items-center mx-5 my-3"> {/* NEW CODE: made leaflet map container larger */}
                 <Tags />
+                {/* NEW CODE - EXPORT MAP */}
+                <div> 
+                    <button className='h-fit py-1.5 px-2 rounded-lg text-white text-xs bg-indigo-400 hover:bg-indigo-500' onClick={() => handlePrintMap("PNG", false)}>Set Thumbnail</button>
+                </div>
             </div>
+           
             {currentModal ? selectModal() : ""}
         </div>
     );

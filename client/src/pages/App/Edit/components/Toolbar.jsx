@@ -8,7 +8,7 @@ import { openModal } from "../../../../actions/modal";
 import apis from "../../../../api/api";
 import { updateMapInStore, updateSelectedFeature } from "../../../../actions/map";
 
-const Toolbar = ({ onExportClick }) => {
+const Toolbar = ({ exportMap }) => {
     const [menu, setMenu] = useState("none");
     const updates = useRef(null);
     const [dataPropList, setDataPropList] = useState([]);
@@ -147,11 +147,14 @@ const Toolbar = ({ onExportClick }) => {
             case "color":
                 break;
         }
+
         apis.updateMap(currentMap._id, updates.current).then((res) => {
             dispatch(updateMapInStore(updates.current))
         }).catch((err) => {
             console.log(err);
         })
+
+        // printMap("PNG", false);
     }
 
     const border = (
@@ -238,8 +241,8 @@ const Toolbar = ({ onExportClick }) => {
     )
 
 
-    const printMap = (type) => {
-        onExportClick(type);
+    const printMap = (type, download) => {
+        exportMap(type, download);
     }
 
     const exportMenu = (
@@ -251,14 +254,14 @@ const Toolbar = ({ onExportClick }) => {
             <ul className="text-[13px] py-2" aria-labelledby="user-menu-button">
                 <li>
                     <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 " onClick={() => printMap("PNG")}
+                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 " onClick={() => printMap("PNG", true)}
                     >
                         PNG
                     </button>
                 </li>
                 <li>
                     <button
-                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 " onClick={() => printMap("JPG")}
+                        className="w-full text-left block px-5 py-2 text-gray-700 hover:bg-gray-100 " onClick={() => printMap("JPG", true)}
                     >
                         JPG
                     </button>

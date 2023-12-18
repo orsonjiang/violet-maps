@@ -111,7 +111,8 @@ const MapSchema = new Schema(
                     datePublished: Date
                 }
             ]
-        }
+        }, 
+        imageFile: { type: String, required: false }
     },
     { timestamps: true }
 );
