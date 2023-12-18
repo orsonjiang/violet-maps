@@ -53,7 +53,7 @@ const EditMap = () => {
 
         // Init Map
         if (map && !refmap.current) {
-            refmap.current = L.map('map', { preferCanvas: true }).setView(
+            refmap.current = L.map('map').setView(
                 [39.74739, -105],
                 2
             );
