@@ -1,8 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
 
 import { setModal } from '../../../../actions/modal';
+import { capitalize } from '../../../../helpers';
 import { setTemplateLayer, removeTemplateLayer } from '../../../../actions/map';
-import { ModalTypes } from '../../../../constants';
+import { ModalTypes, TemplateTypes } from '../../../../constants';
 
 const Choropleth = () => {
     const dispatch = useDispatch();
@@ -11,9 +12,9 @@ const Choropleth = () => {
 
     const handleClick = () => {
         if (map.graphics.choropleth) {
-            dispatch(removeTemplateLayer('choropleth')); // delete it
+            dispatch(removeTemplateLayer(TemplateTypes.CHOROPLETH.toLowerCase())); // delete it
         } else {
-            dispatch(setTemplateLayer('Choropleth'));
+            dispatch(setTemplateLayer(capitalize(TemplateTypes.CHOROPLETH)));
             dispatch(setModal(ModalTypes.ADD_LAYER));
         }
         

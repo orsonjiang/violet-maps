@@ -1,8 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
 
 import { setModal } from '../../../../actions/modal';
+import { capitalize } from '../../../../helpers';
 import { setTemplateLayer, removeTemplateLayer } from '../../../../actions/map';
-import { ModalTypes } from '../../../../constants';
+import { ModalTypes, TemplateTypes } from '../../../../constants';
 
 const Bubble = () => {
     const dispatch = useDispatch();
@@ -11,9 +12,9 @@ const Bubble = () => {
 
     const handleClick = () => {
         if (map.graphics.bubble) {
-            dispatch(removeTemplateLayer('bubble')); // delete it
+            dispatch(removeTemplateLayer(TemplateTypes.BUBBLE.toLowerCase())); // delete it
         } else {
-            dispatch(setTemplateLayer('Bubble'));
+            dispatch(setTemplateLayer(capitalize(TemplateTypes.BUBBLE)));
             dispatch(setModal(ModalTypes.ADD_LAYER));
         }
         
@@ -25,7 +26,7 @@ const Bubble = () => {
             onClick={handleClick}
         >
             {map.graphics.bubble ? <i className="fa-solid fa-minus mr-1.5"></i> : <i className="fa-solid fa-plus mr-1.5"></i>}
-            <i class="text-indigo-500 fa-solid fa-circle"></i>
+            <i className="text-indigo-500 fa-solid fa-circle"></i>
         </button>
 	);
 };

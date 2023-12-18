@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux';
 
-import { setModal } from '../../../../actions/modal';
-import { removeTemplateLayer } from '../../../../actions/map';
-import { ModalTypes } from '../../../../constants';
+import { capitalize } from '../../../../helpers';
+import { setTemplateLayer, removeTemplateLayer, addTemplateLayer } from '../../../../actions/map';
+import { TemplateTypes } from '../../../../constants';
 
 const Heat = () => {
     const dispatch = useDispatch();
@@ -11,9 +11,10 @@ const Heat = () => {
 
     const handleClick = () => {
         if (map.graphics.heat) {
-            dispatch(removeTemplateLayer('heat')); // delete it
+            dispatch(removeTemplateLayer(TemplateTypes.HEAT.toLowerCase())); // delete it
         } else {
-            dispatch(setModal(ModalTypes.ADD_LAYER));
+            dispatch(setTemplateLayer(capitalize(TemplateTypes.HEAT)));
+            dispatch(addTemplateLayer(""));
         }
         
     }
@@ -24,7 +25,7 @@ const Heat = () => {
             onClick={handleClick}
         >
             {map.graphics.heat ? <i className="fa-solid fa-minus mr-1.5"></i> : <i className="fa-solid fa-plus mr-1.5"></i>}
-            <i class="bg-gradient-to-b from-red-500 to-purple-500 text-transparent bg-clip-text fa-solid fa-fire"></i>
+            <i className="bg-gradient-to-b from-red-500 to-purple-500 text-transparent bg-clip-text fa-solid fa-fire"></i>
         </button>
 	);
 };

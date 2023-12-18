@@ -1,31 +1,30 @@
+import { useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect } from 'react';
 
-import { capitalize, closeModal } from '../../../helpers';
-import { MenuTypes, TemplateTypes } from '../../../constants';
-import apis from '../../../api/api';
+import { closeModal } from '../../../helpers';
+import { MenuTypes } from '../../../constants';
+import { addTemplateLayer } from '../../../actions/map';
 
 import Modal from './Modal';
 import Input from './components/Input';
 import ModalColor from '../Menus/ModalColor';
+
 
 const AddLayer = () => {
     const dispatch = useDispatch();
 
     const { map, newTemplateLayer } = useSelector((state) => state.map.present);
 
+    const [color, setColor] = useState("#8187DC");
+
     const handleConfirm = () => {
-        // apis.createMap(newMap)
-        //     .then((res) => {
-        //         navigate(`/app/edit/${res.data.id}`);
-        //     })
-        //     .catch((err) => console.log(err));
+        dispatch(addTemplateLayer(color));
         closeModal(dispatch);
     };
 
     const ColorField = (
         <Input title={'Color Property: '} type={MenuTypes.FINALIZE_COLOR}>
-            <ModalColor />
+            <ModalColor getColor={setColor}/>
         </Input>
     );
 

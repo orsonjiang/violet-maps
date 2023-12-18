@@ -8,7 +8,7 @@ import { setColor } from "../../../actions/newMap";
 
 import Menu from './Menu';
 
-const ModalColor = ({ type }) => {
+const ModalColor = ({ type, getColor }) => {
 	const dispatch = useDispatch();
 
     const { menu } = useSelector((state) => state.menu);
@@ -23,7 +23,11 @@ const ModalColor = ({ type }) => {
     };
 
     const handleColorChangeComplete = (color) => {
-        dispatch(setColor(color.hex));
+        if (getColor) {
+            getColor(color.hex); // if getColor function provided, pass the chosen color to the parent
+        } else {
+            dispatch(setColor(color.hex));
+        }
     };
 
 	const Exp = (

@@ -63,3 +63,8 @@ export const removeTemplateLayer = (data) => ({
     type: mapTypes.REMOVE_TEMPLATE_LAYER,
     payload: data
 });
+
+export const addTemplateLayer = (data) => ({
+    type: mapTypes.ADD_TEMPLATE_LAYER,
+    payload: data
+});

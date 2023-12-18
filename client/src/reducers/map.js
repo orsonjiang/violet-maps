@@ -151,6 +151,20 @@ const map = (state = initialState, action) => {
                     ...newMap
                 }
             }
+        case mapTypes.ADD_TEMPLATE_LAYER:
+            newMap.graphics[state.newTemplateLayer.toLowerCase()] = {
+                property: state.map.graphics.label
+            };
+            if (state.newTemplateLayer != "Heat") {
+                newMap.graphics[state.newTemplateLayer.toLowerCase()]["color"] = action.payload;
+            }
+            
+            return {
+                ...state,
+                map: {
+                    ...newMap
+                }
+            }
         default:
             return state;
     }
