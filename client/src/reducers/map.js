@@ -6,6 +6,9 @@ const initialState = {
 }
 
 const map = (state = initialState, action) => {
+    const newMap = JSON.parse(JSON.stringify(state.map)); ;
+    const index = state.region ? state.region.feature.index : -1;
+
     switch (action.type) {
         case mapTypes.SET_MAP:
             return {
@@ -80,9 +83,25 @@ const map = (state = initialState, action) => {
             };     
 
         case mapTypes.SET_TEXT:
-            const newMap = JSON.parse(JSON.stringify(state.map)); ;
-            const index = state.region.feature.index;
             newMap.properties.data[index][state.map.graphics.label.property] = action.payload;
+            return {
+                ...state,
+                map: {
+                    ...newMap
+                }
+            };
+
+        case mapTypes.SET_FILL:
+            newMap.graphics.style[index].fill = action.payload;
+            return {
+                ...state,
+                map: {
+                    ...newMap
+                }
+            };
+
+        case mapTypes.SET_BORDER:
+            newMap.graphics.style[index].border = action.payload;
             return {
                 ...state,
                 map: {

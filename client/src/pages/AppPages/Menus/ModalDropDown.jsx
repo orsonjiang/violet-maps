@@ -6,7 +6,7 @@ import { MenuTypes } from '../../../constants';
 
 import Menu from './Menu';
 
-const DropDown = ({ type, list, handleItem }) => {
+const ModalDropDown = ({ type, list, handleItem }) => {
     const dispatch = useDispatch();
 
     const { menu } = useSelector((state) => state.menu);
@@ -57,4 +57,4 @@ const DropDown = ({ type, list, handleItem }) => {
     );
 };
 
-export default DropDown;
+export default ModalDropDown;

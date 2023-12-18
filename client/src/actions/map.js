@@ -33,3 +33,13 @@ export const setText = (data) => ({
     type: mapTypes.SET_TEXT,
     payload: data
 });
+
+export const setFill = (data) => ({
+    type: mapTypes.SET_FILL,
+    payload: data
+});
+
+export const setBorder = (data) => ({
+    type: mapTypes.SET_BORDER,
+    payload: data
+});

@@ -4,21 +4,22 @@ import { ChromePicker } from "react-color";
 
 import { setMenu } from "../../../actions/menu";
 import { MenuTypes } from "../../../constants";
+import { setColor } from "../../../actions/newMap";
 
 import Menu from './Menu';
 
-const Color = ({ children, type, oldColor, handleColor, disabled }) => {
+const ModalColor = ({ type }) => {
 	const dispatch = useDispatch();
 
     const { menu } = useSelector((state) => state.menu);
-    const [color, setColor] = useState(oldColor);
+    const [color, setColorState] = useState("#8187DC");
 
     const handleColorChange = (color) => {
-        setColor(color.hex);
+        setColorState(color.hex);
     };
 
     const handleColorChangeComplete = (color) => {
-        handleColor(color.hex);
+        dispatch(setColor(color.hex));
     };
 
 	const Exp = (
@@ -35,10 +36,10 @@ const Color = ({ children, type, oldColor, handleColor, disabled }) => {
     );
         
     return (
-        <>
+        <div className="w-3/5 relative">
             <button
-                disabled={disabled}
-                className={`px-1 disabled:opacity-20 disabled:bg-inherit hover:bg-gray-200 rounded-full w-7`}
+                style={{ backgroundColor: `${color}` }}
+                className={`flex justify-between w-full whitespace-nowrap items-center py-4 px-3 font-medium text-center text-white rounded-lg focus:outline-none relative`}
                 onClick={() => {
                     if (menu === type) {
                         dispatch(setMenu(MenuTypes.NONE));
@@ -46,12 +47,10 @@ const Color = ({ children, type, oldColor, handleColor, disabled }) => {
                         dispatch(setMenu(type));
                     }
                 }}
-            >
-                {children}
-            </button>
+            ></button>
             {menu == type ? Exp : ''}
-        </>
+        </div>
     );
 };
 
-export default Color;
+export default ModalColor;

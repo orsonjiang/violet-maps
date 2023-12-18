@@ -151,7 +151,7 @@ const EditMap = () => {
 
     return (
         <div className="flex flex-col grow text-sm">
-            <div className="flex px-2 gap-4 mb-2 text-2xl font-bold justify-between items-center">
+            {/* <div className="flex px-2 gap-4 mb-2 text-2xl font-bold justify-between items-center">
                 <div className="flex gap-3 items-center mx-5 text-sm">
                     {map
                         ? map.tags.map((tag, key) => {
@@ -176,14 +176,12 @@ const EditMap = () => {
                         <i className="fa-solid fa-plus"></i>
                     </button>
                 </div>
-            </div>
-            <div className="flex flex-col grow">
-                <div className='flex grow'>
+            </div> */}
+            <div className="flex grow">
                     <div
                         id="map"
                         className="w-full leaflet-container leaflet-touch leaflet-retina leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
                     ></div>
-                </div>
             </div>
         </div>
     );

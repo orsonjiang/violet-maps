@@ -19,7 +19,6 @@ const Navbar = () => {
     const { view } = useParams();
     const { user } = useSelector((state) => state.user);
     const { searchBy } = useSelector((state) => state.collate);
-    const { map } = useSelector((state) => state.map.present);
 
     const [menu, setMenu] = useState('none');
     const [text, setText] = useState("");
@@ -80,7 +79,7 @@ const Navbar = () => {
                 </Link>
                 
                 
-                {map ? <ToolbarWrapper/> : <SearchBar/> }
+                {view === 'edit' ? <ToolbarWrapper/> : <SearchBar/> }
                 
                 <div className={`${view == "NONE" ? "absolute right-2" : "relative"}`}>
                     <button
@@ -97,7 +96,7 @@ const Navbar = () => {
                     {menu == 'profile' ? (
                         <div
                             ref={ref}
-                            className={`absolute ${view == "NONE" ? "top-[-10px] right-12" : "right-0"} z-50 my-2 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow min-w-32`}
+                            className={`absolute ${view == "NONE" ? "top-[-10px] right-12" : "right-0"} z-[55] my-2 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow min-w-32`}
                             id="user-dropdown"
                         >
                             {user._id === '' ? (
