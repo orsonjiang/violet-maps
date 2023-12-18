@@ -114,18 +114,6 @@ const EditMap = () => {
     return (
         <div className="flex flex-col grow text-sm">
             <div className="flex px-2 gap-4 mb-2 text-2xl font-bold justify-between items-center">
-                <div></div>
-                <div className="flex gap-2">
-                    {map ? map.name : '---'}
-                    <button
-                        onClick={() => {
-                            openCurrentModal('RENAME_MAP');
-                        }}
-                    >
-                        <i className="fa fa-edit mr-2 text-xl text-indigo-500" />
-                    </button>
-                </div>
-
                 <div className="flex gap-3 items-center mx-5 text-sm">
                     {map
                         ? map.tags.map((tag, key) => {
@@ -152,7 +140,6 @@ const EditMap = () => {
                 </div>
             </div>
             <div className="flex flex-col grow">
-                {map ? <Toolbar /> : null}
                 <div className='flex grow'>
                     <div
                         id="map"

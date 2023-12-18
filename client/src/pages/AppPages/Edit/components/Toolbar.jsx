@@ -1,3 +1,5 @@
+import { useSelector } from 'react-redux';
+
 import UndoRedo from './UndoRedo';
 import Label from './Label';
 import Font from './Font';
@@ -30,7 +32,7 @@ const Toolbar = () => {
     ];
 
     return (
-        <div className="flex flex-wrap bg-white p-2 px-4 mx-5 my-2 justify-between rounded-lg border border-violet-200 drop-shadow-sm text-neutral-800 align-middle" style={{ zIndex: 1000 }}>
+        <div className="flex grow bg-white px-4 py-1 justify-between rounded-lg border border-violet-200 drop-shadow-sm text-neutral-800 align-middle" style={{ zIndex: 1000 }}>
             {tools.map((tool, index) => {
                 return [
                     // If the element isn't the first one add a border before it.
@@ -49,4 +51,22 @@ const Toolbar = () => {
     );
 };
 
-export default Toolbar;
+const ToolbarWrapper = () => {
+    const { map } = useSelector((state) => state.map.present);
+    const mapName = (map && map.name.length > 15) ? map.name.slice(0, 15) + "..." : map.name;
+
+    return(
+        <div className='flex grow'>
+            <div className="flex gap-2 items-center text-lg font-medium w-48 mr-2 justify-between">
+                {mapName}
+                <i className="fa fa-edit mr-2 text-xl text-indigo-500" 
+                    onClick={() => openCurrentModal('RENAME_MAP')}
+                />
+            </div>
+
+            <Toolbar />
+        </div>
+    )
+}
+
+export default ToolbarWrapper;
