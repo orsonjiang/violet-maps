@@ -6,9 +6,7 @@ import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 import apis from '../../../api/api';
-import { setMap } from '../../../actions/map';
-
-import Toolbar from './components/Toolbar';
+import { setMap, setRegion } from '../../../actions/map';
 
 const EditMap = () => {
     const navigate = useNavigate();
@@ -44,8 +42,10 @@ const EditMap = () => {
     }, []);
 
     useEffect(() => {
+        // Clear Map
         clearMap();
 
+        // Init Map
         if (map && !refmap.current) {
             refmap.current = L.map('map', { preferCanvas: true }).setView(
                 [39.74739, -105],
@@ -67,8 +67,39 @@ const EditMap = () => {
             });
         }
 
+        // Edit Map
+        const increaseStroke = (e) => {
+            const layer = e.target;
+
+            // increase stroke weight to show that feature can be selected
+            layer.setStyle({
+                weight: 5,
+            });
+        };
+
+        const resetStroke = (e) => {
+            const layer = e.target;
+
+            // return to original stroke weight
+            layer.setStyle({
+                weight: 3,
+            });
+        };
+
+        const clickFeature = (e) => {
+            const target = e.target;
+            // zoom into feature
+            refmap.current.fitBounds(target.getBounds());
+
+            // set the selected feature in store
+            dispatch(setRegion(target))
+        };
+
         if (map && refmap.current) {
-            apis.updateMap(id, map.graphics).catch((err) => console.log(err));
+            apis.updateMap(id, {
+                graphics: map.graphics,
+                properties: map.properties
+            }).catch((err) => console.log(err));
 
             for (let i = 0; i < map.geometry.data.length; i++) {
                 const feature = {
@@ -89,6 +120,13 @@ const EditMap = () => {
                     onEachFeature: (feature, layer) => {
                         const label = map.graphics.label;
                         const property = map.properties.data[feature.index];
+
+                        layer.on({
+                            mouseover: increaseStroke,
+                            mouseout: resetStroke,
+                            click: clickFeature,
+                        });
+
                         if (label.showLabels) {
                             layer.bindTooltip(
                                 `<div style="font-size: ${label.fontSize}px"> ${

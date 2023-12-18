@@ -1,10 +1,8 @@
-import { mapTypes } from "../actionTypes";
+import { mapTypes, mapsTypes } from "../actionTypes";
 
 const initialState = {
     map: null,
-    showLabel: {
-        a: false
-    }
+    region: null,
 }
 
 const map = (state = initialState, action) => {
@@ -13,6 +11,12 @@ const map = (state = initialState, action) => {
             return {
                 ...state,
                 map: action.payload
+            }
+
+        case mapTypes.SET_REGION:
+            return {
+                ...state,
+                region: action.payload
             }
 
         case mapTypes.TOGGLE_LABEL:
@@ -57,6 +61,32 @@ const map = (state = initialState, action) => {
                             fontSize: action.payload
                         }
                     }
+                }
+            };
+        
+        case mapTypes.SET_POSITION:
+            return {
+                ...state,
+                map: {
+                    ...state.map,
+                    graphics: {
+                        ...state.map.graphics,
+                        label: {
+                            ...state.map.graphics.label,
+                            position: action.payload
+                        }
+                    }
+                }
+            };     
+
+        case mapTypes.SET_TEXT:
+            const newMap = JSON.parse(JSON.stringify(state.map)); ;
+            const index = state.region.feature.index;
+            newMap.properties.data[index][state.map.graphics.label.property] = action.payload;
+            return {
+                ...state,
+                map: {
+                    ...newMap
                 }
             };
 

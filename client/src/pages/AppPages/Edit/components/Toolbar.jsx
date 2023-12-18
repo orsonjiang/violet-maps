@@ -20,7 +20,7 @@ const Toolbar = () => {
         <Label />,
         <Font />,
         <FontSize />,
-        // <Position />,
+        <Position />,
         <Text />,
         // <Region />,
         // <Border />,

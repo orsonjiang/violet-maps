@@ -1,18 +1,20 @@
+import { useDispatch, useSelector } from 'react-redux';
+import { MenuTypes } from '../../../../constants';
+import DropDown from '../../Menus/DropDown';
+import { setPosition } from '../../../../actions/map';
+
 const Position = () => {
-	return (
-		<div className="flex px-1 relative">
-		<button
-			onClick={() => {
-				setMenu('labelPosition');
-			}}
-			className="flex gap-2 items-center"
-		>
-			{currentMap.graphics.labelPosition}
-			<i className="fa-solid fa-chevron-down text-xs"></i>
-		</button>
-		{menu == 'labelPosition' ? labelPositionMenu : null}
-	</div>
-	);
+    const dispatch = useDispatch();
+
+    const { map } = useSelector((state) => state.map.present);
+    
+    const handleSetPosition = (font) => {
+        dispatch(setPosition(font));
+    };
+
+    const posOptions = ['center', 'right', 'left', 'top', 'bottom', 'auto'];
+
+    return <DropDown type={MenuTypes.SET_POSITION} list={posOptions} currentItem={map.graphics.label.position} handleItem={handleSetPosition}/>
 };
 
 export default Position;

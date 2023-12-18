@@ -17,7 +17,7 @@ const mapGraphicsSchema = new Schema({
 		fontStyle: { type: String, required: true },
 		fontSize: { type: Number, required: true },
 		// TODO: Add more enums.
-		position: { type: String, enum: ['Center'], required: true },
+		position: { type: String, enum: ['center', 'right', 'left', 'top', 'bottom', 'auto'], required: true },
 		property: { type: String },
 	},
 	heat: {
