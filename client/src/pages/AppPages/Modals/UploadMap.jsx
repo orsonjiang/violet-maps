@@ -166,6 +166,9 @@ const UploadMap = () => {
 				        visible: false
                     },
                 },
+                social: {
+                    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/A_large_blank_world_map_with_oceans_marked_in_blue.PNG/640px-A_large_blank_world_map_with_oceans_marked_in_blue.PNG"
+                }
             })
         );
         dispatch(setModal(ModalTypes.CHOOSE_TEMPLATE));
