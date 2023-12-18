@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ActionCreators } from 'redux-undo';
 import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import 'leaflet-choropleth';
+import 'leaflet-choropleth/dist/choropleth';
 
 import apis from '../../../api/api';
 import { setMap, setRegion } from '../../../actions/map';
@@ -17,8 +17,6 @@ const EditMap = () => {
     const refmap = useRef(null);
     const { id } = useParams();
     const { map } = useSelector((state) => state.map.present);
-
-    const geojson = convert(map);
 
     const MAP_URL = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
 
@@ -105,6 +103,8 @@ const EditMap = () => {
                 properties: map.properties,
             }).catch((err) => console.log(err));
 
+            const geojson = convert(map);
+
             if (map.graphics.choropleth) {
                 // NEW CODE: if there is a choropleth map, display this layer
                 L.choropleth(geojson, {
@@ -115,7 +115,6 @@ const EditMap = () => {
                     style: {
                         fillOpacity: 0.9,
                     },
-                    pane: '0',
                 }).addTo(refmap.current);
             }
 

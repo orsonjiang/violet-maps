@@ -13,12 +13,13 @@ export const convert = (map) => {
     if (!map) return geojson;
 
     for (let i = 0; i < map.geometry.data.length; i++) {
-        geojson.features.push({
+        const feature = {
             type: 'Feature',
             properties: map.properties.data[i],
             geometry: map.geometry.data[i],
-            index: i,
-        });
+            index: i
+        }
+        geojson.features.push(feature);
     }
 
     return geojson;
