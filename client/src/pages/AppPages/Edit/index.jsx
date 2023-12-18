@@ -17,6 +17,7 @@ const EditMap = () => {
     const dispatch = useDispatch();
 
     const refmap = useRef(null);
+    const layerControl = useRef(null); // keeping track of the layer control so that I can delete it later
     const { id } = useParams();
     const { map } = useSelector((state) => state.map.present);
 
@@ -30,6 +31,7 @@ const EditMap = () => {
                 }
             });
         }
+        if (layerControl.current) layerControl.current.remove(refmap.current); // removing old layer control
     };
 
     useEffect(() => {
@@ -69,6 +71,16 @@ const EditMap = () => {
             refmap.current.on('drag', function () {
                 refmap.current.panInsideBounds(bounds, { animate: false });
             });
+
+            // panes to help preserve layer order when you use the layer control
+            refmap.current.createPane('0');
+            refmap.current.createPane('1');
+            refmap.current.createPane('2');
+            refmap.current.createPane('3');
+            refmap.current.getPane('0').style.zIndex = 200;
+            refmap.current.getPane('1').style.zIndex = 250;
+            refmap.current.getPane('2').style.zIndex = 300;
+            refmap.current.getPane('3').style.zIndex = 350;
         }
 
         // Edit Map
@@ -107,8 +119,10 @@ const EditMap = () => {
 
             const geojson = convert(map);
 
+            var overlays = {}; // keeps track of the overlay layers (for layer control)
+
             if (map.graphics.choropleth) { // if there is a choropleth map, display this layer
-                L.choropleth(geojson, {
+                const choropleth = L.choropleth(geojson, {
                     valueProperty: map.graphics.choropleth.property,
                     scale: ['white', map.graphics.choropleth.color],
                     steps: 6,
@@ -116,10 +130,12 @@ const EditMap = () => {
                     style: {
                         fillOpacity: 0.9,
                     },
+                    pane: '0'
                 }).addTo(refmap.current);
+                overlays["Hide/Show Choropleth"] = choropleth;
             }
 
-            L.geoJSON(geojson, {
+            const geo = L.geoJSON(geojson, {
                 style: (feature) => {
                     const style = map.graphics.style[feature.index];
                     return {
@@ -150,7 +166,9 @@ const EditMap = () => {
                         );
                     }
                 },
+                pane: '1'
             }).addTo(refmap.current);
+            overlays["Hide/Show Your Edits"] = geo;
 
             const featurePropArr = map.properties.data;
             if (map.graphics.heat) { // if there is a heat map, display this layer
@@ -160,7 +178,8 @@ const EditMap = () => {
                     const point = centroid(map.geometry.data[i]); // get the center coordinates of polygon
                     points.push([point.geometry.coordinates[1], point.geometry.coordinates[0], featurePropArr[i][heatProperty]]); // heat map will update based on selected data property
                 }
-                L.heatLayer(points, {radius: 30, minOpacity: 0.55}).addTo(refmap.current);
+                const heat = L.heatLayer(points, {pane: '2', radius: 30, minOpacity: 0.55}).addTo(refmap.current);
+                overlays["Hide/Show Heat Map"] = heat // add heat layer to overlays object
             }
 
             if (map.graphics.bubble) { // if there is a bubble map, display this layer
@@ -181,8 +200,11 @@ const EditMap = () => {
                         fillOpacity: 0.3
                     }));
                 }
-                L.layerGroup(circles).addTo(refmap.current); // put all the circles in one layer so i can easily hide/show all of them at once
+                var bubble = L.layerGroup(circles, {pane: '3'}).addTo(refmap.current); // put all the circles in one layer so i can easily hide/show all of them at once
+                overlays["Hide/Show Bubbles"] = bubble // add bubble layer to overlays object
             }
+            const c = L.control.layers({}, overlays, {collapsed: false}).addTo(refmap.current);
+            layerControl.current = c; // ref to layer control so that I can delete it later
         }
     }, [map]);
 
