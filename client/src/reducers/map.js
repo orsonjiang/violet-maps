@@ -108,6 +108,21 @@ const map = (state = initialState, action) => {
                     ...newMap
                 }
             };
+        
+        case mapTypes.SET_PROPERTY:
+            return {
+                ...state,
+                map: {
+                    ...state.map,
+                    graphics: {
+                        ...state.map.graphics,
+                        label: {
+                            ...state.map.graphics.label,
+                            property: action.payload
+                        }
+                    }
+                }
+            };
 
         default:
             return state;

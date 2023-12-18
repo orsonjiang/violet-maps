@@ -1,20 +1,19 @@
+import { useDispatch, useSelector } from 'react-redux';
+
+import { MenuTypes } from '../../../../constants';
+import DropDown from '../../Menus/DropDown';
+import { setProperty } from '../../../../actions/map';
+
 const Property = () => {
-	return (
-		<div>
-			                <div className="flex px-1 relative">
-                    <button
-                        onClick={() => {
-                            setMenu('dataProperty');
-                        }}
-                        className="flex gap-2 items-center"
-                    >
-                        {currentMap.graphics.dataProperty}
-                        <i className="fa-solid fa-chevron-down text-xs"></i>
-                    </button>
-                    {menu == 'dataProperty' ? dataPropertyMenu : null}
-                </div>
-		</div>
-	);
+    const dispatch = useDispatch();
+
+    const { map } = useSelector((state) => state.map.present);
+    
+    const handleSetProperty = (property) => {
+        dispatch(setProperty(property));
+    };
+
+    return <DropDown type={MenuTypes.SET_PROPERTY} list={Object.keys(map.properties.data[0])} currentItem={map.graphics.label.property} handleItem={handleSetProperty}/>
 };
 
 export default Property;

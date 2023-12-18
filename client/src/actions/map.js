@@ -43,3 +43,8 @@ export const setBorder = (data) => ({
     type: mapTypes.SET_BORDER,
     payload: data
 });
+
+export const setProperty = (data) => ({
+    type: mapTypes.SET_PROPERTY,
+    payload: data
+});
