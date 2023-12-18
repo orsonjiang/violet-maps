@@ -163,7 +163,7 @@ const EditMap = () => {
 
             const geo = L.geoJSON(geojson, {
                 style: (feature) => {
-                    const style = map.graphics.style[feature.index];
+                    const style = map.graphics.style[feature.properties.index];
                     return {
                         color: style.border,
                         fillColor: style.fill,
@@ -172,7 +172,7 @@ const EditMap = () => {
                 },
                 onEachFeature: (feature, layer) => {
                     const label = map.graphics.label;
-                    const property = map.properties.data[feature.index];
+                    const property = map.properties.data[feature.properties.index];
    
                     layer.on({
                         mouseover: increaseStroke,
@@ -241,32 +241,6 @@ const EditMap = () => {
 
     return (
         <div className="flex flex-col grow text-sm">
-            {/* <div className="flex px-2 gap-4 mb-2 text-2xl font-bold justify-between items-center">
-                <div className="flex gap-3 items-center mx-5 text-sm">
-                    {map
-                        ? map.tags.map((tag, key) => {
-                              return (
-                                  <div
-                                      key={key}
-                                      className="text-white bg-violet-400 hover:bg-violet-500 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 "
-                                  >
-                                      {tag}
-                                  </div>
-                              );
-                          })
-                        : null}
-                    {map && map.tags.length == 0 ? (
-                        <div className="text-gray-400">No tags</div>
-                    ) : null}
-                    <button
-                        onClick={() => {
-                            openCurrentModal('MAP_PROPS_MODAL');
-                        }}
-                    >
-                        <i className="fa-solid fa-plus"></i>
-                    </button>
-                </div>
-            </div> */}
             <div className="flex grow">
                 <div
                     id="map"

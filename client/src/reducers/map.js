@@ -7,7 +7,7 @@ const initialState = {
 
 const map = (state = initialState, action) => {
     const newMap = JSON.parse(JSON.stringify(state.map)); ;
-    const index = state.region ? state.region.feature.index : -1;
+    const index = state.region ? state.region.feature.properties.index : -1;
 
     switch (action.type) {
         case mapTypes.SET_MAP:
