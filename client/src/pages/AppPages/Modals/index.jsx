@@ -16,7 +16,7 @@ const Modals = () => {
         [ModalTypes.CHOOSE_TEMPLATE]: <ChooseTemplate />,
         [ModalTypes.SET_DATA]: <SetData />,
         [ModalTypes.SET_TEXT]: <SetText />,
-        [ModalTypes.LEGEND]: <EditLegend />
+        [ModalTypes.EDIT_LEGEND]: <EditLegend />
     };
 
 	return renderModal[modal];

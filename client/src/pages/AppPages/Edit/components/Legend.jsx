@@ -9,7 +9,7 @@ const Legend = () => {
 	return (
         <button
             className="px-2 hover:bg-gray-200 rounded-full"
-            onClick={() => dispatch(setModal(ModalTypes.LEGEND))}
+            onClick={() => dispatch(setModal(ModalTypes.EDIT_LEGEND))}
         >
             Legend
         </button>
