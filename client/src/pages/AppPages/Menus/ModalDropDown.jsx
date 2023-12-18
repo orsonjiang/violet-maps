@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { setMenu } from '../../../actions/menu';
@@ -10,7 +10,14 @@ const ModalDropDown = ({ type, list, handleItem }) => {
     const dispatch = useDispatch();
 
     const { menu } = useSelector((state) => state.menu);
-    const [item, setItem] = useState(list.length > 0 ? list[0] : '');
+    const [item, setItem] = useState('');
+
+    useEffect(() => {
+        if (list.length > 0) {
+            setItem(list[0]);
+            handleItem(list[0]);
+        }
+    }, [])
 
     const Exp = (
         <Menu>

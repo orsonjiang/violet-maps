@@ -107,6 +107,7 @@ const EditMap = () => {
 
             if (map.graphics.choropleth) {
                 // NEW CODE: if there is a choropleth map, display this layer
+                console.log(map.graphics.choropleth);
                 L.choropleth(geojson, {
                     valueProperty: map.graphics.choropleth.property,
                     scale: ['white', map.graphics.choropleth.color],
@@ -129,7 +130,7 @@ const EditMap = () => {
                 onEachFeature: (feature, layer) => {
                     const label = map.graphics.label;
                     const property = map.properties.data[feature.index];
-
+   
                     layer.on({
                         mouseover: increaseStroke,
                         mouseout: resetStroke,

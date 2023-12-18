@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ChromePicker } from "react-color";
 
@@ -13,6 +13,10 @@ const ModalColor = ({ type }) => {
 
     const { menu } = useSelector((state) => state.menu);
     const [color, setColorState] = useState("#8187DC");
+
+    useEffect(() => {
+        dispatch(setColor("#8187DC")); // set default color
+    }, [])
 
     const handleColorChange = (color) => {
         setColorState(color.hex);

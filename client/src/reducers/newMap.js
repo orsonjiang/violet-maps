@@ -35,6 +35,7 @@ const newMap = (state = initialState, action) => {
 			if (!graphics[propertyKey]) graphics[propertyKey] = {};
 			if (propertyKey === "label") graphics[propertyKey]['showLabels'] = true;
 			graphics[propertyKey]['property'] = action.payload;
+			graphics['label']['property'] = action.payload;
 
 			return {
 				...state,
