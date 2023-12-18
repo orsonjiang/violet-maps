@@ -1,38 +1,20 @@
-const Font = () => {
-	return (
-        <div className="">
-            <button
-                className="flex gap-2 justify-between whitespace-nowrap items-center py-1 px-3 font-medium text-center bg-gray-300 rounded-lg hover:bg-violet-500 focus:outline-none relative"
-                onClick={() => {
-                    if (menu === type) {
-                        dispatch(setMenu(MenuTypes.NONE));
-                    } else {
-                        dispatch(setMenu(type));
-                    }
-                }}
-            >
-                <div>{'adjaslkjdlksajls'}</div>
-                <i className="fa-solid fa-chevron-down" />
-            </button>
-            {/* {menu == type ? Exp : ''} */}
-        </div>
-    );
+import { useDispatch, useSelector } from 'react-redux';
+import { MenuTypes } from '../../../../constants';
+import DropDown from '../../Menus/DropDown';
+import { setFont } from '../../../../actions/map';
 
-	return (
-		<div className="flex px-1 relative">
-		<button
-			onClick={() => {
-				setMenu('fontStyle');
-			}}
-			className="flex gap-2 items-center"
-		>
-			{currentMap.graphics.fontStyle}
-			<i className="fa-solid fa-chevron-down text-xs"></i>
-		</button>
-		{/* Dropdown menu */}
-		{menu == 'fontStyle' ? fontStyleMenu : null}
-	</div>
-	);
+const Font = () => {
+    const dispatch = useDispatch();
+
+    const { map } = useSelector((state) => state.map.present);
+    
+    const handleSetFont = (font) => {
+        dispatch(setFont(font));
+    };
+
+    const fontOptions = ["font-sans", "font-serif", "font-mono"];
+
+    return <DropDown type={MenuTypes.SET_FONT} list={fontOptions} currentItem={map.graphics.label.fontStyle} handleItem={handleSetFont}/>
 };
 
 export default Font;

@@ -49,9 +49,7 @@ const AppPages = () => {
         <div>
             <Modals />
             <Navbar />
-            <div className="py-4">
-                {renderView[view]}
-            </div>
+            {renderView[view]}
         </div>
     );
 };

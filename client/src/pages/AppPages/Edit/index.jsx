@@ -9,6 +9,7 @@ import apis from '../../../api/api';
 import { setMap } from '../../../actions/map';
 
 import Toolbar from './components/Toolbar';
+import Menu from '../Menus/Menu';
 
 const EditMap = () => {
     const navigate = useNavigate();
@@ -37,10 +38,9 @@ const EditMap = () => {
             apis.getMap(id, ['owner', 'geometry', 'properties', 'graphics'])
                 .then((res) => {
                     dispatch(setMap(res.data.map));
-                    dispatch(ActionCreators.clearHistory())
+                    dispatch(ActionCreators.clearHistory());
                 })
                 .catch((err) => console.log(err));
-            
         }
     }, []);
 
@@ -69,8 +69,7 @@ const EditMap = () => {
         }
 
         if (map && refmap.current) {
-            apis.updateMap(id, map.graphics)
-                .catch((err) => console.log(err));
+            apis.updateMap(id, map.graphics).catch((err) => console.log(err));
 
             for (let i = 0; i < map.geometry.data.length; i++) {
                 const feature = {
@@ -111,7 +110,7 @@ const EditMap = () => {
         <div className="text-sm">
             <div className="flex px-2 gap-4 mb-2 text-2xl font-bold justify-between items-center">
                 <div></div>
-                <div className='flex gap-2'>
+                <div className="flex gap-2">
                     {map ? map.name : '---'}
                     <button
                         onClick={() => {
@@ -147,8 +146,11 @@ const EditMap = () => {
                     </button>
                 </div>
             </div>
-            <div id="map" className="w-full h-[77vh] mt-[65px] !absolute"></div>
             {map ? <Toolbar /> : null}
+            <div
+                id="map"
+                className="grow h-[77vh] w-full !absolute leaflet-container leaflet-touch leaflet-retina leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom z-50"
+            ></div>
         </div>
     );
 };

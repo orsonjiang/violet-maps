@@ -1,11 +1,12 @@
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { setMenu } from '../../../actions/menu';
 import { MenuTypes } from '../../../constants';
-import { useState } from 'react';
+
 import Menu from './Menu';
 
-const ModalDropDown = ({ type, list, handleItem }) => {
+const DropDown = ({ type, list, handleItem }) => {
     const dispatch = useDispatch();
 
     const { menu } = useSelector((state) => state.menu);
@@ -36,10 +37,10 @@ const ModalDropDown = ({ type, list, handleItem }) => {
         </Menu>
     );
 
-	return (
-        <div>
+    return (
+        <div className="w-3/5 relative">
             <button
-                className="flex gap-2 justify-between whitespace-nowrap items-center py-1 px-3 font-medium text-center bg-gray-300 rounded-lg hover:bg-violet-500 focus:outline-none relative"
+                className="flex justify-between w-full whitespace-nowrap items-center py-2 px-3 font-medium text-center text-white bg-violet-400 rounded-lg hover:bg-violet-500 focus:outline-none relative"
                 onClick={() => {
                     if (menu === type) {
                         dispatch(setMenu(MenuTypes.NONE));
@@ -48,12 +49,12 @@ const ModalDropDown = ({ type, list, handleItem }) => {
                     }
                 }}
             >
-                <div>{'adjaslkjdlksajls'}</div>
+                <div>{item}</div>
                 <i className="fa-solid fa-chevron-down" />
             </button>
-            {/* {menu == type ? Exp : ''} */}
+            {menu == type ? Exp : ''}
         </div>
     );
 };
 
-export default ModalDropDown;
+export default DropDown;

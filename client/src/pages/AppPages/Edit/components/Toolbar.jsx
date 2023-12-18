@@ -40,7 +40,7 @@ const Toolbar = () => {
                             className="w-0.5 h-6 bg-gray-100 mx-1"
                         ></div>
                     ) : (''),
-                    <div key={`tool-${index}`} className="flex gap-1">
+                    <div key={`tool-${index}`} className="flex gap-1 z-[500]">
                         {tool}
                     </div>,
                 ];

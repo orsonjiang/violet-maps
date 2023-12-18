@@ -5,6 +5,7 @@ import { ChromePicker } from "react-color";
 import { setMenu } from "../../../actions/menu";
 import { MenuTypes } from "../../../constants";
 import { setColor } from "../../../actions/newMap";
+
 import Menu from './Menu';
 
 const Color = ({ type }) => {
