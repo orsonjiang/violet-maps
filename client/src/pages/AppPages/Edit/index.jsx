@@ -149,7 +149,7 @@ const EditMap = () => {
                             div.innerHTML +=
                                 '<div style="display: flex; align-items: center; gap: 10px;">' +
                                     `<div style="width: 25px; height: 25px; background:${colors[i]}"></div> ` + 
-                                    `<div>< ${limits[i].toFixed(2)}</div>` +
+                                    `<div>< ${Number(limits[i]).toFixed(2)}</div>` +
                                 '</div>';
                         }
                         return div;
