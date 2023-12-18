@@ -14,7 +14,7 @@ const newMap = (state = initialState, action) => {
     switch (action.type) {
         case newMapTypes.SET_NEW_MAP:
             return {
-                ...state,
+                template: initialState.template,
                 ...action.payload,
             }
 		
