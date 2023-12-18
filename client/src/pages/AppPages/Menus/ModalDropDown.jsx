@@ -10,15 +10,12 @@ const ModalDropDown = ({ type, list, currentItem, handleItem }) => {
     const dispatch = useDispatch();
 
     const { menu } = useSelector((state) => state.menu);
-    const [item, setItem] = useState('');
+    const [item, setItem] = useState(currentItem ? currentItem : '');
 
     useEffect(() => {
-        if (list.length > 0) {
+        if (!currentItem && list.length > 0 ) {
             setItem(list[0]);
             handleItem(list[0]);
-        }
-        if (currentItem) {
-            setItem(currentItem);
         }
     }, [])
 
