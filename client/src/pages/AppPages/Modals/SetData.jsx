@@ -17,7 +17,7 @@ const SetData = () => {
     const navigate = useNavigate();
 
     const newMap = useSelector((state) => state.newMap);
-    const { template, properties } = newMap;
+    const { name, template, properties } = newMap;
 
     const filteredList = () => {
         if (!properties.length) return [];
@@ -77,6 +77,7 @@ const SetData = () => {
             <Input title={'Name: '}>
                 <TextField
                     placeholder={'Map Name'}
+                    value = {name}
                     onChange={handleNameChange}
                 />
             </Input>

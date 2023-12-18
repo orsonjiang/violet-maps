@@ -27,7 +27,7 @@ const UploadMap = () => {
         return file.substring(file.lastIndexOf('.')) === expected;
     };
 
-    const parseFilename = (s) => s.substring(0, s.indexOf(','));
+    const parseFilename = (s) => s.substring(0, s.indexOf('.'));
 
     const readFileAsArrayBuffer = (file) => {
         return new Promise((resolve, reject) => {
