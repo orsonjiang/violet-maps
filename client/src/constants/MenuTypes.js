@@ -6,4 +6,5 @@ export const MenuTypes = {
 	SET_FONT: "SET_FONT",
 	SET_FILL: "SET_FILL",
 	SET_BORDER: "SET_BORDER",
+	SET_PROPERTY: "SET_PROPERTY",
 };
