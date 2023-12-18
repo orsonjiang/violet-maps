@@ -130,6 +130,9 @@ const updateMap = async (req, res) => {
         return sendError(res, "You must provide map data.");
     }
 
+    delete body.graphics._id;
+    delete body.properties._id;
+
     Map.findOne({ _id: req.params.id })
         .then((map) => {
             MapGraphics.findOneAndUpdate({ _id: map.graphics }, body.graphics)
