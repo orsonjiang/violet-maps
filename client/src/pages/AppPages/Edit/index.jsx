@@ -139,12 +139,12 @@ const EditMap = () => {
                 if (map.graphics.legend.visible) { // auto generated choropleth legend
                     var legend = L.control({position: map.graphics.legend.position});
                     legend.onAdd = function (m) {
-
-                        var div = L.DomUtil.create('div', 'legend'),
-                            colors = choropleth.options.colors,
-                            limits = choropleth.options.limits;
+                        const div = L.DomUtil.create('div', 'legend');
+                        const colors = choropleth.options.colors;
+                        const limits = choropleth.options.limits;
                         div.style = 'background: rgba(255, 255, 255, .8); padding: 10px;'
-                        {map.graphics.legend.name != "" ? div.innerHTML += `<h2 style="font-weight: 500; font-size: 1.1em; padding-bottom: 10px;">${map.graphics.legend.name}</h2>` : null}
+                        div.innerHTML = map.graphics.legend.name ? `<h2 style="font-weight: 500; font-size: 1.1em; padding-bottom: 10px;">${map.graphics.legend.name}</h2>` : '';
+
                         for (var i = 0; i < colors.length; i++) {
                             div.innerHTML +=
                                 '<div style="display: flex; align-items: center; gap: 10px;">' +
@@ -152,7 +152,6 @@ const EditMap = () => {
                                     `<div>< ${limits[i].toFixed(2)}</div>` +
                                 '</div>';
                         }
-                    
                         return div;
                     };
                     
@@ -195,6 +194,7 @@ const EditMap = () => {
                 },
                 pane: '1'
             }).addTo(refmap.current);
+            
             overlays["Hide/Show Your Edits"] = geo;
 
             const featurePropArr = map.properties.data;
