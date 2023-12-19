@@ -128,7 +128,7 @@ const EditMap = () => {
 
             var overlays = {}; // keeps track of the overlay layers (for layer control)
 
-            if (map.graphics.choropleth) { // if there is a choropleth map, display this layer
+            if (map.graphics.choropleth.isDisplayed) { // if there is a choropleth map, display this layer
                 const choropleth = L.choropleth(geojson, {
                     valueProperty: map.graphics.choropleth.property,
                     scale: ['white', map.graphics.choropleth.color],
@@ -154,7 +154,7 @@ const EditMap = () => {
                             div.innerHTML +=
                                 '<div style="display: flex; align-items: center; gap: 10px;">' +
                                     `<div style="width: 25px; height: 25px; background:${colors[i]}"></div> ` + 
-                                    `<div>< ${limits[i].toFixed(2)}</div>` +
+                                    `<div>< ${Number(limits[i]).toFixed(2)}</div>` +
                                 '</div>';
                         }
                         return div;
@@ -184,7 +184,7 @@ const EditMap = () => {
                         click: clickFeature,
                     });
 
-                    if (label.showLabels) {
+                    if (label.isDisplayed) {
                         layer.bindTooltip(
                             `<div style="font-size: ${label.fontSize}px"> ${
                                 property[label.property]
@@ -203,7 +203,7 @@ const EditMap = () => {
             overlays["Hide/Show Your Edits"] = geo;
 
             const featurePropArr = map.properties.data;
-            if (map.graphics.heat) { // if there is a heat map, display this layer
+            if (map.graphics.heat.isDisplayed) { // if there is a heat map, display this layer
                 const heatProperty = map.graphics.heat.property;
                 const points = []
                 for (let i = 0; i < map.geometry.data.length; i++) {
@@ -214,7 +214,7 @@ const EditMap = () => {
                 overlays["Hide/Show Heat Map"] = heat // add heat layer to overlays object
             }
 
-            if (map.graphics.bubble) { // if there is a bubble map, display this layer
+            if (map.graphics.bubble.isDisplayed) { // if there is a bubble map, display this layer
                 const bubbleProperty = map.graphics.bubble.property;
                 let max = featurePropArr[0][bubbleProperty]; // finding the max value
                 let val = max; // temp value

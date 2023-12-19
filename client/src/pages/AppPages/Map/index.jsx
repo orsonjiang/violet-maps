@@ -132,7 +132,7 @@ const Map = () => {
                         }
                     },
                     onEachFeature: (feature, layer) => {
-                        if (currentMap.graphics.showLabels) {
+                        if (currentMap.graphics.isDisplayed) {
                             layer.bindTooltip("" + feature.properties[currentMap.graphics.dataProperty], 
                                 {
                                     permanent: true,

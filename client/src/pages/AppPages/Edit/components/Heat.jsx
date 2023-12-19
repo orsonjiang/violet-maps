@@ -1,16 +1,24 @@
+import { useDispatch } from 'react-redux';
+
+import { setModal } from '../../../../actions/modal';
+import { ModalTypes, PropertyTypes } from '../../../../constants';
+import { setLayerProperty } from '../../../../actions/map';
+
 const Heat = () => {
+    const dispatch = useDispatch();
+
+    const handleClick = () => {
+        dispatch(setLayerProperty(PropertyTypes.HEAT));
+        dispatch(setModal(ModalTypes.ADD_LAYER));
+    }
+
 	return (
-		<div>
-			                <button
-                    className="px-1 hover:bg-violet-100"
-                    onClick={() => {
-                        openCurrentModal('ADD_LAYER');
-                    }}
-                >
-                    <i className="fa-solid fa-plus mr-1.5"></i>
-                    Heat Map
-                </button>
-		</div>
+        <button
+            className="flex items-center px-2 hover:bg-gray-200 rounded-full"
+            onClick={handleClick}
+        >
+            <i className="bg-gradient-to-b from-red-500 to-purple-500 text-transparent bg-clip-text fa-solid fa-fire"></i>
+        </button>
 	);
 };
 

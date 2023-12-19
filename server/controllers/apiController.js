@@ -80,8 +80,6 @@ const createMap = async (req, res) => {
     const graphics = new MapGraphics(body.graphics);
     await graphics.save();
 
-    console.log(body)
-
     const map = new Map({
         name: body.name,
         owner: req.userId,

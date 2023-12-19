@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { setName, setNewProperty } from '../../../actions/newMap';
+import { setColor, setName, setNewProperty } from '../../../actions/newMap';
 import { capitalize, closeModal } from '../../../helpers';
 import { MenuTypes, TemplateTypes } from '../../../constants';
 import apis from '../../../api/api';
@@ -56,6 +56,10 @@ const SetData = () => {
         dispatch(setNewProperty(item));
     };
 
+    const handleSetColor = (color) => {
+        dispatch(setColor(color));
+    };
+
     const PropertyField = (
         <Input title={'Data Property: '}>
             <ModalDropDown list={filteredList()} handleItem={handleSelectProperty} type={MenuTypes.FINALIZE_DROP_DOWN}/>
@@ -64,7 +68,7 @@ const SetData = () => {
 
     const ColorField = (
         <Input title={'Color Property: '} type={MenuTypes.FINALIZE_COLOR}>
-            <ModalColor />
+            <ModalColor  handleSetColor={handleSetColor} defaultColor={"#8187DC"}/>
         </Input>
     );
 
