@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 
 import apis from '../../../api/api';
 import { setMap } from '../../../actions/map';
+import { setModal } from '../../../actions/modal';
 
 import Comments from './components/Comments';
 import LeafletMap from './components/LeafletMap';
@@ -12,7 +13,7 @@ import Loading from '../components/Loading';
 import DropDown from '../Menus/DropDown';
 import Tag from './components/Tag';
 
-import { MenuTypes } from '../../../constants';
+import { MenuTypes, ModalTypes } from '../../../constants';
 import { convert, handleExportMap } from "../../../helpers";
 
 const Map = () => {
@@ -67,7 +68,7 @@ const Map = () => {
                         <Button handler={()=>{}} icon = {"fa-solid fa-thumbs-up"} text={map.social.likes}/>
                         <Button handler={()=>{}} icon = {"fa-solid fa-thumbs-down"} text={map.social.dislikes}/>
                         <DropDown type={MenuTypes.MAP_EXPORT} list={exportOptions} handleItem={handleExport} button={["Export", "fa-solid fa-file-export"]}/>
-                        <Button handler={()=>{}} icon = {"fa-solid fa-copy"} text={"Fork"}/>
+                        <Button handler={()=>{dispatch(setModal(ModalTypes.FORK_MAP))}} icon = {"fa-solid fa-copy"} text={"Fork"}/>
                     </div>
                 </div>
             </div>

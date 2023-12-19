@@ -1,9 +1,14 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { setModal } from "../../../actions/modal";
+import { ModalTypes } from "../../../constants";
+import { useDispatch } from "react-redux";
+
 // TODO: Make menu work.
 const MapCard = ({ map }) => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const ref = useRef(null);
 
     const [menu, setMenu] = useState("none");
@@ -37,6 +42,11 @@ const MapCard = ({ map }) => {
         setMenu("mapCard");
     }
 
+    const clickFork = (event) => {
+        event.stopPropagation();
+        dispatch(setModal(ModalTypes.FORK_MAP));
+    }
+
     let image = map.social.image;
 
     try {
@@ -65,7 +75,7 @@ const MapCard = ({ map }) => {
                                 <a
                                     href="#"
                                     className="block px-5 py-2 text-sm text-gray-700 hover:bg-gray-100 "
-                                    onClick={() => { setModal("fork") }}
+                                    onClick={clickFork}
                                 >
                                     <i className="fa fa-code-fork mr-2" />
                                     Fork
