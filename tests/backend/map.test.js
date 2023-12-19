@@ -128,32 +128,43 @@ TypeError: map.save is not a function.
     at save ==> server/controllers/apiController.js:117:17
     
 describe("Updating map - PUT /api/map/:id", () => {
-    test("Updating a graphics field - labels", async() => {
-        const mockGraphics = {
-            _id: "mockGraphicsId",
-            style: [],
-            label: {
-                showLabels: true, 
-                fontStyle: "Times New Roman",
-                fontSize: 18,
-                position: "right",
-            },
-            legend: {
-                visible: false
-            }
-        }
+    test("Updating a graphics field", async() => {
 
-        const mockProperties = {
-            _id: "mockPropertyId",
-            data: ""
+        const mockData = {
+            _id: "mockId",
+            name: "testmap",
+            owner: "testUserId",
+            tags: [],
+            geometry: {
+                _id: "mockGeometryId",
+                data: []
+            },
+            properties: {
+                _id: "mockPropertyId",
+                data: []
+            },
+            graphics: {
+                _id: "mockGraphicsId",
+                style: [],
+                label: {
+                    showLabels: true,
+                    fontStyle: "Times New Roman",
+                    fontSize: 18,
+                    position: "right",
+                },
+                legend: {
+                    visible: false
+                }
+            },
+            social: {
+                image: "mockImage"
+            } 
         }
-        mapSaveSpy.mockReturnValue(mapData);
-        findOneSpy.mockResolvedValue(mapData);
-        
-        const response = await request(app).put("/api/map/mockId").set("Authorization", "mockToken").send({ 
-            graphics: mockGraphics,
-            properties: mockProperties
+        findOneSpy.mockResolvedValue({
+            save: jest.fn().mockResolvedValue()
         });
+        
+        const response = await request(app).put("/api/map/mockId").set("Authorization", "mockToken").send(mockData);
 
         expect(response.statusCode).toBe(204);
         expect(findOneSpy).toHaveBeenCalledWith({_id: "mockId"});
