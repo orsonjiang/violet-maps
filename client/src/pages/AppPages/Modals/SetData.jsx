@@ -11,10 +11,14 @@ import Input from './components/Input';
 import TextField from './components/TextField';
 import ModalDropDown from '../Menus/ModalDropDown';
 import ModalColor from '../Menus/ModalColor';
+import { useState } from 'react';
+import Loading from '../components/Loading';
 
 const SetData = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const [loading, setLoading] = useState(false);
 
     const newMap = useSelector((state) => state.newMap);
     const { name, template, properties } = newMap;
@@ -40,6 +44,7 @@ const SetData = () => {
     }
 
     const handleConfirm = () => {
+        setLoading(true);
         apis.createMap(newMap)
             .then((res) => {
                 closeModal(dispatch);
@@ -87,6 +92,7 @@ const SetData = () => {
             </Input>
             {newMap.template !== TemplateTypes.BLANK ? PropertyField : ''}
             {newMap.template === TemplateTypes.CHOROPLETH || newMap.template === TemplateTypes.BUBBLE ? ColorField : ''}
+            {loading ? <div className='text-sm text-center text-green-600'>Loading...</div> : ""}
         </Modal>
     );
 };

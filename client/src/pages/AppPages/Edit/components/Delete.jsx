@@ -14,6 +14,7 @@ const Delete = () => {
         <button
             className="flex items-center px-2 hover:bg-gray-200 rounded-full"
             onClick={handleClick}
+            title='Delete Map'
         >
             <i className="fa-solid fa-trash"></i>
         </button>

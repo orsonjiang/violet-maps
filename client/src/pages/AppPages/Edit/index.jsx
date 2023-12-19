@@ -12,7 +12,7 @@ import apis from '../../../api/api';
 import { setMap, setMapContainer, setRegion } from '../../../actions/map';
 import { convert } from '../../../helpers';
 
-import Tags from './components/Tags';
+import Loading from '../components/Loading';
 
 const EditMap = () => {
     const navigate = useNavigate();
@@ -244,8 +244,10 @@ const EditMap = () => {
         }
     }, [map]);
 
-    if (!map) {
-        return <div>Loading Map...</div>;
+    if (!map || map._id !== id) {
+        return (<Loading>
+            Loading Map...
+        </Loading>);
     }
 
     return (
@@ -257,7 +259,6 @@ const EditMap = () => {
                     className="w-full leaflet-container leaflet-touch leaflet-retina leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
                 ></div>
             </div>
-            <Tags />
         </div>
     );
 };

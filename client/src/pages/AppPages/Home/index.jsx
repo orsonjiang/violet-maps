@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { setModal } from '../../../actions/modal';
 import { ModalTypes } from '../../../constants';
@@ -6,13 +6,22 @@ import { ModalTypes } from '../../../constants';
 import TitleBar from '../components/TitleBar';
 import SortBy from '../components/SortBy';
 import Maps from '../components/Maps';
+import Loading from '../components/Loading';
 
 const Home = () => {
     const dispatch = useDispatch();
 
+    const { user } = useSelector((state) => state.user);
+
     const handleCreateMap = () => {
         dispatch(setModal(ModalTypes.UPLOAD_MAP));
     };
+
+    if (user._id === '') {
+        return (<Loading>
+            Please sign up or login to make your own maps.
+        </Loading>)
+    }
 
     return (
         <div className='py-4 px-16'>

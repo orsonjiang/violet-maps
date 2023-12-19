@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
 import auth from '../../../api/auth';
@@ -12,6 +12,14 @@ const Login = () => {
     const dispatch = useDispatch();
 
     const [error, setError] = useState("");
+
+    const { user } = useSelector((state) => state.user);
+
+    useEffect(() => {
+        if (user._id) {
+            navigate("/app/home");
+        }
+    }, [])
 
     const handleLogin = async (e) => {
         e.preventDefault();

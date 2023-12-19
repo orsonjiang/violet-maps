@@ -1,9 +1,8 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
 import auth from '../../../api/auth';
-import store from '../../../store';
 import { setUser } from '../../../actions/user';
 import Form from '../components/Form';
 import Field from '../components/Field';
@@ -12,6 +11,14 @@ const Register = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [error, setError] = useState("");
+
+    const { user } = useSelector((state) => state.user);
+
+    useEffect(() => {
+        if (user._id) {
+            navigate("/app/home");
+        }
+    }, [])
 
     const handleRegister = async (e) => {
         e.preventDefault();

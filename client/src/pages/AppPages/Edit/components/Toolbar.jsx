@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 import ToolbarBorder from './ToolbarBorder';
 import UndoRedo from './UndoRedo';
@@ -17,6 +18,7 @@ import Thumbnail from './Thumbnail';
 import Publish from './Publish';
 import Download from './Download';
 import Delete from './Delete';
+import Tags from './Tags';
 import { setModal } from '../../../../actions/modal';
 import { ModalTypes } from '../../../../constants';
 
@@ -39,10 +41,11 @@ const Toolbar = () => {
         <Heat />,
         <ToolbarBorder />,
         // <External />,
+        <Tags />,
         <Thumbnail />,
         <Publish />,
         <Download />,
-        <Delete />,
+        <Delete />
     ];
 
     return (
@@ -59,19 +62,20 @@ const Toolbar = () => {
 };
 
 const ToolbarWrapper = () => {
-    const { map } = useSelector((state) => state.map.present);
     const dispatch = useDispatch();
-    if (!map) return <div></div>;
-    const mapName =
-        map && map.name.length > 15 ? map.name.slice(0, 15) + '...' : map.name;
 
+    const { map } = useSelector((state) => state.map.present);
+
+    if (!map) return <div className='grow'></div>;
+    
     return (
         <div className="flex grow text-sm gap-2">
             <div className="flex gap-2 items-center text-lg font-medium w-48 bg-white px-4 py-1 justify-between rounded-lg border border-violet-200 drop-shadow-sm text-neutral-800 align-middle truncate">
-                {mapName}
+                {map ? map.name : ""}
                 <button
                     className="fa fa-edit text-xl text-indigo-500 flex items-center px-1 hover:bg-gray-200 rounded-full"
                     onClick={() => dispatch(setModal(ModalTypes.RENAME_MAP))}
+                    title='Rename Map'
                 />
             </div>
             <Toolbar />
