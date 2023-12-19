@@ -18,7 +18,7 @@ const Modals = () => {
         [ModalTypes.SET_DATA]: <SetData />,
         [ModalTypes.SET_TEXT]: <SetText />,
         [ModalTypes.EDIT_LEGEND]: <EditLegend />,
-        [ModalTypes.ADD_LAYER]: <AddLayer />
+        [ModalTypes.ADD_LAYER]: <AddLayer />,
     };
 
 	return renderModal[modal];

@@ -49,9 +49,20 @@ export const setBorder = (data) => ({
     payload: data
 });
 
-export const setProperty = (data) => ({
+export const setProperty = (type, data) => ({
     type: mapTypes.SET_PROPERTY,
-    payload: data
+    payload: {
+        type: type,
+        data: data
+    }
+});
+
+export const setColor = (type, data) => ({
+    type: mapTypes.SET_COLOR,
+    payload: {
+        type: type,
+        data: data
+    }
 });
 
 export const setLegend = (data) => ({
@@ -59,22 +70,20 @@ export const setLegend = (data) => ({
     payload: data
 });
 
-export const setTemplateLayer = (data) => ({
-    type: mapTypes.SET_TEMPLATE_LAYER,
-    payload: data
-});
-
-export const removeTemplateLayer = (data) => ({
-    type: mapTypes.REMOVE_TEMPLATE_LAYER,
-    payload: data
-});
-
-export const addTemplateLayer = (data) => ({
-    type: mapTypes.ADD_TEMPLATE_LAYER,
-	payload: data
-});
-
 export const setImage = (data) => ({
     type: mapTypes.SET_IMAGE,
     payload: data
+});
+
+export const setLayerProperty = (data) => ({
+    type: mapTypes.SET_LAYER_PROPERTY,
+    payload: data
+});
+
+export const setDisplay = (type, data) => ({
+    type: mapTypes.SET_DISPLAY,
+    payload: {
+        type: type,
+        data: data
+    }
 });
