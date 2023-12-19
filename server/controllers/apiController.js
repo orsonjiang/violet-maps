@@ -11,7 +11,6 @@ const MapGraphics = require("../models/MapGraphics");
 
 const getMaps = async (req, res) => {
     const options = {};
-    const regSearch = new RegExp(req.query.searchText, "i");
 
     switch (req.query.view) {
         case "home":
@@ -28,24 +27,7 @@ const getMaps = async (req, res) => {
             return sendError(res, "There was an error retrieving maps.")
     }
 
-    switch (req.query.searchBy) {
-        case "name":
-            options.name = regSearch;
-            break;
-        
-        case "username":
-            options.username = regSearch;
-            break;
-        
-        case "properties":
-            options.tags = regSearch;
-            break;
-
-        default:
-            return sendError(res, "There was an error retrieving maps.")
-    }
-
-    Map.find(options)
+    Map.find({"social.publishedDate": { $ne: null }})
         .then((maps) => {
             return res.status(200).json({ maps: maps });
         })
@@ -182,6 +164,26 @@ const updateImage = async (req, res) => {
         });    
 };
 
+const publishMap = async (req, res) => {
+    Map.findOne({ _id: req.params.id })
+        .then((map) => {
+            map.social.publishedDate = new Date();
+            map.save()
+                .then(() => {
+                    return res.status(204).json({ id: map._id })
+                })
+                .catch((err) => {
+                    console.log(err);
+                    return sendError(res, "The image could not be saved.")
+                })
+                
+        })
+        .catch(err => {
+            console.log(err);
+            return sendError(res, "The map could not be found.");
+        });    
+};
+
 const deleteMap = async (req, res) => {
     Map.deleteOne({ _id: req.params.id })
         .then(() => {
@@ -199,5 +201,6 @@ module.exports = {
     getMap,
     updateMap,
     updateImage,
+    publishMap,
     deleteMap
 };

@@ -37,6 +37,12 @@ const MapCard = ({ map }) => {
         setMenu("mapCard");
     }
 
+    let image = map.social.image;
+
+    try {
+        image =  atob(map.social.image);
+    } catch {}
+
     return (
         <div>
             <div onClick={handleClickCard} className={`p-1 pt-1 rounded-md h-full drop-shadow-sm ${map.social.publishedDate == null ? "border-2 border-violet-200 bg-white" : "border-2 border-indigo-300 bg-indigo-300/[0.9]"}`}>
@@ -80,7 +86,7 @@ const MapCard = ({ map }) => {
                     </div> : null}
                 </div>
                 <img
-                    src={map.social.image}
+                    src={image}
                     className="rounded-md w-full"
                 />
                 <div className="mx-3 mt-3">

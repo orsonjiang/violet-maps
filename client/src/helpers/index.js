@@ -49,7 +49,7 @@ export const handleExportMap = (mapContainer, map, type, download, dispatch) => 
                 link.download = `${map.name}.${type.toLowerCase()}`;
                 link.click();
             } else {
-                apis.updateMapImage(map._id, dataUrl);
+                apis.updateMapImage(map._id, btoa(dataUrl));
             }
         })
 }
