@@ -84,10 +84,10 @@ const Map = () => {
                         </div>
                     </div>
                     <div className='flex space-x-2 justify-end text-xs font-medium flex-wrap'>
-                        <Button className={"w-4"} handler={() => handleLike()} icon = {"fa-solid fa-thumbs-up"} text={map.social.likes.length}/>
-                        <Button className={"w-4"} handler={() => handleDislike()} icon = {"fa-solid fa-thumbs-down"} text={map.social.dislikes.length}/>
+                        <Button className={"w-4"} handler={() => handleLike()} icon = {"fa-solid fa-thumbs-up"} text={map.social.likes.length}  disabled={user._id === ''}/>
+                        <Button className={"w-4"} handler={() => handleDislike()} icon = {"fa-solid fa-thumbs-down"} text={map.social.dislikes.length} disabled={user._id === ''}/>
                         <DropDown type={MenuTypes.MAP_EXPORT} list={exportOptions} handleItem={handleExport} button={["Export", "fa-solid fa-file-export"]}/>
-                        <Button handler={()=>{dispatch(setModal(ModalTypes.FORK_MAP))}} icon = {"fa-solid fa-copy"} text={"Fork"}/>
+                        <Button handler={()=>{dispatch(setModal(ModalTypes.FORK_MAP))}} icon = {"fa-solid fa-copy"} text={"Fork"} disabled={user._id === ''}/>
                     </div>
                 </div>
             </div>
