@@ -115,11 +115,19 @@ const updateMap = async (req, res) => {
 
     Map.findOne({ _id: req.params.id })
         .then((map) => {
-            MapGraphics.findOneAndUpdate({ _id: map.graphics }, body.graphics)
+            map.name = body.name;
+            map.save()
                 .then(() => {
-                    MapProperties.findOneAndUpdate({ _id: map.properties }, body.properties)
+                    MapGraphics.findOneAndUpdate({ _id: map.graphics }, body.graphics)
                         .then(() => {
-                            return res.status(204).json({ id: map._id })
+                            MapProperties.findOneAndUpdate({ _id: map.properties }, body.properties)
+                                .then(() => {
+                                    return res.status(204).json({ id: map._id })
+                                })
+                                .catch((err) => {
+                                    console.log(err);
+                                    return sendError(res, "The map could not be updated.")
+                                })
                         })
                         .catch((err) => {
                             console.log(err);
@@ -128,8 +136,9 @@ const updateMap = async (req, res) => {
                 })
                 .catch((err) => {
                     console.log(err);
-                    return sendError(res, "The map could not be updated.")
+                    return sendError(res, "The map details could not be saved.")
                 })
+            
         })
         .catch(err => {
             console.log(err);

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { setText } from "../../../actions/map";
 import { setModal } from "../../../actions/modal";
+import { setName } from "../../../actions/map";
 import { ModalTypes } from "../../../constants";
 
 import Modal from "./Modal";
@@ -12,31 +12,23 @@ import TextField from "./components/TextField";
 const SetText = () => {
     const dispatch = useDispatch();
 
-    const { map, region } = useSelector((state) => state.map.present);
-
-    const oldName = () => {
-        if (!region) return '';
-
-        const index = region.feature.properties.index;
-        return map.properties.data[index][map.graphics.label.property];
-    }
-
-    const [name, setName] = useState(oldName());
+    const { map } = useSelector((state) => state.map.present);
+    const [name, setStateName] = useState(map.name);
 
     const handleConfirm = () => {
-        dispatch(setText(name));
+        dispatch(setName(name));
         dispatch(setModal(ModalTypes.NONE));
     };
 
     return (
         <Modal
-            title={'Add/Edit Label for Region'}
+            title={'Rename Map'}
             confirm={handleConfirm}
             fields={true}
         >
-            <Input title={'Name: '}>
+            <Input title={'Map Name: '}>
                 <TextField
-                    onChange={(event) => setName(event.target.value)}
+                    onChange={(event) => setStateName(event.target.value)}
                     value={name}
                 />
             </Input>

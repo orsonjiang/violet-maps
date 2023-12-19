@@ -87,3 +87,8 @@ export const setDisplay = (type, data) => ({
         data: data
     }
 });
+
+export const setName = (data) => ({
+    type: mapTypes.SET_NAME,
+    payload: data
+});
