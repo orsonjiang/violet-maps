@@ -17,6 +17,11 @@ jobs:
           envkey_CLIENT_URL: ${{ vars.CLIENT_URL }}
           envkey_ENVIRONMENT: ${{ vars.ENVIRONMENT }}
           envkey_JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          envkey_EMAIL_USER: ${{ secrets.EMAIL_USER }}
+          envkey_CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          envkey_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+          envkey_REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
+
           directory: server
           fail_on_empty: false
           sort_keys: false
