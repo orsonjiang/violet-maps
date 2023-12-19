@@ -20,6 +20,7 @@
     "@tmcw/togeojson": "^5.8.1",
     "@turf/centroid": "^6.5.0",
     "axios": "^1.6.0",
+    "dom-to-image": "^2.6.0",
     "geobuf": "^3.0.2",
     "leaflet": "^1.9.4",
     "leaflet-choropleth": "^1.1.4",

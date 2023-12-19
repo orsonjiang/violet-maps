@@ -7,7 +7,8 @@ const socialSchema = new Schema(
 		views: { type: Number, required: true },
 		likes: [{ type: Schema.Types.ObjectId, ref: "User" }],
 		dislikes: [{ type: Schema.Types.ObjectId, ref: "User" }],
-		comments: [{ type: Schema.Types.ObjectId, ref: "MapComment" }]
+		comments: [{ type: Schema.Types.ObjectId, ref: "MapComment" }],
+		image: { type: String }
 	},
     { timestamps: true }
 );

@@ -29,6 +29,11 @@ const getMap = (id, populate) => {
 const updateMap = (id, data) => {
     return api.put(`/map/${id}`, data)
 }
+const updateMapImage = (id, data) => {
+    return api.put(`/map/${id}/image`, {
+        image: data
+    })
+}
 const deleteMap = (id) => api.delete(`/map/${id}`);
 
 const apis = {
@@ -36,6 +41,7 @@ const apis = {
     createMap,
     getMap,
     updateMap,
+    updateMapImage,
     deleteMap
 };
 

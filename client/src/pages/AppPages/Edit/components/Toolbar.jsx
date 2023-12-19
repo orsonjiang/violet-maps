@@ -13,6 +13,7 @@ import Property from './Property';
 import Bubble from './Bubble';
 import Heat from './Heat';
 import External from './External';
+import Thumbnail from './Thumbnail';
 
 const Toolbar = () => {
     const tools = [
@@ -29,6 +30,7 @@ const Toolbar = () => {
         // <Bubble />,
         // <Heat />,
         // <External />,
+        <Thumbnail />,
     ];
 
     return (

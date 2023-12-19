@@ -3,6 +3,7 @@ import { mapTypes } from "../actionTypes";
 const initialState = {
     map: null,
     region: null,
+    container: null,
 }
 
 const map = (state = initialState, action) => {
@@ -14,6 +15,12 @@ const map = (state = initialState, action) => {
             return {
                 ...state,
                 map: action.payload
+            }
+
+        case mapTypes.SET_MAP_CONTAINER:
+            return {
+                ...state,
+                container: action.payload
             }
 
         case mapTypes.SET_REGION:
@@ -123,6 +130,7 @@ const map = (state = initialState, action) => {
                     }
                 }
             };
+
         case mapTypes.SET_LEGEND:
             return {
                 ...state,
@@ -136,6 +144,20 @@ const map = (state = initialState, action) => {
                     }
                 }
             };
+        
+        case mapTypes.SET_IMAGE:
+            return {
+                ...state,
+                map: {
+                    ...state.map,
+                    social: {
+                        ...state.map.social,
+                        image: action.payload
+                    }
+                }
+            };
+
+
 
         default:
             return state;
