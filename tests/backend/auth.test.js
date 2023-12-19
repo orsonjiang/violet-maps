@@ -1,8 +1,4 @@
 const request = require('supertest');
-const { app } = require('../../server/index');
-const User = require('../../server/models/UserSchema');
-const bcrypt = require("../../server/node_modules/bcryptjs");
-const auth = require('../../server/auth/index');
 
 const { app } = require('../../server/index');
 
