@@ -1,51 +1,85 @@
-import { CREATE_MAP, CREATE_MAP_PROPERTIES, CREATE_MAP_TEMPLATE, SET_MAPS, SET_CURRENT_MAP, UPDATE_MAP, UPDATE_SELECTED_FEATURE } from "../action-types/map-types";
+import { mapTypes } from "../actionTypes";
+import { PropertyTypes } from "../constants";
 
 const initialState = {
-    newMap: {
-        name: "",
-        data: {},
-        features: [],
-        username: "",
-        template: "",
-        dataProperty: "",
-        color: ""
-    },
-	currentMap: null,
-    selectedFeature: null, // NEW CODE: is set when user clicks on a feature, holds the feature ref
-    maps: []
+    map: null,
+    region: null,
+    container: null,
+    layerProperty: PropertyTypes.NONE,
 }
 
 const map = (state = initialState, action) => {
-	switch (action.type) {
-		case CREATE_MAP:
-			return {
-				...initialState,
-                newMap: {
-                    ...initialState.newMap,
-                    data: action.payload["data"],
-                    features: action.payload["features"], 
-                    username: action.payload["username"]
-                }
-			}
-        case CREATE_MAP_TEMPLATE:
+    const newMap = JSON.parse(JSON.stringify(state.map)); ;
+    const index = state.region ? state.region.feature.properties.index : -1;
+
+    switch (action.type) {
+        case mapTypes.SET_MAP:
             return {
                 ...state,
-                newMap: {
-                    ...state.newMap,
-                    template: action.payload
-                }
+                map: action.payload
             }
-        case CREATE_MAP_PROPERTIES:
+
+        case mapTypes.SET_MAP_CONTAINER:
             return {
                 ...state,
-                newMap: {
-                    ...state.newMap,
-                    ...action.payload
-                }
+                container: action.payload
             }
-        case SET_MAPS:
+
+        case mapTypes.SET_REGION:
             return {
                 ...state,
+                region: action.payload
+            }
+
+        case mapTypes.TOGGLE_LABEL:
+            return {
+                ...state,
+                map: {
+                    ...state.map,
+                    graphics: {
+                        ...state.map.graphics,
+                        label: {
+                            ...state.map.graphics.label,
+                            isDisplayed: !state.map.graphics.label.isDisplayed
+                        }
+                    }
+                }
+            };
+
+        case mapTypes.SET_FONT:
+            return {
+                ...state,
+                map: {
+                    ...state.map,
+                    graphics: {
+                        ...state.map.graphics,
+                        label: {
+                            ...state.map.graphics.label,
+                            fontStyle: action.payload
+                        }
+                    }
+                }
+            };
+
+        case mapTypes.SET_FONT_SIZE:
+            return {
+                ...state,
+                map: {
+                    ...state.map,
+                    graphics: {
+                        ...state.map.graphics,
+                        label: {
+                            ...state.map.graphics.label,
+                            fontSize: action.payload
+                        }
+                    }
+                }
+            };
+        
+        case mapTypes.SET_POSITION:
+            return {
+                ...state,
+<<<<<<< HEAD
                 maps: action.payload
             }
         case SET_CURRENT_MAP:
@@ -72,21 +106,135 @@ const map = (state = initialState, action) => {
                 currentMap: {
                     data: { ...state.currentMap.data },
                     ...action.payload
+=======
+                map: {
+                    ...state.map,
+                    graphics: {
+                        ...state.map.graphics,
+                        label: {
+                            ...state.map.graphics.label,
+                            position: action.payload
+                        }
+                    }
+>>>>>>> kayla-2
                 }
-            }
-        // case SET_LEAFLET_MAP:
-        //     return {
-        //         ...state,
-        //         leafletMap: action.payload
-        //     }
-        // case EXPORT_MAP:
-        //     return {
-        //         ...state,
-        //         exportType: action.payload
-        //     }
-		default:
-			return state;
-	}
+            };     
+
+        case mapTypes.SET_TEXT:
+            newMap.properties.data[index][state.map.graphics.label.property] = action.payload;
+            return {
+                ...state,
+                map: {
+                    ...newMap
+                }
+            };
+
+        case mapTypes.SET_FILL:
+            newMap.graphics.style[index].fill = action.payload;
+            return {
+                ...state,
+                map: {
+                    ...newMap
+                }
+            };
+
+        case mapTypes.SET_BORDER:
+            newMap.graphics.style[index].border = action.payload;
+            return {
+                ...state,
+                map: {
+                    ...newMap
+                }
+            };
+        
+        case mapTypes.SET_PROPERTY:
+            newMap.graphics[action.payload.type].property = action.payload.data;
+            return {
+                ...state,
+                map: {
+                    ...newMap
+                }
+            };
+        
+        case mapTypes.SET_COLOR:
+            newMap.graphics[action.payload.type].color = action.payload.data;
+            return {
+                ...state,
+                map: {
+                    ...newMap
+                }
+            };
+
+        case mapTypes.SET_LEGEND:
+            return {
+                ...state,
+                map: {
+                    ...state.map,
+                    graphics: {
+                        ...state.map.graphics,
+                        legend: {
+                            ...action.payload
+                        }
+                    }
+                }
+            };
+        case mapTypes.SET_IMAGE:
+            return {
+                ...state,
+                map: {
+                    ...state.map,
+                    social: {
+                        ...state.map.social,
+                        image: action.payload
+                    }
+                }
+            };
+
+        case mapTypes.SET_LAYER_PROPERTY:
+            return {
+                ...state,
+                layerProperty: action.payload
+            };
+        
+        case mapTypes.SET_DISPLAY:
+            newMap.graphics[action.payload.type].isDisplayed = action.payload.data;
+            return {
+                ...state,
+                map: {
+                    ...newMap
+                }
+            };
+
+        case mapTypes.SET_NAME:
+            newMap.name = action.payload;
+            return {
+                ...state,
+                map: {
+                    ...newMap
+                }
+            }  
+        case mapTypes.ADD_COMMENT:
+            newMap.social.comments.unshift(action.payload);
+            return {
+                ...state,
+                map: {
+                    ...newMap
+                }
+            }  
+
+        case mapTypes.SET_TAGS:
+            newMap.tags = action.payload;
+   
+            return {
+                ...state,
+                map: {
+                    ...newMap
+                }
+            }   
+
+        default:
+            return state;
+    }
 };
 
 export default map;

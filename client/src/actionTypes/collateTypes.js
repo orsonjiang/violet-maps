@@ -1,0 +1,5 @@
+export const collateTypes = {
+	SET_SEARCH_TEXT: "SET_SEARCH_TEXT",
+	SET_SEARCH_BY: "SET_SEARCH_BY",
+	SET_SORT_BY: "SET_SORT_BY",
+};

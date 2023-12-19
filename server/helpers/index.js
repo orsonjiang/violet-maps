@@ -1,5 +1,4 @@
 const nodemailer = require('nodemailer');
-const axios = require('axios');
 
 const sendError = (res, msg = "No more information can be provided at the time.", status = 400) => {
     return res
@@ -23,7 +22,7 @@ const sendEmail = async (email, subject, text) => {
         });
 
         await transporter.sendMail({
-            from: process.env.USER,
+            from: process.env.EMAIL_USER,
             to: email,
             subject: subject,
             text: text,

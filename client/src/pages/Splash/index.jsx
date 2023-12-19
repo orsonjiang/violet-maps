@@ -1,26 +1,15 @@
-// import TitleButton from "./components/TitleButton";
-import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { setView } from '../../actions/home';
+import TitleButton from "./components/TitleButton";
 
 const Splash = () => {
-
-    const dispatch = useDispatch()
-
-    const handleGuest = () => {
-        dispatch(setView("EXPLORE"));
-    }
-
     return (
         <div className="flex min-h-screen">
             <div className="flex bg-cover bg-center w-2/3 justify-center">
-                <div className="w-full  p-10 bg-violet-400/[0.6] flex flex-col items-center justify-center">
-                    <div className="font-bold text-[45px] my-5 text-white">Violet Maps</div>
+                <div className="w-full p-10 bg-violet-400/[0.6] flex flex-col items-center justify-center">
+                    <div className="font-bold text-5xl my-5 text-white">Violet Maps</div>
                     <div className="text-lg min-w-xl text-violet-50">
-                        Connect with other map enthusiasts around you on Violet
-                        Maps.
+                        Connect with other map enthusiasts around you on Violet Maps.
                     </div>
-                    <div className="max-w-xl text-[17px] font-[400] text-violet-500 my-10 bg-white/[0.7] rounded-lg px-12 py-9">
+                    <div className="max-w-xl text-md font-normal text-violet-500 my-10 bg-white/[0.7] rounded-lg px-12 py-9">
                         <ul className="list-disc">
                             <li >Customize your own maps</li>
                             <li>Add custom labels</li>
@@ -34,28 +23,9 @@ const Splash = () => {
                 </div>
             </div>
             <div className="flex flex-col p-8 grow justify-center items-center bg-white">
-                <div className="flex flex-col my-4">
-                    <div className="text-[17px] my-2 font-medium text-center">Don't have an account?</div>
-                    <Link to={"/register"} className="text-white bg-violet-400/[0.9] hover:bg-violet-500/[0.9] focus:outline-none focus:ring-2 focus:ring-purple-300 font-medium rounded-full text-md py-2 text-center mb-2 self-center w-60">
-                        Sign Up
-                    </Link>
-                </div>
-                <div className="flex flex-col my-4">
-                    <div className="text-[17px] my-2 font-medium text-center">Already have an account?</div>
-                    <Link to={"/login"} className="text-white bg-violet-400/[0.9] hover:bg-violet-500/[0.9] focus:outline-none focus:ring-2 focus:ring-purple-300 font-medium rounded-full text-md py-2 text-center mb-2 self-center w-60">
-                        Log In
-                    </Link>
-                </div>
-                <div className="flex flex-col my-4">
-                    <div className="text-[17px] my-2 font-medium text-center">Want to anonymously browse?</div>
-                    <Link onClick={handleGuest} to={"/app/home"} className="text-white bg-violet-400/[0.9] hover:bg-violet-500/[0.9] focus:outline-none focus:ring-2 focus:ring-purple-300 font-medium rounded-full text-md py-2 text-center mb-2 self-center w-60">
-                        Continue as Guest
-                    </Link>
-                </div>
-                      
-                {/* <TitleButton title={"Don't have an account?"} buttonText={"Sign Up"} link={"/register"}/>
+                <TitleButton title={"Don't have an account?"} buttonText={"Sign Up"} link={"/register"}/>
                 <TitleButton title={"Already have an account?"} buttonText={"Log In"} link={"/login"}/>
-                <TitleButton title={"Want to anonymously browse?"} buttonText={"Continue as Guest"} link={"/app/home"}/> */}
+                <TitleButton title={"Want to anonymously browse?"} buttonText={"Continue as Guest"} link={"/app/explore"}/>
             </div>
         </div>
     );

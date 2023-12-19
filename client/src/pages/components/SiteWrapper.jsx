@@ -1,10 +1,27 @@
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+
+import auths from "../../api/auth";
+import { setUser } from "../../actions/user";
+
 const SiteWrapper = ({children}) => {
-	return (
-		<div className='flex-col bg-gray-50 min-h-screen w-auto'>
-			{/* <div className='bg-gradient-to-r from-gray-50 to-gray-50 min-h-screen'></div> */}
-			{children}
-		</div>
-	)
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        auths.postLogin({ auto: true })
+        .then(req => {
+            if (req.status === 200) {
+                dispatch(setUser(req.data));
+            }
+        })
+        .catch()
+    }, []);
+
+    return (
+        <div className='flex flex-col bg-gray-50 min-h-screen'>
+            {children}
+        </div>
+    )
 }
 
 export default SiteWrapper;

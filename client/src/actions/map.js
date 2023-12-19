@@ -1,63 +1,116 @@
-import { CREATE_MAP, CREATE_MAP_TEMPLATE, CREATE_MAP_PROPERTIES, SET_MAPS, SET_CURRENT_MAP, UPDATE_MAP, UPDATE_SELECTED_FEATURE} from "../action-types/map-types";
+import { mapTypes } from "../actionTypes";
 
-export const createMap = (data) => ({
-	type: CREATE_MAP,
-	payload: data
+export const setMap = (data) => ({
+    type: mapTypes.SET_MAP,
+    payload: data
 });
 
-export const createMapTemplate = (data) => ({
-	type: CREATE_MAP_TEMPLATE,
-	payload: data
+export const setMapContainer = (data) => ({
+    type: mapTypes.SET_MAP_CONTAINER,
+    payload: data
 });
 
-export const createMapProperties = (data) => ({
-	type: CREATE_MAP_PROPERTIES,
-	payload: data
+export const setRegion = (data) => ({
+    type: mapTypes.SET_REGION,
+    payload: data
 });
 
-export const setMaps = (data) => ({
-	type: SET_MAPS,
-	payload: data
+export const toggleLabel = () => ({
+    type: mapTypes.TOGGLE_LABEL,
+});
+
+export const setFont = (data) => ({
+    type: mapTypes.SET_FONT,
+    payload: data
+});
+
+export const setFontSize = (data) => ({
+    type: mapTypes.SET_FONT_SIZE,
+    payload: data
+});
+
+export const setPosition = (data) => ({
+    type: mapTypes.SET_POSITION,
+    payload: data
+});
+
+export const setText = (data) => ({
+    type: mapTypes.SET_TEXT,
+    payload: data
+});
+
+export const setFill = (data) => ({
+    type: mapTypes.SET_FILL,
+    payload: data
+});
+
+export const setBorder = (data) => ({
+    type: mapTypes.SET_BORDER,
+    payload: data
+});
+
+export const setProperty = (type, data) => ({
+    type: mapTypes.SET_PROPERTY,
+    payload: {
+        type: type,
+        data: data
+    }
+});
+
+export const setColor = (type, data) => ({
+    type: mapTypes.SET_COLOR,
+    payload: {
+        type: type,
+        data: data
+    }
+});
+
+export const setLegend = (data) => ({
+    type: mapTypes.SET_LEGEND,
+    payload: data
+});
+
+export const setImage = (data) => ({
+    type: mapTypes.SET_IMAGE,
+    payload: data
+});
+
+export const setLayerProperty = (data) => ({
+    type: mapTypes.SET_LAYER_PROPERTY,
+    payload: data
+});
+
+export const setDisplay = (type, data) => ({
+    type: mapTypes.SET_DISPLAY,
+    payload: {
+        type: type,
+        data: data
+    }
+});
+
+export const setName = (data) => ({
+    type: mapTypes.SET_NAME,
+    payload: data
 });
 
 
-export const setCurrentMap = (data) => ({
-	type: SET_CURRENT_MAP,
-	payload: data
+export const addComment = (data) => ({
+    type: mapTypes.ADD_COMMENT,
+    payload: data
 });
 
-// NEW CODE
-export const updateSelectedFeature = (data) => ({
-	type: UPDATE_SELECTED_FEATURE,
-	payload: data
+export const setTags = (data) => ({
+    type: mapTypes.SET_TAGS,
+    payload: data
 });
 
-// export const updateMapData = (data) => ({
-// 	type: UPDATE_MAP_DATA,
-// 	payload: data
-// });
-
-// export const publishMap = (data) => ({
-// 	type: PUBLISH_MAP,
-// 	payload: data
-// })
-
-// export const addComment = (data) => ({
-// 	type: ADD_COMMENT,
-// 	payload: data
-// });
-
-export const updateMapInStore = (data) => ({
-	type: UPDATE_MAP,
-	payload: data
+export const addLike = (data) => ({
+    type: mapTypes.ADD_LIKE,
+    payload: data,
 });
 
-export const exportMap = (data) => ({
-	type: EXPORT_MAP,
-	payload: data
+export const addDislike = (data) => ({
+    type: mapTypes.ADD_DISLIKE,
+    payload: data,
 });
 
-export const setLeafletMap = (data) => ({
-	type: SET_LEAFLET_MAP,
-	payload: data
-})
