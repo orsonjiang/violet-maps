@@ -123,6 +123,7 @@ const EditMap = () => {
         if (map && refMap.current) {
             apis.updateMap(id, {
                 name: map.name,
+                tags: map.tags,
                 graphics: map.graphics,
                 properties: map.properties,
             }).catch((err) => console.log(err));
@@ -250,7 +251,7 @@ const EditMap = () => {
     }
 
     return (
-        <div className="flex flex-col grow text-sm">
+        <div className="flex flex-col grow text-sm space-y-2">
             <div className="flex grow">
                 <div
                     ref={refMapContainer}

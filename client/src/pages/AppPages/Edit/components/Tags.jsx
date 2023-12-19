@@ -1,24 +1,25 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { setModal } from '../../../../actions/modal';
 import { ModalTypes } from '../../../../constants';
 
-const Delete = () => {
+const Tags = () => {
     const dispatch = useDispatch();
 
     const handleClick = () => {
-        dispatch(setModal(ModalTypes.DELETE_MAP));
+        dispatch(setModal(ModalTypes.SET_TAGS));
     }
 
-	return (
+    return (
         <button
             className="flex items-center px-2 hover:bg-gray-200 rounded-full"
             onClick={handleClick}
-            title='Delete Map'
+            title='Tags'
         >
-            <i className="fa-solid fa-trash"></i>
-        </button>
-	);
-};
+            <i class="fa-solid fa-hashtag"></i>        
+        </button> 
+    )
 
-export default Delete;
+}
+
+export default Tags;

@@ -12,6 +12,7 @@ import PublishMap from "./PublishMap";
 import DeleteMap from "./DeleteMap";
 import RenameMap from "./RenameMap";
 import ForkMap from "./ForkMap";
+import SetTags from "./SetTags";
 
 const Modals = () => {
     const { modal } = useSelector((state) => state.modal);
@@ -27,6 +28,7 @@ const Modals = () => {
         [ModalTypes.DELETE_MAP]: <DeleteMap />,
         [ModalTypes.RENAME_MAP]: <RenameMap />,
         [ModalTypes.FORK_MAP]: <ForkMap />,
+        [ModalTypes.SET_TAGS]: <SetTags />
     };
 
 	return renderModal[modal];

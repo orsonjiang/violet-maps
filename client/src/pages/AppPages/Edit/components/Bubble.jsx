@@ -16,6 +16,7 @@ const Bubble = () => {
         <button
             className="flex items-center px-2 hover:bg-gray-200 rounded-full"
             onClick={handleClick}
+            title="Bubble Layer"
         >
             <i className="text-indigo-500 fa-solid fa-circle"></i>
         </button>

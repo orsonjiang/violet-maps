@@ -17,4 +17,5 @@ export const mapTypes = {
 	SET_DISPLAY: "SET_DISPLAY",
 	SET_NAME: "SET_NAME",
 	ADD_COMMENT: "ADD_COMMENT",
+	SET_TAGS: "SET_TAGS"
 };

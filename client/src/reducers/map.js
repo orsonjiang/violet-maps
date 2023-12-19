@@ -193,6 +193,16 @@ const map = (state = initialState, action) => {
                 }
             }  
 
+        case mapTypes.SET_TAGS:
+            newMap.tags = action.payload;
+   
+            return {
+                ...state,
+                map: {
+                    ...newMap
+                }
+            }   
+
         default:
             return state;
     }

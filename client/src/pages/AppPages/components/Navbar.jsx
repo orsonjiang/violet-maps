@@ -80,10 +80,10 @@ const Navbar = () => {
         <nav className="bg-gradient-to-r from-violet-300 to-indigo-300 p-3">
             <div className="flex gap-4 items-center pl-2">
                 <Link to={"/app/home"}>
-                    <i className={`fa fa-home text-xl ${colorSelectedView("home")}`} />
+                    <i id="home-icon" className={`fa fa-home text-xl ${colorSelectedView("home")}`} />
                 </Link>
                 <Link to={"/app/explore"}>
-                    <i className={`fas fa-globe-americas text-xl ${colorSelectedView("explore")}`} />
+                    <i id='explore-icon' className={`fas fa-globe-americas text-xl ${colorSelectedView("explore")}`} />
                 </Link>
                 
                 {renderView[view]}

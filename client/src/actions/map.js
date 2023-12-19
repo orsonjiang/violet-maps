@@ -98,3 +98,9 @@ export const addComment = (data) => ({
     type: mapTypes.ADD_COMMENT,
     payload: data
 });
+
+export const setTags = (data) => ({
+    type: mapTypes.SET_TAGS,
+    payload: data
+})
+
