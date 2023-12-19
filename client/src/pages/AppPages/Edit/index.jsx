@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ActionCreators } from 'redux-undo';
 import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -260,7 +260,16 @@ const EditMap = () => {
     if (map && map._id !== user._id) {
         return (<>
             <Loading>
-                You don't have access to this page, you are not the owner. 
+                <div>
+                    You don't have access to this page, you are not the owner. 
+                </div>
+                <div className='flex items-center justify-center py-4'>
+                    <Link to={"/app/explore"}>
+                        <button className='rounded-full bg-accent py-1.5 px-4 shadow-lg text-white'>
+                            Explore
+                        </button>
+                    </Link>
+                </div>
             </Loading>
             <div id="map"></div>
         </>);
