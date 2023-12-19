@@ -184,6 +184,14 @@ const map = (state = initialState, action) => {
                     ...newMap
                 }
             }  
+        case mapTypes.ADD_COMMENT:
+            newMap.social.comments.unshift(action.payload);
+            return {
+                ...state,
+                map: {
+                    ...newMap
+                }
+            }  
 
         case mapTypes.SET_TAGS:
             newMap.tags = action.payload;
@@ -192,6 +200,17 @@ const map = (state = initialState, action) => {
                 ...state,
                 map: {
                     ...newMap
+                }
+            }   
+
+        case mapTypes.SET_SOCIAL:
+            return {
+                ...state,
+                map: {
+                    ...state.map,
+                    social: {
+                        ...action.payload
+                    }
                 }
             }   
 

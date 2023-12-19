@@ -80,7 +80,7 @@ const SetTags = () => {
             fields={true}
             close={true}
         >
-            <div className="flex gap-3 items-center flex-wrap">
+            <div className="text-sm flex gap-3 items-center flex-wrap">
                 {
                     map.tags.length != 0 ? map.tags.map((tag, key) => {
                         return (
@@ -94,7 +94,7 @@ const SetTags = () => {
                                     onChange={handleUpdateText}
                                     onKeyDown={handleEditTag}
                                 /> : tag}
-                                {key === deleteKey ? <div className="pl-1 cursor-pointer" onClick={handleDelete}><i className="fa-solid fa-minus"></i></div> : null}
+                                {key === deleteKey ? <div className="pl-1 cursor-pointer" onClick={handleDelete}><i className="text-xs fa-solid fa-minus"></i></div> : null}
                             </div>
                         )
                     }) : null}

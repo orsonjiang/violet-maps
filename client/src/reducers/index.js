@@ -1,5 +1,7 @@
 import { combineReducers } from 'redux';
-import undoable from 'redux-undo';
+import undoable, { excludeAction } from 'redux-undo';
+
+import { mapTypes } from '../actionTypes';
 
 import collate from './collate';
 import map from './map';
@@ -9,9 +11,10 @@ import modal from './modal';
 import newMap from './newMap';
 import user from './user'
 
+
 export default combineReducers({
     collate,
-    map: undoable(map),
+    map: undoable(map, {filter: excludeAction([mapTypes.SET_REGION, mapTypes.SET_MAP_CONTAINER, mapTypes.SET_LAYER_PROPERTY])}),
     maps,
     menu,
     modal,

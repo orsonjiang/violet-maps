@@ -8,12 +8,12 @@ import centroid from "@turf/centroid"; // calculate center point
 import "../../../../plugins/leaflet-heat";
 
 import apis from '../../../../api/api';
-import { setMap } from '../../../../actions/map';
+import { setMapContainer } from '../../../../actions/map';
 import { convert } from '../../../../helpers';
 
 const LeafletMap = () => {
     const dispatch = useDispatch();
-    
+
     const refMap = useRef(null);
     const refMapContainer = useRef(null);
     const layerControl = useRef(null); // keeping track of the layer control so that I can delete it later
@@ -36,16 +36,8 @@ const LeafletMap = () => {
     };
 
     useEffect(() => {
-        clearMap();
-
-        if (!map || map._id !== id) {
-            apis.getMap(id, ['owner', 'geometry', 'properties', 'graphics'])
-                .then((res) => {
-                    dispatch(setMap(res.data.map));
-                })
-                .catch((err) => console.log(err));
-        }
-    }, []);
+        dispatch(setMapContainer(refMapContainer.current));
+    }, [refMapContainer.current])
 
     useEffect(() => {
         // Clear Map
@@ -53,7 +45,7 @@ const LeafletMap = () => {
 
         // Init Map
         if (map && !refMap.current) {
-            refMap.current = L.map('map').setView(
+            refMap.current = L.map('map2').setView(
                 [39.74739, -105],
                 2
             );
@@ -109,10 +101,10 @@ const LeafletMap = () => {
         };
 
         if (map && refMap.current) {
-            apis.updateMap(id, {
-                graphics: map.graphics,
-                properties: map.properties,
-            }).catch((err) => console.log(err));
+            // apis.updateMap(id, {
+            //     graphics: map.graphics,
+            //     properties: map.properties,
+            // }).catch((err) => console.log(err));
 
             const geojson = convert(map);
 
@@ -233,7 +225,7 @@ const LeafletMap = () => {
     return(
         <div
             ref={refMapContainer}
-            id="map"
+            id="map2"
             className="w-full h-[70vh] leaflet-container leaflet-touch leaflet-retina leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
         ></div>
     )

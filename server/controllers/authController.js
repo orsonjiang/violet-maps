@@ -158,7 +158,7 @@ const registerUser = async (req, res) => {
 const requestReset = async (req, res) => {
     try {
         const user = await User.findOne({ email: req.body.email });
-        if (!user) return sendError(res);
+        if (!user) return sendError(res, "Your email was not found.");
 
         await Token.deleteMany({ userId: user._id });
         const token = await new Token({

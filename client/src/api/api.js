@@ -34,6 +34,14 @@ const updateMapImage = (id, data) => {
         image: data
     })
 }
+
+const addComment = (id, data) => {
+    return api.put(`/map/${id}/comment`, {
+        comment: data.comment,
+        user: data.user
+    })
+}
+
 const publishMap = (id) => {
     return api.put(`/map/${id}/publish`)
 }
@@ -41,6 +49,14 @@ const deleteMap = (id) => api.delete(`/map/${id}`);
 const forkMap = (id, name) => api.post(`/map/${id}/fork`, {
     name: name
 });
+
+const addLike = (id) => {
+    return api.put(`/map/${id}/like`);
+};
+
+const addDislike = (id) => {
+    return api.put(`/map/${id}/dislike`);
+};
 
 const apis = {
     getMaps,
@@ -51,6 +67,9 @@ const apis = {
     publishMap,
     deleteMap,
     forkMap,
+    addComment,
+    addLike,
+    addDislike,
 };
 
 export default apis;

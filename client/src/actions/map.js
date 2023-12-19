@@ -93,8 +93,17 @@ export const setName = (data) => ({
     payload: data
 });
 
+export const addComment = (data) => ({
+    type: mapTypes.ADD_COMMENT,
+    payload: data
+});
+
 export const setTags = (data) => ({
     type: mapTypes.SET_TAGS,
     payload: data
-})
+});
 
+export const setSocial = (data) => ({
+    type: mapTypes.SET_SOCIAL,
+    payload: data,
+});

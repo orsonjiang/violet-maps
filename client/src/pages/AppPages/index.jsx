@@ -1,9 +1,11 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { ActionCreators } from 'redux-undo';
 
 import apis from '../../api/api';
 import { setMaps } from '../../actions/maps';
+import { setMap } from '../../actions/map';
 
 import Navbar from './components/Navbar';
 import Home from './Home';
@@ -19,11 +21,16 @@ const AppPages = () => {
     const { searchBy } = useSelector((state) => state.collate);
 
     useEffect(() => {
-        apis.getMaps(view, searchBy, "")
-            .then((res) => {
-                dispatch(setMaps(res.data.maps));
-            })
-            .catch()
+        if (view == "home" || view == "explore") {
+            apis.getMaps(view, searchBy, "")
+                .then((res) => {
+                    dispatch(setMaps(res.data.maps));
+                })
+                .catch()
+            dispatch(setMap(null));
+            dispatch(ActionCreators.clearHistory());
+        }
+        
     }, [view]);
 
     const renderView = {

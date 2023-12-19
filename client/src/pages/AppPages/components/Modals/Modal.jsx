@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import apis from "../../../../api/api";
 import { useNavigate } from 'react-router-dom';
@@ -6,8 +6,26 @@ import { useNavigate } from 'react-router-dom';
 const Modal = ({title, description, inputText, containsInput, type}) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
     const currentModal = useSelector((state) => state.modal.currentModal);
-    const currentMap = useSelector((state) => state.map.currentMap);
+    const {currentMap, selectedFeature} = useSelector((state) => state.map); // NEW CODE
+
+    const updates = useRef(null); // NEW CODE - holds the updates without touching the store directly
+    const [text, setText] = useState(""); // NEW CODE - for the text input
+
+    // NEW CODE - sets up the updates object
+    useEffect(() => {
+        if (!updates.current) {
+            updates.current = { ...currentMap };
+            delete updates.current["data"];
+        }
+
+        switch(currentModal){
+            case "TEXT_MODAL": // set initial value for text input
+                setText(currentMap.features[selectedFeature.featureRef.feature.properties.index].properties[currentMap.graphics.dataProperty]); 
+                return;
+        }
+    }, [])
 
     const closeCurrentModal = () => {
 //         dispatch(closeModal());
@@ -15,10 +33,34 @@ const Modal = ({title, description, inputText, containsInput, type}) => {
 
     const confirmAction = () => {
         switch (currentModal){
-            case 'PUBLISH_MODAL':
-                currentMap.publishedDate = new Date();
+            case "TEXT_MODAL": // NEW CODE - add/edit text of region
+                const idx = selectedFeature.featureRef.feature.properties.index; // get index of selected feature
+                updates.current.features[idx].properties[currentMap.graphics.dataProperty] = text;
 
-                apis.updateMap(currentMap._id, currentMap).then((res) => {
+                apis.updateMap(currentMap._id, updates.current).then((res) => {
+                    dispatch(updateMapInStore(updates.current))
+                }).catch((err) => {
+                    console.log(err);
+                })
+                dispatch(closeModal());
+                return;
+            case "ADD_DATA_PROP_MODAL": // NEW CODE - adding a new data property to each feature
+                for (let i = 0; i < updates.current.features.length; i++) {
+                    updates.current.features[i].properties[text] = "---"; // the initial value for now
+                }
+                updates.current.graphics.dataProperty = text; // switch to this new data property
+                apis.updateMap(currentMap._id, updates.current).then((res) => {
+                    dispatch(updateMapInStore(updates.current));
+                }).catch((err) => {
+                    console.log(err);
+                })
+                dispatch(closeModal());
+                return;
+            case 'PUBLISH_MODAL': // NEW CODE
+                updates.current.publishedDate = new Date(); 
+
+                apis.updateMap(currentMap._id, updates.current).then((res) => {
+                    dispatch(updateMapInStore(updates.current))
                     navigate("/app/home");
                 }).catch((err) => console.log(err));
 
@@ -57,12 +99,14 @@ const Modal = ({title, description, inputText, containsInput, type}) => {
                                 {description}
                                 {containsInput ?
                                     <div className="mt-3 mb-2">
-                                        <input
+                                        <input // NEW CODE
                                             type="search"
                                             id="search-dropdown"
                                             className="block p-3 w-full text-sm rounded-lg drop-shadow-sm focus:outline-none focus:ring-2"
                                             placeholder={inputText}
                                             required=""
+                                            value = {text}
+                                            onChange = {(e) => (setText(e.target.value))}
                                         />
                                     </div> : ""}
                                 

@@ -12,7 +12,6 @@ import TextField from './components/TextField';
 import ModalDropDown from '../Menus/ModalDropDown';
 import ModalColor from '../Menus/ModalColor';
 import { useState } from 'react';
-import Loading from '../components/Loading';
 
 const SetData = () => {
     const dispatch = useDispatch();

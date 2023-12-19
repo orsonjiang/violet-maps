@@ -14,9 +14,11 @@ const ForkMap = () => {
     const dispatch = useDispatch();
 
     const { map } = useSelector((state) => state.map.present);
+    const [loading, setLoading] = useState(false);
     const [name, setStateName] = useState(map.name);
 
     const handleConfirm = () => {
+        setLoading(true);
         apis.forkMap(map._id, name)
             .then((res) => {
                 closeModal(dispatch);
@@ -36,6 +38,7 @@ const ForkMap = () => {
                     value={name}
                 />
             </Input>
+            {loading ? <div className='text-sm text-center text-green-600'>Loading...</div> : ""}
         </Modal>
     );
 };
