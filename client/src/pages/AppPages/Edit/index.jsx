@@ -64,13 +64,13 @@ const EditMap = () => {
 
         // Init Map
         if (map && !refMap.current) {
-            refMap.current = L.map('map2').setView(
+            refMap.current = L.map('map').setView(
                 [39.74739, -105],
                 2
             );
 
             L.tileLayer(MAP_URL, {
-                minZoom: 2,
+                minZoom: 3,
                 maxZoom: 19,
             }).addTo(refMap.current);
 
