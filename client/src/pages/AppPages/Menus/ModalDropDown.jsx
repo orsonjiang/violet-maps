@@ -45,9 +45,9 @@ const ModalDropDown = ({ type, list, currentItem, handleItem }) => {
     );
 
     return (
-        <div className="flex gap-2 relative">
+        <div className="relative">
             <button
-                className="flex justify-between whitespace-nowrap items-center py-2 px-3 font-medium text-center text-white bg-violet-400 rounded-lg hover:bg-violet-500 focus:outline-none relative"
+                className="flex gap-2 justify-between whitespace-nowrap items-center py-2 px-3 font-medium text-center text-white bg-violet-400 rounded-lg hover:bg-violet-500 focus:outline-none relative"
                 onClick={() => {
                     if (menu === type) {
                         dispatch(setMenu(MenuTypes.NONE));

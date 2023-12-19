@@ -9,9 +9,9 @@ import Position from './Position';
 import Text from './Text';
 import Region from './Region';
 import Border from './Border';
-import Bubble from './Bubble';
 import Choropleth from './Choropleth';
 import Heat from './Heat';
+import Bubble from './Bubble';
 import External from './External';
 import Thumbnail from './Thumbnail';
 import Publish from './Publish';
@@ -19,6 +19,7 @@ import Download from './Download';
 import Delete from './Delete';
 import { setModal } from '../../../../actions/modal';
 import { ModalTypes } from '../../../../constants';
+
 
 const Toolbar = () => {
     const tools = [
