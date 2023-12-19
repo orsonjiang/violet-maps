@@ -9,6 +9,9 @@ import Comments from './components/Comments';
 import LeafletMap from './components/LeafletMap';
 import Button from './components/Button';
 import Loading from '../components/Loading';
+import DropDown from '../Menus/DropDown';
+
+import { MenuTypes } from '../../../constants';
 
 const Map = () => {
     const dispatch = useDispatch();
@@ -29,6 +32,23 @@ const Map = () => {
         </Loading>;
     };
 
+    const handleExport = (type) => {
+        if (type === "JSON") {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(convert(map)));
+            const link = document.createElement('a');
+            link.href = dataStr;
+            link.download = `${map.name}.json`;
+            link.click();
+        } else {
+            handleExportMap(container, map, type, true);
+        }
+
+    };
+
+    const Icon = (<i className="fa-solid fa-download"></i>);
+
+    const exportOptions = ["PNG", "JPEG", "JSON"];
+
     return (
         <div className="flex gap-8 m-8">
             <div className="w-2/3 flex flex-col gap-5 grow text-sm">
@@ -46,7 +66,8 @@ const Map = () => {
                     <div className='flex space-x-2 justify-end text-xs font-medium flex-wrap'>
                         <Button handler={()=>{}} icon = {"fa-solid fa-thumbs-up"} text={map.social.likes}/>
                         <Button handler={()=>{}} icon = {"fa-solid fa-thumbs-down"} text={map.social.dislikes}/>
-                        <Button handler={()=>{}} icon = {"fa-solid fa-file-export"} text={"Export"}/>
+                        {/* <Button handler={()=>{}} icon = {"fa-solid fa-file-export"} text={"Export"}/> */}
+                        <DropDown type={MenuTypes.EDIT_EXPORT} list={exportOptions} handleItem={handleExport} icon={Icon}/>
                         <Button handler={()=>{}} icon = {"fa-solid fa-copy"} text={"Fork"}/>
                     </div>
                 </div>
