@@ -90,16 +90,16 @@ const MapCard = ({ map }) => {
                     className="rounded-md w-full"
                 />
                 <div className="mx-3 mt-3">
-                    <div className={`${map.publishedDate == null ? "black" : "text-white font-medium"}`}>
+                    <div className={`${map.social.publishedDate == null ? "black" : "text-white font-medium"}`}>
                         {map.name}
                     </div>
-                    <div className={`text-[13px] pt-1 ${map.publishedDate == null ? "text-violet-400" : "text-white font-medium"}`}>
+                    <div className={`text-[13px] pt-1 ${map.social.publishedDate == null ? "text-violet-400" : "text-white font-medium"}`}>
                         {map.username}
                     </div>
                     <div className="flex mt-3 pb-4 gap-2 overflow-x-auto">
                         {map.tags.length != 0 ? map.tags.map((tag, index) => {
-                            return (<div key={index} className={`text-xs ${map.publishedDate == null? "bg-violet-200" : "bg-white/[0.8]"} w-fit py-1 px-2 rounded-full`}>{tag}</div>)
-                        }) : <div className={`text-xs ${map.publishedDate == null ? "text-gray-300" : "text-white/[0.6]"}`}>No tags</div>}
+                            return (<div key={index} className={`text-xs ${map.social.publishedDate == null? "bg-violet-200" : "bg-white/[0.8]"} w-fit py-1 px-2 rounded-full`}>{tag}</div>)
+                        }) : <div className={`text-xs ${map.social.publishedDate == null ? "text-gray-300" : "text-white/[0.6]"}`}>No tags</div>}
                     </div>
                 </div>
             </div>

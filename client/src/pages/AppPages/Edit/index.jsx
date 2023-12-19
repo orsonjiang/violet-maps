@@ -34,9 +34,10 @@ const EditMap = () => {
                     refMap.current.removeLayer(layer);
                 }
             });
+            if (layerControl.current) layerControl.current.remove(refMap.current); // removing old layer control
+            if (legendControl.current) legendControl.current.remove(refMap.current); // removing old legend control
         }
-        if (layerControl.current) layerControl.current.remove(refMap.current); // removing old layer control
-        if (legendControl.current) legendControl.current.remove(refMap.current); // removing old legend control
+
     };
 
     useEffect(() => {

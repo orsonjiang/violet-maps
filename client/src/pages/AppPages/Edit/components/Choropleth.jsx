@@ -18,7 +18,7 @@ const Choropleth = () => {
             onClick={handleClick}
             title='Choropleth Layer'
         >
-            <i className="bg-gradient-to-b from-purple-300 to-indigo-400 text-transparent bg-clip-text fa-solid fa-square"></i>
+            <i className="bg-gradient-to-b from-purple-400 to-indigo-400 text-transparent bg-clip-text fa-solid fa-square"></i>
         </button>
 	);
 };

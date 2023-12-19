@@ -1,9 +1,33 @@
-import { useSelector } from 'react-redux';
+import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
+
 import CommentCard from './CommentCard';
 
+import apis from '../../../../api/api';
+import { addComment } from '../../../../actions/map';
+
 const Comments = ({list}) => {
+    const dispatch = useDispatch();
+    const { id } = useParams();
+    const [text, handleText] = useState("");
+
     const { user } = useSelector((state) => state.user);
     const { map } = useSelector((state) => state.map.present);
+
+    const handleAddComment = (event) => {
+        if (event.key == "Enter") {
+            dispatch(addComment({
+                comment: text,
+                user: user
+            }))
+            apis.addComment(id, {
+                comment: text,
+                user: user._id
+            }).catch((err) => console.log(err));
+            handleText("");
+        }
+    }
 
     return(
         <div className='w-1/3 bg-violet-100 rounded-lg'>
@@ -20,14 +44,14 @@ const Comments = ({list}) => {
                         className="block px-3 w-full text-sm rounded-lg drop-shadow-sm focus:outline-none focus:ring-2"
                         placeholder="Add a comment..."
                         required=""
-                        // ref={ref}
-                        // onChange={handleUpdateText}
-                        // onKeyDown={handleAddComment}
+                        value={text}
+                        onChange={(event) => handleText(event.target.value)}
+                        onKeyDown={(event) => handleAddComment(event)}
                     />
                 </div>
                 <div className="overflow-hidden hover:overflow-y-scroll max-h-[30rem] mt-3 space-y-2">
-                    {list.map((c) => {
-                        return <CommentCard initials={c.userInitial} name={c.username} comment={c.comment} />
+                    {list.map((c, index) => {
+                        return <CommentCard key = {index} user={c.user} comment={c.comment} />
                     })}
                 </div>
             </div>

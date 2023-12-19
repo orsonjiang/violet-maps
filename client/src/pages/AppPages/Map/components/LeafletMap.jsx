@@ -13,7 +13,7 @@ import { convert } from '../../../../helpers';
 
 const LeafletMap = () => {
     const dispatch = useDispatch();
-    
+
     const refMap = useRef(null);
     const refMapContainer = useRef(null);
     const layerControl = useRef(null); // keeping track of the layer control so that I can delete it later
@@ -34,18 +34,6 @@ const LeafletMap = () => {
         if (layerControl.current) layerControl.current.remove(refMap.current); // removing old layer control
         if (legendControl.current) legendControl.current.remove(refMap.current); // removing old legend control
     };
-
-    useEffect(() => {
-        clearMap();
-
-        if (!map || map._id !== id) {
-            apis.getMap(id, ['owner', 'geometry', 'properties', 'graphics'])
-                .then((res) => {
-                    dispatch(setMap(res.data.map));
-                })
-                .catch((err) => console.log(err));
-        }
-    }, []);
 
     useEffect(() => {
         // Clear Map
@@ -109,10 +97,10 @@ const LeafletMap = () => {
         };
 
         if (map && refMap.current) {
-            apis.updateMap(id, {
-                graphics: map.graphics,
-                properties: map.properties,
-            }).catch((err) => console.log(err));
+            // apis.updateMap(id, {
+            //     graphics: map.graphics,
+            //     properties: map.properties,
+            // }).catch((err) => console.log(err));
 
             const geojson = convert(map);
 

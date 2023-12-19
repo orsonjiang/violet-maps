@@ -14,6 +14,7 @@ router.post("/map", auth.verifyToken, ApiController.createMap);
 router.get("/map/:id", ApiController.getMap);
 router.put("/map/:id", auth.verifyToken, ApiController.updateMap);
 router.put("/map/:id/image", auth.verifyToken, ApiController.updateImage);
+router.put("/map/:id/comment", auth.verifyToken, ApiController.addComment);
 router.put("/map/:id/publish", auth.verifyToken, ApiController.publishMap);
 router.delete("/map/:id", auth.verifyToken, ApiController.deleteMap);
 router.post("/map/:id/fork", auth.verifyToken, ApiController.forkMap);

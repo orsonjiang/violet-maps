@@ -19,11 +19,14 @@ const AppPages = () => {
     const { searchBy } = useSelector((state) => state.collate);
 
     useEffect(() => {
-        apis.getMaps(view, searchBy, "")
-            .then((res) => {
-                dispatch(setMaps(res.data.maps));
-            })
-            .catch()
+        if (view == "home" || view == "explore") {
+            apis.getMaps(view, searchBy, "")
+                .then((res) => {
+                    dispatch(setMaps(res.data.maps));
+                })
+                .catch()
+        }
+        
     }, [view]);
 
     const renderView = {

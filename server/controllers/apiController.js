@@ -5,6 +5,7 @@ const Map = require("../models/Map");
 const MapGeometries = require("../models/MapGeometries");
 const MapProperties = require('../models/MapProperties');
 const MapGraphics = require("../models/MapGraphics");
+const MapComment = require("../models/MapComment");
 
 const getMaps = async (req, res) => {
     const options = {};
@@ -144,6 +145,39 @@ const updateMap = async (req, res) => {
         });
 };
 
+const addComment = async (req, res) => {
+    const body = req.body;
+    // TODO: Verify body and other body data.
+    if (!body) {
+        return sendError(res, "You must provide comment data.");
+    }
+
+    // MapComment
+    const comment = new MapComment({
+        comment: body.comment,
+		user: body.user
+    });
+    await comment.save();
+
+    Map.findOne({ _id: req.params.id })
+        .then((map) => {
+            map.social.comments.unshift(comment);
+            map.save()
+                .then(() => {
+                    return res.status(204).json({ id: map._id })
+                })
+                .catch((err) => {
+                    console.log(err);
+                    return sendError(res, "The comment could not be saved.")
+                })
+                
+        })
+        .catch(err => {
+            console.log(err);
+            return sendError(res, "The map could not be found.");
+        });    
+};
+
 const updateImage = async (req, res) => {
     const body = req.body;
 
@@ -271,5 +305,6 @@ module.exports = {
     updateImage,
     publishMap,
     deleteMap,
-    forkMap
+    forkMap,
+    addComment
 };

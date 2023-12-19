@@ -34,6 +34,14 @@ const updateMapImage = (id, data) => {
         image: data
     })
 }
+
+const addComment = (id, data) => {
+    return api.put(`/map/${id}/comment`, {
+        comment: data.comment,
+        user: data.user
+    })
+}
+
 const publishMap = (id) => {
     return api.put(`/map/${id}/publish`)
 }
@@ -51,6 +59,7 @@ const apis = {
     publishMap,
     deleteMap,
     forkMap,
+    addComment
 };
 
 export default apis;
