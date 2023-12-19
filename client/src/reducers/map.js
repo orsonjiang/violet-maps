@@ -79,34 +79,6 @@ const map = (state = initialState, action) => {
         case mapTypes.SET_POSITION:
             return {
                 ...state,
-<<<<<<< HEAD
-                maps: action.payload
-            }
-        case SET_CURRENT_MAP:
-            return {
-                ...state,
-                currentMap: action.payload
-            }
-        case UPDATE_SELECTED_FEATURE: // NEW CODE
-            return {
-                ...state,
-                selectedFeature: action.payload
-            }
-        // case UPDATE_MAP_DATA:
-        //     return {
-        //         ...state,
-        //         currentMap: {
-        //             data: action.payload,
-        //             ...state.currentMap
-        //         }
-        //     }
-        case UPDATE_MAP:
-            return {
-                ...state,
-                currentMap: {
-                    data: { ...state.currentMap.data },
-                    ...action.payload
-=======
                 map: {
                     ...state.map,
                     graphics: {
@@ -116,7 +88,6 @@ const map = (state = initialState, action) => {
                             position: action.payload
                         }
                     }
->>>>>>> kayla-2
                 }
             };     
 
