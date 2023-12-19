@@ -19,7 +19,7 @@ const Download = () => {
             link.download = `${map.name}.json`;
             link.click();
         } else {
-            handleExportMap(container, map, type, true);
+            handleExportMap(document.getElementById("map"), map, type, true);
         }
 
     };

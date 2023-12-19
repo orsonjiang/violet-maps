@@ -67,7 +67,7 @@ const ToolbarWrapper = () => {
     const { map } = useSelector((state) => state.map.present);
     const { user } = useSelector((state) => state.user);
 
-    if (!map || map._id !== user._id) return <div className='grow'></div>;
+    if (!map || map.owner._id !== user._id) return <div className='grow'></div>;
     
     return (
         <div className="flex grow text-sm gap-2">
