@@ -50,16 +50,12 @@ const forkMap = (id, name) => api.post(`/map/${id}/fork`, {
     name: name
 });
 
-const addLike = (id, data) => {
-    return api.put(`/map/${id}/like`, {
-        ID: data.ID
-    });
+const addLike = (id) => {
+    return api.put(`/map/${id}/like`);
 };
 
-const addDislike = (id, data) => {
-    return api.put(`/map/${id}/dislike`, {
-        ID: data.ID
-    });
+const addDislike = (id) => {
+    return api.put(`/map/${id}/dislike`);
 };
 
 const apis = {

@@ -301,31 +301,30 @@ const forkMap = async (req, res) => {
 
 const addLike = async (req, res) => {
     const body = req.body;
-    console.log(body);
+
     if (!body) {
         return sendError(res, "Error has arisen from attempt to like.");
     };
 
     Map.findOne({ _id: req.params.id })
+        .populate(["social.comments",  {path: "social.comments", populate: {path: 'user'}}])
         .then((map) => {
             const listLikes = map.social.likes;
             const listDislikes = map.social.dislikes;
-            if (listLikes.indexOf(req.body.ID) >= 0) {
-                console.log('User already has like on map. Will remove like.');
-                listLikes.splice(listLikes.indexOf(req.body.ID), 1);
+
+            if (listLikes.indexOf(req.userId) >= 0) {
+                listLikes.splice(listLikes.indexOf(req.userId), 1);
                 map.social.likes = listLikes;
-            } else if (listDislikes.indexOf(req.body.ID) >= 0) {
-                console.log('User already had dislike on map. Will remove dislike.');
-                listDislikes.splice(listDislikes.indexOf(req.body.ID), 1);
+            } else if (listDislikes.indexOf(req.userId) >= 0) {
+                listDislikes.splice(listDislikes.indexOf(req.userId), 1);
                 map.social.dislikes = listDislikes;
-                map.social.likes.push(req.body.ID);
+                map.social.likes.push(req.userId);
             } else {
-                console.log('User has no likes or dislikes. Will add like.');
-                map.social.likes.push(req.body.ID);
+                map.social.likes.push(req.userId);
             };
             map.save()
                 .then(() => {
-                    return res.status(204).json({ id: map._id, numLikes: map.social.likes.length, numDislikes: map.social.dislikes.length });
+                    return res.status(201).json({ id: map._id, social: map.social });
                 }).catch((err) => {
                     console.log(err);
                     return sendError(res, 'The process of adding like could not be saved');
@@ -346,25 +345,27 @@ const addDislike = async (req, res) => {
     };
 
     Map.findOne({ _id: req.params.id })
+        .populate(["social.comments",  {path: "social.comments", populate: {path: 'user'}}])
         .then((map) => {
             const listLikes = map.social.likes;
             const listDislikes = map.social.dislikes;
-            if (listDislikes.indexOf(req.body.ID) >= 0) {
-                console.log('User already has dislike on map. Will remove dislike.');
-                listDislikes.splice(listDislikes.indexOf(req.body.ID), 1);
+
+            if (listDislikes.indexOf(req.userId) >= 0) {
+                // User already has dislike on map. Will remove dislike.
+                listDislikes.splice(listDislikes.indexOf(req.userId), 1);
                 map.social.dislikes = listDislikes;
-            } else if (listLikes.indexOf(req.body.ID) >= 0) {
-                console.log('User already has like on map. Will remove like.');
-                listLikes.splice(listLikes.indexOf(req.body.ID), 1);
+            } else if (listLikes.indexOf(req.userId) >= 0) {
+                // User already has like on map. Will remove like.
+                listLikes.splice(listLikes.indexOf(req.userId), 1);
                 map.social.likes = listLikes;
-                map.social.dislikes.push(req.body.ID);
+                map.social.dislikes.push(req.userId);
             } else {
-                console.log('User has no likes or dislikes. Will add dislike.');
-                map.social.dislikes.push(req.body.ID);
+                // User has no likes or dislikes. Will add dislike.
+                map.social.dislikes.push(req.userId);
             };
             map.save()
                 .then(() => {
-                    return res.status(204).json({ id: map._id, numLikes: map.social.likes.length, numDislikes: map.social.dislikes.length});
+                    return res.status(201).json({  id: map._id, social: map.social });
                 }).catch((err) => {
                     console.log(err);
                     return sendError(res, 'The process of adding like could not be saved');
