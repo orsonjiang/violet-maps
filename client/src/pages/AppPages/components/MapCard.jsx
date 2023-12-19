@@ -1,9 +1,14 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { setModal } from "../../../actions/modal";
+import { ModalTypes } from "../../../constants";
+import { useDispatch } from "react-redux";
+
 // TODO: Make menu work.
 const MapCard = ({ map }) => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const ref = useRef(null);
 
     const [menu, setMenu] = useState("none");
@@ -37,6 +42,11 @@ const MapCard = ({ map }) => {
         setMenu("mapCard");
     }
 
+    const clickFork = (event) => {
+        event.stopPropagation();
+        dispatch(setModal(ModalTypes.FORK_MAP));
+    }
+
     let image = map.social.image;
 
     try {
@@ -47,14 +57,14 @@ const MapCard = ({ map }) => {
         <div>
             <div onClick={handleClickCard} className={`p-1 pt-1 rounded-md h-full drop-shadow-sm ${map.social.publishedDate == null ? "border-2 border-violet-200 bg-white" : "border-2 border-indigo-300 bg-indigo-300/[0.9]"}`}>
                 <div className="relative">
-                    <button 
+                    {/* <button 
                         onClick={handleMenuMapCard}
                         className="absolute right-2"
                     >
                         <i className="fas fa-ellipsis-h w-3 mr-1 text-white"/>
-                    </button>
+                    </button> */}
                     {/* Dropdown menu */}
-                    {menu == "mapCard" ?
+                    {/* {menu == "mapCard" ?
                     <div
                         ref={ref}
                         className="absolute right-1 z-50 my-5 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow "
@@ -65,7 +75,7 @@ const MapCard = ({ map }) => {
                                 <a
                                     href="#"
                                     className="block px-5 py-2 text-sm text-gray-700 hover:bg-gray-100 "
-                                    onClick={() => { setModal("fork") }}
+                                    onClick={clickFork}
                                 >
                                     <i className="fa fa-code-fork mr-2" />
                                     Fork
@@ -83,7 +93,7 @@ const MapCard = ({ map }) => {
                             </li>
                             
                         </ul>
-                    </div> : null}
+                    </div> : null} */}
                 </div>
                 <img
                     src={image}

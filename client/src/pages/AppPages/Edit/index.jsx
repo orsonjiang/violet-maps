@@ -37,7 +37,6 @@ const EditMap = () => {
             if (layerControl.current) layerControl.current.remove(refMap.current); // removing old layer control
             if (legendControl.current) legendControl.current.remove(refMap.current); // removing old legend control
         }
-
     };
 
     useEffect(() => {
@@ -48,9 +47,43 @@ const EditMap = () => {
                 .then((res) => {
                     dispatch(setMap(res.data.map));
                     dispatch(ActionCreators.clearHistory());
+
+                    // Init Map
+                    if (!refMap.current) {
+                        refMap.current = L.map('map').setView(
+                            [39.74739, -105],
+                            2
+                        );
+
+                        L.tileLayer(MAP_URL, {
+                            minZoom: 3,
+                            maxZoom: 19,
+                        }).addTo(refMap.current);
+
+                        var southWest = L.latLng(-90, -180);
+                        var northEast = L.latLng(90, 180);
+                        var bounds = L.latLngBounds(southWest, northEast);
+
+                        refMap.current.setMaxBounds(bounds);
+                        refMap.current.on('drag', function () {
+                            refMap.current.panInsideBounds(bounds, { animate: false });
+                        });
+
+                        // panes to help preserve layer order when you use the layer control
+                        refMap.current.createPane('0');
+                        refMap.current.createPane('1');
+                        refMap.current.createPane('2');
+                        refMap.current.createPane('3');
+                        refMap.current.getPane('0').style.zIndex = 200;
+                        refMap.current.getPane('1').style.zIndex = 250;
+                        refMap.current.getPane('2').style.zIndex = 300;
+                        refMap.current.getPane('3').style.zIndex = 350;
+                    }
                 })
                 .catch((err) => console.log(err));
         }
+
+        
     }, []);
 
     useEffect(() => {
@@ -60,38 +93,6 @@ const EditMap = () => {
     useEffect(() => {
         // Clear Map
         clearMap();
-
-        // Init Map
-        if (map && !refMap.current) {
-            refMap.current = L.map('map').setView(
-                [39.74739, -105],
-                2
-            );
-
-            L.tileLayer(MAP_URL, {
-                minZoom: 3,
-                maxZoom: 19,
-            }).addTo(refMap.current);
-
-            var southWest = L.latLng(-90, -180);
-            var northEast = L.latLng(90, 180);
-            var bounds = L.latLngBounds(southWest, northEast);
-
-            refMap.current.setMaxBounds(bounds);
-            refMap.current.on('drag', function () {
-                refMap.current.panInsideBounds(bounds, { animate: false });
-            });
-
-            // panes to help preserve layer order when you use the layer control
-            refMap.current.createPane('0');
-            refMap.current.createPane('1');
-            refMap.current.createPane('2');
-            refMap.current.createPane('3');
-            refMap.current.getPane('0').style.zIndex = 200;
-            refMap.current.getPane('1').style.zIndex = 250;
-            refMap.current.getPane('2').style.zIndex = 300;
-            refMap.current.getPane('3').style.zIndex = 350;
-        }
 
         // Edit Map
         const increaseStroke = (e) => {

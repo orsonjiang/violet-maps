@@ -15,6 +15,7 @@ import Heat from './Heat';
 import Bubble from './Bubble';
 import External from './External';
 import Thumbnail from './Thumbnail';
+import Fork from './Fork';
 import Publish from './Publish';
 import Download from './Download';
 import Delete from './Delete';
@@ -45,6 +46,7 @@ const Toolbar = () => {
         <Thumbnail />,
         <Publish />,
         <Download />,
+        <Fork />,
         <Delete />
     ];
 

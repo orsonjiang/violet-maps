@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import apis from '../../../api/api';
+import { setModal } from '../../../actions/modal';
 import { setMap, addLike, addDislike } from '../../../actions/map';
 
 import Comments from './components/Comments';
@@ -11,11 +12,14 @@ import Button from './components/Button';
 import Loading from '../components/Loading';
 import DropDown from '../Menus/DropDown';
 import Tag from './components/Tag';
-import { MenuTypes } from '../../../constants';
+
+import { MenuTypes, ModalTypes } from '../../../constants';
+import { convert, handleExportMap } from "../../../helpers";
 
 const Map = () => {
     const dispatch = useDispatch();
     const { id } = useParams();
+    const { map, container } = useSelector((state) => state.map.present);
     const [activeBtn, setActiveBtn] = useState("none");
     // const [ likeCount, setLikeCount ] = useState(map.social.likes.length);
     // const [ dislikeCount, setDislikeCount ] = useState(map.social.dislike.length);
@@ -75,8 +79,6 @@ const Map = () => {
         
     };
 
-    const Icon = (<i className="fa-solid fa-download"></i>);
-
     const exportOptions = ["PNG", "JPEG", "JSON"];
 
     return (
@@ -96,9 +98,8 @@ const Map = () => {
                     <div className='flex space-x-2 justify-end text-xs font-medium flex-wrap'>
                         <Button handler={(event) => { handleLike(event)}} icon = {"fa-solid fa-thumbs-up"} text={map.social.likes.length}/>
                         <Button handler={(event) => { handleDislike(event)}} icon = {"fa-solid fa-thumbs-down"} text={map.social.dislikes.length}/>
-                        {/* <Button handler={()=>{}} icon = {"fa-solid fa-file-export"} text={"Export"}/> */}
-                        <DropDown type={MenuTypes.EDIT_EXPORT} list={exportOptions} handleItem={handleExport} icon={Icon}/>
-                        <Button handler={()=>{}} icon = {"fa-solid fa-copy"} text={"Fork"}/>
+                        <DropDown type={MenuTypes.MAP_EXPORT} list={exportOptions} handleItem={handleExport} button={["Export", "fa-solid fa-file-export"]}/>
+                        <Button handler={()=>{dispatch(setModal(ModalTypes.FORK_MAP))}} icon = {"fa-solid fa-copy"} text={"Fork"}/>
                     </div>
                 </div>
             </div>

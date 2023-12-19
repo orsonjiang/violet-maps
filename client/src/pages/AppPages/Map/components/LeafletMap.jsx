@@ -8,7 +8,7 @@ import centroid from "@turf/centroid"; // calculate center point
 import "../../../../plugins/leaflet-heat";
 
 import apis from '../../../../api/api';
-import { setMap } from '../../../../actions/map';
+import { setMapContainer } from '../../../../actions/map';
 import { convert } from '../../../../helpers';
 
 const LeafletMap = () => {
@@ -36,12 +36,16 @@ const LeafletMap = () => {
     };
 
     useEffect(() => {
+        dispatch(setMapContainer(refMapContainer.current));
+    }, [refMapContainer.current])
+
+    useEffect(() => {
         // Clear Map
         clearMap();
 
         // Init Map
         if (map && !refMap.current) {
-            refMap.current = L.map('map').setView(
+            refMap.current = L.map('map2').setView(
                 [39.74739, -105],
                 2
             );
@@ -221,7 +225,7 @@ const LeafletMap = () => {
     return(
         <div
             ref={refMapContainer}
-            id="map"
+            id="map2"
             className="w-full h-[70vh] leaflet-container leaflet-touch leaflet-retina leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
         ></div>
     )

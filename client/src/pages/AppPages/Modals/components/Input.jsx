@@ -1,7 +1,7 @@
 const Input = ({ title, children }) => {
     return (
         <div>
-            <div className="text-sm flex justify-between gap-3 items-center">
+            <div className="text-sm whitespace-nowrap flex justify-between gap-3 items-center">
                 {title}
                 {children}
             </div>

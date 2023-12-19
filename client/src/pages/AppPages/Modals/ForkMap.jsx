@@ -20,7 +20,8 @@ const ForkMap = () => {
         apis.forkMap(map._id, name)
             .then((res) => {
                 closeModal(dispatch);
-                navigate(`/app/edit/${res.data.id}`);
+                // navigate(`/app/edit/${res.data.id}`);
+                navigate("/app/home");
             })
     };
 
