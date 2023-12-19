@@ -6,4 +6,5 @@ export const ModalTypes = {
 	SET_TEXT: "SET_TEXT",
 	EDIT_LEGEND: "EDIT_LEGEND",
 	ADD_LAYER: "ADD_LAYER",
+	PUBLISH_MAP: "PUBLISH_MAP",
 };
