@@ -63,7 +63,7 @@ const EditMap = () => {
         clearMap();
 
         // Init Map
-        if (!refMap.current) {
+        if (map && !refMap.current) {
             refMap.current = L.map('map').setView(
                 [39.74739, -105],
                 2
