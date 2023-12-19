@@ -1,15 +1,20 @@
 import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 import Comments from './components/Comments';
 import LeafletMap from './components/LeafletMap';
 import Button from './components/Button';
+import Loading from '../components/Loading';
 
 const Map = () => {
+    const { id } = useParams();
     const { map } = useSelector((state) => state.map.present);
 
-    if (!map) {
-        return <div>Loading Map...</div>;
-    }
+    if (!map || map._id !== id) {
+        return <Loading>
+            Loading Map...
+        </Loading>;
+    };
 
     return (
         <div className="flex gap-8 m-8">
