@@ -4,10 +4,10 @@ import { handleExportMap } from "../../../../helpers";
 
 
 const Thumbnail = () => {
-    const { map, container } = useSelector((state) => state.map.present);
+    const { map } = useSelector((state) => state.map.present);
 
     const handleSetThumbnail = () => {
-        handleExportMap(container, map, "PNG", false);
+        handleExportMap(document.getElementById("map"), map, "PNG", false);
     };
 
     return (
