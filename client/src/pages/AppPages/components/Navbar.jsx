@@ -75,7 +75,7 @@ const Navbar = () => {
                     <i id="home-icon" className={`fa fa-home text-xl ${colorSelectedView("home")}`} />
                 </Link>
                 <Link to={"/app/explore"}>
-                    <i className={`fas fa-globe-americas text-xl ${colorSelectedView("explore")}`} />
+                    <i id='explore-icon' className={`fas fa-globe-americas text-xl ${colorSelectedView("explore")}`} />
                 </Link>
                 
                 
