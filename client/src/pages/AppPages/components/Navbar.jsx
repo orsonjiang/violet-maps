@@ -7,9 +7,10 @@ import auths from '../../../api/auth';
 import { setUser } from '../../../actions/user';
 import { setSearchBy, setSearchText } from '../../../actions/collate';
 import { setMaps } from '../../../actions/maps';
-import { SearchByTypes } from '../../../constants';
+
 import SearchBar from './SearchBar';
 import ToolbarWrapper from '../Edit/components/Toolbar';
+import Viewbar from '../Edit/components/Viewbar';
 
 const Navbar = () => {
     const navigate = useNavigate();
@@ -66,6 +67,14 @@ const Navbar = () => {
         }
     }
 
+
+    const renderView = {
+        'home': <SearchBar/>,
+        'explore': <SearchBar/>,
+        'map': <Viewbar/> ,
+        'edit': <ToolbarWrapper/>,
+    };
+
     const colorSelectedView = (page) => view === page ? "text-white" : "text-violet-100";
 
     return (
@@ -78,8 +87,7 @@ const Navbar = () => {
                     <i id='explore-icon' className={`fas fa-globe-americas text-xl ${colorSelectedView("explore")}`} />
                 </Link>
                 
-                
-                {view === 'edit' ? <ToolbarWrapper/> : <SearchBar/> }
+                {renderView[view]}
                 
                 <div className={`${view == "NONE" ? "absolute right-2" : "relative"}`}>
                     <button

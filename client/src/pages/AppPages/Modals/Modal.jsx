@@ -1,6 +1,7 @@
 import Dialog from './components/Dialog';
+import Close from './components/Close';
 
-const Modal = ({ title, fields, children, maxWidthSize, confirm }) => {
+const Modal = ({ title, fields, children, maxWidthSize, confirm, close }) => {
     const maxWidth = maxWidthSize ? maxWidthSize : 'max-w-md';
 
     return (
@@ -18,7 +19,7 @@ const Modal = ({ title, fields, children, maxWidthSize, confirm }) => {
                             <div className={fields ? "flex flex-col gap-3 text-[15px] bg-purple-100 rounded-lg p-5 justify-center" : ""}>
                                 {children}
                             </div>
-                            <Dialog confirm={confirm} />
+                            {close ? <Close />: <Dialog confirm={confirm} />}
                         </div>
                     </div>
                 </div>

@@ -7,6 +7,9 @@ import ChooseTemplate from './ChooseTemplate';
 import SetData from './SetData';
 import SetText from './SetText';
 import EditLegend from "./EditLegend";
+import AddLayer from "./AddLayer";
+import PublishMap from "./PublishMap";
+import DeleteMap from "./DeleteMap";
 
 const Modals = () => {
     const { modal } = useSelector((state) => state.modal);
@@ -16,7 +19,10 @@ const Modals = () => {
         [ModalTypes.CHOOSE_TEMPLATE]: <ChooseTemplate />,
         [ModalTypes.SET_DATA]: <SetData />,
         [ModalTypes.SET_TEXT]: <SetText />,
-        [ModalTypes.EDIT_LEGEND]: <EditLegend />
+        [ModalTypes.EDIT_LEGEND]: <EditLegend />,
+        [ModalTypes.ADD_LAYER]: <AddLayer />,
+        [ModalTypes.PUBLISH_MAP]: <PublishMap />,
+        [ModalTypes.DELETE_MAP]: <DeleteMap />,
     };
 
 	return renderModal[modal];

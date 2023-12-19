@@ -4,11 +4,11 @@ import { setModal } from '../../../../actions/modal';
 import { ModalTypes, PropertyTypes } from '../../../../constants';
 import { setLayerProperty } from '../../../../actions/map';
 
-const Bubble = () => {
+const Choropleth = () => {
     const dispatch = useDispatch();
 
     const handleClick = () => {
-        dispatch(setLayerProperty(PropertyTypes.BUBBLE));
+        dispatch(setLayerProperty(PropertyTypes.CHOROPLETH));
         dispatch(setModal(ModalTypes.ADD_LAYER));
     }
 
@@ -16,11 +16,10 @@ const Bubble = () => {
         <button
             className="flex items-center px-2 hover:bg-gray-200 rounded-full"
             onClick={handleClick}
-            title="Bubble Layer"
         >
-            <i className="text-indigo-500 fa-solid fa-circle"></i>
+            <i className="bg-gradient-to-b from-purple-300 to-indigo-400 text-transparent bg-clip-text fa-solid fa-square"></i>
         </button>
 	);
 };
 
-export default Bubble;
+export default Choropleth;

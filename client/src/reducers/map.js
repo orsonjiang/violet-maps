@@ -1,8 +1,11 @@
 import { mapTypes } from "../actionTypes";
+import { PropertyTypes } from "../constants";
 
 const initialState = {
     map: null,
     region: null,
+    container: null,
+    layerProperty: PropertyTypes.NONE,
 }
 
 const map = (state = initialState, action) => {
@@ -14,6 +17,12 @@ const map = (state = initialState, action) => {
             return {
                 ...state,
                 map: action.payload
+            }
+
+        case mapTypes.SET_MAP_CONTAINER:
+            return {
+                ...state,
+                container: action.payload
             }
 
         case mapTypes.SET_REGION:
@@ -31,7 +40,7 @@ const map = (state = initialState, action) => {
                         ...state.map.graphics,
                         label: {
                             ...state.map.graphics.label,
-                            showLabels: !state.map.graphics.label.showLabels
+                            isDisplayed: !state.map.graphics.label.isDisplayed
                         }
                     }
                 }
@@ -110,19 +119,23 @@ const map = (state = initialState, action) => {
             };
         
         case mapTypes.SET_PROPERTY:
+            newMap.graphics[action.payload.type].property = action.payload.data;
             return {
                 ...state,
                 map: {
-                    ...state.map,
-                    graphics: {
-                        ...state.map.graphics,
-                        label: {
-                            ...state.map.graphics.label,
-                            property: action.payload
-                        }
-                    }
+                    ...newMap
                 }
             };
+        
+        case mapTypes.SET_COLOR:
+            newMap.graphics[action.payload.type].color = action.payload.data;
+            return {
+                ...state,
+                map: {
+                    ...newMap
+                }
+            };
+
         case mapTypes.SET_LEGEND:
             return {
                 ...state,
@@ -134,6 +147,33 @@ const map = (state = initialState, action) => {
                             ...action.payload
                         }
                     }
+                }
+            };
+        
+        case mapTypes.SET_IMAGE:
+            return {
+                ...state,
+                map: {
+                    ...state.map,
+                    social: {
+                        ...state.map.social,
+                        image: action.payload
+                    }
+                }
+            };
+
+        case mapTypes.SET_LAYER_PROPERTY:
+            return {
+                ...state,
+                layerProperty: action.payload
+            };
+        
+        case mapTypes.SET_DISPLAY:
+            newMap.graphics[action.payload.type].isDisplayed = action.payload.data;
+            return {
+                ...state,
+                map: {
+                    ...newMap
                 }
             };
 

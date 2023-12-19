@@ -6,7 +6,7 @@ import { MenuTypes } from '../../../constants';
 
 import Menu from './Menu';
 
-const DropDown = ({ type, list, currentItem, handleItem }) => {
+const DropDown = ({ type, list, currentItem, handleItem, icon }) => {
     const dispatch = useDispatch();
 
     const { menu } = useSelector((state) => state.menu);
@@ -38,6 +38,26 @@ const DropDown = ({ type, list, currentItem, handleItem }) => {
             </div>
         </Menu>
     );
+
+    if (icon) {
+        return (
+            <div className="flex gap-1 relative">
+                <button
+                    className="items-center px-2 hover:bg-gray-200 rounded-full"
+                    onClick={() => {
+                        if (menu === type) {
+                            dispatch(setMenu(MenuTypes.NONE));
+                        } else {
+                            dispatch(setMenu(type));
+                        }
+                    }}
+                >
+                    {icon}
+                </button>
+                {menu == type ? Exp : ''}
+            </div>
+        );
+    }
 
 	return (
         <div className="relative">

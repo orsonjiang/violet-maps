@@ -1,23 +1,26 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from 'react-redux';
 
-import { toggleLabel } from "../../../../actions/map";
+import { setModal } from '../../../../actions/modal';
+import { ModalTypes, PropertyTypes } from '../../../../constants';
+import { setLayerProperty } from '../../../../actions/map';
 
 const Label = () => {
-	const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-	const { map } = useSelector((state) => state.map.present);
+    const handleClick = () => {
+        dispatch(setLayerProperty(PropertyTypes.LABEL));
+        dispatch(setModal(ModalTypes.ADD_LAYER));
+    }
 
-    const classColor = map.graphics.label.showLabels ? 'text-green-500' : 'text-red-500';
-
-    return (
+	return (
         <button
-            className={"px-1 hover:bg-gray-200 rounded-full w-7 " + classColor}
-            onClick={() => dispatch(toggleLabel())}
+            className="flex items-center px-2 hover:bg-gray-200 rounded-full"
+            onClick={handleClick}
             title="Toggle Labels"
         >
             <i className="fa-solid fa-tag"></i>
         </button>
-    );
+	);
 };
 
 export default Label;
