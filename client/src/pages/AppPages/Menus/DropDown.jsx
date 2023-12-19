@@ -41,9 +41,9 @@ const DropDown = ({ type, list, currentItem, handleItem, icon }) => {
 
     if (icon) {
         return (
-            <div className="flex gap-1 relative">
+            <div className="relative">
                 <button
-                    className="items-center px-2 hover:bg-gray-200 rounded-full"
+                    className="flex items-center py-1 px-2 hover:bg-gray-200 rounded-full"
                     onClick={() => {
                         if (menu === type) {
                             dispatch(setMenu(MenuTypes.NONE));
@@ -52,7 +52,7 @@ const DropDown = ({ type, list, currentItem, handleItem, icon }) => {
                         }
                     }}
                 >
-                    {icon}
+                    <div className='grow'>{icon}</div>
                 </button>
                 {menu == type ? Exp : ''}
             </div>
