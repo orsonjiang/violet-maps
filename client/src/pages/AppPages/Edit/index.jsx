@@ -130,7 +130,7 @@ const EditMap = () => {
 
             if (map.graphics.choropleth.isDisplayed) { // if there is a choropleth map, display this layer
                 const choropleth = L.choropleth(geojson, {
-                    valueProperty: map.graphics.label.property,
+                    valueProperty: map.graphics.choropleth.property,
                     scale: ['white', map.graphics.choropleth.color],
                     steps: 6,
                     mode: 'q',
@@ -203,13 +203,8 @@ const EditMap = () => {
             overlays["Hide/Show Your Edits"] = geo;
 
             const featurePropArr = map.properties.data;
-<<<<<<< HEAD
-            if (map.graphics.heat) { // if there is a heat map, display this layer
-                const heatProperty = map.graphics.label.property;
-=======
             if (map.graphics.heat.isDisplayed) { // if there is a heat map, display this layer
                 const heatProperty = map.graphics.heat.property;
->>>>>>> orson
                 const points = []
                 for (let i = 0; i < map.geometry.data.length; i++) {
                     const point = centroid(map.geometry.data[i]); // get the center coordinates of polygon
@@ -219,13 +214,8 @@ const EditMap = () => {
                 overlays["Hide/Show Heat Map"] = heat // add heat layer to overlays object
             }
 
-<<<<<<< HEAD
-            if (map.graphics.bubble) { // if there is a bubble map, display this layer
-                const bubbleProperty = map.graphics.label.property;
-=======
             if (map.graphics.bubble.isDisplayed) { // if there is a bubble map, display this layer
                 const bubbleProperty = map.graphics.bubble.property;
->>>>>>> orson
                 let max = featurePropArr[0][bubbleProperty]; // finding the max value
                 let val = max; // temp value
                 for (let i = 0; i < featurePropArr.length; i++) { // finding max

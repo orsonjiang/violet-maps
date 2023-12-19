@@ -9,7 +9,6 @@ import Position from './Position';
 import Text from './Text';
 import Region from './Region';
 import Border from './Border';
-import Bubble from './Bubble';
 import Choropleth from './Choropleth';
 import Heat from './Heat';
 import Bubble from './Bubble';

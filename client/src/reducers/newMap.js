@@ -32,7 +32,7 @@ const newMap = (state = initialState, action) => {
 		
 		case newMapTypes.SET_PROPERTY:
 			const propertyKey = state.template === TemplateTypes.NUMERICAL || state.template === TemplateTypes.STRING ? "label" : state.template.toLowerCase();
-			if (propertyKey === "label") graphics[propertyKey]['isDisplayed'] = true;
+			graphics[propertyKey]['isDisplayed'] = true;
 			graphics[propertyKey]['property'] = action.payload;
 			if (propertyKey === "choropleth") graphics.legend.visible = true;
 

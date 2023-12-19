@@ -6,15 +6,15 @@ import Input from "./components/Input";
 import TextField from "./components/TextField";
 import ModalDropDown from '../Menus/ModalDropDown';
 
-import { setLegend } from "../../../actions/map";
+import { setLegend, setLayerProperty } from "../../../actions/map";
 import { setModal } from "../../../actions/modal";
-import { MenuTypes, ModalTypes } from "../../../constants";
+import { MenuTypes, ModalTypes, PropertyTypes } from "../../../constants";
 
 const EditLegend = () => {
     const dispatch = useDispatch();
 
     const positionOptions = ['bottomleft', 'bottomright', 'topleft', 'topright']
-    const visibilityOptions = ['visible', 'hidden'];
+    const visibilityOptions = ['show', 'hide'];
 
     const { map } = useSelector((state) => state.map.present);
 
@@ -23,9 +23,10 @@ const EditLegend = () => {
     const [visibility, setVisibility] = useState("");
 
     const handleConfirm = () => {
-        var visible = visibility == "hidden" ? false : true;
+        var visible = visibility == "hide" ? false : true;
         dispatch(setLegend({name, position, visible}));
         dispatch(setModal(ModalTypes.NONE));
+        dispatch(setLayerProperty(PropertyTypes.NONE));
     };
 
     return (
@@ -47,7 +48,7 @@ const EditLegend = () => {
             </Input>
 
             <Input title={'Visibility: '}>
-                <ModalDropDown list={visibilityOptions} handleItem={setVisibility} currentItem={map.graphics.legend.visible ? "visible" : "hidden"} type={MenuTypes.SET_LEGEND_VISIBILITY}/>
+                <ModalDropDown list={visibilityOptions} handleItem={setVisibility} currentItem={map.graphics.legend.visible ? "show" : "hide"} type={MenuTypes.SET_LEGEND_VISIBILITY}/>
             </Input>                        
         </Modal>
     );
