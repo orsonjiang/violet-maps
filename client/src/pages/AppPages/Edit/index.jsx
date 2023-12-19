@@ -68,7 +68,7 @@ const EditMap = () => {
         clearMap();
 
         // Init Map
-        if (map && !refMap.current) {
+        if (map && !refMap.current && map._id === id && map.owner._id === user._id) {
             refMap.current = L.map('map').setView(
                 [39.74739, -105],
                 2
@@ -271,7 +271,7 @@ const EditMap = () => {
                     </Link>
                 </div>
             </Loading>
-            <div id="map"></div>
+            {/* <div id="map"></div> */}
         </>);
     }
 
