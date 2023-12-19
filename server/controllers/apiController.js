@@ -1,6 +1,3 @@
-var Pbf = require('pbf');
-var geobuf = require('geobuf');
-
 const { findToken } = require("../auth");
 const { sendError } = require("../helpers");
 

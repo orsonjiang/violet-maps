@@ -149,7 +149,6 @@ const map = (state = initialState, action) => {
                     }
                 }
             };
-        
         case mapTypes.SET_IMAGE:
             return {
                 ...state,

@@ -70,7 +70,7 @@ const Navbar = () => {
     const renderView = {
         'home': <SearchBar/>,
         'explore': <SearchBar/>,
-        'map': <Viewbar/> ,
+        'map': <div className='grow'>{' '}</div>,
         'edit': <ToolbarWrapper/>,
     };
 
