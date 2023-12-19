@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ActionCreators } from 'redux-undo';
 import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -24,6 +24,7 @@ const EditMap = () => {
     const legendControl = useRef(null); // keeping track of legend so that I can delete later
     const { id } = useParams();
     const { map } = useSelector((state) => state.map.present);
+    const { user } = useSelector((state) => state.user);
 
     const MAP_URL = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
 
@@ -59,6 +60,10 @@ const EditMap = () => {
     }, [refMapContainer.current])
 
     useEffect(() => {
+        // if (map && map._id !== user._id) {
+        //     return;
+        // }
+
         // Clear Map
         clearMap();
 
@@ -250,6 +255,24 @@ const EditMap = () => {
         return (<Loading>
             Loading Map...
         </Loading>);
+    }
+
+    if (map && map._id !== user._id) {
+        return (<>
+            <Loading>
+                <div>
+                    You don't have access to this page, you are not the owner. 
+                </div>
+                <div className='flex items-center justify-center py-4'>
+                    <Link to={"/app/explore"}>
+                        <button className='rounded-full bg-accent py-1.5 px-4 shadow-lg text-white'>
+                            Explore
+                        </button>
+                    </Link>
+                </div>
+            </Loading>
+            <div id="map"></div>
+        </>);
     }
 
     return (
