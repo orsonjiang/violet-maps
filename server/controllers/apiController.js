@@ -1,3 +1,5 @@
+const mongoose = require("mongoose");
+
 const { findToken } = require("../auth");
 const { sendError } = require("../helpers");
 
@@ -26,6 +28,7 @@ const getMaps = async (req, res) => {
     }
 
     Map.find(options)
+        .populate([{ path: 'owner', select: 'username' }])
         .then((maps) => {
             return res.status(200).json({ maps: maps });
         })
@@ -105,7 +108,6 @@ const getMap = async (req, res) => {
 // TODO: Update.
 const updateMap = async (req, res) => {
     const body = req.body;
-    console.log(body);
     // TODO: Verify body and other body data.
     if (!body) {
         return sendError(res, "You must provide map data.");
@@ -242,7 +244,8 @@ const forkMap = async (req, res) => {
         .then(async (map) => {
             // MapGeometries
             const newGeometries = map.geometry.data;
-            delete newGeometries._id;
+            newGeometries._id = new mongoose.Types.ObjectId();
+            newGeometries.isNew = true;
             const geometry = new MapGeometries({
                 data: newGeometries
             });
@@ -250,7 +253,8 @@ const forkMap = async (req, res) => {
         
             // MapProperties
             const newProperties = map.properties.data;
-            delete newProperties._id;
+            newProperties._id = new mongoose.Types.ObjectId();
+            newProperties.isNew = true;
             const properties = new MapProperties({
                 data: newProperties
             });
@@ -258,7 +262,8 @@ const forkMap = async (req, res) => {
         
             // MapGraphics
             const newGraphics = map.graphics;
-            delete newGraphics._id;
+            newGraphics._id = new mongoose.Types.ObjectId();
+            newGraphics.isNew = true;
             const graphics = new MapGraphics(newGraphics);
             await graphics.save();
         
@@ -284,7 +289,7 @@ const forkMap = async (req, res) => {
         
             newMap.save()
                 .then(() => {
-                    return res.status(201).json({ id: map._id })
+                    return res.status(201).json({ id: newMap._id })
                 })
                 .catch((err) => {
                     console.log(err);
@@ -301,24 +306,30 @@ const forkMap = async (req, res) => {
 
 const addLike = async (req, res) => {
     const body = req.body;
-    console.log(body);
+
     if (!body) {
         return sendError(res, "Error has arisen from attempt to like.");
     };
 
     Map.findOne({ _id: req.params.id })
+        .populate(["social.comments",  {path: "social.comments", populate: {path: 'user'}}])
         .then((map) => {
+            const listLikes = map.social.likes;
             const listDislikes = map.social.dislikes;
-            const isDislike = listDislikes.indexOf(req.body.ID);
-            if (isDislike >= 0) {
-                console.log('User already had dislike on map. Will remove dislike.');
-                listDislikes.splice(isDislike, 1);
+
+            if (listLikes.indexOf(req.userId) >= 0) {
+                listLikes.splice(listLikes.indexOf(req.userId), 1);
+                map.social.likes = listLikes;
+            } else if (listDislikes.indexOf(req.userId) >= 0) {
+                listDislikes.splice(listDislikes.indexOf(req.userId), 1);
                 map.social.dislikes = listDislikes;
+                map.social.likes.push(req.userId);
+            } else {
+                map.social.likes.push(req.userId);
             };
-            map.social.likes.push(req.body.ID);
             map.save()
                 .then(() => {
-                    return res.status(204).json({ id: map._id});
+                    return res.status(201).json({ id: map._id, social: map.social });
                 }).catch((err) => {
                     console.log(err);
                     return sendError(res, 'The process of adding like could not be saved');
@@ -333,24 +344,33 @@ const addLike = async (req, res) => {
 
 const addDislike = async (req, res) => {
     const body = req.body;
-    console.log(body);
+
     if (!body) {
         return sendError(res, "Error has arisen from attempt to dislike.");
     };
 
     Map.findOne({ _id: req.params.id })
+        .populate(["social.comments",  {path: "social.comments", populate: {path: 'user'}}])
         .then((map) => {
             const listLikes = map.social.likes;
-            const isLiked = listLikes.indexOf(req.body.ID);
-            if (isLiked >= 0) {
-                console.log('User already had like on map. Will remove like.');
-                listLikes.splice(isLiked, 1);
+            const listDislikes = map.social.dislikes;
+
+            if (listDislikes.indexOf(req.userId) >= 0) {
+                // User already has dislike on map. Will remove dislike.
+                listDislikes.splice(listDislikes.indexOf(req.userId), 1);
+                map.social.dislikes = listDislikes;
+            } else if (listLikes.indexOf(req.userId) >= 0) {
+                // User already has like on map. Will remove like.
+                listLikes.splice(listLikes.indexOf(req.userId), 1);
                 map.social.likes = listLikes;
+                map.social.dislikes.push(req.userId);
+            } else {
+                // User has no likes or dislikes. Will add dislike.
+                map.social.dislikes.push(req.userId);
             };
-            map.social.dislikes.push(req.body.ID);
             map.save()
                 .then(() => {
-                    return res.status(204).json({ id: map._id});
+                    return res.status(201).json({  id: map._id, social: map.social });
                 }).catch((err) => {
                     console.log(err);
                     return sendError(res, 'The process of adding like could not be saved');

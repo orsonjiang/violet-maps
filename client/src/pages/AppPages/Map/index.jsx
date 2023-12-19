@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 
 import apis from '../../../api/api';
 import { setModal } from '../../../actions/modal';
-import { setMap, addLike, addDislike } from '../../../actions/map';
+import { setMap, setSocial } from '../../../actions/map';
 
 import Comments from './components/Comments';
 import LeafletMap from './components/LeafletMap';
@@ -19,8 +19,9 @@ import { convert, handleExportMap } from "../../../helpers";
 const Map = () => {
     const dispatch = useDispatch();
     const { id } = useParams();
+    // const [ likeCount, setLikeCount ] = useState(map.social.likes.length);
+    // const [ dislikeCount, setDislikeCount ] = useState(map.social.dislike.length);
     const { map, container } = useSelector((state) => state.map.present);
-    const [activeBtn, setActiveBtn] = useState("none");
     const { user } = useSelector((state) => state.user);
 
     useEffect(() => {
@@ -50,44 +51,20 @@ const Map = () => {
 
     };
     
-    // Kevin code - handleLike() not working as intended.
-
-    const handleLike = (event) => {
-        console.log(map.social.likes);
-        console.log(user._id);
-        if (map.social.likes.indexOf(user._id) < 0) {
-            console.log('user hasnt liked the current map yet');
-            dispatch(addLike({
-                ID: user._id,
-            }));
-            console.log('going to add like');
-            apis.addLike(id, {
-                ID: user._id,
-            }).catch((err) => console.log(err));
-        };
-        if (activeBtn== "none" || activeBtn == "dislike") {
-            setActiveBtn("like");
-        };
+    const handleLike = () => {
+        apis.addLike(id, user._id)
+            .then((res) => {
+                dispatch(setSocial(res.data.social))
+            })
+            .catch((err) => console.log(err));
     };
-    
-    // Kevin code - handleDislike() not working as intended.
 
-    const handleDislike = (event) => {
-        console.log(map.social.dislikes);
-        console.log(user._id);
-        if (map.social.dislikes.indexOf(user._id) < 0) {
-            console.log('user hasnt disliked the current map yet');
-            dispatch(addDislike({
-                ID: user._id,
-            }));
-            console.log('going to add dislike');
-            apis.addDislike(id, {
-                ID: user._id,
-            }).catch((err) => console.log(err));
-        };
-        if (activeBtn== "none" || activeBtn == "like") {
-            setActiveBtn("dislike");
-        };
+    const handleDislike = () => {
+        apis.addDislike(id, user._id)
+            .then((res) => {
+                dispatch(setSocial(res.data.social))
+            })
+            .catch((err) => console.log(err));
     };
 
     const exportOptions = ["PNG", "JPEG", "JSON"];
@@ -107,10 +84,10 @@ const Map = () => {
                         </div>
                     </div>
                     <div className='flex space-x-2 justify-end text-xs font-medium flex-wrap'>
-                        <Button handler={(event) => { handleLike(event)}} icon = {"fa-solid fa-thumbs-up"} text={map.social.likes.length}/>
-                        <Button handler={(event) => { handleDislike(event)}} icon = {"fa-solid fa-thumbs-down"} text={map.social.dislikes.length}/>
+                        <Button className={"w-4"} handler={() => handleLike()} icon = {"fa-solid fa-thumbs-up"} text={map.social.likes.length}  disabled={user._id === ''}/>
+                        <Button className={"w-4"} handler={() => handleDislike()} icon = {"fa-solid fa-thumbs-down"} text={map.social.dislikes.length} disabled={user._id === ''}/>
                         <DropDown type={MenuTypes.MAP_EXPORT} list={exportOptions} handleItem={handleExport} button={["Export", "fa-solid fa-file-export"]}/>
-                        <Button handler={()=>{dispatch(setModal(ModalTypes.FORK_MAP))}} icon = {"fa-solid fa-copy"} text={"Fork"}/>
+                        <Button handler={()=>{dispatch(setModal(ModalTypes.FORK_MAP))}} icon = {"fa-solid fa-copy"} text={"Fork"} disabled={user._id === ''}/>
                     </div>
                 </div>
             </div>

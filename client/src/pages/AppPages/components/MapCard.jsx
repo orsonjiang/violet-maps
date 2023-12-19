@@ -104,7 +104,7 @@ const MapCard = ({ map }) => {
                         {map.name}
                     </div>
                     <div className={`text-[13px] pt-1 ${map.social.publishedDate == null ? "text-violet-400" : "text-white font-medium"}`}>
-                        {map.username}
+                        {map.owner.username}{map.social.publishedDate ?  " ● " + new Date(map.social.publishedDate).toLocaleDateString('en-us', { month:"long", day: "numeric", year:"numeric"}) : ''}
                     </div>
                     <div className="flex mt-3 pb-4 gap-2 overflow-x-auto">
                         {map.tags.length != 0 ? map.tags.map((tag, index) => {

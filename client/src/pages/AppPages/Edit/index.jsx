@@ -37,7 +37,6 @@ const EditMap = () => {
             if (layerControl.current) layerControl.current.remove(refMap.current); // removing old layer control
             if (legendControl.current) legendControl.current.remove(refMap.current); // removing old legend control
         }
-
     };
 
     useEffect(() => {
@@ -48,6 +47,7 @@ const EditMap = () => {
                 .then((res) => {
                     dispatch(setMap(res.data.map));
                     dispatch(ActionCreators.clearHistory());
+
                     // Init Map
                     if (!refMap.current) {
                         refMap.current = L.map('map').setView(
@@ -80,7 +80,7 @@ const EditMap = () => {
                         refMap.current.getPane('3').style.zIndex = 350;
                     }
                 })
-                .catch((err) => console.log(err));
+                .catch((err) => {});
         }
 
         

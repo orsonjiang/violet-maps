@@ -1,5 +1,7 @@
 const CommentCard = ({user, comment}) => {
-    return(
+    if (!user || !comment) return <div></div>;
+
+    return (
         <div className="pb-2 flex my-1 space-x-4">
             <button className="flex gap-[1px] items-center justify-center font-semibold bg-indigo-300 text-xs h-10 w-10 rounded-full shrink-0">
                 <p>{user.firstName.charAt(0)}</p>

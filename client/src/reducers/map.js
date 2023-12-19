@@ -203,6 +203,17 @@ const map = (state = initialState, action) => {
                 }
             }   
 
+        case mapTypes.SET_SOCIAL:
+            return {
+                ...state,
+                map: {
+                    ...state.map,
+                    social: {
+                        ...action.payload
+                    }
+                }
+            }   
+
         default:
             return state;
     }
