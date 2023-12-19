@@ -21,6 +21,9 @@ const Map = () => {
     const { id } = useParams();
     const { map, container } = useSelector((state) => state.map.present);
     const [activeBtn, setActiveBtn] = useState("none");
+    // const [ likeCount, setLikeCount ] = useState(map.social.likes.length);
+    // const [ dislikeCount, setDislikeCount ] = useState(map.social.dislike.length);
+    const { map } = useSelector((state) => state.map.present);
     const { user } = useSelector((state) => state.user);
 
     useEffect(() => {
@@ -55,39 +58,25 @@ const Map = () => {
     const handleLike = (event) => {
         console.log(map.social.likes);
         console.log(user._id);
-        if (map.social.likes.indexOf(user._id) < 0) {
-            console.log('user hasnt liked the current map yet');
-            dispatch(addLike({
-                ID: user._id,
-            }));
-            console.log('going to add like');
-            apis.addLike(id, {
-                ID: user._id,
-            }).catch((err) => console.log(err));
-        };
-        if (activeBtn== "none" || activeBtn == "dislike") {
-            setActiveBtn("like");
-        };
+        dispatch(addLike({
+            ID: user._id,
+        }));
+        console.log('going to add like');
+        const res = apis.addLike(id, { ID: user._id,}).catch((err) => console.log(err));
+        console.log(res);
+        setActiveBtn("like");
     };
-    
-    // Kevin code - handleDislike() not working as intended.
 
     const handleDislike = (event) => {
         console.log(map.social.dislikes);
         console.log(user._id);
-        if (map.social.dislikes.indexOf(user._id) < 0) {
-            console.log('user hasnt disliked the current map yet');
-            dispatch(addDislike({
-                ID: user._id,
-            }));
-            console.log('going to add dislike');
-            apis.addDislike(id, {
-                ID: user._id,
-            }).catch((err) => console.log(err));
-        };
-        if (activeBtn== "none" || activeBtn == "like") {
-            setActiveBtn("dislike");
-        };
+        dispatch(addDislike({
+            ID: user._id,
+        }));
+        let res = apis.addDislike(id, { ID: user._id, }).catch((err) => console.log(err));
+        console.log(res);
+        setActiveBtn("dislike");
+        
     };
 
     const exportOptions = ["PNG", "JPEG", "JSON"];
