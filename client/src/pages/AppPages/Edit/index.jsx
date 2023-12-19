@@ -24,6 +24,7 @@ const EditMap = () => {
     const legendControl = useRef(null); // keeping track of legend so that I can delete later
     const { id } = useParams();
     const { map } = useSelector((state) => state.map.present);
+    const { user } = useSelector((state) => state.user);
 
     const MAP_URL = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
 
@@ -59,6 +60,10 @@ const EditMap = () => {
     }, [refMapContainer.current])
 
     useEffect(() => {
+        // if (map && map._id !== user._id) {
+        //     return;
+        // }
+
         // Clear Map
         clearMap();
 
@@ -250,6 +255,15 @@ const EditMap = () => {
         return (<Loading>
             Loading Map...
         </Loading>);
+    }
+
+    if (map && map._id !== user._id) {
+        return (<>
+            <Loading>
+                You don't have access to this page, you are not the owner. 
+            </Loading>
+            <div id="map"></div>
+        </>);
     }
 
     return (
