@@ -5,7 +5,7 @@ import { SortByTypes } from "../../../constants";
 
 const Maps = () => {
     const { maps } = useSelector((state)=> state.maps);
-    const { sortBy } = useSelector((state) => state.collate);
+    const { sortBy, searchText } = useSelector((state) => state.collate);
 
     if (!maps.length) {
         // TODO: Make no map graphics.
@@ -17,17 +17,20 @@ const Maps = () => {
     }
 
     let collated = () => {
+        let filtered = !searchText ? maps : maps.filter((map) => map.name.toLowerCase().includes(searchText.toLowerCase()));
+        console.log(filtered)
+
         switch (sortBy) {
             case SortByTypes.NAME:
-                return maps.sort((a, b) => a.name.localeCompare(b.name));
+                return filtered.sort((a, b) => a.name.localeCompare(b.name));
             case SortByTypes.CREATION_DATE:
-                return maps.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                return filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
             case SortByTypes.LIKES:
-                return maps.sort((a, b) => b.social.likes.length - a.social.likes.length);
+                return filtered.sort((a, b) => b.social.likes.length - a.social.likes.length);
             case SortByTypes.DISLIKES:
-                return maps.sort((a, b) => b.social.dislikes.length - a.social.dislikes.length);
+                return filtered.sort((a, b) => b.social.dislikes.length - a.social.dislikes.length);
             default:
-                return maps;
+                return filtered;
         }
     };
 
