@@ -10,4 +10,5 @@ export const ModalTypes = {
 	DELETE_MAP: "DELETE_MAP",
 	RENAME_MAP: "RENAME_MAP",
 	FORK_MAP: "FORK_MAP",
+	SET_TAGS: "SET_TAGS"
 };

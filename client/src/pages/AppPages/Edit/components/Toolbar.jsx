@@ -17,6 +17,7 @@ import Thumbnail from './Thumbnail';
 import Publish from './Publish';
 import Download from './Download';
 import Delete from './Delete';
+import Tags from './Tags';
 import { setModal } from '../../../../actions/modal';
 import { ModalTypes } from '../../../../constants';
 
@@ -39,10 +40,11 @@ const Toolbar = () => {
         <Heat />,
         <ToolbarBorder />,
         // <External />,
+        <Tags />,
         <Thumbnail />,
         <Publish />,
         <Download />,
-        <Delete />,
+        <Delete />
     ];
 
     return (
@@ -72,6 +74,7 @@ const ToolbarWrapper = () => {
                 <button
                     className="fa fa-edit text-xl text-indigo-500 flex items-center px-1 hover:bg-gray-200 rounded-full"
                     onClick={() => dispatch(setModal(ModalTypes.RENAME_MAP))}
+                    title='Rename Map'
                 />
             </div>
             <Toolbar />

@@ -257,7 +257,6 @@ const EditMap = () => {
                     className="w-full leaflet-container leaflet-touch leaflet-retina leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
                 ></div>
             </div>
-            <Tags />
         </div>
     );
 };
