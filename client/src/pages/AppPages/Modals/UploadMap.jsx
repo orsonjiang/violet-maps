@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from "react-router-dom";
 
 import * as shapefile from 'shapefile';
 import { kml } from '@tmcw/togeojson';
@@ -8,10 +9,13 @@ import simplifyGeojson from 'simplify-geojson';
 import { ModalTypes } from '../../../constants';
 import { setNewMap } from '../../../actions/newMap';
 import { setModal } from '../../../actions/modal';
+import apis from '../../../api/api';
 
 import Modal from './Modal';
+import { closeModal } from '../../../helpers';
 
 const UploadMap = () => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const fileInput = useRef(null);
@@ -128,6 +132,38 @@ const UploadMap = () => {
         if (geojson === null) {
             return setError('Please upload a file :)');
         }
+
+        // if (geojson.customFileType === "violetmaps") {
+        //     const newJson = geojson;
+        //     delete newJson.geometry._id
+        //     delete newJson.properties._id
+        //     delete newJson.graphics._id
+
+        //     console.log({
+        //         name: newJson.name,
+        //         geometry: newJson.geometry,
+        //         properties: newJson.properties,
+        //         graphics: newJson.graphics,
+        //         social: {
+        //             image: newJson.social.image
+        //         }
+        //     })
+
+        //     return apis.createMap({
+        //         name: newJson.name,
+        //         geometry: newJson.geometry,
+        //         properties: newJson.properties,
+        //         graphics: newJson.graphics,
+        //         social: {
+        //             image: newJson.social.image
+        //         }
+        //     })
+        //         .then((res) => {
+        //             closeModal(dispatch);
+        //             navigate(`/app/edit/${res.data.id}`);
+        //         })
+        //         .catch((err) => console.log(err));
+        // }
 
         const simplified = simplifyGeojson(geojson, 0.005);
         const geometry = [];

@@ -15,6 +15,7 @@ import Heat from './Heat';
 import External from './External';
 import Thumbnail from './Thumbnail';
 import Publish from './Publish';
+import Download from './Download';
 
 const Toolbar = () => {
     const tools = [
@@ -35,7 +36,8 @@ const Toolbar = () => {
         <ToolbarBorder />,
         // <External />,
         <Thumbnail />,
-        <Publish />
+        <Publish />,
+        <Download />,
     ];
 
     return (
