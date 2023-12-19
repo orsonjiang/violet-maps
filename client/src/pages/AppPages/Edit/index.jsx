@@ -80,7 +80,7 @@ const EditMap = () => {
                         refMap.current.getPane('3').style.zIndex = 350;
                     }
                 })
-                .catch((err) => console.log(err));
+                .catch((err) => {});
         }
 
         
