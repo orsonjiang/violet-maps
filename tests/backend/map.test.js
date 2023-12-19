@@ -1,7 +1,4 @@
 const request = require('supertest');
-const { app } = require('../../server');
-const Map = require("../../server/models/MapSchema");
-const geobuf = require('../../server/node_modules/geobuf');
 
 const { app } = require('../../server');
 
@@ -51,10 +48,6 @@ const findOneSpy = jest.spyOn(Map, 'findOne');
 const graphicsUpdateSpy = jest.spyOn(MapGraphics, "findOneAndUpdate").mockResolvedValue(mapData);
 const propertiesUpdateSpy = jest.spyOn(MapProperties, "findOneAndUpdate").mockResolvedValue(mapData);
 
-describe("Create and delete map", () => {
-    test("POST /api/map", async() => {
-        Map.prototype.save = jest.fn().mockResolvedValue(mapData);
-        geobuf.encode.mockReturnValue({});
 
 describe("Create and delete map", () => {
     test("POST /api/map", async() => {
