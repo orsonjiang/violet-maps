@@ -3,8 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import apis from '../../api/api';
-import auths from '../../api/auth';
-import { setUser } from '../../actions/user';
 import { setMaps } from '../../actions/maps';
 
 import Navbar from './components/Navbar';
@@ -19,16 +17,6 @@ const AppPages = () => {
 
     const { view } = useParams();
     const { searchBy } = useSelector((state) => state.collate);
-
-    useEffect(() => {
-        auths.postLogin({ auto: true })
-        .then(req => {
-            if (req.status === 200) {
-                dispatch(setUser(req.data));
-            }
-        })
-        .catch()
-    }, []);
 
     useEffect(() => {
         apis.getMaps(view, searchBy, "")
