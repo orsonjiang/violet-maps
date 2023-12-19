@@ -13,7 +13,7 @@ import { convert } from '../../../../helpers';
 
 const LeafletMap = () => {
     const dispatch = useDispatch();
-    
+
     const refMap = useRef(null);
     const refMapContainer = useRef(null);
     const layerControl = useRef(null); // keeping track of the layer control so that I can delete it later

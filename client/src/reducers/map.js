@@ -184,6 +184,14 @@ const map = (state = initialState, action) => {
                     ...newMap
                 }
             }  
+        case mapTypes.ADD_COMMENT:
+            newMap.social.comments.push(action.payload);
+            return {
+                ...state,
+                map: {
+                    ...newMap
+                }
+            }  
 
         default:
             return state;

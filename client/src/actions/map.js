@@ -92,3 +92,9 @@ export const setName = (data) => ({
     type: mapTypes.SET_NAME,
     payload: data
 });
+
+
+export const addComment = (data) => ({
+    type: mapTypes.ADD_COMMENT,
+    payload: data
+});
