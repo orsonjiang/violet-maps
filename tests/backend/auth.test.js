@@ -6,17 +6,10 @@ const User = require('../../server/models/User');
 const bcrypt = require("../../server/node_modules/bcryptjs");
 const auth = require('../../server/auth/index');
 
-jest.mock('../../server/models/User');
-jest.mock("../../server/node_modules/bcryptjs");
-jest.mock('../../server/auth/index');
-
 beforeEach(() => {
     jest.setTimeout(6000);
 });
 
-afterEach(() => {
-    jest.clearAllMocks();
-});
 
 describe('erroneous testing - POST /auth/register', () => {
     test('should fail due to missing field', async () => {
@@ -28,7 +21,9 @@ describe('erroneous testing - POST /auth/register', () => {
             password: '',
         };
 
-        User.prototype.save = jest.fn().mockResolvedValue(null);
+
+        // User.prototype.save = jest.fn().mockResolvedValue(null);
+        const userSaveSpy = jest.spyOn(User.prototype, "save").mockResolvedValue(null);
 
         const response = await request(app).post('/auth/register').send(userData);
 
@@ -36,6 +31,8 @@ describe('erroneous testing - POST /auth/register', () => {
         expect(response.body.error).toEqual(
             'Please enter all required fields.'
         );
+
+        userSaveSpy.mockRestore();
     });
     test('should fail due to password being less than 8 characters', async () => {
         const userData = {
@@ -46,7 +43,7 @@ describe('erroneous testing - POST /auth/register', () => {
             password: 'wrong',
         };
 
-        User.prototype.save = jest.fn().mockResolvedValue(null);
+        const userSaveSpy = jest.spyOn(User.prototype, "save").mockResolvedValue(null);
 
         const response = await request(app).post('/auth/register').send(userData);
 
@@ -54,6 +51,8 @@ describe('erroneous testing - POST /auth/register', () => {
         expect(response.body.error).toEqual(
             'Please enter a password of at least 8 characters.'
         );
+
+        userSaveSpy.mockRestore();
     });
 
     test("should fail login because user does not exist", async() => {
@@ -62,14 +61,14 @@ describe('erroneous testing - POST /auth/register', () => {
             password: "testpassword"
         };
 
-        User.findOne = jest.fn().mockResolvedValue(false);
+        const findOneSpy = jest.spyOn(User, "findOne").mockResolvedValue(false);
         
         const response = await request(app).post('/auth/login').send(userData);
 
-        expect(User.findOne).toHaveBeenCalled();
-        expect(User.findOne).toHaveBeenCalledWith({ email: "test.user@email.com" });
-
+        expect(findOneSpy).toHaveBeenCalledWith({ email: "test.user@email.com" });
         expect(response.statusCode).toBe(401); 
+
+        findOneSpy.mockRestore();
     })
 });
 
@@ -91,18 +90,14 @@ describe('successful register and login user', () => {
             email: userData.email,
         };
 
-        User.prototype.save = jest.fn().mockResolvedValue(savedUser);
+        const userSaveSpy = jest.spyOn(User.prototype, "save").mockResolvedValue(savedUser);
 
         const response = await request(app).post('/auth/register').send(userData);
 
         expect(response.statusCode).toBe(200);
-        expect(response.body.user).toEqual({
-            _id: "mockId",
-            username: userData.username,
-            firstName: userData.firstName,
-            lastName: userData.lastName,
-            email: userData.email,
-        });
+        expect(response.body.user).toEqual(savedUser);
+
+        userSaveSpy.mockRestore();
     });
 
     test('POST /auth/login', async () => {
@@ -121,15 +116,15 @@ describe('successful register and login user', () => {
             password: "testpassword"
         };
 
-        User.findOne = jest.fn().mockResolvedValue(registeredUser);
-        bcrypt.compare = jest.fn().mockResolvedValue(true);
-        auth.signToken = jest.fn().mockReturnValue("mockToken");
+        const findOneSpy = jest.spyOn(User, "findOne").mockResolvedValue(registeredUser);
+        const bcryptCompareSpy = jest.spyOn(bcrypt, "compare").mockResolvedValue(true);
+        const authSignTokenSpy = jest.spyOn(auth, "signToken").mockReturnValue("mockToken");
 
         const response = await request(app).post('/auth/login').send(userData);
 
-        expect(User.findOne).toHaveBeenCalled();
-        expect(User.findOne).toHaveBeenCalledWith({ email: "test.user@email.com" });
-        expect(bcrypt.compare).toHaveBeenCalled();
+        expect(findOneSpy).toHaveBeenCalledWith({ email: "test.user@email.com" });
+        expect(bcryptCompareSpy).toHaveBeenCalled();
+        expect(authSignTokenSpy).toHaveBeenCalled(); 
 
         expect(response.statusCode).toBe(200);
         expect(response.body.user).toEqual({
@@ -140,6 +135,9 @@ describe('successful register and login user', () => {
             email: 'test.user@email.com',
         });
 
+        findOneSpy.mockRestore();
+        bcryptCompareSpy.mockRestore();
+        authSignTokenSpy.mockRestore();
 
     })
 })

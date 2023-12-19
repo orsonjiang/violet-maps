@@ -46,6 +46,7 @@ const Color = ({ children, type, oldColor, handleColor, disabled }) => {
                         dispatch(setMenu(type));
                     }
                 }}
+                title={type === "SET_FILL" ? "Edit Region Color" : "Edit Border Color"}
             >
                 {children}
             </button>

@@ -104,7 +104,7 @@ const getMap = async (req, res) => {
 // TODO: Update.
 const updateMap = async (req, res) => {
     const body = req.body;
-
+    console.log(body);
     // TODO: Verify body and other body data.
     if (!body) {
         return sendError(res, "You must provide map data.");
@@ -113,6 +113,7 @@ const updateMap = async (req, res) => {
     Map.findOne({ _id: req.params.id })
         .then((map) => {
             map.name = body.name;
+            map.tags = body.tags;
             map.save()
                 .then(() => {
                     MapGraphics.findOneAndUpdate({ _id: map.graphics }, body.graphics)

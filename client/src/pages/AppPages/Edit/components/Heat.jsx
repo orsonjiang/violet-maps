@@ -16,6 +16,7 @@ const Heat = () => {
         <button
             className="flex items-center px-2 hover:bg-gray-200 rounded-full"
             onClick={handleClick}
+            title="Heat Layer"
         >
             <i className="bg-gradient-to-b from-red-500 to-purple-500 text-transparent bg-clip-text fa-solid fa-fire"></i>
         </button>

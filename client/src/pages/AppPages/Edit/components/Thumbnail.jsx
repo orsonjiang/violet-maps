@@ -11,7 +11,7 @@ const Thumbnail = () => {
     };
 
     return (
-        <button className="px-1 disabled:opacity-20 disabled:bg-inherit hover:bg-gray-200 rounded-full w-7" onClick={() => handleSetThumbnail()}>
+        <button className="px-1 disabled:opacity-20 disabled:bg-inherit hover:bg-gray-200 rounded-full w-7" onClick={() => handleSetThumbnail()} title="Set Thumbnail">
             <i className="fa-solid fa-image"></i>
         </button>
     );

@@ -16,6 +16,7 @@ const Label = () => {
         <button
             className="flex items-center px-2 hover:bg-gray-200 rounded-full"
             onClick={handleClick}
+            title="Toggle Labels"
         >
             <i className="fa-solid fa-tag"></i>
         </button>
