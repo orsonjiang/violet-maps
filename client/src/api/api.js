@@ -38,6 +38,9 @@ const publishMap = (id) => {
     return api.put(`/map/${id}/publish`)
 }
 const deleteMap = (id) => api.delete(`/map/${id}`);
+const forkMap = (id, name) => api.post(`/map/${id}/fork`, {
+    name: name
+});
 
 const apis = {
     getMaps,
@@ -46,7 +49,8 @@ const apis = {
     updateMap,
     updateMapImage,
     publishMap,
-    deleteMap
+    deleteMap,
+    forkMap,
 };
 
 export default apis;

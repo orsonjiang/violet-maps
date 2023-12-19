@@ -42,10 +42,10 @@ const SetData = () => {
     const handleConfirm = () => {
         apis.createMap(newMap)
             .then((res) => {
+                closeModal(dispatch);
                 navigate(`/app/edit/${res.data.id}`);
             })
             .catch((err) => console.log(err));
-        closeModal(dispatch);
     };
 
     const handleNameChange = (event) => {

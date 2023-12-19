@@ -16,5 +16,6 @@ router.put("/map/:id", auth.verifyToken, ApiController.updateMap);
 router.put("/map/:id/image", auth.verifyToken, ApiController.updateImage);
 router.put("/map/:id/publish", auth.verifyToken, ApiController.publishMap);
 router.delete("/map/:id", auth.verifyToken, ApiController.deleteMap);
+router.post("/map/:id/fork", auth.verifyToken, ApiController.forkMap);
 
 module.exports = router;
