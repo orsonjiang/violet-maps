@@ -1,10 +1,10 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import apis from '../../../api/api';
-import { setMap } from '../../../actions/map';
 import { setModal } from '../../../actions/modal';
+import { setMap, addLike, addDislike } from '../../../actions/map';
 
 import Comments from './components/Comments';
 import LeafletMap from './components/LeafletMap';
@@ -20,6 +20,8 @@ const Map = () => {
     const dispatch = useDispatch();
     const { id } = useParams();
     const { map, container } = useSelector((state) => state.map.present);
+    const [activeBtn, setActiveBtn] = useState("none");
+    const { user } = useSelector((state) => state.user);
 
     useEffect(() => {
         apis.getMap(id, ['owner', 'geometry', 'properties', 'graphics', "social.comments",  {path: "social.comments", populate: {path: 'user'}}])
@@ -47,6 +49,46 @@ const Map = () => {
         }
 
     };
+    
+    // Kevin code - handleLike() not working as intended.
+
+    const handleLike = (event) => {
+        console.log(map.social.likes);
+        console.log(user._id);
+        if (map.social.likes.indexOf(user._id) < 0) {
+            console.log('user hasnt liked the current map yet');
+            dispatch(addLike({
+                ID: user._id,
+            }));
+            console.log('going to add like');
+            apis.addLike(id, {
+                ID: user._id,
+            }).catch((err) => console.log(err));
+        };
+        if (activeBtn== "none" || activeBtn == "dislike") {
+            setActiveBtn("like");
+        };
+    };
+    
+    // Kevin code - handleDislike() not working as intended.
+
+    const handleDislike = (event) => {
+        console.log(map.social.dislikes);
+        console.log(user._id);
+        if (map.social.dislikes.indexOf(user._id) < 0) {
+            console.log('user hasnt disliked the current map yet');
+            dispatch(addDislike({
+                ID: user._id,
+            }));
+            console.log('going to add dislike');
+            apis.addDislike(id, {
+                ID: user._id,
+            }).catch((err) => console.log(err));
+        };
+        if (activeBtn== "none" || activeBtn == "like") {
+            setActiveBtn("dislike");
+        };
+    };
 
     const exportOptions = ["PNG", "JPEG", "JSON"];
 
@@ -65,8 +107,8 @@ const Map = () => {
                         </div>
                     </div>
                     <div className='flex space-x-2 justify-end text-xs font-medium flex-wrap'>
-                        <Button handler={()=>{}} icon = {"fa-solid fa-thumbs-up"} text={map.social.likes}/>
-                        <Button handler={()=>{}} icon = {"fa-solid fa-thumbs-down"} text={map.social.dislikes}/>
+                        <Button handler={(event) => { handleLike(event)}} icon = {"fa-solid fa-thumbs-up"} text={map.social.likes.length}/>
+                        <Button handler={(event) => { handleDislike(event)}} icon = {"fa-solid fa-thumbs-down"} text={map.social.dislikes.length}/>
                         <DropDown type={MenuTypes.MAP_EXPORT} list={exportOptions} handleItem={handleExport} button={["Export", "fa-solid fa-file-export"]}/>
                         <Button handler={()=>{dispatch(setModal(ModalTypes.FORK_MAP))}} icon = {"fa-solid fa-copy"} text={"Fork"}/>
                     </div>

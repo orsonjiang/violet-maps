@@ -34,8 +34,8 @@ describe('modal tests', () => {
         cy.contains('Cancel').click();
 
         /*
-        Clicking confirm leads to same axios error as before, 400 error from GET request from
-        http://localhost:8080/api/maps?view=edit&searchBy=name&searchText=
+        Clicking confirm leads to axios error net::ERR_EMPTY_RESPONSE
+        this is a POST http:/localhost:8080/api/map request
 
         cy.contains('Confirm').click();
         */
