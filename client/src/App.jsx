@@ -17,7 +17,7 @@ function App() {
                     <Route path="/login" element={<Login/>} />
                     <Route path="/register" element={<Register/>} />
                     <Route path="/requestReset" element={<RequestReset/>} />
-                    <Route path="/reset" element={<Reset/>} />
+                    <Route path="/reset/:userId/:token" element={<Reset/>} />
                     <Route path="/app/:view/:id?" element={<AppPages/>} />
                 </Routes>
             </SiteWrapper>
