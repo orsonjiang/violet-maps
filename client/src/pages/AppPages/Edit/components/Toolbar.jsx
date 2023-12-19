@@ -16,6 +16,7 @@ import External from './External';
 import Thumbnail from './Thumbnail';
 import Publish from './Publish';
 import Download from './Download';
+import Delete from './Delete';
 
 const Toolbar = () => {
     const tools = [
@@ -38,6 +39,7 @@ const Toolbar = () => {
         <Thumbnail />,
         <Publish />,
         <Download />,
+        <Delete />,
     ];
 
     return (

@@ -187,7 +187,7 @@ const publishMap = async (req, res) => {
 const deleteMap = async (req, res) => {
     Map.deleteOne({ _id: req.params.id })
         .then(() => {
-            return res.status(200);
+            return res.status(200).send();
         })
         .catch((err) => {
             console.log(err);
