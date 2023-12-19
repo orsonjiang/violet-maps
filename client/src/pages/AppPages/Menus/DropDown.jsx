@@ -7,7 +7,7 @@ import { MenuTypes } from '../../../constants';
 import Menu from './Menu';
 import Button from '../Map/components/Button';
 
-const DropDown = ({ type, list, currentItem, handleItem, icon, button }) => {
+const DropDown = ({ type, list, currentItem, handleItem, icon, button, disabled }) => {
     const dispatch = useDispatch();
 
     const { menu } = useSelector((state) => state.menu);
@@ -78,7 +78,7 @@ const DropDown = ({ type, list, currentItem, handleItem, icon, button }) => {
 	return (
         <div className="relative">
             <button
-                className="flex gap-2 justify-between whitespace-nowrap items-center py-1 px-3 font-medium text-center bg-gray-200 rounded-lg hover:bg-gray-300 focus:outline-none relative text-ellipsis"
+                className="flex gap-2 justify-between whitespace-nowrap items-center py-1 px-3 font-medium text-center bg-gray-200 rounded-lg hover:bg-gray-300 focus:outline-none relative text-ellipsis disabled:opacity-20"
                 onClick={() => {
                     if (menu === type) {
                         dispatch(setMenu(MenuTypes.NONE));
@@ -86,6 +86,7 @@ const DropDown = ({ type, list, currentItem, handleItem, icon, button }) => {
                         dispatch(setMenu(type));
                     }
                 }}
+                disabled={disabled}
             >
                 <div className='grow'>{item}</div>
                 <i className="fa-solid fa-chevron-down" />

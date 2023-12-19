@@ -15,7 +15,7 @@ const Position = () => {
 
     const posOptions = ['center', 'right', 'left', 'top', 'bottom', 'auto'];
 
-    return <DropDown type={MenuTypes.SET_POSITION} list={posOptions} currentItem={map.graphics.label.position} handleItem={handleSetPosition}/>
+    return <DropDown type={MenuTypes.SET_POSITION} list={posOptions} currentItem={map.graphics.label.position} handleItem={handleSetPosition} disabled={!map.graphics.label.isDisplayed}/>
 };
 
 export default Position;
