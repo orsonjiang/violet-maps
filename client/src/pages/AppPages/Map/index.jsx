@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { ActionCreators } from 'redux-undo';
 import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-choropleth/dist/choropleth';
@@ -9,10 +8,12 @@ import centroid from "@turf/centroid"; // calculate center point
 import "../../../plugins/leaflet-heat";
 
 import apis from '../../../api/api';
-import { setMap, setMapContainer, setRegion } from '../../../actions/map';
+import { setMap } from '../../../actions/map';
 import { convert } from '../../../helpers';
 
-const EditMap = () => {
+import CommentCard from "./components/CommentCard";
+
+const Map = () => {
     const dispatch = useDispatch();
 
     const refMap = useRef(null);
@@ -21,6 +22,7 @@ const EditMap = () => {
     const legendControl = useRef(null); // keeping track of legend so that I can delete later
     const { id } = useParams();
     const { map } = useSelector((state) => state.map.present);
+    const { user } = useSelector((state) => state.user);
 
     const MAP_URL = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
 
@@ -60,7 +62,7 @@ const EditMap = () => {
             );
 
             L.tileLayer(MAP_URL, {
-                minZoom: 3,
+                minZoom: 2,
                 maxZoom: 19,
             }).addTo(refMap.current);
 
@@ -236,16 +238,65 @@ const EditMap = () => {
     }
 
     return (
-        <div className="flex flex-col grow text-sm">
-            <div className="flex grow">
+        <div className="flex gap-8 m-8">
+            <div className="w-2/3 flex flex-col gap-5 grow text-sm">
                 <div
                     ref={refMapContainer}
                     id="map"
-                    className="w-full leaflet-container leaflet-touch leaflet-retina leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
+                    className="w-full h-[70vh] leaflet-container leaflet-touch leaflet-retina leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
                 ></div>
+                <div className=''>
+                    <div>
+                        <h3 className='font-semibold text-lg'>{map.name}</h3>
+                        <h4 className="">{map.owner.username}</h4>
+                        <div className="flex gap-3 items-center mt-3 text-xs whitespace-nowrap">
+                            {map.tags.length != 0 ? map.tags.map((name) => {
+                                return ( <div className=" bg-violet-200 focus:outline-none rounded-full px-4 py-1.5 text-center mb-2 ">
+                                    {name}
+                                </div>)
+                            }) : (<div className="text-xs text-gray-300">No tags</div>)}
+                        </div>
+                    </div>
+                    <div className='flex space-x-2 justify-end text-xs font-medium flex-wrap'>
+                        <button data-cy="like" className='rounded-full bg-accent py-1.5 px-4 shadow-lg text-white' onClick={() => {}}><i className="fa-solid fa-thumbs-up pr-2"></i>{map.social.likes}</button>
+                        <button className='rounded-full bg-accent py-1.5 px-4 shadow-lg text-white' onClick={() => {}}><i className="fa-solid fa-thumbs-down pr-2"></i>{map.social.dislikes}</button>
+                        <button onClick={() => {}} className='rounded-full bg-accent py-1.5 px-4 shadow-lg text-white'>
+                            <i className="fa-solid fa-file-export pr-2"></i>
+                            Export
+                        </button>
+                        <button className='rounded-full bg-accent py-1.5 px-4 shadow-lg text-white' onClick={() => {}}><i className="fa-solid fa-copy pr-2" ></i>Fork</button>
+                    </div>
+                </div>
+            </div>
+            <div className='w-1/3 bg-violet-100 rounded-lg'>
+                <div className="m-5 mb-1 pb-2">
+                    <h3 className="font-medium">{`${map.social.comments.length} Comments`}</h3>
+                    <div className="mt-3 flex space-x-4">
+                        <button className="flex gap-[1px] items-center justify-center h-10 w-10 shadow-none hover:shadow-none font-semibold bg-indigo-200 text-xs p-2 rounded-full shrink-0">
+                            <p>{user.firstName.charAt(0)}</p>
+                            <p>{user.lastName.charAt(0)}</p>
+                        </button>
+                        <input
+                            type="search"
+                            id="commentinput"
+                            className="block px-3 w-full text-sm rounded-lg drop-shadow-sm focus:outline-none focus:ring-2"
+                            placeholder="Add a comment..."
+                            required=""
+                            // ref={ref}
+                            // onChange={handleUpdateText}
+                            // onKeyDown={handleAddComment}
+                        />
+                    </div>
+                    <div className="overflow-hidden hover:overflow-y-scroll max-h-[30rem] mt-3 space-y-2">
+                        {map.social.comments.map((c) => {
+                            return <CommentCard initials={c.userInitial} name={c.username} comment={c.comment} />
+                        })}
+                    </div>
+
+                </div>
             </div>
         </div>
     );
 };
 
-export default EditMap;
+export default Map;
