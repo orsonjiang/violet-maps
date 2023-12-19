@@ -102,5 +102,15 @@ export const addComment = (data) => ({
 export const setTags = (data) => ({
     type: mapTypes.SET_TAGS,
     payload: data
-})
+});
+
+export const addLike = (data) => ({
+    type: mapTypes.ADD_LIKE,
+    payload: data,
+});
+
+export const addDislike = (data) => ({
+    type: mapTypes.ADD_DISLIKE,
+    payload: data,
+});
 

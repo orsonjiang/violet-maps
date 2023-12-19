@@ -297,6 +297,70 @@ const forkMap = async (req, res) => {
         });
 };
 
+// Kevin code - addLike() api function
+
+const addLike = async (req, res) => {
+    const body = req.body;
+    console.log(body);
+    if (!body) {
+        return sendError(res, "Error has arisen from attempt to like.");
+    };
+
+    Map.findOne({ _id: req.params.id })
+        .then((map) => {
+            const listDislikes = map.social.dislikes;
+            const isDislike = listDislikes.indexOf(req.body.ID);
+            if (isDislike >= 0) {
+                console.log('User already had dislike on map. Will remove dislike.');
+                listDislikes.splice(isDislike, 1);
+                map.social.dislikes = listDislikes;
+            };
+            map.social.likes.push(req.body.ID);
+            map.save()
+                .then(() => {
+                    return res.status(204).json({ id: map._id});
+                }).catch((err) => {
+                    console.log(err);
+                    return sendError(res, 'The process of adding like could not be saved');
+                });
+        }).catch((err) => {
+            console.log(err);
+            return sendError(res, 'The map could not be found.');
+        });
+};
+
+// Kevin code - addDislike() api function
+
+const addDislike = async (req, res) => {
+    const body = req.body;
+    console.log(body);
+    if (!body) {
+        return sendError(res, "Error has arisen from attempt to dislike.");
+    };
+
+    Map.findOne({ _id: req.params.id })
+        .then((map) => {
+            const listLikes = map.social.likes;
+            const isLiked = listLikes.indexOf(req.body.ID);
+            if (isLiked >= 0) {
+                console.log('User already had like on map. Will remove like.');
+                listLikes.splice(isLiked, 1);
+                map.social.likes = listLikes;
+            };
+            map.social.dislikes.push(req.body.ID);
+            map.save()
+                .then(() => {
+                    return res.status(204).json({ id: map._id});
+                }).catch((err) => {
+                    console.log(err);
+                    return sendError(res, 'The process of adding like could not be saved');
+                });
+        }).catch((err) => {
+            console.log(err);
+            return sendError(res, 'The map could not be found.');
+        });
+};
+
 module.exports = {
     getMaps,
     createMap,
@@ -306,5 +370,7 @@ module.exports = {
     publishMap,
     deleteMap,
     forkMap,
-    addComment
+    addComment,
+    addLike,
+    addDislike,
 };

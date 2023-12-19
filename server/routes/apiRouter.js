@@ -19,4 +19,8 @@ router.put("/map/:id/publish", auth.verifyToken, ApiController.publishMap);
 router.delete("/map/:id", auth.verifyToken, ApiController.deleteMap);
 router.post("/map/:id/fork", auth.verifyToken, ApiController.forkMap);
 
+// Kevin code - routes for the add like/dislike api functions.
+router.put("/map/:id/like", auth.verifyToken, ApiController.addLike);
+router.put("/map/:id/dislike", auth.verifyToken, ApiController.addDislike);
+
 module.exports = router;
