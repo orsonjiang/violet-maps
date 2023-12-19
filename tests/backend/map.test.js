@@ -21,14 +21,20 @@ const mapData = {
     name: "testmap",
     owner: "testUserId",
     tags: [],
-    geometry: "mockGeometryId",
-    properties: "mockPropertyId",
-    graphics: "mockGraphicsId",
+    geometry: { 
+        _id: "mockGeometryId",
+        data: []
+    },
+    properties: {
+        _id: "mockPropertyId",
+        data: []
+    },
+    graphics: {
+        _id: "mockGraphicsId",
+        data: []
+    },
     social: {
-        views: 0,
-        likes: [],
-        dislikes: [],
-        comments: []
+        image: "mockImage"
     }
 };
 
@@ -46,9 +52,11 @@ const propertiesUpdateSpy = jest.spyOn(MapProperties, "findOneAndUpdate").mockRe
 describe("Create and delete map", () => {
     test("POST /api/map", async() => {
         mapSaveSpy.mockResolvedValue(mapData);
-        mapGeometriesSaveSpy.mockResolvedValue(mapData);mapPropertiesSaveSpy.mockResolvedValue(mapData);mapGraphicsSaveSpy.mockResolvedValue(mapData);
+        mapGeometriesSaveSpy.mockResolvedValue(mapData);
+        mapPropertiesSaveSpy.mockResolvedValue(mapData);
+        mapGraphicsSaveSpy.mockResolvedValue(mapData);
 
-        const response = await request(app).post('/api/map').set("Authorization", "mockToken").send({map: mapData});
+        const response = await request(app).post('/api/map').set("Authorization", "mockToken").send(mapData);
 
         expect(auth.verifyToken).toHaveBeenCalled();
         expect(mapSaveSpy).toHaveBeenCalled();
