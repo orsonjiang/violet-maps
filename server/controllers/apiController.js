@@ -26,6 +26,7 @@ const getMaps = async (req, res) => {
     }
 
     Map.find(options)
+        .populate([{ path: 'owner', select: 'username' }])
         .then((maps) => {
             return res.status(200).json({ maps: maps });
         })
