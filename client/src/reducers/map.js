@@ -185,7 +185,7 @@ const map = (state = initialState, action) => {
                 }
             }  
         case mapTypes.ADD_COMMENT:
-            newMap.social.comments.push(action.payload);
+            newMap.social.comments.unshift(action.payload);
             return {
                 ...state,
                 map: {

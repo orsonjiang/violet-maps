@@ -36,18 +36,6 @@ const LeafletMap = () => {
     };
 
     useEffect(() => {
-        clearMap();
-
-        if (!map || map._id !== id) {
-            apis.getMap(id, ['owner', 'geometry', 'properties', 'graphics'])
-                .then((res) => {
-                    dispatch(setMap(res.data.map));
-                })
-                .catch((err) => console.log(err));
-        }
-    }, []);
-
-    useEffect(() => {
         // Clear Map
         clearMap();
 
@@ -109,10 +97,10 @@ const LeafletMap = () => {
         };
 
         if (map && refMap.current) {
-            apis.updateMap(id, {
-                graphics: map.graphics,
-                properties: map.properties,
-            }).catch((err) => console.log(err));
+            // apis.updateMap(id, {
+            //     graphics: map.graphics,
+            //     properties: map.properties,
+            // }).catch((err) => console.log(err));
 
             const geojson = convert(map);
 
