@@ -8,6 +8,7 @@ import SetData from './SetData';
 import SetText from './SetText';
 import EditLegend from "./EditLegend";
 import AddLayer from "./AddLayer";
+import PublishMap from "./PublishMap";
 
 const Modals = () => {
     const { modal } = useSelector((state) => state.modal);
@@ -19,6 +20,7 @@ const Modals = () => {
         [ModalTypes.SET_TEXT]: <SetText />,
         [ModalTypes.EDIT_LEGEND]: <EditLegend />,
         [ModalTypes.ADD_LAYER]: <AddLayer />,
+        [ModalTypes.PUBLISH_MAP]: <PublishMap />,
     };
 
 	return renderModal[modal];

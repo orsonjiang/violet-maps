@@ -34,6 +34,9 @@ const updateMapImage = (id, data) => {
         image: data
     })
 }
+const publishMap = (id) => {
+    return api.put(`/map/${id}/publish`)
+}
 const deleteMap = (id) => api.delete(`/map/${id}`);
 
 const apis = {
@@ -42,6 +45,7 @@ const apis = {
     getMap,
     updateMap,
     updateMapImage,
+    publishMap,
     deleteMap
 };
 
