@@ -20,14 +20,14 @@ const getMaps = async (req, res) => {
             break;
         
         case "explore":
-            options.publishedDate = { $ne: null };
+            options["social.publishedDate"] = { $ne: null };
             break;
     
         default:
             return sendError(res, "There was an error retrieving maps.")
     }
 
-    Map.find({"social.publishedDate": { $ne: null }})
+    Map.find(options)
         .then((maps) => {
             return res.status(200).json({ maps: maps });
         })
@@ -187,7 +187,7 @@ const publishMap = async (req, res) => {
 const deleteMap = async (req, res) => {
     Map.deleteOne({ _id: req.params.id })
         .then(() => {
-            return res.status(200);
+            return res.status(200).send();
         })
         .catch((err) => {
             console.log(err);
