@@ -12,7 +12,7 @@ const mapGraphicsSchema = new Schema({
 		},
 	}],
 	label: {
-		showLabels: { type: Boolean, required: true },
+		isDisplayed: { type: Boolean, required: true },
 		// TODO: Add more enums.
 		fontStyle: { type: String, required: true },
 		fontSize: { type: Number, required: true },
@@ -21,13 +21,16 @@ const mapGraphicsSchema = new Schema({
 		property: { type: String },
 	},
 	heat: {
+		isDisplayed: { type: Boolean, required: true },
 		property: { type: String },
 	},
 	bubble: {
+		isDisplayed: { type: Boolean, required: true },
 		property: { type: String },
 		color: { type: String }
 	},
 	choropleth: {
+		isDisplayed: { type: Boolean, required: true },
 		property: { type: String },
 		color: { type: String }
 	},

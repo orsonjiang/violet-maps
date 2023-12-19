@@ -155,10 +155,21 @@ const UploadMap = () => {
                         },
                     }),
                     label: {
-                        showLabels: false,
+                        isDisplayed: false,
                         fontStyle: 'font-sans',
                         fontSize: 12,
                         position: 'center',
+                    },
+                    heat: {
+                        isDisplayed: false,
+                    },
+                    bubble: {
+                        isDisplayed: false,
+                        color: "#8187DC"
+                    },
+                    choropleth: {
+                        isDisplayed: false,
+                        color: "#8187DC"
                     },
                     legend: {
                         name: "",

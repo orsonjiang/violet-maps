@@ -1,29 +1,20 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ChromePicker } from "react-color";
 
 import { setMenu } from "../../../actions/menu";
 import { MenuTypes } from "../../../constants";
-import { setColor } from "../../../actions/newMap";
 
 import Menu from './Menu';
 
-const ModalColor = ({ type }) => {
+const ModalColor = ({ type, handleSetColor, defaultColor }) => {
 	const dispatch = useDispatch();
 
     const { menu } = useSelector((state) => state.menu);
-    const [color, setColorState] = useState("#8187DC");
-
-    useEffect(() => {
-        dispatch(setColor("#8187DC")); // set default color
-    }, [])
+    const [color, setColorState] = useState(defaultColor);
 
     const handleColorChange = (color) => {
         setColorState(color.hex);
-    };
-
-    const handleColorChangeComplete = (color) => {
-        dispatch(setColor(color.hex));
     };
 
 	const Exp = (
@@ -33,7 +24,7 @@ const ModalColor = ({ type }) => {
                 color={color}
                 disableAlpha={true}
                 onChange={handleColorChange}
-                onChangeComplete={handleColorChangeComplete}
+                onChangeComplete={(color) => handleSetColor(color.hex)}
             />
         </div>
         </Menu>
