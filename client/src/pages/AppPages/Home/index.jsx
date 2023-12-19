@@ -19,7 +19,7 @@ const Home = () => {
 
     if (user._id === '') {
         return (<Loading>
-            Please sign up or login to make your own maps.
+            Please register or login to make your own maps.
         </Loading>)
     }
 
