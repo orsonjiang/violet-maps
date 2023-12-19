@@ -1,7 +1,7 @@
 export const SortByTypes = {
-	"none": "None",
-    "name": "Name",
-	"date": "Creation Date",
-    "likes": "Likes",
-    "dislikes": "Dislikes"
+	NONE: "None",
+	NAME: "Name",
+	CREATION_DATE: "Creation Date",
+	LIKES: "Likes",
+	DISLIKES: "Dislikes",
 };

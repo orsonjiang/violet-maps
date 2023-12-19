@@ -9,11 +9,15 @@ const api = axios.create({
 const postRegister = (data) => api.post(`/register`, data);
 const postLogin = (data) => api.post(`/login`, data);
 const postLogout = () => api.post(`/logout`);
+const postRequestReset = (data) => api.post(`/requestReset`, data);
+const postReset = (data) => api.post(`/reset`, data);
 
 const auths = {
     postRegister,
     postLogin,
     postLogout,
+    postRequestReset,
+    postReset,
 };
 
 export default auths;

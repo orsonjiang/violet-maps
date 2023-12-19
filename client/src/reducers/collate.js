@@ -1,9 +1,10 @@
 import { collateTypes } from "../actionTypes";
+import { SortByTypes } from "../constants";
 
 const initialState = {
     searchBy: "name",
     searchText: "",
-    sortBy: "",
+    sortBy: SortByTypes.NONE,
 }
 
 const collate = (state = initialState, action)=> {
