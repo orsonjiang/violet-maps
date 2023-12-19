@@ -57,14 +57,14 @@ const MapCard = ({ map }) => {
         <div>
             <div onClick={handleClickCard} className={`p-1 pt-1 rounded-md h-full drop-shadow-sm ${map.social.publishedDate == null ? "border-2 border-violet-200 bg-white" : "border-2 border-indigo-300 bg-indigo-300/[0.9]"}`}>
                 <div className="relative">
-                    <button 
+                    {/* <button 
                         onClick={handleMenuMapCard}
                         className="absolute right-2"
                     >
                         <i className="fas fa-ellipsis-h w-3 mr-1 text-white"/>
-                    </button>
+                    </button> */}
                     {/* Dropdown menu */}
-                    {menu == "mapCard" ?
+                    {/* {menu == "mapCard" ?
                     <div
                         ref={ref}
                         className="absolute right-1 z-50 my-5 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow "
@@ -93,7 +93,7 @@ const MapCard = ({ map }) => {
                             </li>
                             
                         </ul>
-                    </div> : null}
+                    </div> : null} */}
                 </div>
                 <img
                     src={image}
