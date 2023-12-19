@@ -1,3 +1,5 @@
+const mongoose = require("mongoose");
+
 const { findToken } = require("../auth");
 const { sendError } = require("../helpers");
 
@@ -106,7 +108,6 @@ const getMap = async (req, res) => {
 // TODO: Update.
 const updateMap = async (req, res) => {
     const body = req.body;
-    console.log(body);
     // TODO: Verify body and other body data.
     if (!body) {
         return sendError(res, "You must provide map data.");
@@ -243,7 +244,8 @@ const forkMap = async (req, res) => {
         .then(async (map) => {
             // MapGeometries
             const newGeometries = map.geometry.data;
-            delete newGeometries._id;
+            newGeometries._id = new mongoose.Types.ObjectId();
+            newGeometries.isNew = true;
             const geometry = new MapGeometries({
                 data: newGeometries
             });
@@ -251,7 +253,8 @@ const forkMap = async (req, res) => {
         
             // MapProperties
             const newProperties = map.properties.data;
-            delete newProperties._id;
+            newProperties._id = new mongoose.Types.ObjectId();
+            newProperties.isNew = true;
             const properties = new MapProperties({
                 data: newProperties
             });
@@ -259,7 +262,8 @@ const forkMap = async (req, res) => {
         
             // MapGraphics
             const newGraphics = map.graphics;
-            delete newGraphics._id;
+            newGraphics._id = new mongoose.Types.ObjectId();
+            newGraphics.isNew = true;
             const graphics = new MapGraphics(newGraphics);
             await graphics.save();
         
@@ -285,7 +289,7 @@ const forkMap = async (req, res) => {
         
             newMap.save()
                 .then(() => {
-                    return res.status(201).json({ id: map._id })
+                    return res.status(201).json({ id: newMap._id })
                 })
                 .catch((err) => {
                     console.log(err);
@@ -340,7 +344,7 @@ const addLike = async (req, res) => {
 
 const addDislike = async (req, res) => {
     const body = req.body;
-    console.log(body);
+
     if (!body) {
         return sendError(res, "Error has arisen from attempt to dislike.");
     };
