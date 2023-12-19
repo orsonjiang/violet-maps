@@ -19,8 +19,8 @@ const EditLegend = () => {
     const { map } = useSelector((state) => state.map.present);
 
     const [name, setName] = useState(map.graphics.legend.name);
-    const [position, setPosition] = useState("");
-    const [visibility, setVisibility] = useState("");
+    const [position, setPosition] = useState(map.graphics.legend.position);
+    const [visibility, setVisibility] = useState(map.graphics.legend.visible == true ? "show" : "hide");
 
     const handleConfirm = () => {
         var visible = visibility == "hide" ? false : true;
@@ -44,11 +44,11 @@ const EditLegend = () => {
             </Input>
             
             <Input title={'Position: '}>
-                <ModalDropDown list={positionOptions} handleItem={setPosition} currentItem={map.graphics.legend.position} type={MenuTypes.SET_LEGEND_POSITION}/>
+                <ModalDropDown list={positionOptions} handleItem={setPosition} currentItem={position} type={MenuTypes.SET_LEGEND_POSITION}/>
             </Input>
 
             <Input title={'Visibility: '}>
-                <ModalDropDown list={visibilityOptions} handleItem={setVisibility} currentItem={map.graphics.legend.visible ? "show" : "hide"} type={MenuTypes.SET_LEGEND_VISIBILITY}/>
+                <ModalDropDown list={visibilityOptions} handleItem={setVisibility} currentItem={visibility} type={MenuTypes.SET_LEGEND_VISIBILITY}/>
             </Input>                        
         </Modal>
     );
