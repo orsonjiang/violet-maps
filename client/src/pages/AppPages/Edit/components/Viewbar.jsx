@@ -2,7 +2,9 @@ import { useSelector } from 'react-redux';
 
 const Viewbar = () => {
     const { map } = useSelector((state) => state.map.present);
-    if (!map) return <div></div>;
+    if (!map || map._id !== id) {
+        return <div className='grow'></div>;
+    }
 
     return (
         <div className="flex grow text-sm gap-2">

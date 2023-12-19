@@ -18,7 +18,6 @@ const Maps = () => {
 
     let collated = () => {
         let filtered = !searchText ? maps : maps.filter((map) => map.name.toLowerCase().includes(searchText.toLowerCase()));
-        console.log(filtered)
 
         switch (sortBy) {
             case SortByTypes.NAME:
