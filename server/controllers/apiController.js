@@ -1,6 +1,3 @@
-var Pbf = require('pbf');
-var geobuf = require('geobuf');
-
 const { findToken } = require("../auth");
 const { sendError } = require("../helpers");
 
@@ -11,7 +8,6 @@ const MapGraphics = require("../models/MapGraphics");
 
 const getMaps = async (req, res) => {
     const options = {};
-    const regSearch = new RegExp(req.query.searchText, "i");
 
     switch (req.query.view) {
         case "home":
@@ -21,26 +17,9 @@ const getMaps = async (req, res) => {
             break;
         
         case "explore":
-            options.publishedDate = { $ne: null };
+            options["social.publishedDate"] = { $ne: null };
             break;
     
-        default:
-            return sendError(res, "There was an error retrieving maps.")
-    }
-
-    switch (req.query.searchBy) {
-        case "name":
-            options.name = regSearch;
-            break;
-        
-        case "username":
-            options.username = regSearch;
-            break;
-        
-        case "properties":
-            options.tags = regSearch;
-            break;
-
         default:
             return sendError(res, "There was an error retrieving maps.")
     }
@@ -133,11 +112,19 @@ const updateMap = async (req, res) => {
 
     Map.findOne({ _id: req.params.id })
         .then((map) => {
-            MapGraphics.findOneAndUpdate({ _id: map.graphics }, body.graphics)
+            map.name = body.name;
+            map.save()
                 .then(() => {
-                    MapProperties.findOneAndUpdate({ _id: map.properties }, body.properties)
+                    MapGraphics.findOneAndUpdate({ _id: map.graphics }, body.graphics)
                         .then(() => {
-                            return res.status(204).json({ id: map._id })
+                            MapProperties.findOneAndUpdate({ _id: map.properties }, body.properties)
+                                .then(() => {
+                                    return res.status(204).json({ id: map._id })
+                                })
+                                .catch((err) => {
+                                    console.log(err);
+                                    return sendError(res, "The map could not be updated.")
+                                })
                         })
                         .catch((err) => {
                             console.log(err);
@@ -146,8 +133,9 @@ const updateMap = async (req, res) => {
                 })
                 .catch((err) => {
                     console.log(err);
-                    return sendError(res, "The map could not be updated.")
+                    return sendError(res, "The map details could not be saved.")
                 })
+            
         })
         .catch(err => {
             console.log(err);
@@ -182,14 +170,95 @@ const updateImage = async (req, res) => {
         });    
 };
 
+const publishMap = async (req, res) => {
+    Map.findOne({ _id: req.params.id })
+        .then((map) => {
+            map.social.publishedDate = new Date();
+            map.save()
+                .then(() => {
+                    return res.status(204).json({ id: map._id })
+                })
+                .catch((err) => {
+                    console.log(err);
+                    return sendError(res, "The image could not be saved.")
+                })
+                
+        })
+        .catch(err => {
+            console.log(err);
+            return sendError(res, "The map could not be found.");
+        });    
+};
+
 const deleteMap = async (req, res) => {
     Map.deleteOne({ _id: req.params.id })
         .then(() => {
-            return res.status(200).json({ id: req.params })
+            return res.status(200).send();
         })
         .catch((err) => {
             console.log(err);
             return sendError(res, "The map could not be found and deleted.")
+        });
+};
+
+const forkMap = async (req, res) => {
+    Map.findOne({ _id: req.params.id })
+        .populate(['geometry', 'properties', 'graphics'])
+        .then(async (map) => {
+            // MapGeometries
+            const newGeometries = map.geometry.data;
+            delete newGeometries._id;
+            const geometry = new MapGeometries({
+                data: newGeometries
+            });
+            await geometry.save();
+        
+            // MapProperties
+            const newProperties = map.properties.data;
+            delete newProperties._id;
+            const properties = new MapProperties({
+                data: newProperties
+            });
+            await properties.save();
+        
+            // MapGraphics
+            const newGraphics = map.graphics;
+            delete newGraphics._id;
+            const graphics = new MapGraphics(newGraphics);
+            await graphics.save();
+        
+            const newMap = new Map({
+                name: req.body.name,
+                owner: req.userId,
+                tags: [],
+                geometry: geometry._id,
+                properties: properties._id,
+                graphics: graphics._id,
+                social: {
+                    views: 0,
+                    likes: [],
+                    dislikes: [],
+                    comments: [],
+                    image: map.social.image
+                }
+            });
+        
+            if (!newMap) {
+                return sendError(res);
+            }
+        
+            newMap.save()
+                .then(() => {
+                    return res.status(201).json({ id: map._id })
+                })
+                .catch((err) => {
+                    console.log(err);
+                    return sendError(res, "The map could not be saved and created.")
+                })
+        })
+        .catch(err => {
+            console.log(err);
+            return sendError(res, "The map could not be found.");
         });
 };
 
@@ -199,5 +268,7 @@ module.exports = {
     getMap,
     updateMap,
     updateImage,
-    deleteMap
+    publishMap,
+    deleteMap,
+    forkMap
 };

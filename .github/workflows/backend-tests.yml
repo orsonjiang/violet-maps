@@ -18,6 +18,10 @@ jobs:
           envkey_CLIENT_URL: ${{ vars.DEV_CLIENT_URL }}
           envkey_ENVIRONMENT: ${{ vars.TEST_ENVIRONMENT }}
           envkey_JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          envkey_EMAIL_USER: ${{ secrets.EMAIL_USER }}
+          envkey_CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          envkey_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+          envkey_REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
 
       - name: jest run
         run: 'cd server && npm ci && cd ../tests/backend && npm ci && npm test'

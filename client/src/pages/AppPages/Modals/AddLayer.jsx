@@ -38,7 +38,7 @@ const AddLayer = () => {
     }
 
     const handleSetDisplay = (display) => {
-        dispatch(setDisplay(layerProperty, display === 'Show'));
+        dispatch(setDisplay(layerProperty, display === 'show'));
     };
 
     const handleSetProperty = (property) => {
@@ -57,7 +57,7 @@ const AddLayer = () => {
     
     const DisplayField = (
         <Input title={'Displayed: '}>
-            <ModalDropDown list={['Show', 'Hide']} handleItem={handleSetDisplay} type={MenuTypes.SET_DISPLAY} currentItem={map.graphics[layerProperty].isDisplayed ? 'Show' : 'Hide'}/>
+            <ModalDropDown list={['show', 'hide']} handleItem={handleSetDisplay} type={MenuTypes.SET_DISPLAY} currentItem={map.graphics[layerProperty].isDisplayed ? 'show' : 'hide'}/>
         </Input>
     );
 
@@ -75,9 +75,9 @@ const AddLayer = () => {
     );
 
     const EditLegend = (
-        <div className="flex py-1 text-sm">
-            <Button onClick={() => dispatch(setModal(ModalTypes.EDIT_LEGEND))}>Edit Legend</Button>
-        </div>
+        <Input title={'Legend: '} type={MenuTypes.SET_LAYER_LEGEND}>
+            <Button onClick={() => dispatch(setModal(ModalTypes.EDIT_LEGEND))}>Edit Properties</Button>
+        </Input>
     );
 
     return (

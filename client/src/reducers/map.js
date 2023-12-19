@@ -149,7 +149,6 @@ const map = (state = initialState, action) => {
                     }
                 }
             };
-        
         case mapTypes.SET_IMAGE:
             return {
                 ...state,
@@ -176,6 +175,15 @@ const map = (state = initialState, action) => {
                     ...newMap
                 }
             };
+
+        case mapTypes.SET_NAME:
+            newMap.name = action.payload;
+            return {
+                ...state,
+                map: {
+                    ...newMap
+                }
+            }  
 
         default:
             return state;

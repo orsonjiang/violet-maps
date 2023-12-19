@@ -7,9 +7,10 @@ import auths from '../../../api/auth';
 import { setUser } from '../../../actions/user';
 import { setSearchBy, setSearchText } from '../../../actions/collate';
 import { setMaps } from '../../../actions/maps';
-import { SearchByTypes } from '../../../constants';
+
 import SearchBar from './SearchBar';
 import ToolbarWrapper from '../Edit/components/Toolbar';
+import Viewbar from '../Edit/components/Viewbar';
 
 const Navbar = () => {
     const navigate = useNavigate();
@@ -66,6 +67,13 @@ const Navbar = () => {
         }
     }
 
+    const renderView = {
+        'home': <SearchBar/>,
+        'explore': <SearchBar/>,
+        'map': <div className='grow'>{' '}</div>,
+        'edit': <ToolbarWrapper/>,
+    };
+
     const colorSelectedView = (page) => view === page ? "text-white" : "text-violet-100";
 
     return (
@@ -78,10 +86,9 @@ const Navbar = () => {
                     <i id='explore-icon' className={`fas fa-globe-americas text-xl ${colorSelectedView("explore")}`} />
                 </Link>
                 
+                {renderView[view]}
                 
-                {view === 'edit' ? <ToolbarWrapper/> : <SearchBar/> }
-                
-                <div className={`${view == "NONE" ? "absolute right-2" : "relative"}`}>
+                <div className={"relative z-[550]"}>
                     <button
                         onClick={() => {
                             setMenu('profile');
@@ -96,7 +103,7 @@ const Navbar = () => {
                     {menu == 'profile' ? (
                         <div
                             ref={ref}
-                            className={`absolute ${view == "NONE" ? "top-[-10px] right-12" : "right-0"} z-[55] my-2 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow min-w-32`}
+                            className={`absolute ${view == "NONE" ? "top-[-10px] right-12" : "right-0"} my-2 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow min-w-32`}
                             id="user-dropdown"
                         >
                             {user._id === '' ? (

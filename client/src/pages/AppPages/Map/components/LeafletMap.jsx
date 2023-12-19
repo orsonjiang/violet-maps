@@ -1,21 +1,19 @@
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
-import { ActionCreators } from 'redux-undo';
+import { useParams } from 'react-router-dom';
 import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-choropleth/dist/choropleth';
 import centroid from "@turf/centroid"; // calculate center point
-import "../../../plugins/leaflet-heat";
+import "../../../../plugins/leaflet-heat";
 
-import apis from '../../../api/api';
-import { setMap, setMapContainer, setRegion } from '../../../actions/map';
-import { convert } from '../../../helpers';
+import apis from '../../../../api/api';
+import { setMap } from '../../../../actions/map';
+import { convert } from '../../../../helpers';
 
-const EditMap = () => {
-    const navigate = useNavigate();
+const LeafletMap = () => {
     const dispatch = useDispatch();
-
+    
     const refMap = useRef(null);
     const refMapContainer = useRef(null);
     const layerControl = useRef(null); // keeping track of the layer control so that I can delete it later
@@ -44,15 +42,10 @@ const EditMap = () => {
             apis.getMap(id, ['owner', 'geometry', 'properties', 'graphics'])
                 .then((res) => {
                     dispatch(setMap(res.data.map));
-                    dispatch(ActionCreators.clearHistory());
                 })
                 .catch((err) => console.log(err));
         }
     }, []);
-
-    useEffect(() => {
-        dispatch(setMapContainer(refMapContainer.current));
-    }, [refMapContainer.current])
 
     useEffect(() => {
         // Clear Map
@@ -66,7 +59,7 @@ const EditMap = () => {
             );
 
             L.tileLayer(MAP_URL, {
-                minZoom: 3,
+                minZoom: 2,
                 maxZoom: 19,
             }).addTo(refMap.current);
 
@@ -113,14 +106,10 @@ const EditMap = () => {
             const target = e.target;
             // zoom into feature
             refMap.current.fitBounds(target.getBounds());
-
-            // set the selected feature in store
-            dispatch(setRegion(target));
         };
 
         if (map && refMap.current) {
             apis.updateMap(id, {
-                name: map.name,
                 graphics: map.graphics,
                 properties: map.properties,
             }).catch((err) => console.log(err));
@@ -201,7 +190,7 @@ const EditMap = () => {
                 pane: '1'
             }).addTo(refMap.current);
             
-            overlays["Hide/Show Your Edits"] = geo;
+            overlays["Hide/Show Edits"] = geo;
 
             const featurePropArr = map.properties.data;
             if (map.graphics.heat.isDisplayed) { // if there is a heat map, display this layer
@@ -241,21 +230,13 @@ const EditMap = () => {
         }
     }, [map]);
 
-    if (!map) {
-        return <div>Loading Map...</div>;
-    }
+    return(
+        <div
+            ref={refMapContainer}
+            id="map"
+            className="w-full h-[70vh] leaflet-container leaflet-touch leaflet-retina leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
+        ></div>
+    )
+}
 
-    return (
-        <div className="flex flex-col grow text-sm">
-            <div className="flex grow">
-                <div
-                    ref={refMapContainer}
-                    id="map"
-                    className="w-full leaflet-container leaflet-touch leaflet-retina leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
-                ></div>
-            </div>
-        </div>
-    );
-};
-
-export default EditMap;
+export default LeafletMap;

@@ -37,8 +37,8 @@ export const handleExportMap = (mapContainer, map, type, download, dispatch) => 
         filter: (node) => {
             return !(node.classList?.contains("leaflet-control-container")) // remove leaflet zoom toolbar from image
         },
-        width: 1920,
-        height: 1080
+        width: 1300,
+        height: 755
     }
 
     domtoimage.toPng(mapContainer, options)
@@ -49,7 +49,7 @@ export const handleExportMap = (mapContainer, map, type, download, dispatch) => 
                 link.download = `${map.name}.${type.toLowerCase()}`;
                 link.click();
             } else {
-                apis.updateMapImage(map._id, dataUrl);
+                apis.updateMapImage(map._id, btoa(dataUrl));
             }
         })
 }

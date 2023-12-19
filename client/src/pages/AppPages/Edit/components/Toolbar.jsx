@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import ToolbarBorder from './ToolbarBorder';
 import UndoRedo from './UndoRedo';
@@ -9,11 +9,17 @@ import Position from './Position';
 import Text from './Text';
 import Region from './Region';
 import Border from './Border';
-import Bubble from './Bubble';
 import Choropleth from './Choropleth';
 import Heat from './Heat';
+import Bubble from './Bubble';
 import External from './External';
 import Thumbnail from './Thumbnail';
+import Publish from './Publish';
+import Download from './Download';
+import Delete from './Delete';
+import { setModal } from '../../../../actions/modal';
+import { ModalTypes } from '../../../../constants';
+
 
 const Toolbar = () => {
     const tools = [
@@ -34,6 +40,9 @@ const Toolbar = () => {
         <ToolbarBorder />,
         // <External />,
         <Thumbnail />,
+        <Publish />,
+        <Download />,
+        <Delete />,
     ];
 
     return (
@@ -51,17 +60,18 @@ const Toolbar = () => {
 
 const ToolbarWrapper = () => {
     const { map } = useSelector((state) => state.map.present);
+    const dispatch = useDispatch();
     if (!map) return <div></div>;
     const mapName =
         map && map.name.length > 15 ? map.name.slice(0, 15) + '...' : map.name;
 
     return (
         <div className="flex grow text-sm gap-2">
-            <div className="flex gap-2 items-center text-lg font-medium w-48 bg-white px-4 py-1 justify-between rounded-lg border border-violet-200 drop-shadow-sm text-neutral-800 align-middle">
+            <div className="flex gap-2 items-center text-lg font-medium w-48 bg-white px-4 py-1 justify-between rounded-lg border border-violet-200 drop-shadow-sm text-neutral-800 align-middle truncate">
                 {mapName}
-                <i
-                    className="fa fa-edit text-xl text-indigo-500"
-                    onClick={() => openCurrentModal('RENAME_MAP')}
+                <button
+                    className="fa fa-edit text-xl text-indigo-500 flex items-center px-1 hover:bg-gray-200 rounded-full"
+                    onClick={() => dispatch(setModal(ModalTypes.RENAME_MAP))}
                 />
             </div>
             <Toolbar />
