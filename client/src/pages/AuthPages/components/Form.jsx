@@ -3,7 +3,7 @@ const Form = (props) => {
 
     return (
         <div className="flex flex-col min-h-screen bg-violet-200 justify-center">
-            <div className="flex flex-col gap-7 items-center justify-between px-8 pt-10 pb-8 mx-auto w-full bg-white rounded-lg shadow-xl max-w-md text-md">
+            <div className="flex flex-col gap-4 items-center justify-between px-8 pt-10 pb-8 mx-auto w-full bg-white rounded-lg shadow-xl max-w-md text-md">
                 <div className="flex flex-col gap-4">
                     <div className="text-2xl text-center text-indigo-500 font-bold font-italic">
                         Violet Maps

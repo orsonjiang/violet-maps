@@ -1,6 +1,8 @@
 const auth = require("../auth");
-const User = require("../models/user");
-const { sendError } = require("../helpers");
+const User = require("../models/User");
+const Token = require("../models/Token");
+const { sendError, sendEmail } = require("../helpers");
+const { randomBytes } = require("node:crypto");
 
 const bcrypt = require("bcryptjs");
 
@@ -153,8 +155,74 @@ const registerUser = async (req, res) => {
     }
 };
 
+const requestReset = async (req, res) => {
+    try {
+        const user = await User.findOne({ email: req.body.email });
+        if (!user) return sendError(res);
+
+        await Token.deleteMany({ userId: user._id });
+        const token = await new Token({
+            userId: user._id,
+            token: randomBytes(32).toString("hex"),
+        }).save();
+
+        const link = `${process.env.CLIENT_URL}/reset/${user._id}/${token.token}`;
+        await sendEmail(user.email, "Violet Maps Password Reset", link);
+        res.status(200).send();
+    } catch (err) {
+        console.log(err)
+        return sendError(res);
+    }
+};
+
+const reset = async (req, res) => {
+    try {
+        const body = req.body;
+        const options = { userId: body.userId, token: body.token };
+
+        const token = await Token.findOne(options);
+        if (!token) return sendError(res, "Token not found.");
+        await Token.deleteOne(options)
+
+        const user = await User.findOne({ _id: body.userId });
+        if (!user) return sendError(res, "User not found.");
+
+        const saltRounds = 10;
+        const salt = await bcrypt.genSalt(saltRounds);
+        const passwordHash = await bcrypt.hash(body.password, salt);
+
+        user.passwordHash = passwordHash;
+
+        const savedUser = await user.save();
+        
+        const newToken = auth.signToken(savedUser._id);
+
+        res.cookie("token", newToken, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "none",
+        })
+            .status(200)
+            .json({
+                user: {
+                    _id: savedUser._id,
+                    username: savedUser.username,
+                    firstName: savedUser.firstName,
+                    lastName: savedUser.lastName,
+                    email: savedUser.email,
+                },
+            });
+
+
+    } catch (err) {
+        return sendError(res);
+    }
+};
+
 module.exports = {
     registerUser,
     loginUser,
     logoutUser,
+    requestReset,
+    reset,
 };

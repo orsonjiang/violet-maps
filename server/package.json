@@ -21,6 +21,7 @@
     "geobuf": "^3.0.2",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^6.8.2",
+    "nodemailer": "^6.9.7",
     "pbf": "^3.2.1"
   },
   "devDependencies": {
