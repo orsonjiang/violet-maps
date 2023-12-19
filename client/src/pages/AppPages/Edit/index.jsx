@@ -120,6 +120,7 @@ const EditMap = () => {
 
         if (map && refMap.current) {
             apis.updateMap(id, {
+                name: map.name,
                 graphics: map.graphics,
                 properties: map.properties,
             }).catch((err) => console.log(err));
