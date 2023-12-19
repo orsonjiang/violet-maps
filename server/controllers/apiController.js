@@ -270,7 +270,7 @@ const forkMap = async (req, res) => {
             const newMap = new Map({
                 name: req.body.name,
                 owner: req.userId,
-                tags: [],
+                tags: map.tags,
                 geometry: geometry._id,
                 properties: properties._id,
                 graphics: graphics._id,

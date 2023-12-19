@@ -257,7 +257,7 @@ const EditMap = () => {
         </Loading>);
     }
 
-    if (map && map._id !== user._id) {
+    if (map && map.owner._id !== user._id) {
         return (<>
             <Loading>
                 <div>
