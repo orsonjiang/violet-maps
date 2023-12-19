@@ -15,7 +15,7 @@ const Font = () => {
 
     const fontOptions = ["font-sans", "font-serif", "font-mono"];
 
-    return <DropDown type={MenuTypes.SET_FONT} list={fontOptions} currentItem={map.graphics.label.fontStyle} handleItem={handleSetFont}/>
+    return <DropDown type={MenuTypes.SET_FONT} list={fontOptions} currentItem={map.graphics.label.fontStyle} handleItem={handleSetFont} disabled={!map.graphics.label.isDisplayed}/>
 };
 
 export default Font;

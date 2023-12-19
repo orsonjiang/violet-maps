@@ -13,7 +13,6 @@ import Border from './Border';
 import Choropleth from './Choropleth';
 import Heat from './Heat';
 import Bubble from './Bubble';
-import External from './External';
 import Thumbnail from './Thumbnail';
 import Fork from './Fork';
 import Publish from './Publish';
@@ -41,7 +40,6 @@ const Toolbar = () => {
         <Bubble />,
         <Heat />,
         <ToolbarBorder />,
-        // <External />,
         <Tags />,
         <Thumbnail />,
         <Publish />,
