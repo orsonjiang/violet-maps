@@ -10,13 +10,15 @@ import LeafletMap from './components/LeafletMap';
 import Button from './components/Button';
 import Loading from '../components/Loading';
 import DropDown from '../Menus/DropDown';
+import Tag from './components/Tag';
 
 import { MenuTypes } from '../../../constants';
+import { convert, handleExportMap } from "../../../helpers";
 
 const Map = () => {
     const dispatch = useDispatch();
     const { id } = useParams();
-    const { map } = useSelector((state) => state.map.present);
+    const { map, container } = useSelector((state) => state.map.present);
 
     useEffect(() => {
         apis.getMap(id, ['owner', 'geometry', 'properties', 'graphics', "social.comments",  {path: "social.comments", populate: {path: 'user'}}])
@@ -45,8 +47,6 @@ const Map = () => {
 
     };
 
-    const Icon = (<i className="fa-solid fa-download"></i>);
-
     const exportOptions = ["PNG", "JPEG", "JSON"];
 
     return (
@@ -66,8 +66,7 @@ const Map = () => {
                     <div className='flex space-x-2 justify-end text-xs font-medium flex-wrap'>
                         <Button handler={()=>{}} icon = {"fa-solid fa-thumbs-up"} text={map.social.likes}/>
                         <Button handler={()=>{}} icon = {"fa-solid fa-thumbs-down"} text={map.social.dislikes}/>
-                        {/* <Button handler={()=>{}} icon = {"fa-solid fa-file-export"} text={"Export"}/> */}
-                        <DropDown type={MenuTypes.EDIT_EXPORT} list={exportOptions} handleItem={handleExport} icon={Icon}/>
+                        <DropDown type={MenuTypes.MAP_EXPORT} list={exportOptions} handleItem={handleExport} button={["Export", "fa-solid fa-file-export"]}/>
                         <Button handler={()=>{}} icon = {"fa-solid fa-copy"} text={"Fork"}/>
                     </div>
                 </div>

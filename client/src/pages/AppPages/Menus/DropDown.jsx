@@ -5,8 +5,9 @@ import { setMenu } from '../../../actions/menu';
 import { MenuTypes } from '../../../constants';
 
 import Menu from './Menu';
+import Button from '../Map/components/Button';
 
-const DropDown = ({ type, list, currentItem, handleItem, icon }) => {
+const DropDown = ({ type, list, currentItem, handleItem, icon, button }) => {
     const dispatch = useDispatch();
 
     const { menu } = useSelector((state) => state.menu);
@@ -38,6 +39,21 @@ const DropDown = ({ type, list, currentItem, handleItem, icon }) => {
             </div>
         </Menu>
     );
+
+    if (button) {
+        return (
+            <div className="relative">
+                <Button handler={() => {
+                        if (menu === type) {
+                            dispatch(setMenu(MenuTypes.NONE));
+                        } else {
+                            dispatch(setMenu(type));
+                        }
+                    }} icon = {button[1]} text={button[0]}/>
+                {menu == type ? Exp : ''}
+            </div>
+        );
+    }
 
     if (icon) {
         return (

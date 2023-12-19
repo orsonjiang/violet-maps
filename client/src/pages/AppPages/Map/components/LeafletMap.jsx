@@ -8,7 +8,7 @@ import centroid from "@turf/centroid"; // calculate center point
 import "../../../../plugins/leaflet-heat";
 
 import apis from '../../../../api/api';
-import { setMap } from '../../../../actions/map';
+import { setMapContainer } from '../../../../actions/map';
 import { convert } from '../../../../helpers';
 
 const LeafletMap = () => {
@@ -34,6 +34,10 @@ const LeafletMap = () => {
         if (layerControl.current) layerControl.current.remove(refMap.current); // removing old layer control
         if (legendControl.current) legendControl.current.remove(refMap.current); // removing old legend control
     };
+
+    useEffect(() => {
+        dispatch(setMapContainer(refMapContainer.current));
+    }, [refMapContainer.current])
 
     useEffect(() => {
         // Clear Map
