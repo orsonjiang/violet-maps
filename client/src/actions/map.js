@@ -5,6 +5,11 @@ export const setMap = (data) => ({
     payload: data
 });
 
+export const setMapContainer = (data) => ({
+    type: mapTypes.SET_MAP_CONTAINER,
+    payload: data
+});
+
 export const setRegion = (data) => ({
     type: mapTypes.SET_REGION,
     payload: data
@@ -44,7 +49,41 @@ export const setBorder = (data) => ({
     payload: data
 });
 
-export const setProperty = (data) => ({
+export const setProperty = (type, data) => ({
     type: mapTypes.SET_PROPERTY,
+    payload: {
+        type: type,
+        data: data
+    }
+});
+
+export const setColor = (type, data) => ({
+    type: mapTypes.SET_COLOR,
+    payload: {
+        type: type,
+        data: data
+    }
+});
+
+export const setLegend = (data) => ({
+    type: mapTypes.SET_LEGEND,
     payload: data
+});
+
+export const setImage = (data) => ({
+    type: mapTypes.SET_IMAGE,
+    payload: data
+});
+
+export const setLayerProperty = (data) => ({
+    type: mapTypes.SET_LAYER_PROPERTY,
+    payload: data
+});
+
+export const setDisplay = (type, data) => ({
+    type: mapTypes.SET_DISPLAY,
+    payload: {
+        type: type,
+        data: data
+    }
 });

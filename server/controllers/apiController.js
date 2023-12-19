@@ -91,7 +91,8 @@ const createMap = async (req, res) => {
             views: 0,
             likes: [],
             dislikes: [],
-            comments: []
+            comments: [],
+            image: body.social.image
         }
     });
 
@@ -152,7 +153,34 @@ const updateMap = async (req, res) => {
             console.log(err);
             return sendError(res, "The map could not be found.");
         });
-    };
+};
+
+const updateImage = async (req, res) => {
+    const body = req.body;
+
+    // TODO: Verify body and other body data.
+    if (!body) {
+        return sendError(res, "You must provide map data.");
+    }
+
+    Map.findOne({ _id: req.params.id })
+        .then((map) => {
+            map.social.image = body.image;
+            map.save()
+                .then(() => {
+                    return res.status(204).json({ id: map._id })
+                })
+                .catch((err) => {
+                    console.log(err);
+                    return sendError(res, "The image could not be saved.")
+                })
+                
+        })
+        .catch(err => {
+            console.log(err);
+            return sendError(res, "The map could not be found.");
+        });    
+};
 
 const deleteMap = async (req, res) => {
     Map.deleteOne({ _id: req.params.id })
@@ -170,5 +198,6 @@ module.exports = {
     createMap,
     getMap,
     updateMap,
+    updateImage,
     deleteMap
 };

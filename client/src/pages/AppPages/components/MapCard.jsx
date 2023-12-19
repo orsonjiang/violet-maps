@@ -80,8 +80,7 @@ const MapCard = ({ map }) => {
                     </div> : null}
                 </div>
                 <img
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/A_large_blank_world_map_with_oceans_marked_in_blue.PNG/640px-A_large_blank_world_map_with_oceans_marked_in_blue.PNG"
-                    alt="map-image"
+                    src={map.social.image}
                     className="rounded-md w-full"
                 />
                 <div className="mx-3 mt-3">

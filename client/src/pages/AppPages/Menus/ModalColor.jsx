@@ -4,22 +4,17 @@ import { ChromePicker } from "react-color";
 
 import { setMenu } from "../../../actions/menu";
 import { MenuTypes } from "../../../constants";
-import { setColor } from "../../../actions/newMap";
 
 import Menu from './Menu';
 
-const ModalColor = ({ type }) => {
+const ModalColor = ({ type, handleSetColor, defaultColor }) => {
 	const dispatch = useDispatch();
 
     const { menu } = useSelector((state) => state.menu);
-    const [color, setColorState] = useState("#8187DC");
+    const [color, setColorState] = useState(defaultColor);
 
     const handleColorChange = (color) => {
         setColorState(color.hex);
-    };
-
-    const handleColorChangeComplete = (color) => {
-        dispatch(setColor(color.hex));
     };
 
 	const Exp = (
@@ -29,17 +24,17 @@ const ModalColor = ({ type }) => {
                 color={color}
                 disableAlpha={true}
                 onChange={handleColorChange}
-                onChangeComplete={handleColorChangeComplete}
+                onChangeComplete={(color) => handleSetColor(color.hex)}
             />
         </div>
         </Menu>
     );
         
     return (
-        <div className="w-3/5 relative">
+        <div className="relative">
             <button
                 style={{ backgroundColor: `${color}` }}
-                className={`flex justify-between w-full whitespace-nowrap items-center py-4 px-3 font-medium text-center text-white rounded-lg focus:outline-none relative`}
+                className={`flex justify-between w-8 h-8 whitespace-nowrap items-center py-4 px-3 font-medium text-center text-white rounded-lg focus:outline-none relative`}
                 onClick={() => {
                     if (menu === type) {
                         dispatch(setMenu(MenuTypes.NONE));
