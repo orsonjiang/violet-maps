@@ -45,7 +45,7 @@ const LeafletMap = () => {
 
         // Init Map
         if (map && !refMap.current) {
-            refMap.current = L.map('map').setView(
+            refMap.current = L.map('map2').setView(
                 [39.74739, -105],
                 2
             );
@@ -225,7 +225,7 @@ const LeafletMap = () => {
     return(
         <div
             ref={refMapContainer}
-            id="map"
+            id="map2"
             className="w-full h-[70vh] leaflet-container leaflet-touch leaflet-retina leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
         ></div>
     )
