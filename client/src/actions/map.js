@@ -92,3 +92,9 @@ export const setName = (data) => ({
     type: mapTypes.SET_NAME,
     payload: data
 });
+
+export const setTags = (data) => ({
+    type: mapTypes.SET_TAGS,
+    payload: data
+})
+

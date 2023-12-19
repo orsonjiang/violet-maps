@@ -12,6 +12,8 @@ import apis from '../../../api/api';
 import { setMap, setMapContainer, setRegion } from '../../../actions/map';
 import { convert } from '../../../helpers';
 
+import Tags from './components/Tags';
+
 const EditMap = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -121,6 +123,7 @@ const EditMap = () => {
         if (map && refMap.current) {
             apis.updateMap(id, {
                 name: map.name,
+                tags: map.tags,
                 graphics: map.graphics,
                 properties: map.properties,
             }).catch((err) => console.log(err));
@@ -246,7 +249,7 @@ const EditMap = () => {
     }
 
     return (
-        <div className="flex flex-col grow text-sm">
+        <div className="flex flex-col grow text-sm space-y-2">
             <div className="flex grow">
                 <div
                     ref={refMapContainer}
@@ -254,6 +257,7 @@ const EditMap = () => {
                     className="w-full leaflet-container leaflet-touch leaflet-retina leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
                 ></div>
             </div>
+            <Tags />
         </div>
     );
 };

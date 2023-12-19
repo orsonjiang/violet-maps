@@ -23,9 +23,9 @@ const ChooseTemplate = () => {
     return (
         <Modal title={'Choose Template'} confirm={handleConfirm} maxWidthSize={'max-w-5xl'}>
             <div className="grid grid-cols-3 gap-4">
-                <Template type={TemplateTypes.BLANK}>Blank Map</Template>
-                <Template type={TemplateTypes.HEAT}>Heat Map</Template>
-                <Template type={TemplateTypes.CHOROPLETH}>
+                <Template type={TemplateTypes.BLANK} image={blankMap}>Blank Map</Template>
+                <Template type={TemplateTypes.HEAT} image={heatMap}>Heat Map</Template>
+                <Template type={TemplateTypes.CHOROPLETH} image={choroplethMap}>
                     Choropleth Map
                 </Template>
                 <Template type={TemplateTypes.STRING} image={stringMap}>String Map</Template>

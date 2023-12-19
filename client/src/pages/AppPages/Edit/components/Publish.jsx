@@ -14,6 +14,7 @@ const Publish = () => {
         <button
             className="flex items-center px-2 hover:bg-gray-200 rounded-full"
             onClick={handleClick}
+            title="Publish Map"
         >
             <i className="fa-solid fa-upload"></i>
         </button>
