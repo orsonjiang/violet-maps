@@ -16,23 +16,39 @@ describe('register tests', () => {
         cy.url().should('include', '/register');
         cy.contains('Passwords are not the same.');
     });
-    /*
-    Test fails due to POST 400 request error from /auth/register.. unable to resolve 
-    (uncaught exception)TypeError: Cannot read properties of undefined (reading 'status')
     
     it('improper password input - password less than 8 chars', () => {
+        cy.intercept(
+            {
+                method: 'POST',
+                url: 'http://localhost:8080/auth/register',
+            },
+            {
+                statusCode: 400,
+                headers: {},
+                body: {
+                    error: 'Please enter a password of at least 8 characters.'
+                },
+            },
+        ).as('failed-register');
         cy.get('#firstName').type('Joe');
         cy.get('#lastName').type('Shmoe');
         cy.get('#email').type('Joe.Shmoe1@email.com');
         cy.get('#username').type('JoeShmoe-inator1');
         cy.get('#password').type('Joe');
         cy.get('#confirmPassword').type('Joe');
+        cy.wait(250);
         cy.get('#registerButton').click();
+        cy.wait('@failed-register').then(interception => {
+            if (interception.response) {
+                expect(interception.response.statusCode).to.equal(400);
+            }
+        });
         // stays on the same page, unsuccessful register
         cy.url().should('include', '/register');
         cy.contains('Please enter a password of at least 8 characters.');
     });
-    */
+    
     it('improper input - missing field', () => {
         cy.get('#firstName').clear();
         cy.get('#lastName').type('Shmoe');
@@ -56,49 +72,104 @@ describe('register tests', () => {
         // stays on the same page, unsuccessful register
         cy.url().should('include', '/register');
     });
-
-    /*
-    POST 400 request error from /auth/register
-    (uncaught exception)TypeError: Cannot read properties of undefined (reading 'status')
     
     it('unsuccessful register - email already exists', () => {
+        cy.intercept(
+            {
+                method: 'POST',
+                url: 'http://localhost:8080/auth/register',
+            },
+            {
+                statusCode: 400,
+                headers: {},
+                body: {
+                    error: 'An account with this email address already exists.'
+                },
+            },
+        ).as('failed-register');
         cy.get('#firstName').type('Joe');
         cy.get('#lastName').type('Shmoe');
         cy.get('#email').type('Joe.Shmoe@email.com');
         cy.get('#username').type('JoeShmoe');
         cy.get('#password').type('JoeShmoe2023');
         cy.get('#confirmPassword').type('JoeShmoe2023');
+        cy.wait(250);
         cy.get('#registerButton').click();
+        cy.wait('@failed-register').then(interception => {
+            if (interception.response) {
+                expect(interception.response.statusCode).to.equal(400);
+            }
+        });
         // stays on the same page, unsuccessful register
         cy.url().should('include', '/register');
         cy.contains('An account with this email address already exists.');
     });
 
-    POST 400 request error from /auth/register
-    (uncaught exception)TypeError: Cannot read properties of undefined (reading 'status')
-    
     it('unsuccessful register - username already exists', () => {
+        cy.intercept(
+            {
+                method: 'POST',
+                url: 'http://localhost:8080/auth/register',
+            },
+            {
+                statusCode: 400,
+                headers: {},
+                body: {
+                    error: 'An account with this username already exists.'
+                },
+            },
+        ).as('failed-register');
         cy.get('#firstName').type('Joe');
         cy.get('#lastName').type('Shmoe');
         cy.get('#email').type('Joe.Shmoe2@email.com');
         cy.get('#username').type('JoeShmoe-inator');
         cy.get('#password').type('JoeShmoe2023');
         cy.get('#confirmPassword').type('JoeShmoe2023');
+        cy.wait(250);
         cy.get('#registerButton').click();
+        cy.wait('@failed-register').then(interception => {
+            if (interception.response) {
+                expect(interception.response.statusCode).to.equal(400);
+            }
+        });
         // stays on the same page, unsuccessful register
         cy.url().should('include', '/register');
         cy.contains('An account with this username already exists.');
     });
-    */
+    
     it('successful register - goes to home page', () => {
+        cy.intercept(
+            {
+                method: 'POST',
+                url: 'http://localhost:8080/auth/register',
+            },
+            {
+                statusCode: 200,
+                headers: {},
+                body: {
+                    user: {
+                        _id: 'cypress-demo-id',
+                        username: 'new-user-cypress',
+                        firstName: 'new',
+                        lastName: 'user',
+                        email: 'new.user@email.com',
+                    },
+                },
+            },
+        ).as('good-register');
         cy.get('#firstName').type('new');
         cy.get('#lastName').type('user');
         cy.get('#email').type('new.user@email.com');
         cy.get('#username').type('new-user-cypress');
         cy.get('#password').type('password');
         cy.get('#confirmPassword').type('password');
-        cy.intercept('POST', '/auth/register', {});
+        cy.wait(250);
         cy.get('#registerButton').click();
+        cy.wait('@good-register').then(interception => {
+            if (interception.response) {
+                expect(interception.response.statusCode).to.equal(200);
+            }
+        });
         cy.url().should('include', '/app/home');
     });
 })

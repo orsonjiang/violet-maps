@@ -5,7 +5,6 @@ import { PropertyTypes } from "./PropertyTypes";
 import { SearchByTypes } from "./SearchByTypes";
 import { SortByTypes } from "./SortByTypes";
 import { TemplateTypes } from "./TemplateTypes";
-import { SortByTypes } from "./SortByTypes";
 
 export {
 	InputTypes,
@@ -15,5 +14,4 @@ export {
 	SearchByTypes,
 	SortByTypes,
 	TemplateTypes,
-	SortByTypes,
 };

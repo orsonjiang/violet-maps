@@ -5,7 +5,7 @@ describe('selected map tests', () => {
     });
     /*
 
-    publishing maps not implemented yet...
+    unable to see any published maps on my end..
 
     describe('check explore', () => {
         it('should be in explore view', () => {
