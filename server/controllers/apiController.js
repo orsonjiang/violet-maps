@@ -228,13 +228,30 @@ const publishMap = async (req, res) => {
 };
 
 const deleteMap = async (req, res) => {
-    Map.deleteOne({ _id: req.params.id })
-        .then(() => {
-            return res.status(200).send();
+    Map.findOne({ _id: req.params.id })
+        .then((map) => {
+            MapGeometries.deleteOne({ _id: map.geometry })
+                .then(() => {
+                    MapGraphics.deleteOne({ _id: map.graphics })
+                        .then(() => {
+                            MapProperties.deleteOne({ _id: map.properties })
+                                .then(() => {
+                                    Map.deleteOne({ _id: map._id })
+                                        .then(() => {
+                                            return res.status(200).send();
+                                        })
+                                })
+                        })
+                })
+            .catch((err) => {
+                console.log(err);
+                return sendError(res, "The map could not be found and deleted.")
+            });
+                
         })
-        .catch((err) => {
+        .catch(err => {
             console.log(err);
-            return sendError(res, "The map could not be found and deleted.")
+            return sendError(res, "The map could not be found.");
         });
 };
 
