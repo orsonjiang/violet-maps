@@ -71,8 +71,10 @@ const ToolbarWrapper = () => {
     
     return (
         <div className="flex grow text-sm gap-2">
-            <div className="flex gap-2 items-center text-lg font-medium w-48 bg-white px-4 py-1 justify-between rounded-lg border border-violet-200 drop-shadow-sm text-neutral-800 align-middle truncate">
-                {map ? map.name : ""}
+            <div className="flex gap-2 items-center text-md font-medium w-1/6 bg-white px-4 py-1 justify-between rounded-lg border border-violet-200 drop-shadow-sm text-neutral-800 align-middle">
+                <div className='truncate'>
+                    {map ? map.name : ""}
+                </div>
                 <button
                     className="fa fa-edit text-xl text-indigo-500 flex items-center px-1 hover:bg-gray-200 rounded-full"
                     onClick={() => dispatch(setModal(ModalTypes.RENAME_MAP))}

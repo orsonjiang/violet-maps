@@ -19,8 +19,6 @@ import { convert, handleExportMap } from "../../../helpers";
 const Map = () => {
     const dispatch = useDispatch();
     const { id } = useParams();
-    // const [ likeCount, setLikeCount ] = useState(map.social.likes.length);
-    // const [ dislikeCount, setDislikeCount ] = useState(map.social.dislike.length);
     const { map, container } = useSelector((state) => state.map.present);
     const { user } = useSelector((state) => state.user);
 

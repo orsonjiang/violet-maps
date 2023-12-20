@@ -24,10 +24,6 @@ const Navbar = () => {
     const [menu, setMenu] = useState('none');
     const [text, setText] = useState("");
 
-    const handleClickSearchBy = (s) => {
-        dispatch(setSearchBy(s));
-    }
-
     const handleLogout = async () => {
         const req = await auths.postLogout();
         if (req.status === 200) {
@@ -59,12 +55,6 @@ const Navbar = () => {
             dispatch(setMaps(res.data.maps));
         })
         setText("");
-    }
-
-    const handleEnter = (event) => {
-        if (event.key == "Enter") {
-            handleSearch();
-        }
     }
 
     const renderView = {
