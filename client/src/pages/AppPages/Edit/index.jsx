@@ -60,10 +60,6 @@ const EditMap = () => {
     }, [refMapContainer.current])
 
     useEffect(() => {
-        // if (map && map._id !== user._id) {
-        //     return;
-        // }
-
         // Clear Map
         clearMap();
 
