@@ -51,9 +51,21 @@ const EditMap = () => {
                 })
                 .catch((err) => {});
         }
-
-        
     }, []);
+
+
+    useEffect(() => {
+        clearMap();
+
+        if (!map || map._id !== id) {
+            apis.getMap(id, ['owner', 'geometry', 'properties', 'graphics'])
+                .then((res) => {
+                    dispatch(setMap(res.data.map));
+                    dispatch(ActionCreators.clearHistory());
+                })
+                .catch((err) => {});
+        }
+    }, [id]);
 
     useEffect(() => {
         dispatch(setMapContainer(refMapContainer.current));
