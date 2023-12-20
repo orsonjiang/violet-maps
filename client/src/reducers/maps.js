@@ -1,7 +1,7 @@
 import { mapsTypes } from "../actionTypes";
 
 const initialState = {
-    maps: [],
+    maps: null,
 }
 
 const maps = (state = initialState, action) => {

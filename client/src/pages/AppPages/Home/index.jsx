@@ -24,7 +24,7 @@ const Home = () => {
     }
 
     return (
-        <div className='py-4 px-16'>
+        <div className='py-4 px-16 grow flex flex-col overscroll-auto'>
             <TitleBar title={'Your Maps'}>
                 <button
                     className="h-fit py-2.5 px-4 rounded-lg text-white text-sm bg-indigo-400 hover:bg-indigo-500"

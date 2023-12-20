@@ -2,15 +2,12 @@ import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
-import apis from '../../../api/api';
 import auths from '../../../api/auth';
 import { setUser } from '../../../actions/user';
-import { setSearchBy, setSearchText } from '../../../actions/collate';
-import { setMaps } from '../../../actions/maps';
 
 import SearchBar from './SearchBar';
 import ToolbarWrapper from '../Edit/components/Toolbar';
-import Viewbar from '../Edit/components/Viewbar';
+import { setMaps } from '../../../actions/maps';
 
 const Navbar = () => {
     const navigate = useNavigate();
@@ -19,10 +16,8 @@ const Navbar = () => {
 
     const { view } = useParams();
     const { user } = useSelector((state) => state.user);
-    const { searchBy } = useSelector((state) => state.collate);
 
     const [menu, setMenu] = useState('none');
-    const [text, setText] = useState("");
 
     const handleLogout = async () => {
         const req = await auths.postLogout();
@@ -49,14 +44,6 @@ const Navbar = () => {
     };
     closeMenus(ref);
 
-    const handleSearch = () => {
-        dispatch(setSearchText(text));
-        apis.getMaps(view, searchBy, text).then((res) => {
-            dispatch(setMaps(res.data.maps));
-        })
-        setText("");
-    }
-
     const renderView = {
         'home': <SearchBar/>,
         'explore': <SearchBar/>,
@@ -70,10 +57,14 @@ const Navbar = () => {
         <nav className="bg-gradient-to-r from-violet-300 to-indigo-300 p-3">
             <div className="flex gap-4 items-center pl-2">
                 <Link to={"/app/home"}>
-                    <i id="home-icon" className={`fa fa-home text-xl ${colorSelectedView("home")}`} />
+                    <button onClick={() => dispatch(setMaps(null))}>
+                        <i id="home-icon" className={`fa fa-home text-xl ${colorSelectedView("home")}`} />
+                    </button>
                 </Link>
                 <Link to={"/app/explore"}>
-                    <i id='explore-icon' className={`fas fa-globe-americas text-xl ${colorSelectedView("explore")}`} />
+                    <button onClick={() => dispatch(setMaps(null))}>
+                        <i id='explore-icon' className={`fas fa-globe-americas text-xl ${colorSelectedView("explore")}`} />
+                    </button>
                 </Link>
                 
                 {renderView[view]}

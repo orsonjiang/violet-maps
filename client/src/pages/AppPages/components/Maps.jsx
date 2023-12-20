@@ -1,17 +1,25 @@
 import { useSelector } from "react-redux";
 
 import MapCard from "./MapCard";
+import Loading from "./Loading";
 import { SortByTypes } from "../../../constants";
 
 const Maps = () => {
     const { maps } = useSelector((state)=> state.maps);
     const { sortBy, searchText } = useSelector((state) => state.collate);
 
+    if (maps === null) {
+        return (
+            <Loading>
+                Loading maps...
+            </Loading>
+        )
+    }
+
     if (!maps.length) {
-        // TODO: Make no map graphics.
         return (
             <div>
-                <div className="text-gray-400 text-sm">No maps</div>
+                <div className="text-gray-400 text-sm">No maps.</div>
             </div>
         );
     }

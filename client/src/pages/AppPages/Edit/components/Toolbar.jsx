@@ -63,11 +63,12 @@ const Toolbar = () => {
 
 const ToolbarWrapper = () => {
     const dispatch = useDispatch();
-
+    
+    const { id } = useParams();
     const { map } = useSelector((state) => state.map.present);
     const { user } = useSelector((state) => state.user);
 
-    if (!map || map.owner._id !== user._id) return <div className='grow'></div>;
+    if (!map || map._id !== id || map.owner._id !== user._id) return <div className='grow'></div>;
     
     return (
         <div className="flex grow text-sm gap-2">
