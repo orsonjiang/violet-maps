@@ -107,3 +107,8 @@ export const setSocial = (data) => ({
     type: mapTypes.SET_SOCIAL,
     payload: data,
 });
+
+export const setThumbnail = (data) => ({
+    type: mapTypes.SET_THUMBNAIL,
+    payload: data,
+});

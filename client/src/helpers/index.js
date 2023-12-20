@@ -4,6 +4,7 @@ import { setModal } from '../actions/modal';
 import { ModalTypes } from '../constants';
 import apis from '../api/api';
 import aws from "../api/aws";
+import { setThumbnail } from "../actions/map";
 
 export const closeModal = (dispatch) => {
 	dispatch(setModal(ModalTypes.NONE));
@@ -33,7 +34,7 @@ export const convert = (map) => {
 
 export const capitalize = (s) => s[0].toUpperCase() + s.slice(1).toLowerCase();
 
-export const handleExportMap = (mapContainer, map, type, download) => {
+export const handleExportMap = (mapContainer, map, type, download, dispatch) => {
     const options = {
         filter: (node) => {
             return !(node.classList?.contains("leaflet-control-container")) // remove leaflet zoom toolbar from image
@@ -63,7 +64,8 @@ export const handleExportMap = (mapContainer, map, type, download) => {
                 formData.append("file", blob, `${map._id}.png`);
                 
                 await aws.postImage(postData.data.url, formData);
-                apis.updateMapImage(map._id, `https://violet-maps-images.s3.amazonaws.com/${map._id}.png`);
+                await apis.updateMapImage(map._id, `https://violet-maps-images.s3.amazonaws.com/${map._id}.png`);
+                dispatch(setThumbnail(true));
             })
             .catch((err) => console.log(err))
     }

@@ -1,13 +1,20 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { handleExportMap } from "../../../../helpers";
+import { setModal } from "../../../../actions/modal";
+import { ModalTypes } from "../../../../constants";
+import { setThumbnail } from "../../../../actions/map";
 
 
 const Thumbnail = () => {
+    const dispatch = useDispatch();
+
     const { map } = useSelector((state) => state.map.present);
 
     const handleSetThumbnail = () => {
-        handleExportMap(document.getElementById("map"), map, "PNG", false);
+        dispatch(setThumbnail(false))
+        dispatch(setModal(ModalTypes.SET_THUMBNAIL))
+        handleExportMap(document.getElementById("map"), map, "PNG", false, dispatch);
     };
 
     return (

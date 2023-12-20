@@ -14,7 +14,7 @@ import user from './user'
 
 export default combineReducers({
     collate,
-    map: undoable(map, {filter: excludeAction([mapTypes.SET_REGION, mapTypes.SET_MAP_CONTAINER, mapTypes.SET_LAYER_PROPERTY])}),
+    map: undoable(map, {filter: excludeAction([mapTypes.SET_REGION, mapTypes.SET_MAP_CONTAINER, mapTypes.SET_LAYER_PROPERTY, mapTypes.SET_THUMBNAIL])}),
     maps,
     menu,
     modal,
