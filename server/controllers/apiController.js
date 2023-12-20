@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const { findToken } = require("../auth");
-const { sendError } = require("../helpers");
+const { sendError, getS3PutUrl } = require("../helpers");
 
 const Map = require("../models/Map");
 const MapGeometries = require("../models/MapGeometries");
@@ -166,13 +166,34 @@ const addComment = async (req, res) => {
             map.social.comments.unshift(comment);
             map.save()
                 .then(() => {
-                    return res.status(204).json({ id: map._id })
+                    return res.status(204).json({ id: map._id });
                 })
                 .catch((err) => {
                     console.log(err);
                     return sendError(res, "The comment could not be saved.")
                 })
                 
+        })
+        .catch(err => {
+            console.log(err);
+            return sendError(res, "The map could not be found.");
+        });    
+};
+
+const getImagePost = async (req, res) => {
+    const body = req.body;
+
+    // TODO: Verify body and other body data.
+    if (!body) {
+        return sendError(res, "You must provide map data.");
+    }
+
+    Map.findOne({ _id: req.params.id })
+        .then(() => {
+            getS3PutUrl(req.params.id)
+                .then((data) => {
+                    return res.status(200).json(data);
+                })
         })
         .catch(err => {
             console.log(err);
@@ -403,6 +424,7 @@ module.exports = {
     createMap,
     getMap,
     updateMap,
+    getImagePost,
     updateImage,
     publishMap,
     deleteMap,
