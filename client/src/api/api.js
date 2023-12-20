@@ -18,6 +18,7 @@ const getMaps = (view, searchBy, searchText) => {
     return api.get("/maps", options);
 };
 const createMap = (data) => api.post("/map", data);
+
 const getMap = (id, populate) => {
     const options = {
         params: {
@@ -26,9 +27,15 @@ const getMap = (id, populate) => {
     }
     return api.get(`/map/${id}`, options)
 };
+
 const updateMap = (id, data) => {
     return api.put(`/map/${id}`, data)
 }
+
+const getMapPost = (id) => {
+    return api.get(`/map/${id}/image`)
+}
+
 const updateMapImage = (id, data) => {
     return api.put(`/map/${id}/image`, {
         image: data
@@ -46,6 +53,7 @@ const publishMap = (id) => {
     return api.put(`/map/${id}/publish`)
 }
 const deleteMap = (id) => api.delete(`/map/${id}`);
+
 const forkMap = (id, name) => api.post(`/map/${id}/fork`, {
     name: name
 });
@@ -63,6 +71,7 @@ const apis = {
     createMap,
     getMap,
     updateMap,
+    getMapPost,
     updateMapImage,
     publishMap,
     deleteMap,

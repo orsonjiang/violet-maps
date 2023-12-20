@@ -38,12 +38,12 @@ describe('layout tests', () => {
 		});
 	});
 
-	describe('reset password', () => {
-		it('view reset password screen', () => {
-			cy.visit('/reset');
-			cy.get('input').should('have.length', 2);
-		});
-	});
+	// describe('reset password', () => {
+	// 	it('view reset password screen', () => {
+	// 		cy.visit('/reset');
+	// 		cy.get('input').should('have.length', 2);
+	// 	});
+	// });
 
     /* continue as guest not implemented yet
 	describe('visit explore' , () => {

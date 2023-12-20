@@ -13,6 +13,7 @@ router.get("/maps", ApiController.getMaps);
 router.post("/map", auth.verifyToken, ApiController.createMap);
 router.get("/map/:id", ApiController.getMap);
 router.put("/map/:id", auth.verifyToken, ApiController.updateMap);
+router.get("/map/:id/image", auth.verifyToken, ApiController.getImagePost);
 router.put("/map/:id/image", auth.verifyToken, ApiController.updateImage);
 router.put("/map/:id/comment", auth.verifyToken, ApiController.addComment);
 router.put("/map/:id/publish", auth.verifyToken, ApiController.publishMap);

@@ -1,4 +1,14 @@
 const nodemailer = require('nodemailer');
+const aws = require('aws-sdk');
+
+aws.config.update({
+    credentials: {
+        accessKeyId: process.env.S3_ACCESS_KEY,
+        secretAccessKey: process.env.S3_SECRET_KEY
+    },
+    region: process.env.S3_REGION
+})
+const s3 = new aws.S3();
 
 const sendError = (res, msg = "No more information can be provided at the time.", status = 400) => {
     return res
@@ -32,7 +42,25 @@ const sendEmail = async (email, subject, text) => {
     }
 };
 
+const getS3PutUrl = async (id) => {
+    s3.deleteObject({
+        Bucket: 'violet-maps-images',
+        Key: `${id}.png`,
+    })
+
+    const params = {
+        Bucket: 'violet-maps-images',
+        Fields: {
+            Key: `${id}.png`,
+            ACL: "public-read",
+        },
+    };
+
+    return s3.createPresignedPost(params);
+}
+
 module.exports = {
     sendError,
     sendEmail,
+    getS3PutUrl,
 };
