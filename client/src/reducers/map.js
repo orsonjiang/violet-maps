@@ -6,6 +6,7 @@ const initialState = {
     region: null,
     container: null,
     layerProperty: PropertyTypes.NONE,
+    thumbnail: false,
 }
 
 const map = (state = initialState, action) => {
@@ -212,6 +213,12 @@ const map = (state = initialState, action) => {
                         ...action.payload
                     }
                 }
+            }   
+
+        case mapTypes.SET_THUMBNAIL:
+            return {
+                ...state,
+                thumbnail: action.payload
             }   
 
         default:

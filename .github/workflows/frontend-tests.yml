@@ -28,6 +28,9 @@ jobs:
           envkey_CLIENT_ID: ${{ secrets.CLIENT_ID }}
           envkey_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
           envkey_REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
+          envkey_S3_ACCESS_KEY: ${{ secrets.S3_ACCESS_KEY }}
+          envkey_S3_SECRET_KEY: ${{ secrets.S3_SECRET_KEY }}
+          envkey_S3_REGION: ${{ secrets.S3_REGION }}
 
       - name: cypress run
         uses: cypress-io/github-action@v5
