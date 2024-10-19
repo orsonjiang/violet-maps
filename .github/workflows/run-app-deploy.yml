@@ -16,10 +16,11 @@ jobs:
   # aws-server-deploy:
   #   uses: ./.github/workflows/aws-server-deploy.yml
   #   secrets: inherit
-  #   needs: unit-tests
+    # needs: unit-tests
   
   
   vercel-client-deploy:
     uses: ./.github/workflows/vercel-client-deploy.yml
     secrets: inherit
+    needs: unit-tests
     # needs: [aws-server-deploy]
