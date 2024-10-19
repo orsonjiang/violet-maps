@@ -22,4 +22,4 @@ jobs:
   vercel-client-deploy:
     uses: ./.github/workflows/vercel-client-deploy.yml
     secrets: inherit
-    needs: [aws-server-deploy]
+    # needs: [aws-server-deploy]
