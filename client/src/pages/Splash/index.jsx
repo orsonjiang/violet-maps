@@ -20,10 +20,10 @@ const Splash = () => {
                             <li>Free and easy to use </li>
                         </ul>
                     </div>
-                    <div className="text-lg min-w-xl text-red-500">
+                    {/* <div className="text-lg min-w-xl text-red-500">
                         Note: Due to funding issues the server running the site has been shut down.
                         Feel free to deploy our project using the files found <a className="font-semibold underline" href="https://github.com/orsonjiang/violet-maps">here</a>.
-                    </div>
+                    </div> */}
                 </div>
             </div>
             <div className="flex flex-col p-8 grow justify-center items-center bg-white">
