@@ -5,11 +5,13 @@ Connect with other map enthusiasts around you on Violet Maps.
 
 ### Client
 1. Navigate to the client directory by entering the command `cd client` and run `npm i` or `npm install`
-2. Then, run `npm run dev`
+2. Copy .env.sample to .env and fill in the variables.
+3. Then, run `npm run dev`
 
 ### Server
 1. Navigate to the server directory by entering the command `cd server` and run `npm i` or `npm install`
-2. Then, run `npm start`
+2. Copy .env.sample to .env and fill in the variables.
+3. Then, run `npm start`
 
 ## Tests
 
